@@ -1,0 +1,25 @@
+{
+  "name": "javascript-sdk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node ./index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@graphql-mesh/cli": "^0.87.14",
+    "@graphql-mesh/graphql": "^0.95.7",
+    "@graphql-mesh/runtime": "^0.96.11",
+    "@types/node": "^20.8.4",
+    "@whatwg-node/fetch": "^0.9.13",
+    "graphql": "^16.8.1"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}

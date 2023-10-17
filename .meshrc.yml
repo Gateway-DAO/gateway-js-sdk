@@ -1,0 +1,13 @@
+sources:
+  - name: MyGraphQLApi
+    handler:
+      graphql:
+        endpoint: https://develop.protocol.mygateway.xyz/v1/graphql
+        method: "POST"
+        useGETForQueries: false
+
+customFetch: ./custom-fetch.ts
+
+sdk:
+  generateOperations:
+    selectionSetDepth: 2
