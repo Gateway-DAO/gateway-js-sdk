@@ -1,7 +1,7 @@
 export enum UserIdentifierType {
-  EMAIL,
-  EVM,
-  GATEWAY_ID,
-  SOLANA,
-  USER_ID,
+  EMAIL = "EMAIL",
+  EVM = "EVM",
+  GATEWAY_ID = "GATEWAY_ID",
+  SOLANA = "SOLANA",
+  USER_ID = "USER_ID",
 }

@@ -1,11 +1,11 @@
 import { Auth } from "./Auth";
 import { PDA } from "./PDA";
-import { getMeshSDK, MeshContext } from "../.mesh";
+import { getMeshSDK, Sdk } from "../.mesh";
 
 export class Gateway {
   // public auth: Auth;
   public pda: PDA;
-  private sdk: any;
+  private sdk: Sdk;
 
   constructor({ apiKey, token }: { apiKey: string; token: string }) {
     if (!apiKey && !token) throw new Error("No token found");
