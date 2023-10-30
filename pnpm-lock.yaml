@@ -4,6 +4,7 @@ specifiers:
   '@graphql-mesh/cli': ^0.87.14
   '@graphql-mesh/graphql': ^0.95.7
   '@graphql-mesh/runtime': ^0.96.11
+  '@graphql-mesh/transform-naming-convention': ^0.95.8
   '@types/node': ^20.8.4
   '@whatwg-node/fetch': ^0.9.13
   graphql: ^16.8.1
@@ -14,6 +15,7 @@ dependencies:
   '@graphql-mesh/cli': 0.87.14_gfkpsopqhnihhlgdygsd6kqyri
   '@graphql-mesh/graphql': 0.95.7_gfkpsopqhnihhlgdygsd6kqyri
   '@graphql-mesh/runtime': 0.96.11_graphql@16.8.1
+  '@graphql-mesh/transform-naming-convention': 0.95.8_graphql@16.8.1
   '@types/node': 20.8.6
   '@whatwg-node/fetch': 0.9.13
   graphql: 16.8.1
@@ -969,7 +971,7 @@ packages:
       tsconfig-paths: 4.2.0
       tslib: 2.6.2
       typescript: 5.2.2
-      uWebSockets.js: github.com/uNetworking/uWebSockets.js/21c0e41a662c27bcc29b64f3e9d7f0bdaa6d7ee7
+      uWebSockets.js: github.com/uNetworking/uWebSockets.js/c10b47c350cc97c299c6b4a07a98abb628704c71
       yargs: 17.7.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -1223,6 +1225,25 @@ packages:
       json-pointer: 0.6.2
       lodash.get: 4.4.2
       tslib: 2.6.2
+    dev: false
+
+  /@graphql-mesh/transform-naming-convention/0.95.8_graphql@16.8.1:
+    resolution: {integrity: sha512-7i1Vb8RsPybWgLd8goIBab2DmEMFr7rFtSKGPnIDUGLmoRXGeOYg7SkP9C5hJS5/ii1BkGCnLQVVWMr+fdOBUw==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      '@graphql-mesh/types': ^0.95.7
+      '@graphql-mesh/utils': ^0.95.7
+      '@graphql-tools/utils': ^9.2.1 || ^10.0.0
+      graphql: '*'
+      tslib: ^2.5.0
+    dependencies:
+      '@graphql-tools/delegate': 10.0.3_graphql@16.8.1
+      '@graphql-tools/wrap': 10.0.1_graphql@16.8.1
+      change-case: 4.1.2
+      graphql: 16.8.1
+      graphql-scalars: 1.22.4_graphql@16.8.1
+      lower-case: 2.0.2
+      upper-case: 2.0.2
     dev: false
 
   /@graphql-mesh/types/0.95.7_mmfugwwqfkiqifkhy5nd4jdmqq:
@@ -2690,6 +2711,16 @@ packages:
       lodash.memoize: 4.1.2
       lodash.merge: 4.6.2
       lodash.mergewith: 4.6.2
+    dev: false
+
+  /graphql-scalars/1.22.4_graphql@16.8.1:
+    resolution: {integrity: sha512-ILnv7jq5VKHLUyoaTFX7lgYrjCd6vTee9i8/B+D4zJKJT5TguOl0KkpPEbXHjmeor8AZYrVsrYUHdqRBMX1pjA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      graphql: 16.8.1
+      tslib: 2.6.2
     dev: false
 
   /graphql-tag/2.12.6_graphql@16.8.1:
@@ -4240,8 +4271,8 @@ packages:
     dev: false
     optional: true
 
-  github.com/uNetworking/uWebSockets.js/21c0e41a662c27bcc29b64f3e9d7f0bdaa6d7ee7:
-    resolution: {tarball: https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/21c0e41a662c27bcc29b64f3e9d7f0bdaa6d7ee7}
+  github.com/uNetworking/uWebSockets.js/c10b47c350cc97c299c6b4a07a98abb628704c71:
+    resolution: {tarball: https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/c10b47c350cc97c299c6b4a07a98abb628704c71}
     name: uWebSockets.js
-    version: 20.32.0
+    version: 20.33.0
     dev: false
