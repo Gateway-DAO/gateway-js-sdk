@@ -14,7 +14,6 @@
     "@graphql-mesh/cli": "^0.87.14",
     "@graphql-mesh/graphql": "^0.95.7",
     "@graphql-mesh/runtime": "^0.96.11",
-    "@graphql-mesh/transform-naming-convention": "^0.95.8",
     "@types/node": "^20.8.4",
     "@whatwg-node/fetch": "^0.9.13",
     "graphql": "^16.8.1"

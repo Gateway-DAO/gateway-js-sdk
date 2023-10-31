@@ -8,6 +8,13 @@ export enum UserIdentifierType {
   USER_ID = "USER_ID",
 }
 
+export enum PDAStatus {
+  "Expired" = "Expired",
+  "Revoked" = "Revoked",
+  "Suspended" = "Suspended",
+  "Valid" = "Valid",
+}
+
 export type PDAFilter = {
   filter?: FilterPDAInput;
   order?: JSON;

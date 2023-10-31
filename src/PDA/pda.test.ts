@@ -1,14 +1,20 @@
-import { UserIdentifierType } from "../../types";
+import { Sdk } from "../../.mesh";
+import { PDAStatus, UserIdentifierType } from "../../types";
 import { Gateway } from "../Gateway";
 
 const DEFAULT_TIMEOUT = 10000;
 
-describe("PDA TESTING", () => {
-  const api = new Gateway({
+let api: Gateway;
+
+beforeAll(() => {
+  api = new Gateway({
     apiKey: "m9Y5ntNcTlwQ2LbRpYr6K_VhxJXuZJ6Q",
     token:
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm90b2NvbF9pZCI6IjkwNzcwODA2LWFlMGMtNGExNS05MjYzLWU5MWJhYWY1ZDkzZiIsImF1dGgiOnsiaWQiOiJlMjJiOWZkNi05NjgzLTRjZDgtOGZlOS1lZWU0YzFmYTJjZjciLCJ0eXBlIjoiV0FMTEVUIn0sImNyeXB0byI6eyJwdWJsaWNQZW0iOiItLS0tLUJFR0lOIFBVQkxJQyBLRVktLS0tLVxyXG5NSUlDSWpBTkJna3Foa2lHOXcwQkFRRUZBQU9DQWc4QU1JSUNDZ0tDQWdFQXpUdTJCWVVSS3VvM2V2MGx0MjUzXHJcblR3SDlGQkhUbU90dlRXYlQraTExSEF5WW5vUGx4UWV3M0cySnAvanNnS0cxbDN4WHBtdEEwVjlkUGxaUHhVS3BcclxueXM2cWNBdkhmaThpdm15dmk1WVhRYnQ4aE1rY3hKb1RzanZ4V092dTF1bjljVlVSUGkzOTJZTjVwV2lBOEdncVxyXG5zMjlvaGYzOVJDVnM4MkxGQlNCVkI0ZHRhRmJ1cnNlY0M1WStqZVB3UG9tLzJMUlpkTTJ3bFc3ZzhYVmNROUV4XHJcblVxSWpxS296YnVjYmpiT0Q2YXZnRm9JR3VpOVIxdzYrbWFLQmRPK1gxRU5tVGZURHhLclZNRFJtSHFOK0syY1ZcclxuK3NlTWEzcDBjT0VlTklOWjc2V2lhTlhwMjErZ0VSU3hIRkRNOVBjeEZYWGxGeVBEWE1oVkNVNm1xTDNXRmtjNFxyXG5uOTI0bC8zR09Sa1QzZmd4K1FqN2krNS9sU0ZQS2Q1R1U3bFN4VnVBb1hwYWQxUlFCWUxBZGo1dnJacjB5aUprXHJcbi94cjMzbVp6Q0NuN0ZhcW1JeDdSbU4vRk1Sc1JqRGdBd2FUb3RzZ05JZFVGZVZrRURCYm1EWnJtL0k5diswY0hcclxuczA0UCtxaG01b3JEaXFscGZoZVN0M3hqVit5a3Z3d0JIOElSeGdIQ0krZk1ZMThBbDBCSHlkckZhdldWbEVhY1xyXG4yRTFpbDFSdXU0OGxCVXliU0R4Y3Z5RXR5TU94N0ErY0dQcy93MGg5aUtZZy9OVnEvTFdwWjEzYmVzcS9QanpWXHJcbjR5ZnZaTkpyT3VxMXpkc29MdlVaUTVuMHJ1c21PekMyNlhMb3BpVlpUSWk3U1k4QzAvNFNlaVVvaU8vaVBFbnhcclxuOW5nL0RUMEsvQXlLbTBZQ1oxU2pwZ1VDQXdFQUFRPT1cclxuLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tXHJcbiJ9LCJ0eXBlIjoiYXV0aF90b2tlbiIsImlhdCI6MTY5ODIxMTg0N30.zUxmPhnrQlIEZ5pMzHBMFkcqPvjsIfs0er9Dylw5olE",
   });
+});
+
+describe("PDA TESTING", () => {
   //   it(
   //     "create pda",
   //     async () => {
@@ -31,9 +37,23 @@ describe("PDA TESTING", () => {
   //   );
 
   it(
+    "change pda status",
+    async () => {
+      const { changePDAStatus } = await api.pda.changePDAStatus({
+        id: "6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8",
+        status: PDAStatus.Valid,
+      });
+      expect(changePDAStatus.status).toEqual(PDAStatus.Valid);
+    },
+    DEFAULT_TIMEOUT
+  );
+
+  it(
     "find pda",
     async () => {
-      const { PDA } = await api.pda.pda("6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8");
+      const { PDA } = await api.pda.getPDA(
+        "6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8"
+      );
       expect(PDA?.dataAsset?.title).toEqual("test");
     },
     DEFAULT_TIMEOUT
@@ -42,7 +62,7 @@ describe("PDA TESTING", () => {
   it(
     "pda count",
     async () => {
-      const count = await api.pda.pdaCount({
+      const count = await api.pda.getPDACount({
         ids: ["6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8"],
       });
       expect(count).toEqual(1);
@@ -53,7 +73,7 @@ describe("PDA TESTING", () => {
   it(
     "pdas",
     async () => {
-      const { PDAs } = await api.pda.pdas({
+      const { PDAs } = await api.pda.getPDAs({
         filter: {
           ids: ["6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8"],
         },
@@ -68,7 +88,7 @@ describe("PDA TESTING", () => {
   it(
     "issued pdas",
     async () => {
-      const { issuedPDAs } = await api.pda.issuedPDAs({
+      const { issuedPDAs } = await api.pda.getIssuedPDAs({
         skip: 0,
         take: 10,
       });
@@ -80,7 +100,7 @@ describe("PDA TESTING", () => {
   it(
     "issued pdas count",
     async () => {
-      const count = await api.pda.issuedPdasCount();
+      const count = await api.pda.getIssuedPDAsCount();
       expect(count).toEqual(138);
     },
     DEFAULT_TIMEOUT
@@ -89,7 +109,7 @@ describe("PDA TESTING", () => {
   it(
     "my pdas count",
     async () => {
-      const count = await api.pda.myPdaCount();
+      const count = await api.pda.myPDACount();
       expect(count).toEqual(17);
     },
     DEFAULT_TIMEOUT
@@ -98,7 +118,7 @@ describe("PDA TESTING", () => {
   it(
     "my pdas",
     async () => {
-      const { myPDAs } = await api.pda.myPdas({
+      const { myPDAs } = await api.pda.myPDAs({
         skip: 0,
         take: 10,
       });
