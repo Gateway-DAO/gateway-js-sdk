@@ -1,5 +1,5 @@
 import { Auth } from "./Auth";
-import { PDA } from "./PDA/PDA";
+import { PDA } from "./pda/PDA";
 import { getMeshSDK, Sdk } from "../.mesh";
 
 export class Gateway {
