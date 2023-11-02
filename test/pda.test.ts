@@ -1,4 +1,7 @@
 import { Gateway } from "../src/Gateway";
+import { PDAStatus } from "../types";
+
+const DEFAULT_TIMEOUT = 10000;
 
 let api: Gateway;
 
@@ -10,11 +13,95 @@ beforeAll(() => {
   });
 });
 
-describe("pda test", () => {
-  it("find pda", async () => {
-    const { PDA } = await api.pda.getPDA(
-      "6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8"
-    );
-    expect(PDA?.dataAsset?.title).toEqual("test");
-  });
+describe("PDA TESTING", () => {
+  //   it(
+  //     "create pda",
+  //     async () => {
+  //       let obj = {
+  //         dataModelId: "f4014d53-b30f-4490-9812-cea379a1b398",
+  //         description: "test",
+  //         title: "test",
+  //         claim: {
+  //           gatewayUse: "test",
+  //         },
+  //         owner: {
+  //           type: UserIdentifierType.EMAIL,
+  //           value: "sid",
+  //         },
+  //       };
+  //       const { createPDA } = await api.pda.createPDA(obj);
+  //       expect(createPDA.dataAsset?.title).toEqual("test");
+  //     },
+  //     DEFAULT_TIMEOUT
+  //   );
+
+  it(
+    "change pda status",
+    async () => {
+      const { changePDAStatus } = await api.pda.changePDAStatus({
+        id: "6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8",
+        status: PDAStatus.Valid,
+      });
+      expect(changePDAStatus.status).toEqual(PDAStatus.Valid);
+    },
+    DEFAULT_TIMEOUT
+  );
+
+  it(
+    "get single pda",
+    async () => {
+      const { PDA } = await api.pda.getPDA(
+        "6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8"
+      );
+      expect(PDA?.dataAsset?.title).toEqual("test");
+    },
+    DEFAULT_TIMEOUT
+  );
+
+  it(
+    "pda count",
+    async () => {
+      const count = await api.pda.getPDACount({
+        ids: ["6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8"],
+      });
+      expect(count).toEqual(1);
+    },
+    DEFAULT_TIMEOUT
+  );
+
+  it(
+    "pdas",
+    async () => {
+      const { PDAs } = await api.pda.getPDAs({
+        filter: {
+          ids: ["6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8"],
+        },
+        skip: 0,
+        take: 10,
+      });
+      expect(PDAs.length).toEqual(1);
+    },
+    DEFAULT_TIMEOUT
+  );
+
+  // it(
+  //   "issued pdas",
+  //   async () => {
+  //     const { issuedPDAs } = await api.pda.getIssuedPDAs({
+  //       skip: 0,
+  //       take: 10,
+  //     });
+  //     expect(issuedPDAs.length).toEqual(1);
+  //   },
+  //   DEFAULT_TIMEOUT
+  // );
+
+  it(
+    "issued pdas count",
+    async () => {
+      const count = await api.pda.getIssuedPDAsCount();
+      expect(count).toBeGreaterThan(0);
+    },
+    DEFAULT_TIMEOUT
+  );
 });
