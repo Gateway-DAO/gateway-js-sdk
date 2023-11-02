@@ -24,7 +24,8 @@ export class PDA {
     try {
       return await this.sdk.PDA_query({ id });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(error?.message);
+      error;
     }
   }
 
@@ -40,7 +41,8 @@ export class PDA {
     try {
       return (await this.sdk.PDACount_query({ filter })).PDACount;
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(error?.message);
+      error;
     }
   }
 
@@ -54,7 +56,8 @@ export class PDA {
     try {
       return await this.sdk.PDAs_query({ filter, order, skip, take });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(error?.message);
+      error;
     }
   }
 
@@ -70,7 +73,8 @@ export class PDA {
       return await this.sdk.issuedPDAs_query({ filter, order, skip, take });
     } catch (error: any) {
       console.log(error);
-      throw new Error(error);
+      throw new Error(error?.message);
+      error;
     }
   }
 
@@ -85,7 +89,8 @@ export class PDA {
     try {
       return (await this.sdk.issuedPDAsCount_query({ filter })).issuedPDAsCount;
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(error?.message);
+      error;
     }
   }
 
@@ -100,7 +105,7 @@ export class PDA {
     try {
       return (await this.sdk.myPDACount_query({ filter })).myPDACount;
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(error?.message);
     }
   }
 
@@ -114,7 +119,7 @@ export class PDA {
     try {
       return await this.sdk.changePDAStatus_mutation({ input: { id, status } });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(error?.message);
     }
   }
 
@@ -128,7 +133,7 @@ export class PDA {
     try {
       return await this.sdk.createPDA_mutation({ input: pdaInput });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(error?.message);
     }
   }
 
@@ -145,7 +150,7 @@ export class PDA {
     try {
       return await this.sdk.updatePDA_mutation({ input: updatedPDA });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(error?.message);
     }
   }
 }
