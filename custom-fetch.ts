@@ -1,5 +1,5 @@
 import { Headers, fetch } from "@whatwg-node/fetch";
-import { MeshContext } from "./.mesh";
+import { MeshContext } from "@graphql-mesh/runtime";
 
 type ContextModified = MeshContext & {
   token: string;
@@ -17,8 +17,8 @@ export default function patchedFetch(
     "application/graphql-response+json application/json multipart/mixed"
   );
   headers.set("content-type", "application/json");
-  headers.set("Authorization", `Bearer ${context.token}`);
-  headers.set("X-Api-Key", context.apiKey);
+  headers.set("Authorization", `Bearer ${context?.token}`);
+  headers.set("X-Api-Key", context?.apiKey);
   init.headers = headers;
   console.log(url, init);
   return fetch(url, init);

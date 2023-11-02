@@ -13,6 +13,15 @@ export class PDA {
     try {
       return await this.sdk.createPDA_mutation({ input: pdaInput });
     } catch (error: any) {
+      console.log(error);
+      throw new Error(error);
+    }
+  }
+
+  async getPDA(id: string) {
+    try {
+      return await this.sdk.PDA_query({ id });
+    } catch (error: any) {
       throw new Error(error);
     }
   }

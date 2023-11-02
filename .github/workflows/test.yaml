@@ -1,0 +1,24 @@
+name: Build PR
+
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v2
+      - name: Install pnpm
+        run: npm install -g pnpm@7.33.5
+      - name: Install Project Dependencies
+        run: pnpm install
+      - name: Replace F1 with F2 content
+        run: cp custom-fetch-backup.ts custom-fetch.ts
+      - name: Build Graphql queries
+        run: pnpm mesh build
+      - name: Restore the original content of F1
+        run: git checkout -- custom-fetch.ts
+      - name: Test project
+        run: pnpm test
