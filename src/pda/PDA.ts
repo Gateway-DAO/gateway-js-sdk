@@ -13,6 +13,7 @@ import {
 } from "../../.mesh";
 import { PDAFilter, PDAStatus } from "../../types";
 
+
 export class PDA {
   private sdk: Sdk;
 
@@ -140,31 +141,7 @@ export class PDA {
     }
   }
 
-  /**
-   * The function `createPDA` is an asynchronous function that takes a `CreatePDAInput` object as input
-   * and returns a promise that resolves to a `createPDA_mutationMutation` object.
-   * @param {CreatePDAInput} pdaInput - The `pdaInput` parameter is an object that contains the input
-   * data for creating a PDA . It is of type `CreatePDAInput`.
-   * @returns a Promise that resolves to a value of type `createPDA_mutationMutation`.
-   */
-  async createPDA(
-    pdaInput: CreatePDAInput
-  ): Promise<createPDA_mutationMutation> {
-    try {
-      return await this.sdk.createPDA_mutation({ input: pdaInput });
-    } catch (error: any) {
-      console.log(error);
-      throw new Error(error);
-    }
-  }
 
-  async getPDA(id: string) {
-    try {
-      return await this.sdk.PDA_query({ id });
-    } catch (error: any) {
-      throw new Error(error);
-    }
-  }
 
   /**
    * The function `changePDAStatus` is an asynchronous function that takes an `id` and a `status` as
@@ -204,4 +181,5 @@ export class PDA {
       throw new Error(error);
     }
   }
+
 }
