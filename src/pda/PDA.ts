@@ -1,4 +1,4 @@
-import { CreatePDAInput, Sdk, createPDA_mutationMutation } from "../../.mesh";
+import { CreatePDAInput, Sdk, createPDA_mutationMutation } from '../../.mesh';
 
 export class PDA {
   private sdk: Sdk;
@@ -8,7 +8,7 @@ export class PDA {
   }
 
   async createPDA(
-    pdaInput: CreatePDAInput
+    pdaInput: CreatePDAInput,
   ): Promise<createPDA_mutationMutation> {
     try {
       return await this.sdk.createPDA_mutation({ input: pdaInput });

@@ -36,4 +36,3 @@ POC made using graphql mesh
    ```sh
    pnpm dev
    ```
-

@@ -1,4 +1,4 @@
-import { createWalletNonce_mutationMutation } from "../.mesh";
+import { createWalletNonce_mutationMutation } from '../.mesh';
 
 export class Auth {
   private sdk: any;
@@ -8,7 +8,7 @@ export class Auth {
   }
 
   async createWalletNounce(
-    wallet: string
+    wallet: string,
   ): Promise<createWalletNonce_mutationMutation> {
     return await this.sdk.createWalletNonce_mutation({ input: { wallet } });
   }
