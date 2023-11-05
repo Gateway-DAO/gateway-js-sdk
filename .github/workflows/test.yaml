@@ -2,7 +2,7 @@ name: Build PR
 
 on:
   pull_request:
-    branches: ["main"]
+    branches: ['main']
 
 jobs:
   build:
@@ -14,6 +14,8 @@ jobs:
         run: npm install -g pnpm@7.33.5
       - name: Install Project Dependencies
         run: pnpm install
+      - name: Run Eslint
+        run: pnpm lint
       - name: Replace F1 with F2 content
         run: cp custom-fetch-backup.ts custom-fetch.ts
       - name: Build Graphql queries

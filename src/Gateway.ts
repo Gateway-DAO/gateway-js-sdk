@@ -1,7 +1,5 @@
-import { Auth } from "./Auth";
-
-import { getMeshSDK, Sdk } from "../.mesh";
-import { PDA } from "./pda/PDA";
+import { getMeshSDK, Sdk } from '../.mesh';
+import { PDA } from './pda/PDA';
 
 export class Gateway {
   // public auth: Auth;
@@ -9,7 +7,7 @@ export class Gateway {
   private sdk: Sdk;
 
   constructor({ apiKey, token }: { apiKey: string; token: string }) {
-    if (!apiKey && !token) throw new Error("No token found");
+    if (!apiKey && !token) throw new Error('No token found');
     this.sdk = getMeshSDK({
       apiKey,
       token,

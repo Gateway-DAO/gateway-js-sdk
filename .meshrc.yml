@@ -3,7 +3,7 @@ sources:
     handler:
       graphql:
         endpoint: https://develop.protocol.mygateway.xyz/v1/graphql
-        method: "POST"
+        method: 'POST'
         useGETForQueries: false
 
 customFetch: ./custom-fetch.ts
