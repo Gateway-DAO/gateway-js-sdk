@@ -1,9 +1,11 @@
 import { getMeshSDK, Sdk } from '../.mesh';
 import { PDA } from './pda/pda';
 import { DataRequestTemplate } from './dataRequestsTemplate/dataRequestsTemplate';
+import { User } from './user/user';
 
 export class Gateway {
   private sdk: Sdk;
+  public user: User;
   public pda: PDA;
   public dataRequestTemplate: DataRequestTemplate;
 
@@ -14,6 +16,7 @@ export class Gateway {
       token,
     });
     this.pda = new PDA(this.sdk);
+    this.user = new User(this.sdk);
     this.dataRequestTemplate = new DataRequestTemplate(this.sdk);
   }
 }
