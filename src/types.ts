@@ -1,3 +1,5 @@
+import { FilterPDAInput } from '../.mesh';
+
 export enum UserIdentifierType {
   EMAIL = 'EMAIL',
   EVM = 'EVM',
@@ -5,3 +7,17 @@ export enum UserIdentifierType {
   SOLANA = 'SOLANA',
   USER_ID = 'USER_ID',
 }
+
+export enum PDAStatus {
+  'Expired' = 'Expired',
+  'Revoked' = 'Revoked',
+  'Suspended' = 'Suspended',
+  'Valid' = 'Valid',
+}
+
+export type PDAFilter = {
+  filter?: FilterPDAInput;
+  order?: JSON;
+  skip: number;
+  take: number;
+};
