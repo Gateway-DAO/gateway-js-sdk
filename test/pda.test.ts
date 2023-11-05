@@ -1,5 +1,5 @@
-import { Gateway } from "../src/Gateway";
-import { PDAStatus } from "../types";
+import { Gateway } from '../src/Gateway';
+import { PDAStatus } from '../src/types';
 
 const DEFAULT_TIMEOUT = 10000;
 
@@ -13,7 +13,7 @@ beforeAll(() => {
   });
 });
 
-describe("PDA TESTING", () => {
+describe('PDA TESTING', () => {
   //   it(
   //     "create pda",
   //     async () => {
@@ -36,52 +36,52 @@ describe("PDA TESTING", () => {
   //   );
 
   it(
-    "change pda status",
+    'change pda status',
     async () => {
       const { changePDAStatus } = await api.pda.changePDAStatus({
-        id: "6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8",
+        id: '6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8',
         status: PDAStatus.Valid,
       });
       expect(changePDAStatus.status).toEqual(PDAStatus.Valid);
     },
-    DEFAULT_TIMEOUT
+    DEFAULT_TIMEOUT,
   );
 
   it(
-    "get single pda",
+    'get single pda',
     async () => {
       const { PDA } = await api.pda.getPDA(
-        "6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8"
+        '6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8',
       );
-      expect(PDA?.dataAsset?.title).toEqual("test");
+      expect(PDA?.dataAsset?.title).toEqual('test');
     },
-    DEFAULT_TIMEOUT
+    DEFAULT_TIMEOUT,
   );
 
   it(
-    "pda count",
+    'pda count',
     async () => {
       const count = await api.pda.getPDACount({
-        ids: ["6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8"],
+        ids: ['6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8'],
       });
       expect(count).toEqual(1);
     },
-    DEFAULT_TIMEOUT
+    DEFAULT_TIMEOUT,
   );
 
   it(
-    "pdas",
+    'pdas',
     async () => {
       const { PDAs } = await api.pda.getPDAs({
         filter: {
-          ids: ["6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8"],
+          ids: ['6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8'],
         },
         skip: 0,
         take: 10,
       });
       expect(PDAs.length).toEqual(1);
     },
-    DEFAULT_TIMEOUT
+    DEFAULT_TIMEOUT,
   );
 
   // it(
@@ -97,11 +97,11 @@ describe("PDA TESTING", () => {
   // );
 
   it(
-    "issued pdas count",
+    'issued pdas count',
     async () => {
       const count = await api.pda.getIssuedPDAsCount();
       expect(count).toBeGreaterThan(0);
     },
-    DEFAULT_TIMEOUT
+    DEFAULT_TIMEOUT,
   );
 });

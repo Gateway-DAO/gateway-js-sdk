@@ -3,8 +3,8 @@ import {
   Sdk,
   FilterPDAInput,
   UpdatePDAInput,
-} from "../../.mesh";
-import { PDAFilter, PDAStatus } from "../../types";
+} from '../../.mesh';
+import { PDAFilter, PDAStatus } from '../types';
 
 export class PDA {
   private sdk: Sdk;
