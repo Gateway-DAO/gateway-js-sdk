@@ -5,3 +5,15 @@ export enum UserIdentifierType {
   SOLANA = 'SOLANA',
   USER_ID = 'USER_ID',
 }
+
+export enum AuthType {
+  'EMAIL' = 'EMAIL',
+  'GOOGLE' = 'GOOGLE',
+  'HOT_WALLET' = 'HOT_WALLET',
+  'WALLET' = 'WALLET',
+}
+
+export enum Chain {
+  EVM = 'EVM',
+  SOL = 'SOL',
+}

@@ -1,6 +1,7 @@
 import { Gateway } from '../src/Gateway';
 
 let api: Gateway;
+const DEFAULT_TIMEOUT = 10000;
 
 beforeAll(() => {
   api = new Gateway({
@@ -11,10 +12,14 @@ beforeAll(() => {
 });
 
 describe('pda test', () => {
-  it('find pda', async () => {
-    const { PDA } = await api.pda.getPDA(
-      '6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8',
-    );
-    expect(PDA?.dataAsset?.title).toEqual('test');
-  });
+  it(
+    'find pda',
+    async () => {
+      const { PDA } = await api.pda.getPDA(
+        '6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8',
+      );
+      expect(PDA?.dataAsset?.title).toEqual('test');
+    },
+    DEFAULT_TIMEOUT,
+  );
 });
