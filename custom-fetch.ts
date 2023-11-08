@@ -20,6 +20,5 @@ export default function patchedFetch(
   headers.set('Authorization', `Bearer ${context?.token}`);
   headers.set('X-Api-Key', context?.apiKey);
   init.headers = headers;
-  console.log(url, init);
   return fetch(url, init);
 }
