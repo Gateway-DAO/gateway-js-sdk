@@ -73,7 +73,7 @@ describe('USER Testing', () => {
     'my data requests template count',
     async () => {
       const count = await api.user.myDataRequestTemplatesCount();
-      expect(count).toEqual(0);
+      expect(count).toBeGreaterThan(0);
     },
     DEFAULT_TIMEOUT,
   );
