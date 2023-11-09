@@ -1,9 +1,7 @@
 import { getMeshSDK, Sdk } from '../.mesh';
-import { PDA } from './pda/pda';
 import { User } from './user/user';
 
 export class Gateway {
-  public pda: PDA;
   private sdk: Sdk;
   public user: User;
 
@@ -14,7 +12,6 @@ export class Gateway {
       token,
     });
     // this.auth = new Auth();
-    this.pda = new PDA(this.sdk);
     this.user = new User(this.sdk);
   }
 }
