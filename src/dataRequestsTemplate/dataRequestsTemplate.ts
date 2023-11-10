@@ -20,9 +20,14 @@ export class DataRequestTemplate {
    * promise that resolves to the result of the mutation.
    */
   async createDataRequestTemplate(templateInput: TemplateSchemaInput) {
-    return await this.sdk.createDataRequestTemplate_mutation({
-      input: templateInput,
-    });
+    try {
+       return await this.sdk.createDataRequestTemplate_mutation({
+         input: templateInput,
+       });
+    } catch (error) {
+      throw new Error()
+    }
+   
   }
 
   /**
