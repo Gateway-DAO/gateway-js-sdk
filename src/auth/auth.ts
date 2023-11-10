@@ -1,5 +1,6 @@
 import { AddWalletConfirmationInput, Sdk } from '../../.mesh';
 import { AuthType, Chain } from '../types';
+import { errorHandler } from '../utils/errorHandler';
 
 export class Auth {
   private sdk: Sdk;
@@ -15,8 +16,12 @@ export class Auth {
    * @returns the result of the `checkUsernameAvailability` method, is a boolean
    */
   async checkUsernameAvailability(username: string) {
-    return (await this.sdk.checkUsernameAvailability_query({ username }))
-      .checkUsernameAvailability;
+    try {
+      return (await this.sdk.checkUsernameAvailability_query({ username }))
+        .checkUsernameAvailability;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
   }
 
   /**
@@ -27,7 +32,11 @@ export class Auth {
    * @returns The addEmail function is returning the result code and email
    */
   async addEmail(email: string) {
-    return (await this.sdk.addEmail_mutation({ input: { email } })).addEmail;
+    try {
+      return (await this.sdk.addEmail_mutation({ input: { email } })).addEmail;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
   }
 
   /**
@@ -38,11 +47,15 @@ export class Auth {
    * @returns the result of the `addEmailConfirmation` method call, is the logged in user.
    */
   async addEmailConfirmation({ email, code }: { email: string; code: number }) {
-    return (
-      await this.sdk.addEmailConfirmation_mutation({
-        input: { code, email },
-      })
-    ).addEmailConfirmation;
+    try {
+      return (
+        await this.sdk.addEmailConfirmation_mutation({
+          input: { code, email },
+        })
+      ).addEmailConfirmation;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
   }
 
   /**
@@ -52,8 +65,12 @@ export class Auth {
    * @returns the result of the `addWallet` method call, is a message which will be used to confirm wallet.
    */
   async addWallet({ wallet, chain }: { wallet: string; chain?: Chain }) {
-    return (await this.sdk.addWallet_mutation({ input: { wallet, chain } }))
-      .addWallet;
+    try {
+      return (await this.sdk.addWallet_mutation({ input: { wallet, chain } }))
+        .addWallet;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
   }
 
   /**
@@ -65,9 +82,13 @@ export class Auth {
   async addWalletConfirmation(
     walletConfirmationInput: AddWalletConfirmationInput,
   ) {
-    return await this.sdk.addWalletConfirmation_mutation({
-      input: walletConfirmationInput,
-    });
+    try {
+      return await this.sdk.addWalletConfirmation_mutation({
+        input: walletConfirmationInput,
+      });
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
   }
 
   /**
@@ -83,9 +104,13 @@ export class Auth {
     wallet: string;
     chain?: Chain;
   }) {
-    return (
-      await this.sdk.createWalletNonce_mutation({ input: { wallet, chain } })
-    ).createWalletNonce;
+    try {
+      return (
+        await this.sdk.createWalletNonce_mutation({ input: { wallet, chain } })
+      ).createWalletNonce;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
   }
 
   /**
@@ -94,8 +119,12 @@ export class Auth {
    * @returns the result of the `createEmailNounce` method call,returning the  code and email
    */
   async createEmailNounce(email: string) {
-    return (await this.sdk.createEmailNonce_mutation({ input: { email } }))
-      .createEmailNonce;
+    try {
+      return (await this.sdk.createEmailNonce_mutation({ input: { email } }))
+        .createEmailNonce;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
   }
 
   /**
@@ -104,7 +133,11 @@ export class Auth {
    * @returns the result of the `deleteAccount` method call,returning the boolean | undefined if user not found
    */
   async deleteAccount(id: string) {
-    return (await this.sdk.deleteAccount_mutation({ id })).deleteAccount;
+    try {
+      return (await this.sdk.deleteAccount_mutation({ id })).deleteAccount;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
   }
 
   /**
@@ -114,8 +147,12 @@ export class Auth {
    * @returns the result of the `loginEmail` method call,returning the user if code is correct
    */
   async loginEmail({ email, code }: { email: string; code: number }) {
-    return (await this.sdk.loginEmail_mutation({ input: { email, code } }))
-      .loginEmail;
+    try {
+      return (await this.sdk.loginEmail_mutation({ input: { email, code } }))
+        .loginEmail;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
   }
 
   /**
@@ -131,14 +168,24 @@ export class Auth {
     wallet: string;
     signature: string;
   }) {
-    return (
-      await this.sdk.loginWallet_mutation({
-        input: { wallet, signature },
-      })
-    ).loginWallet;
+    try {
+      return (
+        await this.sdk.loginWallet_mutation({
+          input: { wallet, signature },
+        })
+      ).loginWallet;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
   }
 
-  // TODO: need to write test for this dont know what to pass for test
+  /**
+   * The function `migrateAuthMethod` is an asynchronous function that takes in an `authId` and
+   * `ownerJwt` as parameters, and it calls a mutation function `migrateAuthMethod_mutation` from an
+   * SDK to migrate the authentication method.
+   * @param  - - `authId`: A string representing the ID of the authentication method to be migrated.
+   * @returns the result of the `migrateAuthMethod` mutation.
+   */
   async migrateAuthMethod({
     authId,
     ownerJwt,
@@ -146,9 +193,15 @@ export class Auth {
     authId: string;
     ownerJwt: string;
   }) {
-    return (
-      await this.sdk.migrateAuthMethod_mutation({ input: { authId, ownerJwt } })
-    ).migrateAuthMethod;
+    try {
+      return (
+        await this.sdk.migrateAuthMethod_mutation({
+          input: { authId, ownerJwt },
+        })
+      ).migrateAuthMethod;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
   }
 
   /**
@@ -157,17 +210,31 @@ export class Auth {
    * @returns the result of the `refreshToken` method call,returning the  new refresh token and user
    */
   async refreshToken(existingRefreshToken: string) {
-    return (
-      await this.sdk.refreshToken_mutation({
-        input: { refresh_token: existingRefreshToken },
-      })
-    ).refreshToken;
+    try {
+      return (
+        await this.sdk.refreshToken_mutation({
+          input: { refresh_token: existingRefreshToken },
+        })
+      ).refreshToken;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
   }
 
-  // TODO: need to write test for this dont know what to pass for test
+  /**
+   * The function unregisterAuthMethod is an asynchronous function that takes in a JSON object and an
+   * AuthType, and attempts to unregister an authentication method using the SDK.
+   * @param  - - `data`: A JSON object containing the data needed for unregistering the authentication
+   * method.
+   * @returns the result of the `this.sdk.unregisterAuthMethod_mutation` method, which is awaited.
+   */
   async unregisterAuthMethod({ data, type }: { data: JSON; type: AuthType }) {
-    return await this.sdk.unregisterAuthMethod_mutation({
-      input: { data, type },
-    });
+    try {
+      return await this.sdk.unregisterAuthMethod_mutation({
+        input: { data, type },
+      });
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
   }
 }

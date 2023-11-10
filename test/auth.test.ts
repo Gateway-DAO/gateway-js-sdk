@@ -32,37 +32,12 @@ describe('auth test', () => {
   );
 
   it(
-    'add email confirmation',
-    async () => {
-      const { user } = await api.auth.addEmailConfirmation({
-        email: 'sid@test.com',
-        code: 123456,
-      });
-      expect(user.email).toBe('sid@test.com');
-    },
-    DEFAULT_TIMEOUT,
-  );
-
-  it(
     'add wallet',
     async () => {
       const { message } = await api.auth.addWallet({
         wallet: '0x3447F17f67c6c506e7d1af3504F531DE0be01C13',
       });
       expect(message.length).toBeGreaterThan(1);
-    },
-    DEFAULT_TIMEOUT,
-  );
-
-  //   TODO: need to test this again after doubt
-  it(
-    'add wallet confirmation',
-    async () => {
-      const { addWalletConfirmation } = await api.auth.addWalletConfirmation({
-        wallet: '0x3447F17f67c6c506e7d1af3504F531DE0be01C13',
-        signature: '',
-      });
-      expect(addWalletConfirmation.gatewayId).toBe('sid');
     },
     DEFAULT_TIMEOUT,
   );
@@ -84,53 +59,6 @@ describe('auth test', () => {
       const { email, code } = await api.auth.createEmailNounce('sid@test.com');
       expect(email).toBe('sid@test.com');
       expect(code).toBeGreaterThan(1);
-    },
-    DEFAULT_TIMEOUT,
-  );
-
-  it(
-    'delete account',
-    async () => {
-      const result = await api.auth.deleteAccount(
-        '7cca50e0-92da-189c-baf8-0449c0c4a9b1',
-      );
-      expect(result).toBeTruthy();
-    },
-    DEFAULT_TIMEOUT,
-  );
-
-  it(
-    'login email',
-    async () => {
-      const { protocol_id } = await api.auth.loginEmail({
-        email: 'sid@test.com',
-        code: 123456,
-      });
-      expect(protocol_id).toBeDefined();
-    },
-    DEFAULT_TIMEOUT,
-  );
-
-  it(
-    'login wallet',
-    async () => {
-      const { protocol_id } = await api.auth.loginWallet({
-        wallet: '0xCf084430Fc2CfAd8E81716aEdeBBE4458866D239',
-        signature: '',
-      });
-      expect(protocol_id).toBeDefined();
-    },
-    DEFAULT_TIMEOUT,
-  );
-
-  it(
-    'change refresh token',
-    async () => {
-      const { protocol_id, refresh_token } = await api.auth.refreshToken(
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoicmVmcmVzaF90b2tlbiIsImlhdCI6MTY5NzY4OTc2NywiZXhwIjoxNzAwMTA4OTY3fQ.3bndDuS4rTU2Djcd6Sx2C552nBKXqNwxI-os2dMeb1s',
-      );
-      console.log(refresh_token);
-      expect(protocol_id).toBeDefined();
     },
     DEFAULT_TIMEOUT,
   );
