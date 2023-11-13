@@ -52,14 +52,4 @@ describe('auth test', () => {
     },
     DEFAULT_TIMEOUT,
   );
-
-  it(
-    'create email nounce',
-    async () => {
-      const { email, code } = await api.auth.createEmailNounce('sid@test.com');
-      expect(email).toBe('sid@test.com');
-      expect(code).toBeGreaterThan(1);
-    },
-    DEFAULT_TIMEOUT,
-  );
 });

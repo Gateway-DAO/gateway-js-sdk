@@ -1,4 +1,4 @@
-import { AddWalletConfirmationInput, Sdk } from '../../.mesh';
+import { AddWalletConfirmationInput, Sdk, User } from '../../.mesh';
 import { AuthType, Chain } from '../types';
 import { errorHandler } from '../utils/errorHandler';
 
@@ -108,20 +108,6 @@ export class Auth {
       return (
         await this.sdk.createWalletNonce_mutation({ input: { wallet, chain } })
       ).createWalletNonce;
-    } catch (error) {
-      throw new Error(errorHandler(error));
-    }
-  }
-
-  /**
-   * The function `createEmailNounce` takes an email to create a nounce
-   * @param {string} email: a string representing the email
-   * @returns the result of the `createEmailNounce` method call,returning the  code and email
-   */
-  async createEmailNounce(email: string) {
-    try {
-      return (await this.sdk.createEmailNonce_mutation({ input: { email } }))
-        .createEmailNonce;
     } catch (error) {
       throw new Error(errorHandler(error));
     }
