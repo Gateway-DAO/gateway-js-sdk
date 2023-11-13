@@ -3,6 +3,7 @@ import {
   Sdk,
   TemplateSchemaInput,
 } from '../../.mesh';
+import { errorHandler } from '../utils/errorHandler';
 
 export class DataRequestTemplate {
   private sdk: Sdk;
@@ -21,13 +22,12 @@ export class DataRequestTemplate {
    */
   async createDataRequestTemplate(templateInput: TemplateSchemaInput) {
     try {
-       return await this.sdk.createDataRequestTemplate_mutation({
-         input: templateInput,
-       });
+      return await this.sdk.createDataRequestTemplate_mutation({
+        input: templateInput,
+      });
     } catch (error) {
-      throw new Error()
+      throw new Error(errorHandler(error));
     }
-   
   }
 
   /**
@@ -38,7 +38,11 @@ export class DataRequestTemplate {
    * @returns the result of the `dataRequestTemplate_query` method call, which is a Promise.
    */
   async getDataRequestTemplate(id: string) {
-    return await this.sdk.dataRequestTemplate_query({ id });
+    try {
+      return await this.sdk.dataRequestTemplate_query({ id });
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
   }
 
   /**
@@ -57,15 +61,19 @@ export class DataRequestTemplate {
   }: {
     filter?: FilterDataRequestTemplateInput;
     order?: JSON;
-    skip: number;
-    take: number;
+    skip?: number;
+    take?: number;
   }) {
-    return await this.sdk.dataRequestTemplates_query({
-      filter,
-      order,
-      skip,
-      take,
-    });
+    try {
+      return await this.sdk.dataRequestTemplates_query({
+        filter,
+        order,
+        skip,
+        take,
+      });
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
   }
 
   /**
@@ -77,7 +85,11 @@ export class DataRequestTemplate {
    * @returns the count of data request templates.
    */
   async getDataRequestsTemplateCount(filter?: FilterDataRequestTemplateInput) {
-    return (await this.sdk.dataRequestTemplatesCount_query({ filter }))
-      .dataRequestTemplatesCount;
+    try {
+      return (await this.sdk.dataRequestTemplatesCount_query({ filter }))
+        .dataRequestTemplatesCount;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
   }
 }

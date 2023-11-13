@@ -12,35 +12,35 @@ beforeAll(() => {
 });
 
 describe('Data Requests Template test', () => {
-  //   it(
-  //     'create data request template',
-  //     async () => {
-  //       const { createDataRequestTemplate } =
-  //         await api.dataRequestTemplate.createDataRequestTemplate({
-  //           title: 'Create Data Request Template Example',
-  //           description: 'Lorem ipsum dolor sit amet.',
-  //           dataModels: [
-  //             {
-  //               id: 'f4014d53-b30f-4490-9812-cea379a1b398',
-  //               required: true,
-  //               claimValidations: {
-  //                 type: 'object',
-  //                 properties: {
-  //                   gatewayUse: {
-  //                     type: 'string',
-  //                   },
+  // it(
+  //   'create data request template',
+  //   async () => {
+  //     const { createDataRequestTemplate } =
+  //       await api.dataRequestTemplate.createDataRequestTemplate({
+  //         title: 'Create Data Request Template Example',
+  //         description: 'Lorem ipsum dolor sit amet.',
+  //         dataModels: [
+  //           {
+  //             id: 'f4014d53-b30f-4490-9812-cea379a1b398',
+  //             required: true,
+  //             claimValidations: {
+  //               type: 'object',
+  //               properties: {
+  //                 gatewayUse: {
+  //                   type: 'string',
   //                 },
-  //                 required: ['gatewayUse'],
   //               },
+  //               required: ['gatewayUse'],
   //             },
-  //           ],
-  //         });
-  //       expect(createDataRequestTemplate.name).toEqual(
-  //         'Create Data Request Template Example',
-  //       );
-  //     },
-  //     DEFAULT_TIMEOUT,
-  //   );
+  //           },
+  //         ],
+  //       });
+  //     expect(createDataRequestTemplate.name).toEqual(
+  //       'Create Data Request Template Example',
+  //     );
+  //   },
+  //   DEFAULT_TIMEOUT,
+  // );
 
   it(
     'get a single data request template',
