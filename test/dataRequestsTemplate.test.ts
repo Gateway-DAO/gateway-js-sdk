@@ -71,9 +71,7 @@ describe('Data Requests Template test', () => {
   it(
     'get data request templates count',
     async () => {
-      const count = await api.dataRequestTemplate.getDataRequestsTemplateCount({
-        ids: ['ffc48b78-5543-4f78-8cb4-ea4821aa46d2'],
-      });
+      const count = await api.dataRequestTemplate.getDataRequestsTemplateCount();
       expect(count).toBeGreaterThan(0);
     },
     DEFAULT_TIMEOUT,
