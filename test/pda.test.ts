@@ -1,5 +1,5 @@
 import { Gateway } from '../src/Gateway';
-import { PDAStatus } from '../src/types';
+import { PDAStatus, UserIdentifierType } from '../src/types';
 
 const DEFAULT_TIMEOUT = 10000;
 
@@ -14,26 +14,26 @@ beforeAll(() => {
 });
 
 describe('PDA TESTING', () => {
-  //   it(
-  //     "create pda",
-  //     async () => {
-  //       let obj = {
-  //         dataModelId: "f4014d53-b30f-4490-9812-cea379a1b398",
-  //         description: "test",
-  //         title: "test",
-  //         claim: {
-  //           gatewayUse: "test",
-  //         },
-  //         owner: {
-  //           type: UserIdentifierType.EMAIL,
-  //           value: "sid",
-  //         },
-  //       };
-  //       const { createPDA } = await api.pda.createPDA(obj);
-  //       expect(createPDA.dataAsset?.title).toEqual("test");
-  //     },
-  //     DEFAULT_TIMEOUT
-  //   );
+  it(
+    'create pda',
+    async () => {
+      let obj = {
+        dataModelId: 'f4014d53-b30f-4490-9812-cea379a1b398',
+        description: 'test',
+        title: 'test',
+        claim: {
+          gatewayUse: 'test',
+        },
+        owner: {
+          type: UserIdentifierType.EMAIL,
+          value: 'sid',
+        },
+      };
+      const { createPDA } = await api.pda.createPDA(obj);
+      expect(createPDA.dataAsset?.title).toEqual('test');
+    },
+    DEFAULT_TIMEOUT,
+  );
 
   // it(
   //   'change pda status',
@@ -83,18 +83,6 @@ describe('PDA TESTING', () => {
     },
     DEFAULT_TIMEOUT,
   );
-
-  // it(
-  //   "issued pdas",
-  //   async () => {
-  //     const { issuedPDAs } = await api.pda.getIssuedPDAs({
-  //       skip: 0,
-  //       take: 10,
-  //     });
-  //     expect(issuedPDAs.length).toEqual(1);
-  //   },
-  //   DEFAULT_TIMEOUT
-  // );
 
   it(
     'issued pdas count',

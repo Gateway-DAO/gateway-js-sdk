@@ -5,6 +5,7 @@ import {
   UpdatePDAInput,
 } from '../../.mesh';
 import { PDAFilter, PDAStatus } from '../types';
+import { errorHandler } from '../utils/errorHandler';
 
 export class PDA {
   private sdk: Sdk;
@@ -23,9 +24,8 @@ export class PDA {
   async getPDA(id: string) {
     try {
       return await this.sdk.PDA_query({ id });
-    } catch (error: any) {
-      throw new Error(error?.message);
-      error;
+    } catch (error) {
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -40,9 +40,8 @@ export class PDA {
   async getPDACount(filter?: FilterPDAInput) {
     try {
       return (await this.sdk.PDACount_query({ filter })).PDACount;
-    } catch (error: any) {
-      throw new Error(error?.message);
-      error;
+    } catch (error) {
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -55,9 +54,8 @@ export class PDA {
   async getPDAs({ filter, order, skip, take }: PDAFilter) {
     try {
       return await this.sdk.PDAs_query({ filter, order, skip, take });
-    } catch (error: any) {
-      throw new Error(error?.message);
-      error;
+    } catch (error) {
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -71,10 +69,8 @@ export class PDA {
   async getIssuedPDAs({ filter, order, skip, take }: PDAFilter) {
     try {
       return await this.sdk.issuedPDAs_query({ filter, order, skip, take });
-    } catch (error: any) {
-      console.log(error);
-      throw new Error(error?.message);
-      error;
+    } catch (error) {
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -88,9 +84,8 @@ export class PDA {
   async getIssuedPDAsCount(filter?: FilterPDAInput) {
     try {
       return (await this.sdk.issuedPDAsCount_query({ filter })).issuedPDAsCount;
-    } catch (error: any) {
-      throw new Error(error?.message);
-      error;
+    } catch (error) {
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -104,8 +99,8 @@ export class PDA {
   async myPDACount(filter?: FilterPDAInput) {
     try {
       return (await this.sdk.myPDACount_query({ filter })).myPDACount;
-    } catch (error: any) {
-      throw new Error(error?.message);
+    } catch (error) {
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -118,8 +113,8 @@ export class PDA {
   async changePDAStatus({ id, status }: { id: string; status: PDAStatus }) {
     try {
       return await this.sdk.changePDAStatus_mutation({ input: { id, status } });
-    } catch (error: any) {
-      throw new Error(error?.message);
+    } catch (error) {
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -132,8 +127,8 @@ export class PDA {
   async createPDA(pdaInput: CreatePDAInput) {
     try {
       return await this.sdk.createPDA_mutation({ input: pdaInput });
-    } catch (error: any) {
-      throw new Error(error?.message);
+    } catch (error) {
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -149,8 +144,8 @@ export class PDA {
   async updatePDA(updatedPDA: UpdatePDAInput) {
     try {
       return await this.sdk.updatePDA_mutation({ input: updatedPDA });
-    } catch (error: any) {
-      throw new Error(error?.message);
+    } catch (error) {
+      throw new Error(errorHandler(error));
     }
   }
 }
