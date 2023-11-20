@@ -70,7 +70,7 @@ describe('PDA TESTING', () => {
   it(
     'pdas',
     async () => {
-      const { PDAs } = await api.pda.getPDAs({});
+      const { PDAs } = await api.pda.getPDAs({ skip: 0, take: 10 });
       expect(PDAs.length).toBeGreaterThanOrEqual(0);
     },
     DEFAULT_TIMEOUT,
