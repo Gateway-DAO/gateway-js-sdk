@@ -30,22 +30,14 @@ describe('PDA TESTING', () => {
         },
       };
       const { createPDA } = await api.pda.createPDA(obj);
-      expect(createPDA.dataAsset?.title).toEqual('test');
+      const { changePDAStatus } = await api.pda.changePDAStatus({
+        id: createPDA.id,
+        status: PDAStatus.Suspended,
+      });
+      expect(changePDAStatus.status).toEqual(PDAStatus.Suspended);
     },
     DEFAULT_TIMEOUT,
   );
-
-  // it(
-  //   'change pda status',
-  //   async () => {
-  //     const { changePDAStatus } = await api.pda.changePDAStatus({
-  //       id: '6bc1a11f-f91d-4361-9a22-5df8d1bf4dc8',
-  //       status: PDAStatus.Valid,
-  //     });
-  //     expect(changePDAStatus.status).toEqual(PDAStatus.Valid);
-  //   },
-  //   DEFAULT_TIMEOUT,
-  // );
 
   it(
     'get single pda',
