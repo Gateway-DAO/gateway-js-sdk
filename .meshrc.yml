@@ -2,7 +2,7 @@ sources:
   - name: GatewaySDK
     handler:
       graphql:
-        endpoint: '{env.GRAPHQL_ENDPOINT}'
+        endpoint: '{$env.GRAPHQL_ENDPOINT}'
     transforms:
       - filterSchema:
           mode: bare

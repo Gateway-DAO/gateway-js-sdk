@@ -1,4 +1,4 @@
-name: Build PR
+name: Run Eslint & Test cases
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Project
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install pnpm
         run: npm install -g pnpm@7.33.5
       - name: Install Project Dependencies
