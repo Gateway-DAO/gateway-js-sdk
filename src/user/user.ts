@@ -22,8 +22,8 @@ export class User {
   async me() {
     try {
       return await this.sdk.me_query();
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.log(error.extensions.exception);
       throw new Error('Something went wrong');
     }
   }
@@ -44,20 +44,6 @@ export class User {
   }) {
     try {
       return await this.sdk.user_query({ input: { type, value } });
-    } catch (error) {
-      console.log(error);
-      throw new Error('Something went wrong');
-    }
-  }
-
-  /**
-   * The function `getAllUsers` is an asynchronous function that queries the users using an SDK and
-   * returns the result, or throws an error if something goes wrong.
-   * @returns the result of the `users_query()` method call.
-   */
-  async getAllUsers() {
-    try {
-      return await this.sdk.users_query();
     } catch (error) {
       console.log(error);
       throw new Error('Something went wrong');
