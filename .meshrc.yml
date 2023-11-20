@@ -5,6 +5,12 @@ sources:
         endpoint: https://develop.protocol.mygateway.xyz/v1/graphql
         method: 'POST'
         useGETForQueries: false
+    transforms:
+      - filterSchema:
+          mode: bare
+          filters:
+            - Query.!transaction
+            - Query.!transactions
 
 customFetch: ./custom-fetch.ts
 
