@@ -7,7 +7,6 @@ const DEFAULT_TIMEOUT = 10000;
 let api: Gateway;
 
 beforeAll(() => {
-  console.log(process.env)
   api = new Gateway({
     apiKey: process.env.API_KEY!,
     token: process.env.BEARER_TOKEN!,

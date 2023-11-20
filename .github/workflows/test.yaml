@@ -17,9 +17,6 @@ jobs:
       - name: Run Eslint
         run: pnpm lint
       - name: Build Graphql queries
-        run: pnpm mesh build
-        env:
-          GRAPHQL_ENDPOINT: ${{ secrets.GRAPHQL_ENDPOINT }}
       - name: Test project
         run: pnpm test
         env:
