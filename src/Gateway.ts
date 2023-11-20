@@ -11,7 +11,6 @@ export class Gateway {
       apiKey,
       token,
     });
-    // this.auth = new Auth();
     this.user = new User(this.sdk);
   }
 }
