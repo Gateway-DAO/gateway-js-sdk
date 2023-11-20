@@ -1,8 +1,8 @@
 sources:
-  - name: MyGraphQLApi
+  - name: GatewaySDK
     handler:
       graphql:
-        endpoint: https://develop.protocol.mygateway.xyz/v1/graphql
+        endpoint: '{env.GRAPHQL_ENDPOINT}'
     transforms:
       - filterSchema:
           mode: bare
