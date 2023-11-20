@@ -1,4 +1,5 @@
 import { Gateway } from '../src/Gateway';
+import { UserIdentifierType } from '../src/types';
 
 const DEFAULT_TIMEOUT = 10000;
 
@@ -22,17 +23,17 @@ describe('USER Testing', () => {
     DEFAULT_TIMEOUT,
   );
 
-  // it(
-  //   "single user",
-  //   async () => {
-  //     const { user } = await api.user.getSingleUser({
-  //       type: UserIdentifierType.GATEWAY_ID,
-  //       value: "sid",
-  //     });
-  //     expect(user?.gatewayId).toEqual("sid");
-  //   },
-  //   DEFAULT_TIMEOUT
-  // );
+  it(
+    "single user",
+    async () => {
+      const { user } = await api.user.getSingleUser({
+        type: UserIdentifierType.GATEWAY_ID,
+        value: "sid",
+      });
+      expect(user?.gatewayId).toEqual("sid");
+    },
+    DEFAULT_TIMEOUT
+  );
 
   it(
     'my pdas count',
