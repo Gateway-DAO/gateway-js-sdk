@@ -5,10 +5,12 @@ specifiers:
   '@graphql-mesh/graphql': ^0.95.7
   '@graphql-mesh/runtime': ^0.96.11
   '@graphql-mesh/transform-filter-schema': ^0.96.0
+  '@graphql-mesh/transform-filter-schema': ^0.96.0
   '@types/jest': ^29.5.7
   '@types/node': ^20.8.4
   '@typescript-eslint/eslint-plugin': ^6.4.0
   '@whatwg-node/fetch': ^0.9.13
+  dotenv: ^16.3.1
   dotenv: ^16.3.1
   eslint: ^8.53.0
   eslint-config-prettier: ^9.0.0
