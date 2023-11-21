@@ -55,7 +55,6 @@ export class PDA {
     try {
       return await this.sdk.PDAs_query({ filter, order, skip, take });
     } catch (error) {
-      console.log(error);
       throw new Error(errorHandler(error));
     }
   }

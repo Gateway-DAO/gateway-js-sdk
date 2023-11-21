@@ -53,7 +53,11 @@ describe('PDA SERVICE TESTING', () => {
   it(
     'pdas',
     async () => {
-      const { PDAs } = await api.pda.getPDAs({ skip: 0, take: 10 });
+      const { PDAs } = await api.pda.getPDAs({
+        filter: { dataModelIds: [process.env.DATAMODEL_ID!] },
+        skip: 0,
+        take: 10,
+      });
       expect(PDAs.length).toBeGreaterThanOrEqual(0);
     },
     DEFAULT_TIMEOUT,
