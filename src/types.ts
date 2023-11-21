@@ -17,3 +17,19 @@ export enum Chain {
   EVM = 'EVM',
   SOL = 'SOL',
 }
+
+export type GoogleAuthData = EmailAuthData & {
+  accessToken: string;
+};
+
+export type EmailAuthData = {
+  address: string;
+};
+
+export type WalletAuthData = {
+  address: string;
+  chain: Chain;
+  primary?: boolean;
+};
+
+export type AuthData = GoogleAuthData | EmailAuthData | WalletAuthData;

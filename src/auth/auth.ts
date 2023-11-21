@@ -1,5 +1,5 @@
 import { AddWalletConfirmationInput, Sdk } from '../../.mesh';
-import { AuthType, Chain } from '../types';
+import { AuthData, AuthType, Chain } from '../types';
 import { errorHandler } from '../utils/errorHandler';
 
 export class Auth {
@@ -214,7 +214,13 @@ export class Auth {
    * method.
    * @returns the result of the `this.sdk.unregisterAuthMethod_mutation` method, which is awaited.
    */
-  async unregisterAuthMethod({ data, type }: { data: JSON; type: AuthType }) {
+  async unregisterAuthMethod({
+    data,
+    type,
+  }: {
+    data: AuthData;
+    type: AuthType;
+  }) {
     try {
       return await this.sdk.unregisterAuthMethod_mutation({
         input: { data, type },

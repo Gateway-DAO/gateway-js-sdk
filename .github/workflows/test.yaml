@@ -1,4 +1,4 @@
-name: Build PR
+name: Run Eslint & Test cases
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Project
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install pnpm
         run: npm install -g pnpm@7.33.5
       - name: Install Project Dependencies
@@ -20,3 +20,7 @@ jobs:
         run: pnpm mesh build
       - name: Test project
         run: pnpm test
+        env:
+          DATAMODEL_ID: ${{ secrets.DATAMODEL_ID }}
+          BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
+          API_KEY: ${{ secrets.API_KEY }}
