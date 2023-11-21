@@ -4,8 +4,8 @@ import { Auth } from './auth/auth';
 import { PDA } from './pda/pda';
 
 export class Gateway {
-  public pda: PDA;
   private sdk: Sdk;
+  public pda: PDA;
   public auth: Auth;
 
   constructor({ apiKey, token }: { apiKey: string; token: string }) {
@@ -14,7 +14,7 @@ export class Gateway {
       apiKey,
       token,
     });
-    this.auth = new Auth(this.sdk);
     this.pda = new PDA(this.sdk);
+    this.auth = new Auth(this.sdk);
   }
 }
