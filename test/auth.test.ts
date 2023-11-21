@@ -35,9 +35,9 @@ describe('auth test', () => {
   it(
     'add wallet',
     async () => {
-      const { message } = await api.auth.addWallet({
-        wallet: '0x3447F17f67c6c506e7d1af3504F531DE0be01C13',
-      });
+      const { message } = await api.auth.addWallet(
+        '0x3447F17f67c6c506e7d1af3504F531DE0be01C13',
+      );
       expect(message.length).toBeDefined();
     },
     DEFAULT_TIMEOUT,
@@ -46,9 +46,9 @@ describe('auth test', () => {
   it(
     'create wallet nounce',
     async () => {
-      const { message } = await api.auth.createWalletNounce({
-        wallet: '0xCf084430Fc2CfAd8E81716aEdeBBE4458866D239',
-      });
+      const { message } = await api.auth.createWalletNounce(
+        '0xCf084430Fc2CfAd8E81716aEdeBBE4458866D239',
+      );
       expect(message.length).toBeDefined();
     },
     DEFAULT_TIMEOUT,

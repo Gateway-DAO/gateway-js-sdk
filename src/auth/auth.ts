@@ -46,7 +46,7 @@ export class Auth {
    * @param {number} code : a 6 digit code representing that was sent
    * @returns the result of the `addEmailConfirmation` method call, is the logged in user.
    */
-  async addEmailConfirmation({ email, code }: { email: string; code: number }) {
+  async addEmailConfirmation(email: string, code: number) {
     try {
       return (
         await this.sdk.addEmailConfirmation_mutation({
@@ -64,7 +64,7 @@ export class Auth {
    * @param {Chain} chain : a chain optional of type Chain
    * @returns the result of the `addWallet` method call, is a message which will be used to confirm wallet.
    */
-  async addWallet({ wallet, chain }: { wallet: string; chain?: Chain }) {
+  async addWallet(wallet: string, chain?: Chain) {
     try {
       return (await this.sdk.addWallet_mutation({ input: { wallet, chain } }))
         .addWallet;
@@ -97,13 +97,7 @@ export class Auth {
    * @param {Chain} chain : a chain optional of type Chain
    * @returns the result of the `createWalletNounce` method call, is a message which will be used to confirm wallet.
    */
-  async createWalletNounce({
-    wallet,
-    chain,
-  }: {
-    wallet: string;
-    chain?: Chain;
-  }) {
+  async createWalletNounce(wallet: string, chain?: Chain) {
     try {
       return (
         await this.sdk.createWalletNonce_mutation({ input: { wallet, chain } })
@@ -132,7 +126,7 @@ export class Auth {
    * @param {number} code: a number representing the verification code
    * @returns the result of the `loginEmail` method call,returning the user if code is correct
    */
-  async loginEmail({ email, code }: { email: string; code: number }) {
+  async loginEmail(email: string, code: number) {
     try {
       return (await this.sdk.loginEmail_mutation({ input: { email, code } }))
         .loginEmail;
@@ -147,44 +141,13 @@ export class Auth {
    * @param {string} signature: a string representing the signature generated
    * @returns the result of the `loginWallet` method call,returning the user if signature is correct
    */
-  async loginWallet({
-    wallet,
-    signature,
-  }: {
-    wallet: string;
-    signature: string;
-  }) {
+  async loginWallet(wallet: string, signature: string) {
     try {
       return (
         await this.sdk.loginWallet_mutation({
           input: { wallet, signature },
         })
       ).loginWallet;
-    } catch (error) {
-      throw new Error(errorHandler(error));
-    }
-  }
-
-  /**
-   * The function `migrateAuthMethod` is an asynchronous function that takes in an `authId` and
-   * `ownerJwt` as parameters, and it calls a mutation function `migrateAuthMethod_mutation` from an
-   * SDK to migrate the authentication method.
-   * @param  - - `authId`: A string representing the ID of the authentication method to be migrated.
-   * @returns the result of the `migrateAuthMethod` mutation.
-   */
-  async migrateAuthMethod({
-    authId,
-    ownerJwt,
-  }: {
-    authId: string;
-    ownerJwt: string;
-  }) {
-    try {
-      return (
-        await this.sdk.migrateAuthMethod_mutation({
-          input: { authId, ownerJwt },
-        })
-      ).migrateAuthMethod;
     } catch (error) {
       throw new Error(errorHandler(error));
     }
