@@ -16,7 +16,6 @@ describe('Data Requests Template test', () => {
   it(
     'create data request template',
     async () => {
-      // id: 'f4014d53-b30f-4490-9812-cea379a1b398',
       const { createDataRequestTemplate } =
         await api.dataRequestTemplate.createDataRequestTemplate({
           title: 'Create Data Request Template Example',
@@ -54,9 +53,8 @@ describe('Data Requests Template test', () => {
     async () => {
       const { dataRequestTemplates } =
         await api.dataRequestTemplate.getDataRequestTemplates({
-          filter: { dataTemplateIds: ['5aed553d-c5b3-47d6-8788-29e82c1127e6'] },
           skip: 0,
-          take: 1,
+          take: 10,
         });
       expect(dataRequestTemplates?.length).toBeGreaterThan(0);
     },

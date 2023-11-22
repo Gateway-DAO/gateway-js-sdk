@@ -1,4 +1,4 @@
-name: Build PR
+name: Run Eslint & Test cases
 
 on:
   pull_request:
@@ -20,3 +20,7 @@ jobs:
         run: pnpm mesh build
       - name: Test project
         run: pnpm test
+        env:
+          DATAMODEL_ID: ${{ secrets.DATAMODEL_ID }}
+          BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
+          API_KEY: ${{ secrets.API_KEY }}
