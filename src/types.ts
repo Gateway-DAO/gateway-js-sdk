@@ -34,18 +34,9 @@ export enum Chain {
   SOL = 'SOL',
 }
 
-export type GoogleAuthData = EmailAuthData & {
-  accessToken: string;
-};
-
-export type EmailAuthData = {
+export type AuthData = {
   address: string;
-};
-
-export type WalletAuthData = {
-  address: string;
-  chain: Chain;
+  accessToken?: string;
+  chain?: Chain;
   primary?: boolean;
 };
-
-export type AuthData = GoogleAuthData | EmailAuthData | WalletAuthData;

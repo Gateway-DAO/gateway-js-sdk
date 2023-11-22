@@ -185,6 +185,15 @@ export class Auth {
     type: AuthType;
   }) {
     try {
+      if (type === AuthType.GOOGLE && !('accessToken' in data)) {
+        throw new Error('Access token is required for Auth type GOOGLE');
+      }
+      if (
+        (type === AuthType.HOT_WALLET || type === AuthType.WALLET) &&
+        !('chain' in data)
+      ) {
+        throw new Error('Chain is required for Auth type HOT_WALLET OR WALLET');
+      }
       return await this.sdk.unregisterAuthMethod_mutation({
         input: { data, type },
       });
