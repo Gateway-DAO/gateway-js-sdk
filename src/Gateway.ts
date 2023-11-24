@@ -2,6 +2,7 @@ import { getMeshSDK, Sdk } from '../.mesh';
 import { Organization } from './organization/organization';
 
 export class Gateway {
+  public pda: PDA;
   private sdk: Sdk;
   public organization: Organization;
 
@@ -11,6 +12,6 @@ export class Gateway {
       apiKey,
       token,
     });
-    this.organization = new Organization(this.sdk);
+    this.pda = new PDA(this.sdk);
   }
 }

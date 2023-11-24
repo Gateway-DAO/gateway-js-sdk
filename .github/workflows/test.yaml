@@ -1,4 +1,5 @@
 name: Run Eslint & Test cases
+name: Run Eslint & Test cases
 
 on:
   pull_request:

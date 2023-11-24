@@ -5,10 +5,12 @@ specifiers:
   '@graphql-mesh/graphql': ^0.95.7
   '@graphql-mesh/runtime': ^0.96.11
   '@graphql-mesh/transform-filter-schema': ^0.96.0
+  '@graphql-mesh/transform-filter-schema': ^0.96.0
   '@types/jest': ^29.5.7
   '@types/node': ^20.8.4
   '@typescript-eslint/eslint-plugin': ^6.4.0
   '@whatwg-node/fetch': ^0.9.13
+  dotenv: ^16.3.1
   eslint: ^8.53.0
   eslint-config-prettier: ^9.0.0
   eslint-config-standard-with-typescript: ^39.1.1
@@ -35,6 +37,7 @@ dependencies:
 devDependencies:
   '@types/jest': 29.5.7
   '@typescript-eslint/eslint-plugin': 6.9.1_5iy6f2d3forlnf27wdbuobyvmm
+  dotenv: 16.3.1
   eslint: 8.53.0
   eslint-config-prettier: 9.0.0_eslint@8.53.0
   eslint-config-standard-with-typescript: 39.1.1_yemh74rzfn7vdu6a2wimsryixq
@@ -1116,7 +1119,7 @@ packages:
       tsconfig-paths: 4.2.0
       tslib: 2.6.2
       typescript: 5.2.2
-      uWebSockets.js: github.com/uNetworking/uWebSockets.js/c10b47c350cc97c299c6b4a07a98abb628704c71
+      uWebSockets.js: github.com/uNetworking/uWebSockets.js/fca27c05066342b01951782248640c8013b37196
       yargs: 17.7.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -6968,5 +6971,5 @@ packages:
   github.com/uNetworking/uWebSockets.js/c10b47c350cc97c299c6b4a07a98abb628704c71:
     resolution: {tarball: https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/c10b47c350cc97c299c6b4a07a98abb628704c71}
     name: uWebSockets.js
-    version: 20.33.0
+    version: 20.34.0
     dev: false
