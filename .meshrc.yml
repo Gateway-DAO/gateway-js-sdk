@@ -5,10 +5,11 @@ sources:
         endpoint: https://develop.protocol.mygateway.xyz/v1/graphql
     transforms:
       - filterSchema:
-          mode: bare 
+          mode: bare
           filters:
-          - Query.!transaction
-          - Query.!transactions
+            - Query.!transaction
+            - Query.!transactions
+            - Query.!myTransactions
 customFetch: ./custom-fetch.ts
 
 sdk:

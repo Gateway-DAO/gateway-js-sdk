@@ -1,7 +1,9 @@
 import { getMeshSDK, Sdk } from '../.mesh';
+import { Organization } from './organization/organization';
 
 export class Gateway {
   private sdk: Sdk;
+  public organization: Organization;
 
   constructor({ apiKey, token }: { apiKey: string; token: string }) {
     if (!apiKey && !token) throw new Error('No token found');
@@ -9,5 +11,6 @@ export class Gateway {
       apiKey,
       token,
     });
+    this.organization = new Organization(this.sdk);
   }
 }
