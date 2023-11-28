@@ -1,4 +1,5 @@
 import { getMeshSDK, Sdk } from '../.mesh';
+import { Organization } from './organization/organization';
 import { PDA } from './pda/pda';
 import { DataRequestTemplate } from './dataRequestsTemplate/dataRequestsTemplate';
 
@@ -6,6 +7,7 @@ export class Gateway {
   private sdk: Sdk;
   public pda: PDA;
   public dataRequestTemplate: DataRequestTemplate;
+  public organization: Organization;
 
   constructor({ apiKey, token }: { apiKey: string; token: string }) {
     if (!apiKey && !token) throw new Error('No token found');
@@ -15,5 +17,6 @@ export class Gateway {
     });
     this.pda = new PDA(this.sdk);
     this.dataRequestTemplate = new DataRequestTemplate(this.sdk);
+    this.organization = new Organization(this.sdk);
   }
 }
