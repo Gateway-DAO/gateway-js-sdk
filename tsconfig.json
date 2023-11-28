@@ -1,5 +1,5 @@
 {
-  "include": ["src/**/*.ts", "custom-fetch.ts", "custom-fetch-backup.ts"],
+  "include": ["src/**/*.ts", "custom-fetch.ts", "custom-fetch-backup.ts", "test/data-model.test.ts"],
   "exclude": ["jest.config.ts", "test", "**/*.test.ts"],
   "compilerOptions": {
     "target": "es2016" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
