@@ -24,3 +24,4 @@ jobs:
           DATAMODEL_ID: ${{ secrets.DATAMODEL_ID }}
           BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
           API_KEY: ${{ secrets.API_KEY }}
+          ORGAINZATION_ID: ${{ secrets.ORGAINZATION_ID }}

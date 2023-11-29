@@ -1,4 +1,5 @@
 import { getMeshSDK, Sdk } from '../.mesh';
+import { Organization } from './organization/organization';
 import { Auth } from './auth/auth';
 import { PDA } from './pda/pda';
 import { DataRequestTemplate } from './dataRequestsTemplate/dataRequestsTemplate';
@@ -7,6 +8,7 @@ export class Gateway {
   private sdk: Sdk;
   public pda: PDA;
   public dataRequestTemplate: DataRequestTemplate;
+  public organization: Organization;
   public auth: Auth;
 
   constructor({ apiKey, token }: { apiKey: string; token: string }) {
@@ -17,6 +19,7 @@ export class Gateway {
     });
     this.pda = new PDA(this.sdk);
     this.dataRequestTemplate = new DataRequestTemplate(this.sdk);
+    this.organization = new Organization(this.sdk);
     this.auth = new Auth(this.sdk);
   }
 }

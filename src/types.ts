@@ -22,6 +22,17 @@ export type PDAFilter = {
   take?: number;
 };
 
+export enum OrganizationIdentifierType {
+  GATEWAY_ID = 'GATEWAY_ID',
+  ORG_ID = 'ORG_ID',
+}
+
+export enum OrganizationRole {
+  Admin = 'Admin',
+  Member = 'Member',
+  Owner = 'Owner',
+}
+
 export enum AuthType {
   'EMAIL' = 'EMAIL',
   'GOOGLE' = 'GOOGLE',
