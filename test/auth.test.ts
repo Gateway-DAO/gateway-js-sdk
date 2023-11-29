@@ -36,7 +36,7 @@ describe('auth test', () => {
     'add wallet',
     async () => {
       const { message } = await api.auth.addWallet(
-        '0x3447F17f67c6c506e7d1af3504F531DE0be01C13',
+        '0xD73e46DeBD3958F2706903A6D3644C570285EC1F',
       );
       expect(message.length).toBeDefined();
     },

@@ -1,5 +1,5 @@
 import { AddWalletConfirmationInput, Sdk } from '../../.mesh';
-import { AuthData, AuthType, Chain } from '../types';
+import { AuthType, Chain } from '../types';
 import { errorHandler } from '../utils/errorHandler';
 
 export class Auth {
@@ -173,27 +173,12 @@ export class Auth {
   /**
    * The function unregisterAuthMethod is an asynchronous function that takes in a JSON object and an
    * AuthType, and attempts to unregister an authentication method using the SDK.
-   * @param  - - `data`: A JSON object containing the data needed for unregistering the authentication
-   * method.
+   * @param {string} data: a string representing either email or wallet
+   * @param {AuthType} type: a AuthType representing the type like Wallet, Email and so on
    * @returns the result of the `this.sdk.unregisterAuthMethod_mutation` method, which is awaited.
    */
-  async unregisterAuthMethod({
-    data,
-    type,
-  }: {
-    data: AuthData;
-    type: AuthType;
-  }) {
+  async unregisterAuthMethod(data: string, type: AuthType) {
     try {
-      if (type === AuthType.GOOGLE && !('accessToken' in data)) {
-        throw new Error('Access token is required for Auth type GOOGLE');
-      }
-      if (
-        (type === AuthType.HOT_WALLET || type === AuthType.WALLET) &&
-        !('chain' in data)
-      ) {
-        throw new Error('Chain is required for Auth type HOT_WALLET OR WALLET');
-      }
       return await this.sdk.unregisterAuthMethod_mutation({
         input: { data, type },
       });

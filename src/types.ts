@@ -33,10 +33,3 @@ export enum Chain {
   EVM = 'EVM',
   SOL = 'SOL',
 }
-
-export type AuthData = {
-  address: string;
-  accessToken?: string;
-  chain?: Chain;
-  primary?: boolean;
-};
