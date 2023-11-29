@@ -97,7 +97,7 @@ export class Auth {
    * @param {Chain} chain : a chain optional of type Chain
    * @returns the result of the `createWalletNounce` method call, is a message which will be used to confirm wallet.
    */
-  async createWalletNounce(wallet: string, chain?: Chain) {
+  async createWalletNonce(wallet: string, chain?: Chain) {
     try {
       return (
         await this.sdk.createWalletNonce_mutation({ input: { wallet, chain } })

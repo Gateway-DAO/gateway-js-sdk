@@ -46,7 +46,7 @@ describe('auth test', () => {
   it(
     'create wallet nounce',
     async () => {
-      const { message } = await api.auth.createWalletNounce(
+      const { message } = await api.auth.createWalletNonce(
         '0xCf084430Fc2CfAd8E81716aEdeBBE4458866D239',
       );
       expect(message.length).toBeDefined();
