@@ -20,7 +20,8 @@
     "@graphql-mesh/transform-filter-schema": "^0.96.0",
     "@types/node": "^20.8.4",
     "@whatwg-node/fetch": "^0.9.13",
-    "graphql": "^16.8.1"
+    "graphql": "^16.8.1",
+    "javascript-sdk": "link:"
   },
   "devDependencies": {
     "@types/jest": "^29.5.7",
