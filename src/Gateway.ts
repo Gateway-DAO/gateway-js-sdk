@@ -1,16 +1,21 @@
 import { getMeshSDK, Sdk } from '../.mesh';
-import { Auth } from './Auth';
-import { DataModel } from './data-model/data-model';
-import { PDA } from './pda/PDA';
+import { Organization } from './organization/organization';
+import { Auth } from './auth/auth';
+import { PDA } from './pda/pda';
+import { DataRequestTemplate } from './dataRequestsTemplate/dataRequestsTemplate';
 import { Proof } from './proof/proof';
 import { Request } from './request/request';
+import { DataModel } from './data-model/data-model';
+
 export class Gateway {
   private sdk: Sdk;
-  dataModel: DataModel;
-  auth: Auth;
-  pda: PDA;
-  proof: Proof;
-  request: Request;
+  public dataModel: DataModel;
+  public proof: Proof;
+  public request: Request;
+  public pda: PDA;
+  public dataRequestTemplate: DataRequestTemplate;
+  public organization: Organization;
+  public auth: Auth;
 
   constructor({ apiKey, token }: { apiKey: string; token: string }) {
     if (!apiKey && !token) throw new Error('No token found');
@@ -18,8 +23,10 @@ export class Gateway {
       apiKey,
       token,
     });
-    this.auth = new Auth(this.sdk);
     this.pda = new PDA(this.sdk);
+    this.dataRequestTemplate = new DataRequestTemplate(this.sdk);
+    this.organization = new Organization(this.sdk);
+    this.auth = new Auth(this.sdk);
     this.dataModel = new DataModel(this.sdk);
     this.proof = new Proof(this.sdk);
     this.request = new Request(this.sdk);

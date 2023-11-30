@@ -1,11 +1,8 @@
 import {
   DataRequestSchemaInput,
+  FilterDataRequestInput,
   Sdk,
-  dataRequestCount_queryQueryVariables,
-  dataRequests_queryQueryVariables,
-  requestsReceivedCount_queryQueryVariables,
   requestsReceived_queryQueryVariables,
-  requestsSentCount_queryQueryVariables,
   requestsSent_queryQueryVariables,
 } from '../../.mesh';
 
@@ -17,18 +14,26 @@ export class Request {
   }
 
   /**
-   * The function `createDataRequest` is an asynchronous function that takes an input of type
-   * `DataRequestSchemaInput` and calls the `createDataRequest_mutation` method of the `sdk` object,
-   * returning the result.
-   * @param {DataRequestSchemaInput} input - The `input` parameter is an object of type
-   * `DataRequestSchemaInput`. It is used to provide the necessary data for creating a data request. The
-   * specific properties and their types within the `DataRequestSchemaInput` object would depend on the
-   * requirements of the `createDataRequest_mutation` function
-   * @returns the result of the `this.sdk.createDataRequest_mutation({ input })` method call.
+   * The function `createDataRequest` creates a data request using the provided input parameters.
+   * @param {DataRequestSchemaInput}  - - `dataRequestTemplateId`: The ID of the data request template
+   * that will be used to create the data request.
+   * @returns the result of the `createDataRequest_mutation` method call.
    */
-  async createDataRequest(input: DataRequestSchemaInput) {
+  async createDataRequest({
+    dataRequestTemplateId,
+    dataUse,
+    organization,
+    owner,
+  }: DataRequestSchemaInput) {
     try {
-      return this.sdk.createDataRequest_mutation({ input });
+      return this.sdk.createDataRequest_mutation({
+        input: {
+          dataRequestTemplateId,
+          dataUse,
+          organization,
+          owner,
+        },
+      });
     } catch (error: any) {
       throw new Error(error);
     }
@@ -52,16 +57,32 @@ export class Request {
   }
 
   /**
-   * The function `getDataRequestCount` is an asynchronous function that makes a data request count
-   * query using the `dataRequestCount_query` method from the `sdk` object, and returns the result.
-   * @param {dataRequestCount_queryQueryVariables} [variables] - The `variables` parameter is an
-   * optional object that contains any variables needed for the `dataRequestCount_query` query. These
-   * variables can be used to filter or customize the data request count query.
+   * The function `getDataRequestCount` is an asynchronous function that takes in a
+   * `FilterDataRequestInput` object as a parameter and returns the result of a query using the
+   * `sdk.dataRequestCount_query` method.
+   * @param {FilterDataRequestInput}  - - `dataTemplateIds`: An array of data template IDs to filter the
+   * data requests by.
    * @returns the result of the `dataRequestCount_query` method call.
    */
-  async getDataRequestCount(variables?: dataRequestCount_queryQueryVariables) {
+  async getDataRequestCount({
+    dataTemplateIds,
+    ids,
+    owner,
+    status,
+    verifier,
+    verifierOrganization,
+  }: FilterDataRequestInput = {}) {
     try {
-      return await this.sdk.dataRequestCount_query(variables);
+      return await this.sdk.dataRequestCount_query({
+        filter: {
+          dataTemplateIds,
+          ids,
+          owner,
+          status,
+          verifier,
+          verifierOrganization,
+        },
+      });
     } catch (error: any) {
       throw new Error(error);
     }
@@ -83,87 +104,140 @@ export class Request {
   }
 
   /**
-   * The function `getDataRequests` is an asynchronous function that makes a query to retrieve data
-   * requests, and it handles any errors that occur during the query.
-   * @param {dataRequests_queryQueryVariables} [variables] - The `variables` parameter is an optional
-   * object that contains any variables needed for the `dataRequests_query` function. These variables can
-   * be used to filter or customize the data requests that are being queried.
-   * @returns The `getDataRequests` function is returning the result of the `dataRequests_query` function
-   * call.
+   * The function `getDataRequests` is an asynchronous function that retrieves data requests based on
+   * various filters.
+   * @param {FilterDataRequestInput}  - - `dataTemplateIds`: An array of data template IDs to filter the
+   * data requests by.
+   * @returns the result of the `dataRequests_query` method call.
    */
-  async getDataRequests(variables?: dataRequests_queryQueryVariables) {
+  async getDataRequests({
+    dataTemplateIds,
+    ids,
+    owner,
+    status,
+    verifier,
+    verifierOrganization,
+  }: FilterDataRequestInput = {}) {
     try {
-      return await this.sdk.dataRequests_query(variables);
+      return await this.sdk.dataRequests_query({
+        filter: {
+          dataTemplateIds,
+          ids,
+          owner,
+          status,
+          verifier,
+          verifierOrganization,
+        },
+      });
     } catch (error: any) {
       console.log(error);
       throw new Error(error);
     }
   }
-
   /**
    * The function `getRequestsReceived` is an asynchronous function that retrieves requests received
-   * using the `requestsReceived_query` method from the `sdk` object.
-   * @param {requestsReceived_queryQueryVariables} [variables] - The `variables` parameter is an
-   * optional object that contains variables to be passed to the `requestsReceived_query` function.
-   * These variables can be used to filter or customize the query results.
+   * based on the provided variables.
+   * @param {requestsReceived_queryQueryVariables}  - - `filter`: A filter object used to specify the
+   * conditions for filtering the requests received. It can include properties such as `status`, `date`,
+   * or any other relevant criteria.
    * @returns the result of the `requestsReceived_query` method call.
    */
-  async getRequestsReceived(variables?: requestsReceived_queryQueryVariables) {
+
+  async getRequestsReceived({
+    filter,
+    order,
+    skip,
+    take,
+  }: requestsReceived_queryQueryVariables = {}) {
     try {
-      return await this.sdk.requestsReceived_query(variables);
+      return await this.sdk.requestsReceived_query({
+        filter,
+        order,
+        skip,
+        take,
+      });
     } catch (error: any) {
       throw new Error(error);
     }
   }
 
   /**
-   * The function `getRequestsReceivedCount` is an asynchronous function that retrieves the count of
-   * requests received, and it handles any errors that occur during the process.
-   * @param {requestsReceivedCount_queryQueryVariables} [variables] - The "variables" parameter is an
-   * optional parameter that allows you to pass any variables needed for the
-   * "requestsReceivedCount_query" query. It is of type "requestsReceivedCount_queryQueryVariables".
+   * The function `getRequestsReceivedCount` retrieves the count of requests received based on the
+   * provided filter criteria.
+   * @param {FilterDataRequestInput}  - - `dataTemplateIds`: An array of data template IDs to filter the
+   * requests by.
    * @returns the result of the `requestsReceivedCount_query` method call.
    */
-  async getRequestsReceivedCount(
-    variables?: requestsReceivedCount_queryQueryVariables,
-  ) {
+  async getRequestsReceivedCount({
+    dataTemplateIds,
+    ids,
+    owner,
+    status,
+    verifier,
+    verifierOrganization,
+  }: FilterDataRequestInput = {}) {
     try {
-      return await this.sdk.requestsReceivedCount_query(variables);
+      return await this.sdk.requestsReceivedCount_query({
+        filter: {
+          dataTemplateIds,
+          ids,
+          owner,
+          status,
+          verifier,
+          verifierOrganization,
+        },
+      });
     } catch (error: any) {
       throw new Error(error);
     }
   }
 
   /**
-   * The function `getRequestsSent` is an asynchronous function that retrieves requests sent using the
-   * `requestsSent_query` method from the `sdk` object.
-   * @param {requestsSent_queryQueryVariables} [variables] - The `variables` parameter is an optional
-   * object that contains any variables you want to pass to the `requestsSent_query` function. These
-   * variables can be used to customize the query and retrieve specific data. If you don't need to pass
-   * any variables, you can omit this parameter.
+   * The function `getRequestsSent` is an asynchronous function that retrieves requests sent based on the
+   * provided filter, order, skip, and take parameters.
+   * @param {requestsSent_queryQueryVariables}  - - `filter`: An object that specifies the filtering
+   * criteria for the requests. It can include properties like `status`, `date`, etc.
    * @returns the result of the `requestsSent_query` method call.
    */
-  async getRequestsSent(variables?: requestsSent_queryQueryVariables) {
+  async getRequestsSent({
+    filter,
+    order,
+    skip,
+    take,
+  }: requestsSent_queryQueryVariables = {}) {
     try {
-      return await this.sdk.requestsSent_query(variables);
+      return await this.sdk.requestsSent_query({ filter, order, skip, take });
     } catch (error: any) {
       throw new Error(error);
     }
   }
 
   /**
-   * The function `getRequestsSentCount` is an asynchronous function that retrieves the count of
-   * requests sent, and it handles any errors that occur during the process.
-   * @param {requestsSentCount_queryQueryVariables} [variables] - The "variables" parameter is an
-   * optional object that contains any variables needed for the "requestsSentCount_query" query. These
-   * variables can be used to filter or customize the query results.
+   * The function `getRequestsSentCount` retrieves the count of requests sent based on the provided
+   * filter criteria.
+   * @param {FilterDataRequestInput}  - - `dataTemplateIds`: An array of data template IDs to filter the
+   * requests by.
    * @returns the result of the `requestsSentCount_query` method call.
    */
-  async getRequestsSentCount(
-    variables?: requestsSentCount_queryQueryVariables,
-  ) {
+  async getRequestsSentCount({
+    dataTemplateIds,
+    ids,
+    owner,
+    status,
+    verifier,
+    verifierOrganization,
+  }: FilterDataRequestInput = {}) {
     try {
-      return await this.sdk.requestsSentCount_query(variables);
+      return await this.sdk.requestsSentCount_query({
+        filter: {
+          dataTemplateIds,
+          ids,
+          owner,
+          status,
+          verifier,
+          verifierOrganization,
+        },
+      });
     } catch (error: any) {
       throw new Error(error);
     }

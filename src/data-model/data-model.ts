@@ -2,7 +2,6 @@ import {
   CreateDataModelInput,
   Sdk,
   dataModels_queryQueryVariables,
-  InputMaybe,
   FilterDataModelInput,
 } from '../../.mesh';
 
@@ -17,17 +16,39 @@ export class DataModel {
   }
 
   /**
-   * The function `createModelInput` is an asynchronous function that takes a `CreateDataModelInput`
-   * object as input and returns a promise that resolves to a `createDataModel_mutationMutation` object.
-   * @param {CreateDataModelInput} createModelInput - The `createModelInput` parameter is of type
-   * `CreateDataModelInput`. It is an input object that contains the data needed to create a new data
-   * model.
-   * @returns a Promise that resolves to a value of type `createDataModel_mutationMutation`.
+   * The function `createDataModel` creates a data model with the provided input parameters and returns
+   * the result.
+   * @param {CreateDataModelInput}  - - `allowedToIssue`: A boolean value indicating whether the user is
+   * allowed to issue the data model.
+   * @returns The `createDataModel` function is returning the result of the `createDataModel_mutation`
+   * mutation.
    */
-  async createDataModel(createModelInput: CreateDataModelInput) {
+  async createDataModel({
+    allowedToIssue,
+    consumptionPrice,
+    description,
+    image,
+    info,
+    organization,
+    permissions,
+    schema,
+    tags,
+    title,
+  }: CreateDataModelInput) {
     try {
       return await this.sdk.createDataModel_mutation({
-        input: createModelInput,
+        input: {
+          allowedToIssue,
+          consumptionPrice,
+          description,
+          image,
+          info,
+          organization,
+          permissions,
+          schema,
+          tags,
+          title,
+        },
       });
     } catch (error: any) {
       console.log(error);
@@ -60,9 +81,19 @@ export class DataModel {
    * call.
    */
 
-  async getDataModels(optional?: dataModels_queryQueryVariables) {
+  async getDataModels({
+    filter,
+    order,
+    skip,
+    take,
+  }: dataModels_queryQueryVariables) {
     try {
-      const data = await this.sdk.dataModels_query(optional);
+      const data = await this.sdk.dataModels_query({
+        filter,
+        order,
+        skip,
+        take,
+      });
       return data;
     } catch (error: any) {
       console.log(error);
@@ -92,10 +123,26 @@ export class DataModel {
    * method call, which is a promise.
    */
 
-  async getDataModelsCount(variables?: InputMaybe<FilterDataModelInput>) {
+  async getDataModelsCount({
+    consumptionPrice,
+    ids,
+    issuedCount,
+    organization,
+    search,
+    tags,
+    user,
+  }: FilterDataModelInput = {}) {
     try {
       return await this.sdk.dataModelsCount_query({
-        filter: variables ?? null,
+        filter: {
+          consumptionPrice,
+          ids,
+          issuedCount,
+          organization,
+          search,
+          tags,
+          user,
+        },
       });
     } catch (error: any) {
       throw new Error(error);

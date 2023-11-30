@@ -30,21 +30,30 @@ export class Proof {
       throw new Error(error);
     }
   }
-  /**
-   * The function "createProof" is an asynchronous function that calls the "createProof_mutation" method
-   * from the "sdk" object, passing in the "variables" parameter, and returns the result. If an error
-   * occurs, it throws an error.
-   * @param {createProof_mutationMutationVariables} [variables] - The `variables` parameter is an
-   * optional object that contains the variables needed for the `createProof_mutation` mutation. These
-   * variables can include any data that is required for the mutation to execute successfully, such as
-   * input values or authentication tokens.
-   * @returns The `createProof` function is returning the result of the `createProof_mutation` function
-   * call.
-   */
 
-  async createProof(variables?: createProof_mutationMutationVariables) {
+  /**
+   * The function `createProof` is an asynchronous function that takes in variables for claims,
+   * requestId, signature, verifier, and wallet, and uses them to call the `createProof_mutation`
+   * method of the `sdk` object.
+   * @param {createProof_mutationMutationVariables}  - - `claims`: The claims that need to be included
+   * in the proof.
+   * @returns the result of the `createProof_mutation` method call.
+   */
+  async createProof({
+    claims,
+    requestId,
+    signature,
+    verifier,
+    wallet,
+  }: createProof_mutationMutationVariables = {}) {
     try {
-      return await this.sdk.createProof_mutation(variables);
+      return await this.sdk.createProof_mutation({
+        claims,
+        requestId,
+        signature,
+        verifier,
+        wallet,
+      });
     } catch (error: any) {
       throw new Error(error);
     }
@@ -69,48 +78,66 @@ export class Proof {
   }
 
   /**
-   * The function `getProofs` is an asynchronous function that queries proofs and returns the result.
-   * @param {proofs_queryQueryVariables} [variables] - The `variables` parameter is an optional object
-   * that contains the variables needed for the `proofs_query` function. These variables can be used to
-   * filter or customize the query results.
-   * @returns the result of the `proofs_query` method call.
+   * The function `getProofs` is an asynchronous function that retrieves proofs based on the provided
+   * filter, order, skip, and take parameters.
+   * @param {proofs_queryQueryVariables}  - - `filter`: A filter object used to specify the conditions
+   * for filtering the proofs. It can include properties such as `id`, `name`, `date`, etc.
+   * @returns the result of the `proofs_query` method call from the `sdk` object.
    */
-  async getProofs(variables?: proofs_queryQueryVariables) {
+  async getProofs({
+    filter,
+    order,
+    skip,
+    take,
+  }: proofs_queryQueryVariables = {}) {
     try {
-      return await this.sdk.proofs_query(variables);
+      return await this.sdk.proofs_query({ filter, order, skip, take });
     } catch (error: any) {
       throw new Error(error);
     }
   }
 
   /**
-   * The function `getProofsByPDAIds` retrieves proofs by PDA IDs using a GraphQL query.
-   * @param {proofsByPDAIds_queryQueryVariables} variables - The `variables` parameter is an object that
-   * contains the necessary variables for the `proofsByPDAIds_query` query. These variables are used to
-   * specify the criteria for retrieving proofs by PDA IDs. The specific properties and their types
-   * depend on the GraphQL schema and the requirements of the `proof
+   * The function `getProofsByPDAIds` retrieves proofs based on PDA IDs, with options for pagination.
+   * @param {proofsByPDAIds_queryQueryVariables}  - - `pdaIds`: An array of PDA IDs.
    * @returns the result of the `proofsByPDAIds_query` method call.
    */
-  async getProofsByPDAIds(variables: proofsByPDAIds_queryQueryVariables) {
+  async getProofsByPDAIds({
+    pdaIds,
+    skip,
+    take,
+  }: proofsByPDAIds_queryQueryVariables) {
     try {
-      return await this.sdk.proofsByPDAIds_query(variables);
+      return await this.sdk.proofsByPDAIds_query({
+        pdaIds,
+        skip,
+        take,
+      });
     } catch (error: any) {
       throw new Error(error);
     }
   }
 
   /**
-   * The function `getReceivedProofs` is an asynchronous function that retrieves received proofs using
-   * the `receivedProofs_query` method from an SDK, and it handles any errors that occur during the
-   * process.
-   * @param {receivedProofs_queryQueryVariables} [variables] - The `variables` parameter is an optional
-   * object that contains any variables needed for the `receivedProofs_query` function. These variables
-   * can be used to filter or customize the query results.
+   * The function `getReceivedProofs` is an asynchronous function that retrieves received proofs based on
+   * the provided parameters.
+   * @param {receivedProofs_queryQueryVariables}  - - `order`: Specifies the order in which the received
+   * proofs should be returned.
    * @returns the result of the `receivedProofs_query` method call.
    */
-  async getReceivedProofs(variables?: receivedProofs_queryQueryVariables) {
+  async getReceivedProofs({
+    order,
+    organizationId,
+    skip,
+    take,
+  }: receivedProofs_queryQueryVariables = {}) {
     try {
-      return await this.sdk.receivedProofs_query(variables);
+      return await this.sdk.receivedProofs_query({
+        order,
+        organizationId,
+        skip,
+        take,
+      });
     } catch (error: any) {
       throw new Error(error);
     }
@@ -132,18 +159,21 @@ export class Proof {
       throw new Error(error);
     }
   }
+
   /**
-   * The function `getSentProofs` is an asynchronous function that retrieves sent proofs using the
-   * `sentProofs_query` method from an SDK, and it handles any errors that occur.
-   * @param {sentProofs_queryQueryVariables} [variables] - The `variables` parameter is an optional
-   * object that contains any variables you want to pass to the `sentProofs_query` function. These
-   * variables can be used to filter or customize the query results.
+   * The function `getSentProofs` is an asynchronous function that retrieves sent proofs based on the
+   * provided query variables.
+   * @param {sentProofs_queryQueryVariables}  - - `order`: Specifies the order in which the sent proofs
+   * should be returned. It could be ascending or descending order.
    * @returns the result of the `sentProofs_query` method call.
    */
-
-  async getSentProofs(variables?: sentProofs_queryQueryVariables) {
+  async getSentProofs({
+    order,
+    skip,
+    take,
+  }: sentProofs_queryQueryVariables = {}) {
     try {
-      return await this.sdk.sentProofs_query(variables);
+      return await this.sdk.sentProofs_query({ order, skip, take });
     } catch (error: any) {
       throw new Error(error);
     }
@@ -151,11 +181,12 @@ export class Proof {
 
   /**
    * The function `getSentProofsCount` is an asynchronous function that retrieves the count of sent
-   * proofs.
+   * proofs using the `sentProofsCount_query` method from the `sdk` object.
    * @param {sentProofsCount_queryQueryVariables} [variables] - The `variables` parameter is an optional
-   * object that contains any variables needed for the `sentProofsCount_query` query. These variables
-   * can be used to filter or customize the query results.
-   * @returns the result of the `sentProofsCount_query` function call.
+   * object that contains any variables needed for the query. It is used to pass dynamic values to the
+   * query, such as filter criteria or pagination parameters. If no variables are needed, you can omit
+   * this parameter or pass an empty object (`{}`).
+   * @returns the result of the `sentProofsCount_query` method call.
    */
   async getSentProofsCount(variables?: sentProofsCount_queryQueryVariables) {
     try {
