@@ -139,7 +139,7 @@ export class Organization {
     filter?: FilterOrganizationInput;
     skip?: number;
     take?: number;
-  }) {
+  } = {}) {
     try {
       return await this.sdk.organizations_query({ filter, skip, take });
     } catch (error) {

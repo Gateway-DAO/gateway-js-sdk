@@ -70,7 +70,7 @@ export class User {
    * @param {PDAFilter}  - - `filter`: An object that contains filter criteria for the query.
    * @returns a Promise that resolves to a value of type `myPDAs_queryQuery`.
    */
-  async myPDAs({ filter, order, skip, take }: PDAFilter) {
+  async myPDAs({ filter, order, skip, take }: PDAFilter = {}) {
     try {
       return await this.sdk.myPDAs_query({ filter, order, skip, take });
     } catch (error) {

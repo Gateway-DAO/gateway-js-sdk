@@ -2,3 +2,4 @@ node_modules/
 .mesh/
 .vscode/
 .env
+build/
