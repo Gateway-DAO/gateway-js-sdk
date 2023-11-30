@@ -63,7 +63,7 @@ export class DataRequestTemplate {
     order?: JSON;
     skip?: number;
     take?: number;
-  }) {
+  } = {}) {
     try {
       return await this.sdk.dataRequestTemplates_query({
         filter,

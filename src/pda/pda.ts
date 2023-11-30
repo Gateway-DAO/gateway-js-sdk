@@ -51,7 +51,7 @@ export class PDA {
    * @param {PDAFilter}  - - `filter`: An object that contains filter criteria for the query.
    * @returns a Promise that resolves to a value of type PDAs_queryQuery.
    */
-  async getPDAs({ filter, order, skip, take }: PDAFilter) {
+  async getPDAs({ filter, order, skip, take }: PDAFilter = {}) {
     try {
       return await this.sdk.PDAs_query({ filter, order, skip, take });
     } catch (error) {
@@ -66,7 +66,7 @@ export class PDA {
    * used to specify conditions that the returned PDAs must meet.
    * @returns a Promise that resolves to an object of type `issuedPDAs_queryQuery`.
    */
-  async getIssuedPDAs({ filter, order, skip, take }: PDAFilter) {
+  async getIssuedPDAs({ filter, order, skip, take }: PDAFilter = {}) {
     try {
       return await this.sdk.issuedPDAs_query({ filter, order, skip, take });
     } catch (error) {

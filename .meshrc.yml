@@ -10,6 +10,7 @@ sources:
             - Query.!transaction
             - Query.!transactions
             - Query.!myTransactions
+
 customFetch: ./custom-fetch.ts
 
 sdk:
