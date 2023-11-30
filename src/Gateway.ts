@@ -3,9 +3,15 @@ import { Organization } from './organization/organization';
 import { Auth } from './auth/auth';
 import { PDA } from './pda/pda';
 import { DataRequestTemplate } from './dataRequestsTemplate/dataRequestsTemplate';
+import { Proof } from './proof/proof';
+import { Request } from './request/request';
+import { DataModel } from './data-model/data-model';
 
 export class Gateway {
   private sdk: Sdk;
+  public dataModel: DataModel;
+  public proof: Proof;
+  public request: Request;
   public pda: PDA;
   public dataRequestTemplate: DataRequestTemplate;
   public organization: Organization;
@@ -21,5 +27,8 @@ export class Gateway {
     this.dataRequestTemplate = new DataRequestTemplate(this.sdk);
     this.organization = new Organization(this.sdk);
     this.auth = new Auth(this.sdk);
+    this.dataModel = new DataModel(this.sdk);
+    this.proof = new Proof(this.sdk);
+    this.request = new Request(this.sdk);
   }
 }
