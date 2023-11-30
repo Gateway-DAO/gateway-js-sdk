@@ -32,3 +32,15 @@ export enum OrganizationRole {
   Member = 'Member',
   Owner = 'Owner',
 }
+
+export enum AuthType {
+  'EMAIL' = 'EMAIL',
+  'GOOGLE' = 'GOOGLE',
+  'HOT_WALLET' = 'HOT_WALLET',
+  'WALLET' = 'WALLET',
+}
+
+export enum Chain {
+  EVM = 'EVM',
+  SOL = 'SOL',
+}
