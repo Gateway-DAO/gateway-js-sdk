@@ -6,6 +6,7 @@ import {
   UpdateUserInput,
 } from '../../.mesh';
 import { PDAFilter, UserIdentifierType } from '../types';
+import { errorHandler } from '../utils/errorHandler';
 
 export class User {
   private sdk: Sdk;
@@ -23,7 +24,7 @@ export class User {
     try {
       return await this.sdk.me_query();
     } catch (error) {
-      throw new Error('Something went wrong');
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -44,7 +45,7 @@ export class User {
     try {
       return await this.sdk.user_query({ input: { type, value } });
     } catch (error) {
-      throw new Error('Something went wrong');
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -60,7 +61,7 @@ export class User {
     try {
       return (await this.sdk.myPDACount_query({ filter })).myPDACount;
     } catch (error) {
-      throw new Error('Something went wrong');
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -74,7 +75,7 @@ export class User {
     try {
       return await this.sdk.myPDAs_query({ filter, order, skip, take });
     } catch (error) {
-      throw new Error('Something went wrong');
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -91,7 +92,7 @@ export class User {
     try {
       return (await this.sdk.dataModelsCount_query({ filter })).dataModelsCount;
     } catch (error) {
-      throw new Error('Something went wrong');
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -109,7 +110,7 @@ export class User {
       return (await this.sdk.myDataRequestTemplatesCount_query({ filter }))
         .myDataRequestTemplatesCount;
     } catch (error) {
-      throw new Error('Something went wrong');
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -125,7 +126,7 @@ export class User {
     try {
       return await this.sdk.updateUser_mutation({ input: updatedUser });
     } catch (error) {
-      throw new Error('Something went wrong');
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -141,7 +142,7 @@ export class User {
     try {
       return await this.sdk.updateMyDisplayName_mutation({ displayName });
     } catch (error) {
-      throw new Error('Something went wrong');
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -157,7 +158,7 @@ export class User {
     try {
       return await this.sdk.updateMyGatewayId_mutation({ gatewayId });
     } catch (error) {
-      throw new Error('Something went wrong');
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -173,7 +174,7 @@ export class User {
         profilePictureUrl,
       });
     } catch (error) {
-      throw new Error('Something went wrong');
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -189,7 +190,7 @@ export class User {
       return (await this.sdk.updateNotificationEmail_mutation({ email }))
         .updateNotificationEmail;
     } catch (error) {
-      throw new Error('Something went wrong');
+      throw new Error(errorHandler(error));
     }
   }
 }
