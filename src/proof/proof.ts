@@ -42,9 +42,9 @@ export class Proof {
    * call.
    */
 
-  async createProof(variables?: createProof_mutationMutationVariables) {
+  async createProof(inputVariables?: createProof_mutationMutationVariables) {
     try {
-      return await this.sdk.createProof_mutation(variables);
+      return await this.sdk.createProof_mutation(inputVariables);
     } catch (error: any) {
       throw new Error(error);
     }
@@ -75,9 +75,19 @@ export class Proof {
    * filter or customize the query results.
    * @returns the result of the `proofs_query` method call.
    */
-  async getProofs(variables?: proofs_queryQueryVariables) {
+  async getProofs({
+    filter,
+    order,
+    skip,
+    take,
+  }: proofs_queryQueryVariables = {}) {
     try {
-      return await this.sdk.proofs_query(variables);
+      return await this.sdk.proofs_query({
+        filter,
+        order,
+        skip,
+        take,
+      });
     } catch (error: any) {
       throw new Error(error);
     }
@@ -91,9 +101,13 @@ export class Proof {
    * depend on the GraphQL schema and the requirements of the `proof
    * @returns the result of the `proofsByPDAIds_query` method call.
    */
-  async getProofsByPDAIds(variables: proofsByPDAIds_queryQueryVariables) {
+  async getProofsByPDAIds({
+    pdaIds,
+    skip,
+    take,
+  }: proofsByPDAIds_queryQueryVariables) {
     try {
-      return await this.sdk.proofsByPDAIds_query(variables);
+      return await this.sdk.proofsByPDAIds_query({ pdaIds, skip, take });
     } catch (error: any) {
       throw new Error(error);
     }
@@ -108,9 +122,19 @@ export class Proof {
    * can be used to filter or customize the query results.
    * @returns the result of the `receivedProofs_query` method call.
    */
-  async getReceivedProofs(variables?: receivedProofs_queryQueryVariables) {
+  async getReceivedProofs({
+    order,
+    organizationId,
+    skip,
+    take,
+  }: receivedProofs_queryQueryVariables = {}) {
     try {
-      return await this.sdk.receivedProofs_query(variables);
+      return await this.sdk.receivedProofs_query({
+        order,
+        organizationId,
+        skip,
+        take,
+      });
     } catch (error: any) {
       throw new Error(error);
     }
@@ -141,9 +165,13 @@ export class Proof {
    * @returns the result of the `sentProofs_query` method call.
    */
 
-  async getSentProofs(variables?: sentProofs_queryQueryVariables) {
+  async getSentProofs({
+    order,
+    skip,
+    take,
+  }: sentProofs_queryQueryVariables = {}) {
     try {
-      return await this.sdk.sentProofs_query(variables);
+      return await this.sdk.sentProofs_query({ order, skip, take });
     } catch (error: any) {
       throw new Error(error);
     }
@@ -157,9 +185,11 @@ export class Proof {
    * can be used to filter or customize the query results.
    * @returns the result of the `sentProofsCount_query` function call.
    */
-  async getSentProofsCount(variables?: sentProofsCount_queryQueryVariables) {
+  async getSentProofsCount(
+    queryVariables?: sentProofsCount_queryQueryVariables,
+  ) {
     try {
-      return await this.sdk.sentProofsCount_query(variables);
+      return await this.sdk.sentProofsCount_query(queryVariables);
     } catch (error: any) {
       throw new Error(error);
     }

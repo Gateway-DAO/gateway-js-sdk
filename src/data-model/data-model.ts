@@ -2,7 +2,6 @@ import {
   CreateDataModelInput,
   Sdk,
   dataModels_queryQueryVariables,
-  InputMaybe,
   FilterDataModelInput,
 } from '../../.mesh';
 
@@ -60,9 +59,19 @@ export class DataModel {
    * call.
    */
 
-  async getDataModels(optional?: dataModels_queryQueryVariables) {
+  async getDataModels({
+    filter,
+    order,
+    skip,
+    take,
+  }: dataModels_queryQueryVariables = {}) {
     try {
-      const data = await this.sdk.dataModels_query(optional);
+      const data = await this.sdk.dataModels_query({
+        filter,
+        order,
+        skip,
+        take,
+      });
       return data;
     } catch (error: any) {
       console.log(error);
@@ -92,10 +101,10 @@ export class DataModel {
    * method call, which is a promise.
    */
 
-  async getDataModelsCount(variables?: InputMaybe<FilterDataModelInput>) {
+  async getDataModelsCount(filterVariables?: FilterDataModelInput) {
     try {
       return await this.sdk.dataModelsCount_query({
-        filter: variables ?? null,
+        filter: filterVariables,
       });
     } catch (error: any) {
       throw new Error(error);

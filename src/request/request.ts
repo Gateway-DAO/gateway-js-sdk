@@ -1,11 +1,8 @@
 import {
   DataRequestSchemaInput,
+  FilterDataRequestInput,
   Sdk,
-  dataRequestCount_queryQueryVariables,
-  dataRequests_queryQueryVariables,
-  requestsReceivedCount_queryQueryVariables,
   requestsReceived_queryQueryVariables,
-  requestsSentCount_queryQueryVariables,
   requestsSent_queryQueryVariables,
 } from '../../.mesh';
 
@@ -26,9 +23,9 @@ export class Request {
    * requirements of the `createDataRequest_mutation` function
    * @returns the result of the `this.sdk.createDataRequest_mutation({ input })` method call.
    */
-  async createDataRequest(input: DataRequestSchemaInput) {
+  async createDataRequest(inputSchema: DataRequestSchemaInput) {
     try {
-      return this.sdk.createDataRequest_mutation({ input });
+      return this.sdk.createDataRequest_mutation({ input: inputSchema });
     } catch (error: any) {
       throw new Error(error);
     }
@@ -59,9 +56,9 @@ export class Request {
    * variables can be used to filter or customize the data request count query.
    * @returns the result of the `dataRequestCount_query` method call.
    */
-  async getDataRequestCount(variables?: dataRequestCount_queryQueryVariables) {
+  async getDataRequestCount(filterVariables?: FilterDataRequestInput) {
     try {
-      return await this.sdk.dataRequestCount_query(variables);
+      return await this.sdk.dataRequestCount_query({ filter: filterVariables });
     } catch (error: any) {
       throw new Error(error);
     }
@@ -91,9 +88,9 @@ export class Request {
    * @returns The `getDataRequests` function is returning the result of the `dataRequests_query` function
    * call.
    */
-  async getDataRequests(variables?: dataRequests_queryQueryVariables) {
+  async getDataRequests(filterVariables?: FilterDataRequestInput) {
     try {
-      return await this.sdk.dataRequests_query(variables);
+      return await this.sdk.dataRequests_query({ filter: filterVariables });
     } catch (error: any) {
       console.log(error);
       throw new Error(error);
@@ -108,9 +105,19 @@ export class Request {
    * These variables can be used to filter or customize the query results.
    * @returns the result of the `requestsReceived_query` method call.
    */
-  async getRequestsReceived(variables?: requestsReceived_queryQueryVariables) {
+  async getRequestsReceived({
+    filter,
+    order,
+    skip,
+    take,
+  }: requestsReceived_queryQueryVariables) {
     try {
-      return await this.sdk.requestsReceived_query(variables);
+      return await this.sdk.requestsReceived_query({
+        filter,
+        order,
+        skip,
+        take,
+      });
     } catch (error: any) {
       throw new Error(error);
     }
@@ -124,11 +131,11 @@ export class Request {
    * "requestsReceivedCount_query" query. It is of type "requestsReceivedCount_queryQueryVariables".
    * @returns the result of the `requestsReceivedCount_query` method call.
    */
-  async getRequestsReceivedCount(
-    variables?: requestsReceivedCount_queryQueryVariables,
-  ) {
+  async getRequestsReceivedCount(filterVariables: FilterDataRequestInput) {
     try {
-      return await this.sdk.requestsReceivedCount_query(variables);
+      return await this.sdk.requestsReceivedCount_query({
+        filter: filterVariables,
+      });
     } catch (error: any) {
       throw new Error(error);
     }
@@ -143,9 +150,14 @@ export class Request {
    * any variables, you can omit this parameter.
    * @returns the result of the `requestsSent_query` method call.
    */
-  async getRequestsSent(variables?: requestsSent_queryQueryVariables) {
+  async getRequestsSent({
+    filter,
+    order,
+    skip,
+    take,
+  }: requestsSent_queryQueryVariables) {
     try {
-      return await this.sdk.requestsSent_query(variables);
+      return await this.sdk.requestsSent_query({ filter, order, skip, take });
     } catch (error: any) {
       throw new Error(error);
     }
@@ -159,11 +171,11 @@ export class Request {
    * variables can be used to filter or customize the query results.
    * @returns the result of the `requestsSentCount_query` method call.
    */
-  async getRequestsSentCount(
-    variables?: requestsSentCount_queryQueryVariables,
-  ) {
+  async getRequestsSentCount(filterVariables: FilterDataRequestInput) {
     try {
-      return await this.sdk.requestsSentCount_query(variables);
+      return await this.sdk.requestsSentCount_query({
+        filter: filterVariables,
+      });
     } catch (error: any) {
       throw new Error(error);
     }
