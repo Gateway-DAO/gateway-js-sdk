@@ -22,8 +22,6 @@ describe('proofs related test', () => {
     const {} = await api.proof.createProof({});
   });
 
-  // it('create proof')
-
   it('get proof using data model id', async () => {
     const { proof } = await api.proof.getProof(process.env.PROOF_ID as string);
     expect(proof.id).toEqual(process.env.PROOF_ID);
