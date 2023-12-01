@@ -6,11 +6,13 @@ import { DataRequestTemplate } from './dataRequestsTemplate/dataRequestsTemplate
 import { Proof } from './proof/proof';
 import { Request } from './request/request';
 import { DataModel } from './data-model/data-model';
+import { User } from './user/user';
 
 export class Gateway {
   private sdk: Sdk;
   public dataModel: DataModel;
   public proof: Proof;
+  public user: User;
   public request: Request;
   public pda: PDA;
   public dataRequestTemplate: DataRequestTemplate;
@@ -30,5 +32,6 @@ export class Gateway {
     this.dataModel = new DataModel(this.sdk);
     this.proof = new Proof(this.sdk);
     this.request = new Request(this.sdk);
+    this.user = new User(this.sdk);
   }
 }
