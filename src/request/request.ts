@@ -110,7 +110,7 @@ export class Request {
     order,
     skip,
     take,
-  }: requestsReceived_queryQueryVariables) {
+  }: requestsReceived_queryQueryVariables = {}) {
     try {
       return await this.sdk.requestsReceived_query({
         filter,
@@ -131,7 +131,7 @@ export class Request {
    * "requestsReceivedCount_query" query. It is of type "requestsReceivedCount_queryQueryVariables".
    * @returns the result of the `requestsReceivedCount_query` method call.
    */
-  async getRequestsReceivedCount(filterVariables: FilterDataRequestInput) {
+  async getRequestsReceivedCount(filterVariables?: FilterDataRequestInput) {
     try {
       return await this.sdk.requestsReceivedCount_query({
         filter: filterVariables,
@@ -155,7 +155,7 @@ export class Request {
     order,
     skip,
     take,
-  }: requestsSent_queryQueryVariables) {
+  }: requestsSent_queryQueryVariables = {}) {
     try {
       return await this.sdk.requestsSent_query({ filter, order, skip, take });
     } catch (error: any) {
@@ -171,7 +171,7 @@ export class Request {
    * variables can be used to filter or customize the query results.
    * @returns the result of the `requestsSentCount_query` method call.
    */
-  async getRequestsSentCount(filterVariables: FilterDataRequestInput) {
+  async getRequestsSentCount(filterVariables?: FilterDataRequestInput) {
     try {
       return await this.sdk.requestsSentCount_query({
         filter: filterVariables,

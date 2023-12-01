@@ -79,7 +79,6 @@ describe('data model function tests', () => {
       process.env.DATAMODEL_ID as string,
     );
 
-    console.log(issuersByDataModel);
   });
 
   it('get total issuers by data model', async () => {
@@ -88,7 +87,6 @@ describe('data model function tests', () => {
         process.env.DATAMODEL_ID as string,
       );
 
-    console.log(getTotalofIssuersByDataModel);
   });
 
   it('get issuers by data model count', async () => {
@@ -96,6 +94,5 @@ describe('data model function tests', () => {
       await api.dataModel.getIssuersByDataModelCount(
         process.env.DATAMODEL_ID as string,
       );
-    console.log(issuersByDataModelCount);
   });
 });

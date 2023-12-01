@@ -18,10 +18,9 @@ beforeAll(() => {
 });
 
 describe('proofs related test', () => {
-  it('create proof' ,async () => {
-    const {} = await api.proof.createProof({})
-  })
-
+  it('create proof', async () => {
+    const {} = await api.proof.createProof({});
+  });
 
   // it('create proof')
 

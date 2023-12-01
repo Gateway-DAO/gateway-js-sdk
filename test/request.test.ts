@@ -54,9 +54,7 @@ describe('unit test related to the request queries', () => {
 
   it('get data requests', async () => {
     const { dataRequests } = await api.request.getDataRequests({
-      filter: {
-        dataTemplateIds: [process.env.DATAREQUEST_TEMPLATE_ID as string],
-      },
+      dataTemplateIds: [process.env.DATAREQUEST_TEMPLATE_ID as string],
     });
 
     expect(dataRequests.length).toBeGreaterThanOrEqual(0);
