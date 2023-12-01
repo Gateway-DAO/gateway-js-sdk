@@ -38,7 +38,6 @@ describe('data model function tests', () => {
   }, 40000);
 
   it('get the data model', async () => {
-    // first we create datamodel and then check with id
     const { createDataModel } = await api.dataModel.createDataModel({
       schema: {
         type: 'object',
@@ -59,11 +58,11 @@ describe('data model function tests', () => {
     expect(dataModel.id).toEqual(createDataModel.id);
   });
 
-  // it('gets data moldel', async () => {
-  //   const { dataModels } = await api.dataModel.getDataModels();
+  it('gets data moldel', async () => {
+    const { dataModels } = await api.dataModel.getDataModels();
 
-  //   expect(dataModels.length).toBeGreaterThanOrEqual(0);
-  // }, 2200000);
+    expect(dataModels.length).toBeGreaterThanOrEqual(0);
+  }, 5000);
 
   it('models count', async () => {
     const { dataModelsCount } = await api.dataModel.getDataModelsCount();

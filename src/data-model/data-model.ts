@@ -4,6 +4,7 @@ import {
   dataModels_queryQueryVariables,
   FilterDataModelInput,
 } from '../../.mesh';
+import { errorHandler } from '../utils/errorHandler';
 
 /* The `DataModel` class is a TypeScript class that provides methods for creating and retrieving data
 models. */
@@ -29,8 +30,7 @@ export class DataModel {
         input: createModelInput,
       });
     } catch (error: any) {
-      console.log(error);
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -45,8 +45,7 @@ export class DataModel {
     try {
       return await this.sdk.dataModel_query({ id: dataModelId });
     } catch (error: any) {
-      console.log(error);
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -74,8 +73,7 @@ export class DataModel {
       });
       return data;
     } catch (error: any) {
-      console.log(error);
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -107,7 +105,7 @@ export class DataModel {
         filter: filterVariables,
       });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -121,7 +119,7 @@ export class DataModel {
     try {
       return await this.sdk.dataModelsMetadata_query();
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -134,8 +132,7 @@ export class DataModel {
     try {
       return await this.sdk.issuersByDataModel_query({ id: id });
     } catch (error: any) {
-      console.error(error);
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -150,8 +147,7 @@ export class DataModel {
     try {
       return await this.sdk.issuersByDataModelCount_query({ id: dataModelId });
     } catch (error: any) {
-      console.error(error);
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -166,8 +162,7 @@ export class DataModel {
     try {
       return await this.sdk.getTotalofIssuersByDataModel_query({ dataModelId });
     } catch (error: any) {
-      console.error(error);
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 }

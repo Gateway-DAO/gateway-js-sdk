@@ -5,6 +5,7 @@ import {
   requestsReceived_queryQueryVariables,
   requestsSent_queryQueryVariables,
 } from '../../.mesh';
+import { errorHandler } from '../utils/errorHandler';
 
 export class Request {
   private sdk: Sdk;
@@ -27,7 +28,7 @@ export class Request {
     try {
       return this.sdk.createDataRequest_mutation({ input: inputSchema });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -44,7 +45,7 @@ export class Request {
     try {
       return await this.sdk.dataRequest_query({ requestId });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -60,7 +61,7 @@ export class Request {
     try {
       return await this.sdk.dataRequestCount_query({ filter: filterVariables });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -75,7 +76,7 @@ export class Request {
     try {
       return await this.sdk.dataRequestStatus_query({ requestId });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -92,8 +93,7 @@ export class Request {
     try {
       return await this.sdk.dataRequests_query({ filter: filterVariables });
     } catch (error: any) {
-      console.log(error);
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -119,7 +119,7 @@ export class Request {
         take,
       });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -137,7 +137,7 @@ export class Request {
         filter: filterVariables,
       });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -159,7 +159,7 @@ export class Request {
     try {
       return await this.sdk.requestsSent_query({ filter, order, skip, take });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -177,7 +177,7 @@ export class Request {
         filter: filterVariables,
       });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 }

@@ -7,6 +7,7 @@ import {
   sentProofsCount_queryQueryVariables,
   sentProofs_queryQueryVariables,
 } from '../../.mesh';
+import { errorHandler } from '../utils/errorHandler';
 
 export class Proof {
   private sdk: Sdk;
@@ -27,7 +28,7 @@ export class Proof {
     try {
       return await this.sdk.proof_query({ id: id });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
   /**
@@ -46,7 +47,7 @@ export class Proof {
     try {
       return await this.sdk.createProof_mutation(inputVariables);
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -64,7 +65,7 @@ export class Proof {
         requestId: requestId,
       });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -89,7 +90,7 @@ export class Proof {
         take,
       });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -109,7 +110,7 @@ export class Proof {
     try {
       return await this.sdk.proofsByPDAIds_query({ pdaIds, skip, take });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -136,7 +137,7 @@ export class Proof {
         take,
       });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -153,7 +154,7 @@ export class Proof {
     try {
       return await this.sdk.receivedProofsCount_query({ organizationId });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
   /**
@@ -173,7 +174,7 @@ export class Proof {
     try {
       return await this.sdk.sentProofs_query({ order, skip, take });
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 
@@ -191,7 +192,7 @@ export class Proof {
     try {
       return await this.sdk.sentProofsCount_query(queryVariables);
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error(errorHandler(error));
     }
   }
 }
