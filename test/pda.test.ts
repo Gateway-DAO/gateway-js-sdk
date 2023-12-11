@@ -2,6 +2,7 @@ import { PDAStatus } from '../src/types';
 import { PDA } from '../src/pda/pda';
 import { getMeshSDK } from '../.mesh';
 import { pdaCreateStub, pdaStub } from './stubs/pda.stub';
+import { PDAMockService } from '../__mocks__/pda.mock';
 
 let pda: PDA;
 
@@ -14,49 +15,64 @@ afterAll(() => {
 });
 
 describe('PDA SERVICE TESTING', () => {
-  it('pda crud', async () => {
-    const createPDAMutationMock = jest.spyOn(pda.sdk, 'createPDA_mutation');
-    createPDAMutationMock.mockResolvedValue({
-      createPDA: pdaStub(),
-    });
+  it('pda create', async () => {
+    const { createPDAMutationMock } = PDAMockService(pda);
 
     const { createPDA } = await pda.createPDA(pdaCreateStub());
 
-    const changePDAStatusMock = jest.spyOn(pda.sdk, 'changePDAStatus_mutation');
-    changePDAStatusMock.mockResolvedValue({
-      changePDAStatus: pdaStub({ status: 'Suspended' }),
-    });
+    expect(createPDA.id).toBe(pdaStub().id);
+    expect(createPDAMutationMock).toHaveBeenCalled();
+  });
+
+  it('pda update status', async () => {
+    const { changePDAStatusMock } = PDAMockService(pda);
+
     const { changePDAStatus } = await pda.changePDAStatus({
-      id: createPDA.id,
+      id: pdaStub().id,
       status: PDAStatus.Suspended,
     });
-    expect(changePDAStatus.status).toEqual(PDAStatus.Suspended);
 
-    const getPDAMock = jest.spyOn(pda.sdk, 'PDA_query');
-    getPDAMock.mockResolvedValue({
-      PDA: pdaStub(),
-    });
-    const { PDA } = await pda.getPDA(createPDA.id);
-    expect(PDA?.dataAsset?.title).toEqual('test');
+    expect(changePDAStatus.status).toEqual(PDAStatus.Suspended);
+    expect(changePDAStatusMock).toHaveBeenCalled();
+  });
+
+  it('get pda', async () => {
+    const { getPDAMock } = PDAMockService(pda);
+
+    const { PDA } = await pda.getPDA(pdaStub().id);
+
+    expect(PDA?.dataAsset?.title).toEqual(pdaStub().dataAsset?.title);
     expect(getPDAMock).toHaveBeenCalled();
   });
 
-  // it('pda count', async () => {
-  //   const count = await pda.getPDACount();
-  //   expect(count).toBeGreaterThanOrEqual(0);
-  // });
+  it('pda count', async () => {
+    const { pdaCountMock } = PDAMockService(pda);
 
-  // it('pdas', async () => {
-  //   const { PDAs } = await pda.getPDAs({
-  //     filter: { dataModelIds: [process.env.DATAMODEL_ID!] },
-  //     skip: 0,
-  //     take: 10,
-  //   });
-  //   expect(PDAs.length).toBeGreaterThanOrEqual(0);
-  // });
+    const count = await pda.getPDACount();
 
-  // it('issued pdas count', async () => {
-  //   const count = await pda.getIssuedPDAsCount();
-  //   expect(count).toBeGreaterThanOrEqual(0);
-  // });
+    expect(count).toBeGreaterThanOrEqual(0);
+    expect(pdaCountMock).toHaveBeenCalled();
+  });
+
+  it('pdas', async () => {
+    const { pdasMock } = PDAMockService(pda);
+
+    const { PDAs } = await pda.getPDAs({
+      filter: { dataModelIds: [pdaCreateStub().dataModelId] },
+      skip: 0,
+      take: 10,
+    });
+
+    expect(PDAs.length).toBeGreaterThanOrEqual(0);
+    expect(pdasMock).toHaveBeenCalled();
+  });
+
+  it('issued pdas count', async () => {
+    const { issuedPDAMock } = PDAMockService(pda);
+
+    const count = await pda.getIssuedPDAsCount();
+
+    expect(count).toBeGreaterThanOrEqual(0);
+    expect(issuedPDAMock).toHaveBeenCalled();
+  });
 });
