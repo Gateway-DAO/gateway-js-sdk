@@ -33,4 +33,5 @@ export const pdaCreateStub = (): CreatePDAInput => ({
     type: UserIdentifierType.GATEWAY_ID,
     value: 'sid',
   },
+  expirationDate: new Date('2021-01-01T12:00:0'),
 });
