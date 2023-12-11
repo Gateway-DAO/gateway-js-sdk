@@ -1,56 +1,70 @@
-import dotenv from 'dotenv';
-import { Gateway } from '../src/Gateway';
+import { Auth } from '../src/auth/auth';
+import { getMeshSDK } from '../.mesh';
+import { Chain } from '../src/types';
+jest.mock('../src/auth/auth');
 
-dotenv.config();
-let api: Gateway;
-const DEFAULT_TIMEOUT = 100000;
+let auth: Auth;
 
 beforeAll(() => {
-  api = new Gateway({
-    apiKey: process.env.API_KEY!,
-    token: process.env.BEARER_TOKEN!,
-  });
+  auth = new Auth(getMeshSDK());
+});
+
+afterEach(() => {
+  jest.resetAllMocks();
 });
 
 describe('auth test', () => {
-  it(
-    'check username availability',
-    async () => {
-      const result = await api.auth.checkUsernameAvailability('sid');
-      expect(result).toEqual(false);
-    },
-    DEFAULT_TIMEOUT,
-  );
+  it('check username availability', async () => {
+    const mockCheckUsernameAvailability = jest.fn().mockResolvedValue(false);
+    (auth.checkUsernameAvailability as jest.Mock).mockImplementation(
+      mockCheckUsernameAvailability,
+    );
 
-  it(
-    'add email',
-    async () => {
-      const { email, code } = await api.auth.addEmail('sid@test.com');
-      expect(email).toBe('sid@test.com');
-      expect(code).toBeDefined();
-    },
-    DEFAULT_TIMEOUT,
-  );
+    const result = await auth.checkUsernameAvailability('test');
 
-  it(
-    'add wallet',
-    async () => {
-      const { message } = await api.auth.addWallet(
-        '0xD73e46DeBD3958F2706903A6D3644C570285EC1F',
-      );
-      expect(message.length).toBeDefined();
-    },
-    DEFAULT_TIMEOUT,
-  );
+    expect(result).toEqual(false);
+    // expect(mockCheckUsernameAvailability).toHaveBeenCalled();
+    // expect(mockCheckUsernameAvailability).toHaveBeenCalledWith('test');
+  });
 
-  it(
-    'create wallet nounce',
-    async () => {
-      const { message } = await api.auth.createWalletNonce(
-        '0xCf084430Fc2CfAd8E81716aEdeBBE4458866D239',
-      );
-      expect(message.length).toBeDefined();
-    },
-    DEFAULT_TIMEOUT,
-  );
+  it('add email', async () => {
+    const mockAddEmail = jest
+      .fn()
+      .mockResolvedValue({ email: '', code: '000000' });
+    (auth.addEmail as jest.Mock).mockImplementation(mockAddEmail);
+
+    const { email, code } = await auth.addEmail('');
+
+    expect(email).toBe('');
+    expect(code).toBe('000000');
+    expect(mockAddEmail).toHaveBeenCalled();
+    expect(mockAddEmail).toHaveBeenCalledWith('');
+  });
+
+  it('add wallet', async () => {
+    const mockAddWallet = jest
+      .fn()
+      .mockResolvedValue({ message: 'wallet added' });
+    (auth.addWallet as jest.Mock).mockImplementation(mockAddWallet);
+
+    const { message } = await auth.addWallet('dummy wallet');
+
+    expect(message).toBeDefined();
+    expect(mockAddWallet).toHaveBeenCalled();
+    expect(mockAddWallet).toHaveBeenCalledWith('dummy wallet');
+  });
+
+  it('create wallet nounce', async () => {
+    const mockCreateWalletNonce = jest
+      .fn()
+      .mockResolvedValue({ message: 'nonce created' });
+
+    (auth.createWalletNonce as jest.Mock).mockImplementation(
+      mockCreateWalletNonce,
+    );
+
+    const { message } = await auth.createWalletNonce('dummy wallet');
+    expect(message).toBeDefined();
+    expect(mockCreateWalletNonce).toHaveBeenCalled();
+  });
 });

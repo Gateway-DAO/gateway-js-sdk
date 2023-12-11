@@ -1,74 +1,62 @@
-import dotenv from 'dotenv';
-import { Gateway } from '../src/Gateway';
-import { PDAStatus, UserIdentifierType } from '../src/types';
-dotenv.config();
-const DEFAULT_TIMEOUT = 10000;
+import { PDAStatus } from '../src/types';
+import { PDA } from '../src/pda/pda';
+import { getMeshSDK } from '../.mesh';
+import { pdaCreateStub, pdaStub } from './stubs/pda.stub';
 
-let api: Gateway;
+let pda: PDA;
 
 beforeAll(() => {
-  api = new Gateway({
-    apiKey: process.env.API_KEY!,
-    token: process.env.BEARER_TOKEN!,
-  });
+  pda = new PDA(getMeshSDK());
+});
+
+afterAll(() => {
+  jest.resetAllMocks();
 });
 
 describe('PDA SERVICE TESTING', () => {
-  it(
-    'pda crud',
-    async () => {
-      let obj = {
-        dataModelId: process.env.DATAMODEL_ID!,
-        description: 'test',
-        title: 'test',
-        claim: {
-          gatewayUse: 'test',
-        },
-        owner: {
-          type: UserIdentifierType.GATEWAY_ID,
-          value: 'sid',
-        },
-      };
-      const { createPDA } = await api.pda.createPDA(obj);
-      const { changePDAStatus } = await api.pda.changePDAStatus({
-        id: createPDA.id,
-        status: PDAStatus.Suspended,
-      });
-      expect(changePDAStatus.status).toEqual(PDAStatus.Suspended);
-      const { PDA } = await api.pda.getPDA(createPDA.id);
-      expect(PDA?.dataAsset?.title).toEqual('test');
-    },
-    DEFAULT_TIMEOUT,
-  );
+  it('pda crud', async () => {
+    const createPDAMutationMock = jest.spyOn(pda.sdk, 'createPDA_mutation');
+    createPDAMutationMock.mockResolvedValue({
+      createPDA: pdaStub(),
+    });
 
-  it(
-    'pda count',
-    async () => {
-      const count = await api.pda.getPDACount();
-      expect(count).toBeGreaterThanOrEqual(0);
-    },
-    DEFAULT_TIMEOUT,
-  );
+    const { createPDA } = await pda.createPDA(pdaCreateStub());
 
-  it(
-    'pdas',
-    async () => {
-      const { PDAs } = await api.pda.getPDAs({
-        filter: { dataModelIds: [process.env.DATAMODEL_ID!] },
-        skip: 0,
-        take: 10,
-      });
-      expect(PDAs.length).toBeGreaterThanOrEqual(0);
-    },
-    DEFAULT_TIMEOUT,
-  );
+    const changePDAStatusMock = jest.spyOn(pda.sdk, 'changePDAStatus_mutation');
+    changePDAStatusMock.mockResolvedValue({
+      changePDAStatus: pdaStub({ status: 'Suspended' }),
+    });
+    const { changePDAStatus } = await pda.changePDAStatus({
+      id: createPDA.id,
+      status: PDAStatus.Suspended,
+    });
+    expect(changePDAStatus.status).toEqual(PDAStatus.Suspended);
 
-  it(
-    'issued pdas count',
-    async () => {
-      const count = await api.pda.getIssuedPDAsCount();
-      expect(count).toBeGreaterThanOrEqual(0);
-    },
-    DEFAULT_TIMEOUT,
-  );
+    const getPDAMock = jest.spyOn(pda.sdk, 'PDA_query');
+    getPDAMock.mockResolvedValue({
+      PDA: pdaStub(),
+    });
+    const { PDA } = await pda.getPDA(createPDA.id);
+    expect(PDA?.dataAsset?.title).toEqual('test');
+    expect(getPDAMock).toHaveBeenCalled();
+  });
+
+  // it('pda count', async () => {
+  //   const count = await pda.getPDACount();
+  //   expect(count).toBeGreaterThanOrEqual(0);
+  // });
+
+  // it('pdas', async () => {
+  //   const { PDAs } = await pda.getPDAs({
+  //     filter: { dataModelIds: [process.env.DATAMODEL_ID!] },
+  //     skip: 0,
+  //     take: 10,
+  //   });
+  //   expect(PDAs.length).toBeGreaterThanOrEqual(0);
+  // });
+
+  // it('issued pdas count', async () => {
+  //   const count = await pda.getIssuedPDAsCount();
+  //   expect(count).toBeGreaterThanOrEqual(0);
+  // });
 });

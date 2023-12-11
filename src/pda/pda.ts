@@ -8,7 +8,7 @@ import { PDAFilter, PDAStatus } from '../types';
 import { errorHandler } from '../utils/errorHandler';
 
 export class PDA {
-  private sdk: Sdk;
+  public sdk: Sdk;
 
   constructor(sdk: Sdk) {
     this.sdk = sdk;
