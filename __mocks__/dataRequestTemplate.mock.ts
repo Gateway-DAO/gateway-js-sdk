@@ -1,7 +1,9 @@
 import { DataRequestTemplate } from '../src/dataRequestsTemplate/dataRequestsTemplate';
 import { dataRequestTemplateStub } from '../test/stubs/dataRequestTemplate.stub';
 
-export const dataRequestTemplateMockService = (dataRequestTemplate: DataRequestTemplate) => ({
+export const dataRequestTemplateMockService = (
+  dataRequestTemplate: DataRequestTemplate,
+) => ({
   createDataRequestTemplateMock: jest
     .spyOn(dataRequestTemplate.sdk, 'createDataRequestTemplate_mutation')
     .mockResolvedValue({
