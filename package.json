@@ -1,17 +1,19 @@
 {
-  "name": "javascript-sdk",
-  "version": "1.0.0",
+  "name": "@Gateway-dao/js-sdk",
+  "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/src/Gateway.js",
+  "types": "dist/src/types.d.ts",
   "scripts": {
     "test": "jest",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@graphql-mesh/cli": "^0.87.16",
     "@graphql-mesh/graphql": "^0.95.8",
@@ -35,5 +37,9 @@
     "prettier": "^3.1.1",
     "ts-jest": "^29.1.1",
     "typescript": "^5.3.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gateway-DAO/gateway-js-sdk.git"
   }
 }

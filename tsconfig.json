@@ -8,6 +8,8 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "typeRoots": ["./typings", "./node_modules/@types/"]
+    "typeRoots": ["./typings", "./node_modules/@types/"],
+    "outDir": "./dist",
+    "declaration": true
   }
 }

@@ -60,6 +60,12 @@ describe('ORGANIZATION SERVICE TESTING', () => {
   });
 
   it('member crud organization', async () => {
+    const {
+      addMemberToOrganizationMock,
+      changeMemberRoleMock,
+      removeMemberFromOrganizationMock,
+    } = OrganizationMockService(organization);
+
     let addMemberObj = {
       organization: {
         type: OrganizationIdentifierType.ORG_ID,
@@ -73,13 +79,21 @@ describe('ORGANIZATION SERVICE TESTING', () => {
     };
     const { addMemberToOrganization } =
       await organization.addMemberToOrganization(addMemberObj);
+
     expect(addMemberToOrganization).toBeDefined();
+    expect(addMemberToOrganizationMock).toHaveBeenCalled();
+
     const { changeMemberRole } =
       await organization.changeMemberRole(changeMemberRoleObj);
-    expect(changeMemberRole).toBeDefined();
+
+    expect(changeMemberRole.role).toBe(OrganizationRole.Admin);
+    expect(changeMemberRoleMock).toHaveBeenCalled();
+
     const { removeMemberFromOrganization } =
       await organization.removeMemberFromOrganization(addMemberObj);
-    expect(removeMemberFromOrganization).toBeDefined();
+
+    expect(removeMemberFromOrganization).toBeTruthy();
+    expect(removeMemberFromOrganizationMock).toHaveBeenCalled();
   });
 
   it('organizations', async () => {

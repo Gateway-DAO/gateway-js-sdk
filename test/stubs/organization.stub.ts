@@ -1,4 +1,10 @@
-import { CreateOrganizationInput, Organization } from '../../.mesh';
+import {
+  CreateOrganizationInput,
+  MemberInput,
+  Organization,
+} from '../../.mesh';
+import { OrganizationRole } from '../../src/types';
+import { userStub } from './user.stub';
 
 export const organizationStub = (
   overrideOrganization?: Partial<Organization>,
@@ -19,4 +25,12 @@ export const organizationCreateStub = (): CreateOrganizationInput => ({
   username: 'test_for_sdk_2',
   name: 'test org sdk 2',
   description: 'test organization',
+});
+
+export const memberOrganizationStub = (overrideMember?: any) => ({
+  user: userStub(),
+  role: OrganizationRole.Member,
+  id: organizationStub().id,
+  organization: organizationStub(),
+  ...overrideMember,
 });

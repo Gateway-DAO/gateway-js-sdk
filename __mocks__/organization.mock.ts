@@ -1,5 +1,10 @@
 import { Organization } from '../src/organization/organization';
-import { organizationStub } from '../test/stubs/organization.stub';
+import { OrganizationRole } from '../src/types';
+import {
+  memberOrganizationStub,
+  organizationStub,
+} from '../test/stubs/organization.stub';
+import { userStub } from '../test/stubs/user.stub';
 
 export const OrganizationMockService = (organization: Organization) => ({
   createOrganizationMock: jest
@@ -23,5 +28,22 @@ export const OrganizationMockService = (organization: Organization) => ({
     .spyOn(organization.sdk, 'organizations_query')
     .mockResolvedValue({
       organizations: [organizationStub()],
+    }),
+  addMemberToOrganizationMock: jest
+    .spyOn(organization.sdk, 'addMemberToOrganization_mutation')
+    .mockResolvedValue({
+      addMemberToOrganization: memberOrganizationStub(),
+    }),
+  changeMemberRoleMock: jest
+    .spyOn(organization.sdk, 'changeMemberRole_mutation')
+    .mockResolvedValue({
+      changeMemberRole: memberOrganizationStub({
+        role: OrganizationRole.Admin,
+      }),
+    }),
+  removeMemberFromOrganizationMock: jest
+    .spyOn(organization.sdk, 'removeMemberFromOrganization_mutation')
+    .mockResolvedValue({
+      removeMemberFromOrganization: true,
     }),
 });
