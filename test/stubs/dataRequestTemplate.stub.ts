@@ -23,7 +23,7 @@ export const dataRequestTemplateStub = (
   dataRequestsCount: 10,
   description: 'test',
   name: 'test',
-  revenueGenerated: 100,
+  revenueGenerated: 10,
   uniqueVerifiersCount: 10,
   schema: {},
   dataRequests: [],

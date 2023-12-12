@@ -13,7 +13,7 @@ afterAll(() => {
   jest.resetAllMocks();
 });
 
-describe('auth test', () => {
+describe('AUTH SERVICE TESTING', () => {
   it('check username availability', async () => {
     const { checkUsernameAvailabilityMock } = AuthMockService(auth);
 

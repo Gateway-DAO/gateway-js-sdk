@@ -16,7 +16,7 @@ afterAll(() => {
   jest.resetAllMocks();
 });
 
-describe('Data Requests Template test', () => {
+describe('DATA REQUESTS TEMPLATE TESTING', () => {
   it('create data request template', async () => {
     const { createDataRequestTemplateMock } =
       dataRequestTemplateMockService(dataRequestTemplate);
