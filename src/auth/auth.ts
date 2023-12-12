@@ -1,9 +1,15 @@
 import { AddWalletConfirmationInput, Sdk } from '../../.mesh';
 import { AuthType, Chain } from '../types';
 import { errorHandler } from '../utils/errorHandler';
+import {
+  isEmailValid,
+  isStringValid,
+  isUUIDValid,
+  isWalletAddressvalid,
+} from '../utils/validators';
 
 export class Auth {
-  private sdk: Sdk;
+  public sdk: Sdk;
 
   constructor(sdk: Sdk) {
     this.sdk = sdk;
@@ -33,6 +39,7 @@ export class Auth {
    */
   async addEmail(email: string) {
     try {
+      isEmailValid(email);
       return (await this.sdk.addEmail_mutation({ input: { email } })).addEmail;
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -48,6 +55,7 @@ export class Auth {
    */
   async addEmailConfirmation(email: string, code: number) {
     try {
+      isEmailValid(email);
       return (
         await this.sdk.addEmailConfirmation_mutation({
           input: { code, email },
@@ -66,6 +74,7 @@ export class Auth {
    */
   async addWallet(wallet: string, chain?: Chain) {
     try {
+      isWalletAddressvalid(wallet);
       return (await this.sdk.addWallet_mutation({ input: { wallet, chain } }))
         .addWallet;
     } catch (error) {
@@ -99,6 +108,7 @@ export class Auth {
    */
   async createWalletNonce(wallet: string, chain?: Chain) {
     try {
+      isWalletAddressvalid(wallet);
       return (
         await this.sdk.createWalletNonce_mutation({ input: { wallet, chain } })
       ).createWalletNonce;
@@ -114,6 +124,7 @@ export class Auth {
    */
   async deleteAccount(id: string) {
     try {
+      isUUIDValid(id);
       return (await this.sdk.deleteAccount_mutation({ id })).deleteAccount;
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -128,6 +139,7 @@ export class Auth {
    */
   async loginEmail(email: string, code: number) {
     try {
+      isEmailValid(email);
       return (await this.sdk.loginEmail_mutation({ input: { email, code } }))
         .loginEmail;
     } catch (error) {
@@ -143,6 +155,7 @@ export class Auth {
    */
   async loginWallet(wallet: string, signature: string) {
     try {
+      isWalletAddressvalid(wallet);
       return (
         await this.sdk.loginWallet_mutation({
           input: { wallet, signature },
@@ -160,6 +173,7 @@ export class Auth {
    */
   async refreshToken(existingRefreshToken: string) {
     try {
+      isStringValid(existingRefreshToken);
       return (
         await this.sdk.refreshToken_mutation({
           input: { refresh_token: existingRefreshToken },
@@ -179,6 +193,7 @@ export class Auth {
    */
   async unregisterAuthMethod(data: string, type: AuthType) {
     try {
+      isStringValid(data);
       return await this.sdk.unregisterAuthMethod_mutation({
         input: { data, type },
       });

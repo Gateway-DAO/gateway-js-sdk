@@ -1,7 +1,8 @@
 import { Auth } from '../src/auth/auth';
 import { getMeshSDK } from '../.mesh';
 import { Chain } from '../src/types';
-jest.mock('../src/auth/auth');
+import { AuthMockService } from '../__mocks__/auth.mock';
+import { authStub } from './stubs/auth.stub';
 
 let auth: Auth;
 
@@ -9,62 +10,44 @@ beforeAll(() => {
   auth = new Auth(getMeshSDK());
 });
 
-afterEach(() => {
+afterAll(() => {
   jest.resetAllMocks();
 });
 
 describe('auth test', () => {
   it('check username availability', async () => {
-    const mockCheckUsernameAvailability = jest.fn().mockResolvedValue(false);
-    (auth.checkUsernameAvailability as jest.Mock).mockImplementation(
-      mockCheckUsernameAvailability,
-    );
+    const { checkUsernameAvailabilityMock } = AuthMockService(auth);
 
-    const result = await auth.checkUsernameAvailability('test');
+    const result = await auth.checkUsernameAvailability(authStub().username);
 
-    expect(result).toEqual(false);
-    // expect(mockCheckUsernameAvailability).toHaveBeenCalled();
-    // expect(mockCheckUsernameAvailability).toHaveBeenCalledWith('test');
+    expect(result).toEqual(true);
+    expect(checkUsernameAvailabilityMock).toHaveBeenCalled();
   });
 
   it('add email', async () => {
-    const mockAddEmail = jest
-      .fn()
-      .mockResolvedValue({ email: '', code: '000000' });
-    (auth.addEmail as jest.Mock).mockImplementation(mockAddEmail);
+    const { addEmailMock } = AuthMockService(auth);
 
-    const { email, code } = await auth.addEmail('');
+    const { email, code } = await auth.addEmail(authStub().email);
 
-    expect(email).toBe('');
-    expect(code).toBe('000000');
-    expect(mockAddEmail).toHaveBeenCalled();
-    expect(mockAddEmail).toHaveBeenCalledWith('');
+    expect(email).toBe(authStub().email);
+    expect(code).toBe(authStub().code);
+    expect(addEmailMock).toHaveBeenCalled();
   });
 
   it('add wallet', async () => {
-    const mockAddWallet = jest
-      .fn()
-      .mockResolvedValue({ message: 'wallet added' });
-    (auth.addWallet as jest.Mock).mockImplementation(mockAddWallet);
+    const { addWalletMock } = AuthMockService(auth);
 
-    const { message } = await auth.addWallet('dummy wallet');
+    const { message } = await auth.addWallet(authStub().wallet);
 
-    expect(message).toBeDefined();
-    expect(mockAddWallet).toHaveBeenCalled();
-    expect(mockAddWallet).toHaveBeenCalledWith('dummy wallet');
+    expect(message).toBe(authStub().message);
+    expect(addWalletMock).toHaveBeenCalled();
   });
 
   it('create wallet nounce', async () => {
-    const mockCreateWalletNonce = jest
-      .fn()
-      .mockResolvedValue({ message: 'nonce created' });
+    const { createWalletNonceMock } = AuthMockService(auth);
 
-    (auth.createWalletNonce as jest.Mock).mockImplementation(
-      mockCreateWalletNonce,
-    );
-
-    const { message } = await auth.createWalletNonce('dummy wallet');
-    expect(message).toBeDefined();
-    expect(mockCreateWalletNonce).toHaveBeenCalled();
+    const { message } = await auth.createWalletNonce(authStub().wallet);
+    expect(message).toBe(authStub().message);
+    expect(createWalletNonceMock).toHaveBeenCalled();
   });
 });
