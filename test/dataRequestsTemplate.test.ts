@@ -1,73 +1,70 @@
-// import dotenv from 'dotenv';
-// import { Gateway } from '../src/Gateway';
-// dotenv.config();
+import { getMeshSDK } from '../.mesh';
+import { dataRequestTemplateMockService } from '../__mocks__/dataRequestTemplate.mock';
+import { DataRequestTemplate } from '../src/dataRequestsTemplate/dataRequestsTemplate';
+import {
+  dataRequestTemplateCreateStub,
+  dataRequestTemplateStub,
+} from './stubs/dataRequestTemplate.stub';
 
-// let api: Gateway;
-// const DEFAULT_TIMEOUT = 10000;
+let dataRequestTemplate: DataRequestTemplate;
 
-// beforeAll(() => {
-//   api = new Gateway({
-//     apiKey: process.env.API_KEY!,
-//     token: process.env.BEARER_TOKEN!,
-//   });
-// });
+beforeAll(() => {
+  dataRequestTemplate = new DataRequestTemplate(getMeshSDK());
+});
 
-// describe('Data Requests Template test', () => {
-//   it(
-//     'create data request template',
-//     async () => {
-//       const { createDataRequestTemplate } =
-//         await api.dataRequestTemplate.createDataRequestTemplate({
-//           title: 'Create Data Request Template Example',
-//           description: 'Lorem ipsum dolor sit amet.',
-//           dataModels: [
-//             {
-//               id: process.env.DATAMODEL_ID!,
-//               required: true,
-//               claimValidations: {
-//                 type: 'object',
-//                 properties: {
-//                   gatewayUse: {
-//                     type: 'string',
-//                   },
-//                 },
-//                 required: ['gatewayUse'],
-//               },
-//             },
-//           ],
-//         });
-//       expect(createDataRequestTemplate.name).toEqual(
-//         'Create Data Request Template Example',
-//       );
-//       const { dataRequestTemplate } =
-//         await api.dataRequestTemplate.getDataRequestTemplate(
-//           createDataRequestTemplate.id,
-//         );
-//       expect(dataRequestTemplate).toBeDefined();
-//     },
-//     DEFAULT_TIMEOUT,
-//   );
+afterAll(() => {
+  jest.resetAllMocks();
+});
 
-//   it(
-//     'get data request templates',
-//     async () => {
-//       const { dataRequestTemplates } =
-//         await api.dataRequestTemplate.getDataRequestTemplates({
-//           skip: 0,
-//           take: 10,
-//         });
-//       expect(dataRequestTemplates?.length).toBeGreaterThan(0);
-//     },
-//     DEFAULT_TIMEOUT,
-//   );
+describe('Data Requests Template test', () => {
+  it('create data request template', async () => {
+    const { createDataRequestTemplateMock } =
+      dataRequestTemplateMockService(dataRequestTemplate);
 
-//   it(
-//     'get data request templates count',
-//     async () => {
-//       const count =
-//         await api.dataRequestTemplate.getDataRequestsTemplateCount();
-//       expect(count).toBeGreaterThan(0);
-//     },
-//     DEFAULT_TIMEOUT,
-//   );
-// });
+    const { createDataRequestTemplate } =
+      await dataRequestTemplate.createDataRequestTemplate(
+        dataRequestTemplateCreateStub(),
+      );
+
+    expect(createDataRequestTemplate.name).toEqual(
+      dataRequestTemplateCreateStub().title,
+    );
+    expect(createDataRequestTemplateMock).toHaveBeenCalled();
+  });
+
+  it('get data request template by id', async () => {
+    const { getDataRequestTemplateMock } =
+      dataRequestTemplateMockService(dataRequestTemplate);
+
+    const res = await dataRequestTemplate.getDataRequestTemplate(
+      dataRequestTemplateStub().id,
+    );
+
+    expect(res.dataRequestTemplate?.id).toEqual(dataRequestTemplateStub().id);
+    expect(getDataRequestTemplateMock).toHaveBeenCalled();
+  });
+
+  it('get data request templates', async () => {
+    const { getDataRequestTemplatesMock } =
+      dataRequestTemplateMockService(dataRequestTemplate);
+
+    const { dataRequestTemplates } =
+      await dataRequestTemplate.getDataRequestTemplates({
+        skip: 0,
+        take: 10,
+      });
+
+    expect(dataRequestTemplates?.length).toBeGreaterThan(0);
+    expect(getDataRequestTemplatesMock).toHaveBeenCalled();
+  });
+
+  it('get data request templates count', async () => {
+    const { getDataRequestsTemplateCount } =
+      dataRequestTemplateMockService(dataRequestTemplate);
+
+    const count = await dataRequestTemplate.getDataRequestsTemplateCount();
+
+    expect(count).toBeGreaterThan(0);
+    expect(getDataRequestsTemplateCount).toHaveBeenCalled();
+  });
+});

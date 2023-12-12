@@ -1,93 +1,67 @@
-// import dotenv from 'dotenv';
-// import { Gateway } from '../src/Gateway';
-// import { UserIdentifierType } from '../src/types';
-// dotenv.config();
+import { getMeshSDK } from '../.mesh';
+import { UserIdentifierType } from '../src/types';
+import { User } from '../src/user/user';
 
-// const DEFAULT_TIMEOUT = 10000;
+let user: User;
 
-// let api: Gateway;
+beforeAll(() => {
+  user = new User(getMeshSDK());
+});
 
-// beforeAll(() => {
-//   api = new Gateway({
-//     apiKey: process.env.API_KEY!,
-//     token: process.env.BEARER_TOKEN!,
-//   });
-// });
+afterAll(() => {
+  jest.clearAllMocks();
+});
 
-// describe('USER Testing', () => {
-//   it(
-//     'me',
-//     async () => {
-//       const { me } = await api.user.me();
-//       expect(me.gatewayId).toEqual('sid');
-//     },
-//     DEFAULT_TIMEOUT,
-//   );
+describe('USER Testing', () => {
+  it('me', async () => {
+    const { me } = await user.me();
+    expect(me.gatewayId).toEqual('sid');
+  });
 
-//   it(
-//     'single user',
-//     async () => {
-//       const { user } = await api.user.getSingleUser({
-//         type: UserIdentifierType.GATEWAY_ID,
-//         value: 'sid',
-//       });
-//       expect(user?.gatewayId).toEqual('sid');
-//     },
-//     DEFAULT_TIMEOUT,
-//   );
+  it('single user', async () => {
+    const res = await user.getSingleUser({
+      type: UserIdentifierType.GATEWAY_ID,
+      value: 'sid',
+    });
+    expect(res.user?.gatewayId).toEqual('sid');
+  });
 
-//   it(
-//     'my pdas count',
-//     async () => {
-//       const count = await api.user.myPDACount({});
-//       expect(count).toBeGreaterThanOrEqual(0);
-//     },
-//     DEFAULT_TIMEOUT,
-//   );
+  it('my pdas count', async () => {
+    const count = await user.myPDACount({});
+    expect(count).toBeGreaterThanOrEqual(0);
+  });
 
-//   it(
-//     'my pdas',
-//     async () => {
-//       const { myPDAs } = await api.user.myPDAs({
-//         skip: 0,
-//         take: 10,
-//       });
-//       expect(myPDAs.length).toBeGreaterThanOrEqual(0);
-//     },
-//     DEFAULT_TIMEOUT,
-//   );
+  it('my pdas', async () => {
+    const { myPDAs } = await user.myPDAs({
+      skip: 0,
+      take: 10,
+    });
+    expect(myPDAs.length).toBeGreaterThanOrEqual(0);
+  });
 
-//   it(
-//     'my data models count',
-//     async () => {
-//       const count = await api.user.myDataModelsCount();
-//       expect(count).toBeGreaterThanOrEqual(0);
-//     },
-//     DEFAULT_TIMEOUT,
-//   );
+  it('my data models count', async () => {
+    const count = await user.myDataModelsCount();
+    expect(count).toBeGreaterThanOrEqual(0);
+  });
 
-//   it(
-//     'my data requests template count',
-//     async () => {
-//       const count = await api.user.myDataRequestTemplatesCount();
-//       expect(count).toBeGreaterThanOrEqual(0);
-//     },
-//     DEFAULT_TIMEOUT,
-//   );
+  it('my data requests template count', async () => {
+    const count = await user.myDataRequestTemplatesCount();
+    expect(count).toBeGreaterThanOrEqual(0);
+  });
 
-//   it('update user', async () => {
-//     const { updateUser } = await api.user.updateUser({
-//       displayName: 'siddharth9890',
-//     });
-//     expect(updateUser.displayName).toEqual('siddharth9890');
-//   });
+  it('update user', async () => {
+    const { updateUser } = await user.updateUser({
+      displayName: 'siddharth9890',
+    });
+    expect(updateUser.displayName).toEqual('siddharth9890');
+  });
 
-//   it('update profile picture', async () => {
-//     const { updateMyProfilePicture } = await api.user.updateMyProfilePicture(
-//       'https://www.tryodyssey.xyz/images/campaigns/lifi/odyssey_lifi.png',
-//     );
-//     expect(updateMyProfilePicture).toEqual(
-//       'https://www.tryodyssey.xyz/images/campaigns/lifi/odyssey_lifi.png',
-//     );
-//   });
-// });
+  it('update profile picture', async () => {
+    const { updateMyProfilePicture } = await user.updateMyProfilePicture(
+      'https://www.tryodyssey.xyz/images/campaigns/lifi/odyssey_lifi.png',
+    );
+    expect(updateMyProfilePicture).toEqual(
+      'https://www.tryodyssey.xyz/images/campaigns/lifi/odyssey_lifi.png',
+    );
+  });
+});

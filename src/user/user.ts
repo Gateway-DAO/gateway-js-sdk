@@ -7,9 +7,14 @@ import {
 } from '../../.mesh';
 import { PDAFilter, UserIdentifierType } from '../types';
 import { errorHandler } from '../utils/errorHandler';
+import {
+  isEmailValid,
+  isStringValid,
+  validateObjectProperties,
+} from '../utils/validators';
 
 export class User {
-  private sdk: Sdk;
+  public sdk: Sdk;
 
   constructor(sdk: Sdk) {
     this.sdk = sdk;
@@ -43,6 +48,7 @@ export class User {
     value: string;
   }) {
     try {
+      isStringValid(value);
       return await this.sdk.user_query({ input: { type, value } });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -124,6 +130,7 @@ export class User {
    */
   async updateUser(updatedUser: UpdateUserInput) {
     try {
+      validateObjectProperties(updatedUser);
       return await this.sdk.updateUser_mutation({ input: updatedUser });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -140,6 +147,7 @@ export class User {
    */
   async updateMyDisplayName(displayName: string) {
     try {
+      isStringValid(displayName);
       return await this.sdk.updateMyDisplayName_mutation({ displayName });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -156,6 +164,7 @@ export class User {
    */
   async updateMyGatewayId(gatewayId: string) {
     try {
+      isStringValid(gatewayId);
       return await this.sdk.updateMyGatewayId_mutation({ gatewayId });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -187,6 +196,7 @@ export class User {
    */
   async updateNotificationEmail(email: string) {
     try {
+      isEmailValid(email);
       return (await this.sdk.updateNotificationEmail_mutation({ email }))
         .updateNotificationEmail;
     } catch (error) {

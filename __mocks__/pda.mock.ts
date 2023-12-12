@@ -2,11 +2,9 @@ import { PDA } from '../src/pda/pda';
 import { pdaStub } from '../test/stubs/pda.stub';
 
 export const PDAMockService = (pda: PDA) => ({
-  createPDAMutationMock: jest
-    .spyOn(pda.sdk, 'createPDA_mutation')
-    .mockResolvedValue({
-      createPDA: pdaStub(),
-    }),
+  createPDAMock: jest.spyOn(pda.sdk, 'createPDA_mutation').mockResolvedValue({
+    createPDA: pdaStub(),
+  }),
   changePDAStatusMock: jest
     .spyOn(pda.sdk, 'changePDAStatus_mutation')
     .mockResolvedValue({

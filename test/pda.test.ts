@@ -16,7 +16,7 @@ afterAll(() => {
 
 describe('PDA SERVICE TESTING', () => {
   it('pda create', async () => {
-    const { createPDAMutationMock } = PDAMockService(pda);
+    const { createPDAMock: createPDAMutationMock } = PDAMockService(pda);
 
     const { createPDA } = await pda.createPDA(pdaCreateStub());
 

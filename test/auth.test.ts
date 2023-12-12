@@ -1,6 +1,5 @@
 import { Auth } from '../src/auth/auth';
 import { getMeshSDK } from '../.mesh';
-import { Chain } from '../src/types';
 import { AuthMockService } from '../__mocks__/auth.mock';
 import { authStub } from './stubs/auth.stub';
 
