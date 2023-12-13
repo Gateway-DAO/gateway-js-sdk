@@ -72,9 +72,9 @@ export class Auth {
    * @param {Chain} chain : a chain optional of type Chain
    * @returns the result of the `addWallet` method call, is a message which will be used to confirm wallet.
    */
-  async addWallet(wallet: string, chain?: Chain) {
+  async addWallet(wallet: string, chain: Chain) {
     try {
-      isWalletAddressvalid(wallet);
+      isWalletAddressvalid(wallet, chain);
       return (await this.sdk.addWallet_mutation({ input: { wallet, chain } }))
         .addWallet;
     } catch (error) {
@@ -106,9 +106,9 @@ export class Auth {
    * @param {Chain} chain : a chain optional of type Chain
    * @returns the result of the `createWalletNounce` method call, is a message which will be used to confirm wallet.
    */
-  async createWalletNonce(wallet: string, chain?: Chain) {
+  async createWalletNonce(wallet: string, chain: Chain) {
     try {
-      isWalletAddressvalid(wallet);
+      isWalletAddressvalid(wallet, chain);
       return (
         await this.sdk.createWalletNonce_mutation({ input: { wallet, chain } })
       ).createWalletNonce;
@@ -153,9 +153,9 @@ export class Auth {
    * @param {string} signature: a string representing the signature generated
    * @returns the result of the `loginWallet` method call,returning the user if signature is correct
    */
-  async loginWallet(wallet: string, signature: string) {
+  async loginWallet(wallet: string, chain: Chain, signature: string) {
     try {
-      isWalletAddressvalid(wallet);
+      isWalletAddressvalid(wallet, chain);
       return (
         await this.sdk.loginWallet_mutation({
           input: { wallet, signature },

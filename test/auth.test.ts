@@ -36,7 +36,10 @@ describe('AUTH SERVICE TESTING', () => {
   it('add wallet', async () => {
     const { addWalletMock } = AuthMockService(auth);
 
-    const { message } = await auth.addWallet(authStub().wallet);
+    const { message } = await auth.addWallet(
+      authStub().wallet,
+      authStub().chain,
+    );
 
     expect(message).toBe(authStub().message);
     expect(addWalletMock).toHaveBeenCalled();
@@ -45,7 +48,10 @@ describe('AUTH SERVICE TESTING', () => {
   it('create wallet nounce', async () => {
     const { createWalletNonceMock } = AuthMockService(auth);
 
-    const { message } = await auth.createWalletNonce(authStub().wallet);
+    const { message } = await auth.createWalletNonce(
+      authStub().wallet,
+      authStub().chain,
+    );
     expect(message).toBe(authStub().message);
     expect(createWalletNonceMock).toHaveBeenCalled();
   });

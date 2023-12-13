@@ -1,3 +1,6 @@
+import { ethers } from 'ethers';
+import { PublicKey } from '@solana/web3.js';
+import { Chain } from '../types';
 import { STRING_VALIDATION_LENGTH } from './constants';
 
 export const isEmailValid = (email: string): boolean => {
@@ -21,11 +24,29 @@ export const isUUIDValid = (uuid: string): boolean => {
   return true;
 };
 
-export const isWalletAddressvalid = (address: string): boolean => {
-  const ethereumAddressRegex = /^(0x)?[0-9a-fA-F]{40}$/;
-  if (!ethereumAddressRegex.test(address))
-    throw new Error(`${address} is not valid`);
-  return true;
+export const validateEtherumWallet = (wallet: string): boolean => {
+  if (ethers.utils.isAddress(wallet)) {
+    return true;
+  }
+  throw new Error(`${wallet} is invalid`);
+};
+
+export const validateSolanaWallet = (wallet: string): boolean => {
+  const key = new PublicKey(wallet);
+  if (PublicKey.isOnCurve(key.toBytes())) {
+    return true;
+  }
+  throw new Error(`${wallet} is invalid`);
+};
+
+export const isWalletAddressvalid = (wallet: string, chain: Chain): boolean => {
+  if (chain === Chain.EVM) {
+    return validateEtherumWallet(wallet);
+  } else if (chain === Chain.SOL) {
+    return validateSolanaWallet(wallet);
+  } else {
+    throw new Error(`${chain} not supported yet`);
+  }
 };
 
 export const isDateValid = (date: string): boolean => {
