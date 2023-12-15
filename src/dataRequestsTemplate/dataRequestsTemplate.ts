@@ -4,9 +4,10 @@ import {
   TemplateSchemaInput,
 } from '../../.mesh';
 import { errorHandler } from '../utils/errorHandler';
+import { isUUIDValid, validateObjectProperties } from '../utils/validators';
 
 export class DataRequestTemplate {
-  private sdk: Sdk;
+  public sdk: Sdk;
 
   constructor(sdk: Sdk) {
     this.sdk = sdk;
@@ -22,6 +23,7 @@ export class DataRequestTemplate {
    */
   async createDataRequestTemplate(templateInput: TemplateSchemaInput) {
     try {
+      validateObjectProperties(templateInput);
       return await this.sdk.createDataRequestTemplate_mutation({
         input: templateInput,
       });
@@ -39,6 +41,7 @@ export class DataRequestTemplate {
    */
   async getDataRequestTemplate(id: string) {
     try {
+      isUUIDValid(id);
       return await this.sdk.dataRequestTemplate_query({ id });
     } catch (error) {
       throw new Error(errorHandler(error));

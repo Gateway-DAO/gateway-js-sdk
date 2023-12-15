@@ -1,93 +1,98 @@
-import dotenv from 'dotenv';
-import { Gateway } from '../src/Gateway';
+import { getMeshSDK } from '../.mesh';
+import { UserMockService } from '../__mocks__/user.mock';
 import { UserIdentifierType } from '../src/types';
-dotenv.config();
+import { User } from '../src/user/user';
+import { userStub } from './stubs/user.stub';
 
-const DEFAULT_TIMEOUT = 10000;
-
-let api: Gateway;
+let user: User;
 
 beforeAll(() => {
-  api = new Gateway({
-    apiKey: process.env.API_KEY!,
-    token: process.env.BEARER_TOKEN!,
-  });
+  user = new User(getMeshSDK());
 });
 
-describe('USER Testing', () => {
-  it(
-    'me',
-    async () => {
-      const { me } = await api.user.me();
-      expect(me.gatewayId).toEqual('sid');
-    },
-    DEFAULT_TIMEOUT,
-  );
+afterAll(() => {
+  jest.clearAllMocks();
+});
 
-  it(
-    'single user',
-    async () => {
-      const { user } = await api.user.getSingleUser({
-        type: UserIdentifierType.GATEWAY_ID,
-        value: 'sid',
-      });
-      expect(user?.gatewayId).toEqual('sid');
-    },
-    DEFAULT_TIMEOUT,
-  );
+describe('USER SERVICE TESTING', () => {
+  it('me', async () => {
+    const { meMock } = UserMockService(user);
 
-  it(
-    'my pdas count',
-    async () => {
-      const count = await api.user.myPDACount({});
-      expect(count).toBeGreaterThanOrEqual(0);
-    },
-    DEFAULT_TIMEOUT,
-  );
+    const { me } = await user.me();
 
-  it(
-    'my pdas',
-    async () => {
-      const { myPDAs } = await api.user.myPDAs({
-        skip: 0,
-        take: 10,
-      });
-      expect(myPDAs.length).toBeGreaterThanOrEqual(0);
-    },
-    DEFAULT_TIMEOUT,
-  );
+    expect(me.gatewayId).toEqual(userStub().gatewayId);
+    expect(meMock).toHaveBeenCalled();
+  });
 
-  it(
-    'my data models count',
-    async () => {
-      const count = await api.user.myDataModelsCount();
-      expect(count).toBeGreaterThanOrEqual(0);
-    },
-    DEFAULT_TIMEOUT,
-  );
+  it('single user', async () => {
+    const { getSingleUserMock } = UserMockService(user);
 
-  it(
-    'my data requests template count',
-    async () => {
-      const count = await api.user.myDataRequestTemplatesCount();
-      expect(count).toBeGreaterThanOrEqual(0);
-    },
-    DEFAULT_TIMEOUT,
-  );
+    const res = await user.getSingleUser({
+      type: UserIdentifierType.GATEWAY_ID,
+      value: userStub().gatewayId!,
+    });
+
+    expect(res.user?.gatewayId).toEqual(userStub().gatewayId);
+    expect(getSingleUserMock).toHaveBeenCalled();
+  });
+
+  it('my pdas count', async () => {
+    const { myPDACountMock } = UserMockService(user);
+
+    const count = await user.myPDACount();
+
+    expect(count).toBeGreaterThanOrEqual(0);
+    expect(myPDACountMock).toHaveBeenCalled();
+  });
+
+  it('my pdas', async () => {
+    const { myPDAsMock } = UserMockService(user);
+
+    const { myPDAs } = await user.myPDAs({
+      skip: 0,
+      take: 10,
+    });
+
+    expect(myPDAs.length).toBeGreaterThanOrEqual(0);
+    expect(myPDAsMock).toHaveBeenCalled();
+  });
+
+  it('my data models count', async () => {
+    const { myDataModelsCountMock } = UserMockService(user);
+
+    const count = await user.myDataModelsCount();
+
+    expect(count).toBeGreaterThanOrEqual(0);
+    expect(myDataModelsCountMock).toHaveBeenCalled();
+  });
+
+  it('my data requests template count', async () => {
+    const { myDataRequestTemplatesCountMock } = UserMockService(user);
+
+    const count = await user.myDataRequestTemplatesCount();
+
+    expect(count).toBeGreaterThanOrEqual(0);
+    expect(myDataRequestTemplatesCountMock).toHaveBeenCalled();
+  });
 
   it('update user', async () => {
-    const { updateUser } = await api.user.updateUser({
-      displayName: 'siddharth9890',
+    const { updateUserMock } = UserMockService(user);
+
+    const { updateUser } = await user.updateUser({
+      displayName: userStub().displayName!,
     });
-    expect(updateUser.displayName).toEqual('siddharth9890');
+    expect(updateUser.displayName!).toEqual(userStub().displayName!);
+    expect(updateUserMock).toHaveBeenCalled();
   });
 
   it('update profile picture', async () => {
-    const { updateMyProfilePicture } = await api.user.updateMyProfilePicture(
-      'https://www.tryodyssey.xyz/images/campaigns/lifi/odyssey_lifi.png',
+    const { updateMyProfilePictureMock } = UserMockService(user);
+
+    const { updateMyProfilePicture } = await user.updateMyProfilePicture(
+      userStub().profilePicture!,
     );
-    expect(updateMyProfilePicture).toEqual(
-      'https://www.tryodyssey.xyz/images/campaigns/lifi/odyssey_lifi.png',
-    );
+
+    expect(updateMyProfilePicture).toEqual(userStub().profilePicture!);
+    expect(updateMyProfilePictureMock).toHaveBeenCalled();
   });
 });

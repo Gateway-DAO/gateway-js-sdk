@@ -18,10 +18,7 @@ jobs:
         run: pnpm lint
       - name: Build Graphql queries
         run: pnpm mesh build
+      - name: Format code
+        run: pnpm format
       - name: Test project
         run: pnpm test
-        env:
-          DATAMODEL_ID: ${{ secrets.DATAMODEL_ID }}
-          BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
-          API_KEY: ${{ secrets.API_KEY }}
-          ORGAINZATION_ID: ${{ secrets.ORGAINZATION_ID }}

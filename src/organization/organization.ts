@@ -8,9 +8,10 @@ import {
 } from '../../.mesh';
 import { OrganizationIdentifierType } from '../types';
 import { errorHandler } from '../utils/errorHandler';
+import { isStringValid, validateObjectProperties } from '../utils/validators';
 
 export class Organization {
-  private sdk: Sdk;
+  public sdk: Sdk;
 
   constructor(sdk: Sdk) {
     this.sdk = sdk;
@@ -28,6 +29,7 @@ export class Organization {
    */
   async createOrganization(organizationInput: CreateOrganizationInput) {
     try {
+      validateObjectProperties(organizationInput);
       return await this.sdk.createOrganization_mutation({
         input: organizationInput,
       });
@@ -97,6 +99,7 @@ export class Organization {
    */
   async updateOrganization(updatedOrganization: UpdateOrganizationInput) {
     try {
+      validateObjectProperties(updatedOrganization);
       return await this.sdk.updateOrganization_mutation({
         input: updatedOrganization,
       });
@@ -118,6 +121,7 @@ export class Organization {
    */
   async getOrganization(type: OrganizationIdentifierType, value: string) {
     try {
+      isStringValid(value);
       return await this.sdk.organization_query({ input: { type, value } });
     } catch (error) {
       throw new Error(errorHandler(error));

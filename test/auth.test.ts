@@ -1,56 +1,58 @@
-import dotenv from 'dotenv';
-import { Gateway } from '../src/Gateway';
+import { Auth } from '../src/auth/auth';
+import { getMeshSDK } from '../.mesh';
+import { AuthMockService } from '../__mocks__/auth.mock';
+import { authStub } from './stubs/auth.stub';
 
-dotenv.config();
-let api: Gateway;
-const DEFAULT_TIMEOUT = 100000;
+let auth: Auth;
 
 beforeAll(() => {
-  api = new Gateway({
-    apiKey: process.env.API_KEY!,
-    token: process.env.BEARER_TOKEN!,
-  });
+  auth = new Auth(getMeshSDK());
 });
 
-describe('auth test', () => {
-  it(
-    'check username availability',
-    async () => {
-      const result = await api.auth.checkUsernameAvailability('sid');
-      expect(result).toEqual(false);
-    },
-    DEFAULT_TIMEOUT,
-  );
+afterAll(() => {
+  jest.resetAllMocks();
+});
 
-  it(
-    'add email',
-    async () => {
-      const { email, code } = await api.auth.addEmail('sid@test.com');
-      expect(email).toBe('sid@test.com');
-      expect(code).toBeDefined();
-    },
-    DEFAULT_TIMEOUT,
-  );
+describe('AUTH SERVICE TESTING', () => {
+  it('check username availability', async () => {
+    const { checkUsernameAvailabilityMock } = AuthMockService(auth);
 
-  it(
-    'add wallet',
-    async () => {
-      const { message } = await api.auth.addWallet(
-        '0xD73e46DeBD3958F2706903A6D3644C570285EC1F',
-      );
-      expect(message.length).toBeDefined();
-    },
-    DEFAULT_TIMEOUT,
-  );
+    const result = await auth.checkUsernameAvailability(authStub().username);
 
-  it(
-    'create wallet nounce',
-    async () => {
-      const { message } = await api.auth.createWalletNonce(
-        '0xCf084430Fc2CfAd8E81716aEdeBBE4458866D239',
-      );
-      expect(message.length).toBeDefined();
-    },
-    DEFAULT_TIMEOUT,
-  );
+    expect(result).toEqual(true);
+    expect(checkUsernameAvailabilityMock).toHaveBeenCalled();
+  });
+
+  it('add email', async () => {
+    const { addEmailMock } = AuthMockService(auth);
+
+    const { email, code } = await auth.addEmail(authStub().email);
+
+    expect(email).toBe(authStub().email);
+    expect(code).toBe(authStub().code);
+    expect(addEmailMock).toHaveBeenCalled();
+  });
+
+  it('add wallet', async () => {
+    const { addWalletMock } = AuthMockService(auth);
+
+    const { message } = await auth.addWallet(
+      authStub().wallet,
+      authStub().chain,
+    );
+
+    expect(message).toBe(authStub().message);
+    expect(addWalletMock).toHaveBeenCalled();
+  });
+
+  it('create wallet nounce', async () => {
+    const { createWalletNonceMock } = AuthMockService(auth);
+
+    const { message } = await auth.createWalletNonce(
+      authStub().wallet,
+      authStub().chain,
+    );
+    expect(message).toBe(authStub().message);
+    expect(createWalletNonceMock).toHaveBeenCalled();
+  });
 });

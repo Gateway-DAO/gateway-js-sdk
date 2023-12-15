@@ -6,9 +6,10 @@ import {
 } from '../../.mesh';
 import { PDAFilter, PDAStatus } from '../types';
 import { errorHandler } from '../utils/errorHandler';
+import { isUUIDValid, validateObjectProperties } from '../utils/validators';
 
 export class PDA {
-  private sdk: Sdk;
+  public sdk: Sdk;
 
   constructor(sdk: Sdk) {
     this.sdk = sdk;
@@ -23,6 +24,7 @@ export class PDA {
    */
   async getPDA(id: string) {
     try {
+      isUUIDValid(id);
       return await this.sdk.PDA_query({ id });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -112,6 +114,7 @@ export class PDA {
    */
   async changePDAStatus({ id, status }: { id: string; status: PDAStatus }) {
     try {
+      isUUIDValid(id);
       return await this.sdk.changePDAStatus_mutation({ input: { id, status } });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -126,6 +129,7 @@ export class PDA {
    */
   async createPDA(pdaInput: CreatePDAInput) {
     try {
+      validateObjectProperties(pdaInput);
       return await this.sdk.createPDA_mutation({ input: pdaInput });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -143,6 +147,7 @@ export class PDA {
    */
   async updatePDA(updatedPDA: UpdatePDAInput) {
     try {
+      validateObjectProperties(updatedPDA);
       return await this.sdk.updatePDA_mutation({ input: updatedPDA });
     } catch (error) {
       throw new Error(errorHandler(error));

@@ -1,74 +1,78 @@
-import dotenv from 'dotenv';
-import { Gateway } from '../src/Gateway';
-import { PDAStatus, UserIdentifierType } from '../src/types';
-dotenv.config();
-const DEFAULT_TIMEOUT = 10000;
+import { PDAStatus } from '../src/types';
+import { PDA } from '../src/pda/pda';
+import { getMeshSDK } from '../.mesh';
+import { pdaCreateStub, pdaStub } from './stubs/pda.stub';
+import { PDAMockService } from '../__mocks__/pda.mock';
 
-let api: Gateway;
+let pda: PDA;
 
 beforeAll(() => {
-  api = new Gateway({
-    apiKey: process.env.API_KEY!,
-    token: process.env.BEARER_TOKEN!,
-  });
+  pda = new PDA(getMeshSDK());
+});
+
+afterAll(() => {
+  jest.resetAllMocks();
 });
 
 describe('PDA SERVICE TESTING', () => {
-  it(
-    'pda crud',
-    async () => {
-      let obj = {
-        dataModelId: process.env.DATAMODEL_ID!,
-        description: 'test',
-        title: 'test',
-        claim: {
-          gatewayUse: 'test',
-        },
-        owner: {
-          type: UserIdentifierType.GATEWAY_ID,
-          value: 'sid',
-        },
-      };
-      const { createPDA } = await api.pda.createPDA(obj);
-      const { changePDAStatus } = await api.pda.changePDAStatus({
-        id: createPDA.id,
-        status: PDAStatus.Suspended,
-      });
-      expect(changePDAStatus.status).toEqual(PDAStatus.Suspended);
-      const { PDA } = await api.pda.getPDA(createPDA.id);
-      expect(PDA?.dataAsset?.title).toEqual('test');
-    },
-    DEFAULT_TIMEOUT,
-  );
+  it('pda create', async () => {
+    const { createPDAMock: createPDAMutationMock } = PDAMockService(pda);
 
-  it(
-    'pda count',
-    async () => {
-      const count = await api.pda.getPDACount();
-      expect(count).toBeGreaterThanOrEqual(0);
-    },
-    DEFAULT_TIMEOUT,
-  );
+    const { createPDA } = await pda.createPDA(pdaCreateStub());
 
-  it(
-    'pdas',
-    async () => {
-      const { PDAs } = await api.pda.getPDAs({
-        filter: { dataModelIds: [process.env.DATAMODEL_ID!] },
-        skip: 0,
-        take: 10,
-      });
-      expect(PDAs.length).toBeGreaterThanOrEqual(0);
-    },
-    DEFAULT_TIMEOUT,
-  );
+    expect(createPDA.id).toBe(pdaStub().id);
+    expect(createPDAMutationMock).toHaveBeenCalled();
+  });
 
-  it(
-    'issued pdas count',
-    async () => {
-      const count = await api.pda.getIssuedPDAsCount();
-      expect(count).toBeGreaterThanOrEqual(0);
-    },
-    DEFAULT_TIMEOUT,
-  );
+  it('pda update status', async () => {
+    const { changePDAStatusMock } = PDAMockService(pda);
+
+    const { changePDAStatus } = await pda.changePDAStatus({
+      id: pdaStub().id,
+      status: PDAStatus.Suspended,
+    });
+
+    expect(changePDAStatus.status).toEqual(PDAStatus.Suspended);
+    expect(changePDAStatusMock).toHaveBeenCalled();
+  });
+
+  it('get pda', async () => {
+    const { getPDAMock } = PDAMockService(pda);
+
+    const { PDA } = await pda.getPDA(pdaStub().id);
+
+    expect(PDA?.dataAsset?.title).toEqual(pdaStub().dataAsset?.title);
+    expect(getPDAMock).toHaveBeenCalled();
+  });
+
+  it('pda count', async () => {
+    const { pdaCountMock } = PDAMockService(pda);
+
+    const count = await pda.getPDACount();
+
+    expect(count).toBeGreaterThanOrEqual(0);
+    expect(pdaCountMock).toHaveBeenCalled();
+  });
+
+  it('pdas', async () => {
+    const { pdasMock } = PDAMockService(pda);
+
+    const { PDAs } = await pda.getPDAs({
+      filter: { dataModelIds: [pdaCreateStub().dataModelId] },
+      skip: 0,
+      take: 10,
+    });
+
+    expect(PDAs.length).toBeGreaterThanOrEqual(0);
+    expect(pdasMock).toHaveBeenCalled();
+  });
+
+  it('issued pdas count', async () => {
+    const { issuedPDAMock } = PDAMockService(pda);
+
+    const count = await pda.getIssuedPDAsCount();
+
+    expect(count).toBeGreaterThanOrEqual(0);
+    expect(issuedPDAMock).toHaveBeenCalled();
+  });
 });
