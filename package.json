@@ -1,7 +1,7 @@
 {
-  "name": "@Gateway-dao/js-sdk",
+  "name": "@Gateway-dao-js-sdk",
   "version": "0.0.0",
-  "description": "",
+  "description": "A Typescript SDK for the Gateway API",
   "main": "dist/src/Gateway.js",
   "types": "dist/src/types.d.ts",
   "scripts": {
@@ -11,8 +11,11 @@
     "format": "prettier --write .",
     "build": "tsc"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "sdk",
+    "sdk-typescript",
+    "web3"
+  ],
   "license": "MIT",
   "dependencies": {
     "@graphql-mesh/cli": "^0.87.16",
