@@ -39,7 +39,7 @@ This library supports Bearer Token along with Api Key. Do not share your authent
 
 ## Examples
 
-Make sure to add try catch blocks around methods to catch all errors.
+Make sure to add try catch blocks around methods to catch all the validation and protocol based errors.
 
 ### Creating a PDA
 
@@ -137,7 +137,7 @@ You can find more examples of using the client in the [examples/](examples/) dir
 ## Error Handling
 
 All the methods throw a validation error if the validation does not match for example:- invalid wallet, invalid uuid for all ids,
-Incase of any protocol errors we will throw a custom message which is a string which has all neccessary info regarding error. 
+Incase of any protocol errors we will throw a custom message which is a string which has all neccessary info regarding error.
 
 ## License
 
