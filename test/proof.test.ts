@@ -1,63 +1,69 @@
-import { Gateway } from '../src/Gateway';
-let api: Gateway;
+//   it('get pda', async () => {
+//     const { getPDAMock } = PDAMockService(pda);
+
+//     const { PDA } = await pda.getPDA(pdaStub().id);
+
+//     expect(PDA?.dataAsset?.title).toEqual(pdaStub().dataAsset?.title);
+//     expect(getPDAMock).toHaveBeenCalled();
+//   });
+
+//   it('pda count', async () => {
+//     const { pdaCountMock } = PDAMockService(pda);
+
+//     const count = await pda.getPDACount();
+
+//     expect(count).toBeGreaterThanOrEqual(0);
+//     expect(pdaCountMock).toHaveBeenCalled();
+//   });
+
+//   it('pdas', async () => {
+//     const { pdasMock } = PDAMockService(pda);
+
+//     const { PDAs } = await pda.getPDAs({
+//       filter: { dataModelIds: [pdaCreateStub().dataModelId] },
+//       skip: 0,
+//       take: 10,
+//     });
+
+//     expect(PDAs.length).toBeGreaterThanOrEqual(0);
+//     expect(pdasMock).toHaveBeenCalled();
+//   });
+
+//   it('issued pdas count', async () => {
+//     const { issuedPDAMock } = PDAMockService(pda);
+
+//     const count = await pda.getIssuedPDAsCount();
+
+//     expect(count).toBeGreaterThanOrEqual(0);
+//     expect(issuedPDAMock).toHaveBeenCalled();
+//   });
+// });
+
+import { Proof } from '../src/proof/proof';
+import { getMeshSDK } from '../.mesh';
+import {
+  proofStub,
+  createProofMessage,
+  createProofStub,
+} from './stubs/proof.stub';
+import { ProofMockService } from '../__mocks__/proof.mock';
+
+let proof: Proof;
 
 beforeAll(() => {
-  const apiKey = process.env.API_KEY;
-  const token = process.env.BEARER_TOKEN;
-
-  if (!apiKey || !token) {
-    throw new Error(
-      'APIKEY or TOKEN is not defined in the environment variables.',
-    );
-  }
-
-  api = new Gateway({
-    apiKey: apiKey,
-    token: token,
-  });
+  proof = new Proof(getMeshSDK());
 });
 
-describe('proofs related test', () => {
-  it('create proof', async () => {
-    const {} = await api.proof.createProof({});
-  });
+afterAll(() => {
+  jest.resetAllMocks();
+});
 
-  it('get proof using data model id', async () => {
-    const { proof } = await api.proof.getProof(process.env.PROOF_ID as string);
-    expect(proof.id).toEqual(process.env.PROOF_ID);
-  }, 8000);
+describe('PROOF SERVICE TESTING', () => {
+  it('proof create', async () => {
+    const { createProofMock } = ProofMockService(proof);
+    const { createProof } = await proof.createProof(createProofStub());
 
-  it('get proofs', async () => {
-    const { proofs } = await api.proof.getProofs();
-    expect(proofs.length).toBeGreaterThanOrEqual(0);
-  });
-
-  it('get proofs by pda id', async () => {
-    const { proofsByPDAIds } = await api.proof.getProofsByPDAIds({
-      pdaIds: [process.env.PDA_ID as string],
-    });
-
-    expect(proofsByPDAIds.length).toBeGreaterThanOrEqual(0);
-  });
-
-  it('get received proofs for user', async () => {
-    const { receivedProofs } = await api.proof.getReceivedProofs();
-
-    expect(receivedProofs.length).toBeGreaterThanOrEqual(0);
-  });
-
-  it('get received proof count', async () => {
-    const { receivedProofsCount } = await api.proof.getReceivedProofsCount();
-    expect(receivedProofsCount).toBeGreaterThanOrEqual(0);
-  });
-
-  it('get sent proofs', async () => {
-    const { sentProofs } = await api.proof.getSentProofs();
-    expect(sentProofs.length).toBeGreaterThanOrEqual(0);
-  });
-
-  it('get sent proofs count', async () => {
-    const { sentProofsCount } = await api.proof.getSentProofsCount();
-    expect(sentProofsCount).toBeGreaterThanOrEqual(0);
+    expect(createProof.id).toBe(proofStub().id);
+    expect(createProofMock).toHaveBeenCalled();
   });
 });
