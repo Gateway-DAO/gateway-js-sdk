@@ -1,44 +1,3 @@
-//   it('get pda', async () => {
-//     const { getPDAMock } = PDAMockService(pda);
-
-//     const { PDA } = await pda.getPDA(pdaStub().id);
-
-//     expect(PDA?.dataAsset?.title).toEqual(pdaStub().dataAsset?.title);
-//     expect(getPDAMock).toHaveBeenCalled();
-//   });
-
-//   it('pda count', async () => {
-//     const { pdaCountMock } = PDAMockService(pda);
-
-//     const count = await pda.getPDACount();
-
-//     expect(count).toBeGreaterThanOrEqual(0);
-//     expect(pdaCountMock).toHaveBeenCalled();
-//   });
-
-//   it('pdas', async () => {
-//     const { pdasMock } = PDAMockService(pda);
-
-//     const { PDAs } = await pda.getPDAs({
-//       filter: { dataModelIds: [pdaCreateStub().dataModelId] },
-//       skip: 0,
-//       take: 10,
-//     });
-
-//     expect(PDAs.length).toBeGreaterThanOrEqual(0);
-//     expect(pdasMock).toHaveBeenCalled();
-//   });
-
-//   it('issued pdas count', async () => {
-//     const { issuedPDAMock } = PDAMockService(pda);
-
-//     const count = await pda.getIssuedPDAsCount();
-
-//     expect(count).toBeGreaterThanOrEqual(0);
-//     expect(issuedPDAMock).toHaveBeenCalled();
-//   });
-// });
-
 import { Proof } from '../src/proof/proof';
 import { getMeshSDK } from '../.mesh';
 import {
@@ -48,7 +7,7 @@ import {
   requestId,
 } from './stubs/proof.stub';
 import { ProofMockService } from '../__mocks__/proof.mock';
-import { request } from 'http';
+import { pdaStub } from './stubs/pda.stub';
 
 let proof: Proof;
 
@@ -85,8 +44,47 @@ describe('PROOF SERVICE TESTING', () => {
 
   it('create proof message', async () => {
     const { createProofMessageMock } = ProofMockService(proof);
-    const { createProofMessage } = await proof.createProofMessage(requestId);
-    expect(createProofMessage).toEqual(createProofMessage);
+    const { createProofMessage: resultMessage } =
+      await proof.createProofMessage(requestId);
+    expect(resultMessage).toEqual(createProofMessage);
     expect(createProofMessageMock).toHaveBeenCalled();
+  });
+
+  it('get proofs by pda ids', async () => {
+    const { getProofsByPDAIdsMock } = ProofMockService(proof);
+    const { proofsByPDAIds } = await proof.getProofsByPDAIds({
+      pdaIds: [pdaStub().id],
+    });
+
+    expect(proofsByPDAIds.length).toBeGreaterThan(0);
+    expect(getProofsByPDAIdsMock).toHaveBeenCalled();
+  });
+
+  it('get received proofs', async () => {
+    const { getReceivedProofsMock } = ProofMockService(proof);
+    const { receivedProofs } = await proof.getReceivedProofs();
+    expect(receivedProofs.length).toBeGreaterThan(0);
+    expect(getReceivedProofsMock).toHaveBeenCalled();
+  });
+
+  it('get received proofs count', async () => {
+    const { getReceivedProofsCountMock } = ProofMockService(proof);
+    const { receivedProofsCount } = await proof.getReceivedProofsCount();
+    expect(receivedProofsCount).toBeGreaterThanOrEqual(0);
+    expect(getReceivedProofsCountMock).toHaveBeenCalled();
+  });
+
+  it('get sent proofs', async () => {
+    const { getSentProofsMock } = ProofMockService(proof);
+    const { sentProofs } = await proof.getSentProofs();
+    expect(sentProofs.length).toBeGreaterThanOrEqual(0);
+    expect(getSentProofsMock).toHaveBeenCalled();
+  });
+
+  it('get sent proofs count', async () => {
+    const { getSentProofsCountMock } = ProofMockService(proof);
+    const { sentProofsCount } = await proof.getSentProofsCount();
+    expect(sentProofsCount).toBeGreaterThanOrEqual(0);
+    expect(getSentProofsCountMock).toHaveBeenCalled();
   });
 });
