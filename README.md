@@ -22,12 +22,12 @@ A TypeScript SDK for the Gateway API. This library is built with TypeScript deve
 ## Installing
 
 ```
-pnpm install @Gateway-dao-js-sdk
+pnpm add @Gateway-dao-js-sdk
 ```
 
-## Client
+## Gateway Client
 
-To setup the client we will authenticate with a bearer-token and a Api key as follows
+To setup the gateway client we will authenticate with a bearer-token and a Api key as follows
 
 ```typescript
 import { Gateway } from '@Gateway-dao-js-sdk';

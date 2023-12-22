@@ -1,9 +1,9 @@
 {
-  "name": "@Gateway-dao-js-sdk",
+  "name": "@Gateway-dao/js-sdk",
   "version": "0.0.0",
   "description": "A Typescript SDK for the Gateway API",
   "main": "dist/src/Gateway.js",
-  "types": "dist/src/types.d.ts",
+  "types": "dist/src/Gateway.d.ts",
   "scripts": {
     "test": "jest",
     "lint": "eslint .",
