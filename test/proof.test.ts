@@ -45,8 +45,10 @@ import {
   proofStub,
   createProofMessage,
   createProofStub,
+  requestId,
 } from './stubs/proof.stub';
 import { ProofMockService } from '../__mocks__/proof.mock';
+import { request } from 'http';
 
 let proof: Proof;
 
@@ -65,5 +67,26 @@ describe('PROOF SERVICE TESTING', () => {
 
     expect(createProof.id).toBe(proofStub().id);
     expect(createProofMock).toHaveBeenCalled();
+  });
+
+  it('get proof', async () => {
+    const { getProofMock } = ProofMockService(proof);
+    const { proof: resultProof } = await proof.getProof(proofStub().id);
+    expect(resultProof.id).toBe(proofStub().id);
+    expect(getProofMock).toHaveBeenCalled();
+  });
+
+  it('get proofs', async () => {
+    const { getProofsMock } = ProofMockService(proof);
+    const { proofs: resultProofs } = await proof.getProofs();
+    expect(resultProofs?.length).toBeGreaterThan(0);
+    expect(getProofsMock).toHaveBeenCalled();
+  });
+
+  it('create proof message', async () => {
+    const { createProofMessageMock } = ProofMockService(proof);
+    const { createProofMessage } = await proof.createProofMessage(requestId);
+    expect(createProofMessage).toEqual(createProofMessage);
+    expect(createProofMessageMock).toHaveBeenCalled();
   });
 });

@@ -18,33 +18,35 @@ export const ProofMockService = (proof: Proof) => ({
       createProofMessage: createProofMessage,
     }),
 
-  getProofs: jest.spyOn(proof.sdk, 'proofs_query').mockResolvedValue({
+  getProofsMock: jest.spyOn(proof.sdk, 'proofs_query').mockResolvedValue({
     proofs: [proofStub()],
   }),
 
-  getProofsByPDAIds: jest
+  getProofsByPDAIdsMock: jest
     .spyOn(proof.sdk, 'proofsByPDAIds_query')
     .mockResolvedValue({
       proofsByPDAIds: [proofStub()],
     }),
 
-  getReceivedProofs: jest
+  getReceivedProofsMock: jest
     .spyOn(proof.sdk, 'receivedProofs_query')
     .mockResolvedValue({
       receivedProofs: [proofStub()],
     }),
 
-  getReceivedProofsCount: jest
+  getReceivedProofsCountMock: jest
     .spyOn(proof.sdk, 'receivedProofsCount_query')
     .mockResolvedValue({
       receivedProofsCount: 10,
     }),
 
-  getSentProofs: jest.spyOn(proof.sdk, 'sentProofs_query').mockResolvedValue({
-    sentProofs: [proofStub()],
-  }),
+  getSentProofsMock: jest
+    .spyOn(proof.sdk, 'sentProofs_query')
+    .mockResolvedValue({
+      sentProofs: [proofStub()],
+    }),
 
-  getSentProofsCount: jest
+  getSentProofsCountMock: jest
     .spyOn(proof.sdk, 'sentProofsCount_query')
     .mockResolvedValue({
       sentProofsCount: 10,
