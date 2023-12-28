@@ -115,7 +115,7 @@ export class DataModel {
    * @returns The `getDataModelMetaData` function is returning the result of the
    * `dataModelsMetadata_query` method call.
    */
-  async getDataModelMetaData() {
+  async getDataModelsMetaData() {
     try {
       return await this.sdk.dataModelsMetadata_query();
     } catch (error: any) {

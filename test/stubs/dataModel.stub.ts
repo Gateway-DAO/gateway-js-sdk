@@ -1,4 +1,8 @@
-import { DataModel, CreateDataModelInput } from '../../.mesh';
+import {
+  DataModel,
+  CreateDataModelInput,
+  DataModelsMetadata,
+} from '../../.mesh';
 
 export const dataModelStub = (
   overrideDataModel?: Partial<DataModel>,
@@ -94,4 +98,36 @@ export const dataModelCreateStub = (
   consumptionPrice: 200,
 
   ...overrideDataModelCreateStub,
+});
+
+export const dataModelMetaDataStub = (
+  overideDataModelMetaData?: DataModelsMetadata,
+): DataModelsMetadata => ({
+  consumptionPrice: {
+    min: 0,
+    max: 3,
+  },
+  tags: [
+    'Research',
+    'Testing',
+    'Developers',
+    'Education',
+    'Music',
+    'Listening',
+    'Consumer',
+    'Finance',
+    'Banking',
+    'Credit Card',
+    'Social',
+    'Score',
+    'Earn',
+    'Marketing',
+    'Infrastructure',
+    'Tests',
+  ],
+  issuedCount: {
+    min: 0,
+    max: 14,
+  },
+  ...overideDataModelMetaData,
 });

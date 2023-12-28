@@ -1,5 +1,8 @@
 import { DataModel } from '../src/data-model/data-model';
-import { dataModelStub } from '../test/stubs/dataModel.stub';
+import {
+  dataModelStub,
+  dataModelMetaDataStub,
+} from '../test/stubs/dataModel.stub';
 
 export const DataModelMockService = (dataModel: DataModel) => ({
   createDataModelMock: jest
@@ -18,5 +21,17 @@ export const DataModelMockService = (dataModel: DataModel) => ({
     .spyOn(dataModel.sdk, 'dataModels_query')
     .mockResolvedValue({
       dataModels: [dataModelStub()],
+    }),
+
+  getDataModelsCountMock: jest
+    .spyOn(dataModel.sdk, 'dataModelsCount_query')
+    .mockResolvedValue({
+      dataModelsCount: 10,
+    }),
+
+  getDataModelsMock: jest
+    .spyOn(dataModel.sdk, 'dataModelsMetadata_query')
+    .mockResolvedValue({
+      dataModelsMetadata: dataModelMetaDataStub(),
     }),
 });
