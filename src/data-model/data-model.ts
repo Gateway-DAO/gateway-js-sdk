@@ -10,7 +10,7 @@ import { errorHandler } from '../utils/errorHandler';
 models. */
 
 export class DataModel {
-  private sdk: Sdk;
+  public sdk: Sdk;
 
   constructor(sdk: Sdk) {
     this.sdk = sdk;
