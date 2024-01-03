@@ -1,7 +1,7 @@
 import { DataRequestTemplate } from '../src/dataRequestsTemplate/dataRequestsTemplate';
 import { dataRequestTemplateStub } from '../test/stubs/dataRequestTemplate.stub';
 
-export const dataRequestTemplateMockService = (
+export const DataRequestTemplateMockService = (
   dataRequestTemplate: DataRequestTemplate,
 ) => ({
   createDataRequestTemplateMock: jest

@@ -62,9 +62,27 @@ export const dataModelStub = (
 });
 
 export const dataModelCreateStub = (
-  overrideDataModelCreateStub?: CreateDataModelInput,
+  overrideDataModelCreateStub?: any,
 ): CreateDataModelInput => ({
-  description: 'hello test',
+  PDAs: [],
+  allowedOrganizations: [],
+  allowedUsers: [],
+  arweaveUrl: 'https://arweave.net/BKwtY0kAZGjhw2P2KZk2XOmFBYf3fHRnTUkQ0Q9AA3Q',
+  consumptionPrice: 0.5,
+  createdAt: '2023-11-29T18:00:55.650Z',
+  description:
+    'Net promoter score (NPS) is a market research metric that is based on a single survey question asking respondents to rate the likelihood that they would recommend a company, product, or a service to a friend or colleague. The NPS is a proprietary instrument developed by Fred Reichheld, who owns the registered NPS trademark in conjunction with Bain & Company and Satmetrix. Its popularity and broad use have been attributed to its simplicity and transparent methodology.',
+  featured: false,
+  group: {
+    id: 'd4339c71-f414-4dfd-9213-003317e06862',
+    createdAt: '2023-11-29T18:00:55.650Z',
+    dataModels: [],
+    official: false,
+  },
+  verified: false,
+  uniqueIssuersCount: 1,
+  title: 'Net promoter score ',
+  tags: ['Research', 'Testing'],
   schema: {
     type: 'object',
     default: {},
@@ -92,11 +110,11 @@ export const dataModelCreateStub = (
       },
     },
   },
-  title: 'dfds',
-  permissions: 'ALL',
-  tags: [],
-  consumptionPrice: 200,
-
+  revenueGenerated: 0,
+  id: 'c22d65f0-b7b1-48a9-8c13-a01e32df1f1f',
+  organization: null,
+  pdas: [],
+  pdasIssuedCount: 2,
   ...overrideDataModelCreateStub,
 });
 

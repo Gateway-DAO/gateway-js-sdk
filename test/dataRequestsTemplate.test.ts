@@ -1,5 +1,5 @@
 import { getMeshSDK } from '../.mesh';
-import { dataRequestTemplateMockService } from '../__mocks__/dataRequestTemplate.mock';
+import { DataRequestTemplateMockService } from '../__mocks__/dataRequestTemplate.mock';
 import { DataRequestTemplate } from '../src/dataRequestsTemplate/dataRequestsTemplate';
 import {
   dataRequestTemplateCreateStub,
@@ -19,7 +19,7 @@ afterAll(() => {
 describe('DATA REQUESTS TEMPLATE TESTING', () => {
   it('create data request template', async () => {
     const { createDataRequestTemplateMock } =
-      dataRequestTemplateMockService(dataRequestTemplate);
+      DataRequestTemplateMockService(dataRequestTemplate);
 
     const { createDataRequestTemplate } =
       await dataRequestTemplate.createDataRequestTemplate(
@@ -34,7 +34,7 @@ describe('DATA REQUESTS TEMPLATE TESTING', () => {
 
   it('get data request template by id', async () => {
     const { getDataRequestTemplateMock } =
-      dataRequestTemplateMockService(dataRequestTemplate);
+      DataRequestTemplateMockService(dataRequestTemplate);
 
     const res = await dataRequestTemplate.getDataRequestTemplate(
       dataRequestTemplateStub().id,
@@ -46,7 +46,7 @@ describe('DATA REQUESTS TEMPLATE TESTING', () => {
 
   it('get data request templates', async () => {
     const { getDataRequestTemplatesMock } =
-      dataRequestTemplateMockService(dataRequestTemplate);
+      DataRequestTemplateMockService(dataRequestTemplate);
 
     const { dataRequestTemplates } =
       await dataRequestTemplate.getDataRequestTemplates({
@@ -60,7 +60,7 @@ describe('DATA REQUESTS TEMPLATE TESTING', () => {
 
   it('get data request templates count', async () => {
     const { getDataRequestsTemplateCount } =
-      dataRequestTemplateMockService(dataRequestTemplate);
+      DataRequestTemplateMockService(dataRequestTemplate);
 
     const count = await dataRequestTemplate.getDataRequestsTemplateCount();
 
