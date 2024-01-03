@@ -18,7 +18,7 @@ export const DataModelMockService = (dataModel: DataModel) => ({
       dataModel: dataModelStub(),
     }),
 
-  getDataModels: jest
+  getDataModelsMock: jest
     .spyOn(dataModel.sdk, 'dataModels_query')
     .mockResolvedValue({
       dataModels: [dataModelStub()],
@@ -30,7 +30,7 @@ export const DataModelMockService = (dataModel: DataModel) => ({
       dataModelsCount: 10,
     }),
 
-  getDataModelsMock: jest
+  getDataModelsMetaDataMock: jest
     .spyOn(dataModel.sdk, 'dataModelsMetadata_query')
     .mockResolvedValue({
       dataModelsMetadata: dataModelMetaDataStub(),

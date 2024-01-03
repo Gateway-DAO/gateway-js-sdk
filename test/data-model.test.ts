@@ -1,6 +1,10 @@
 import { getMeshSDK } from '../.mesh';
 import { DataModel } from '../src/data-model/data-model';
-import { dataModelCreateStub, dataModelStub } from './stubs/dataModel.stub';
+import {
+  dataModelCreateStub,
+  dataModelStub,
+  dataModelMetaDataStub,
+} from './stubs/dataModel.stub';
 import { DataModelMockService } from '../__mocks__/dataModel.mock';
 
 let dataModel: DataModel;
@@ -33,5 +37,28 @@ describe('DATA MODEL CLASS METHODS TESTING', () => {
     );
     expect(rdataModel).toEqual(dataModelStub());
     expect(getDataModelMock).toHaveBeenCalled();
+  });
+
+  it('get data models', async () => {
+    const { getDataModelsMock } = DataModelMockService(dataModel);
+
+    const { dataModels } = await dataModel.getDataModels();
+
+    expect(dataModels.length).toBeGreaterThanOrEqual(0);
+    expect(getDataModelsMock).toHaveBeenCalled();
+  });
+
+  it('get data models count', async () => {
+    const { getDataModelsCountMock } = DataModelMockService(dataModel);
+    const { dataModelsCount } = await dataModel.getDataModelsCount();
+    expect(dataModelsCount).toBeGreaterThanOrEqual(0);
+    expect(getDataModelsCountMock).toHaveBeenCalled();
+  });
+
+  it('get meta data of data models', async () => {
+    const { getDataModelsMetaDataMock } = DataModelMockService(dataModel);
+    const { dataModelsMetadata } = await dataModel.getDataModelsMetaData();
+    expect(dataModelsMetadata).toEqual(dataModelMetaDataStub());
+    expect(getDataModelsMetaDataMock).toHaveBeenCalled();
   });
 });
