@@ -4,12 +4,16 @@ sources:
       graphql:
         endpoint: https://develop.protocol.mygateway.xyz/graphql
     transforms:
-      - filterSchema:
+      - rename:
           mode: bare
-          filters:
-            - Query.!transaction
-            - Query.!transactions
-            - Query.!myTransactions
+          renames:
+            - from:
+                type: PDAMetadata
+                field: status
+              to:
+                type: PDAMetadata
+                field: pdametadastatus
+
 customFetch: ./custom-fetch.ts
 
 sdk:
