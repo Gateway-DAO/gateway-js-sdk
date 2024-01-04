@@ -20,7 +20,7 @@ export const RequestMockService = (request: Request) => ({
       dataRequestCount: 10,
     }),
 
-  getDataRequestStatus: jest
+  getDataRequestStatusMock: jest
     .spyOn(request.sdk, 'dataRequestStatus_query')
     .mockResolvedValue({
       dataRequestStatus: requestStub().status,

@@ -29,4 +29,29 @@ describe('REQUEST SERVICE TESTING', () => {
     expect(createDataRequest.id).toBe(requestStub().id);
     expect(createDataRequestMock).toHaveBeenCalled();
   });
+
+  it('get data request', async () => {
+    const { getDataRequestMock } = RequestMockService(request);
+    const { dataRequest } = await request.getDataRequest(requestStub().id);
+
+    expect(dataRequest.id).toBe(requestStub().id);
+    expect(getDataRequestMock).toHaveBeenCalled();
+  });
+
+  it('get data request count', async () => {
+    const { getDataRequestCountMock } = RequestMockService(request);
+    const { dataRequestCount } = await request.getDataRequestCount();
+
+    expect(dataRequestCount).toBeGreaterThanOrEqual(0);
+    expect(getDataRequestCountMock).toHaveBeenCalled();
+  });
+
+  it('get data request status', async () => {
+    const { getDataRequestStatusMock } = RequestMockService(request);
+    const { dataRequestStatus } = await request.getDataRequestStatus(
+      requestStub().id,
+    );
+    expect(dataRequestStatus).toEqual(requestStub().status);
+    expect(getDataRequestStatusMock).toHaveBeenCalled();
+  });
 });
