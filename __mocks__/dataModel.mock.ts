@@ -37,14 +37,19 @@ export const DataModelMockService = (dataModel: DataModel) => ({
     }),
 
   getIssuersByDataModelMock: jest
-    .spyOn(dataModel.sdk, 'issuedPDAsCount_query')
+    .spyOn(dataModel.sdk, 'issuersByDataModel_query')
     .mockResolvedValue({
-      issuedPDAsCount: 10,
+      issuersByDataModel: [{ count: 10 }],
     }),
 
   getIssuersDataModelCountMock: jest
     .spyOn(dataModel.sdk, 'issuersByDataModelCount_query')
     .mockResolvedValue({
       issuersByDataModelCount: 10,
+    }),
+  getTotalofIssuersByDataModelMock: jest
+    .spyOn(dataModel.sdk, 'getTotalofIssuersByDataModel_query')
+    .mockResolvedValue({
+      getTotalofIssuersByDataModel: 10,
     }),
 });
