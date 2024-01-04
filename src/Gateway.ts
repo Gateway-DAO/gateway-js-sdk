@@ -13,11 +13,20 @@ export class Gateway {
   public organization: Organization;
   public auth: Auth;
 
-  constructor({ apiKey, token }: { apiKey: string; token: string }) {
+  constructor({
+    apiKey,
+    token,
+    url,
+  }: {
+    apiKey: string;
+    token: string;
+    url: string;
+  }) {
     if (!apiKey && !token) throw new Error('No token found');
     this.sdk = getMeshSDK({
       apiKey,
       token,
+      url,
     });
     this.pda = new PDA(this.sdk);
     this.user = new User(this.sdk);
