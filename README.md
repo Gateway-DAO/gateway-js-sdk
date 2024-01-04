@@ -2,10 +2,10 @@
 
 # Gateway Javascript SDK
 
-[![NPM version][npm-image]][npm-url]
+<!-- [![NPM version][npm-image]][npm-url]
 [![NPM downloads][downloads-image]][downloads-url]
 [![Build status][travis-image]][travis-url]
-[![Coverage Status][coveralls-image]][coveralls-url]
+[![Coverage Status][coveralls-image]][coveralls-url] -->
 
 ## Introduction
 
@@ -32,7 +32,11 @@ To setup the gateway client we will authenticate with a bearer-token and a Api k
 ```typescript
 import { Gateway } from '@Gateway-dao-js-sdk';
 
-const gateway = new Gateway({ apiKey: 'your-api-key', token: 'your-token' });
+const gateway = new Gateway({
+  apiKey: 'your-api-key',
+  token: 'your-token',
+  url: '',
+});
 ```
 
 This library supports Bearer Token along with Api Key. Do not share your authentication token with people you don’t trust. This gives the user control over your account and they will be able to manage PDAs (and more) with it. Use environment variables to keep it safe.
@@ -132,7 +136,6 @@ async function main() {
 main();
 ```
 
-You can find more examples of using the client in the [examples/](examples/) directory
 
 ## Error Handling
 

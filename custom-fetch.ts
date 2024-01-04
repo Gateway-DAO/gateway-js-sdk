@@ -4,6 +4,7 @@ import { MeshContext } from '@graphql-mesh/runtime';
 type ContextModified = MeshContext & {
   token: string;
   apiKey: string;
+  url: string;
 };
 
 export default function patchedFetch(
@@ -20,5 +21,5 @@ export default function patchedFetch(
   headers.set('Authorization', `Bearer ${context?.token}`);
   headers.set('X-Api-Key', context?.apiKey);
   init.headers = headers;
-  return fetch(url, init);
+  return fetch(context?.url || url, init);
 }
