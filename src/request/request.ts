@@ -6,6 +6,7 @@ import {
   requestsSent_queryQueryVariables,
 } from '../../.mesh';
 import { errorHandler } from '../utils/errorHandler';
+import { isUUIDValid } from '../utils/validators';
 
 export class Request {
   public sdk: Sdk;
@@ -43,6 +44,7 @@ export class Request {
    */
   async getDataRequest(requestId: string) {
     try {
+      isUUIDValid(requestId);
       return await this.sdk.dataRequest_query({ requestId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
@@ -74,6 +76,7 @@ export class Request {
    */
   async getDataRequestStatus(requestId: string) {
     try {
+      isUUIDValid(requestId);
       return await this.sdk.dataRequestStatus_query({ requestId });
     } catch (error: any) {
       throw new Error(errorHandler(error));

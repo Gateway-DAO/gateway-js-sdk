@@ -8,6 +8,7 @@ import {
   sentProofs_queryQueryVariables,
 } from '../../.mesh';
 import { errorHandler } from '../utils/errorHandler';
+import { isUUIDValid } from '../utils/validators';
 
 export class Proof {
   public sdk: Sdk;
@@ -152,6 +153,9 @@ export class Proof {
    */
   async getReceivedProofsCount(organizationId?: string) {
     try {
+      if (organizationId) {
+        isUUIDValid(organizationId);
+      }
       return await this.sdk.receivedProofsCount_query({ organizationId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
