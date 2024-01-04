@@ -54,4 +54,41 @@ describe('REQUEST SERVICE TESTING', () => {
     expect(dataRequestStatus).toEqual(requestStub().status);
     expect(getDataRequestStatusMock).toHaveBeenCalled();
   });
+
+  it('get data requests', async () => {
+    const { getDataRequestMock } = RequestMockService(request);
+    const { dataRequests } = await request.getDataRequests();
+    expect(dataRequests.length).toBeGreaterThanOrEqual(0);
+    expect(getDataRequestMock).toHaveBeenCalled();
+  });
+
+  it('get requests  received', async () => {
+    const { getRequestsReceivedMock } = RequestMockService(request);
+    const { requestsReceived } = await request.getRequestsReceived();
+
+    expect(requestsReceived.length).toBeGreaterThanOrEqual(0);
+    expect(getRequestsReceivedMock).toHaveBeenCalled();
+  });
+
+  it('get requests recieved count', async () => {
+    const { getRequestReceivedCountMock } = RequestMockService(request);
+    const { requestsReceivedCount } = await request.getRequestsReceivedCount();
+    expect(requestsReceivedCount).toBeGreaterThanOrEqual(0);
+    expect(getRequestReceivedCountMock).toHaveBeenCalled();
+  });
+
+  it('get requests sent', async () => {
+    const { getRequestsSentMock } = RequestMockService(request);
+    const { requestsSent } = await request.getRequestsSent();
+
+    expect(requestsSent.length).toBeGreaterThanOrEqual(0);
+    expect(getRequestsSentMock).toHaveBeenCalled();
+  });
+
+  it('get requests sent count', async () => {
+    const { getDataRequestCountMock } = RequestMockService(request);
+    const { requestsSentCount } = await request.getRequestsSentCount();
+    expect(requestsSentCount).toBeGreaterThanOrEqual(0);
+    expect(getDataRequestCountMock).toHaveBeenCalled();
+  });
 });
