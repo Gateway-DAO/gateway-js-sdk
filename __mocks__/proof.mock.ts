@@ -5,7 +5,7 @@ export const ProofMockService = (proof: Proof) => ({
   getProofMock: jest.spyOn(proof.sdk, 'proof_query').mockResolvedValue({
     proof: proofStub(),
   }),
-
+ 
   createProofMock: jest
     .spyOn(proof.sdk, 'createProof_mutation')
     .mockResolvedValue({

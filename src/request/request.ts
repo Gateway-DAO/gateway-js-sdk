@@ -8,7 +8,7 @@ import {
 import { errorHandler } from '../utils/errorHandler';
 
 export class Request {
-  private sdk: Sdk;
+  public sdk: Sdk;
 
   constructor(sdk: Sdk) {
     this.sdk = sdk;
