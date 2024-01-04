@@ -21,7 +21,6 @@
     "@graphql-mesh/cli": "^0.87.16",
     "@graphql-mesh/graphql": "^0.95.8",
     "@graphql-mesh/runtime": "^0.96.11",
-    "@graphql-mesh/transform-filter-schema": "^0.96.2",
     "@graphql-mesh/transform-rename": "^0.96.3",
     "@solana/web3.js": "^1.87.6",
     "@whatwg-node/fetch": "^0.9.13",

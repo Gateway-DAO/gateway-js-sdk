@@ -14,9 +14,6 @@ dependencies:
   '@graphql-mesh/runtime':
     specifier: ^0.96.11
     version: 0.96.13(@graphql-mesh/cross-helpers@0.4.1)(@graphql-mesh/types@0.95.8)(@graphql-mesh/utils@0.95.8)(@graphql-tools/utils@10.0.12)(graphql@16.8.1)(tslib@2.6.2)
-  '@graphql-mesh/transform-filter-schema':
-    specifier: ^0.96.2
-    version: 0.96.2(@graphql-mesh/types@0.95.8)(@graphql-mesh/utils@0.95.8)(@graphql-tools/utils@10.0.12)(graphql@16.8.1)(tslib@2.6.2)
   '@graphql-mesh/transform-rename':
     specifier: ^0.96.3
     version: 0.96.3(@graphql-mesh/types@0.95.8)(@graphql-mesh/utils@0.95.8)(@graphql-tools/utils@10.0.12)(graphql@16.8.1)(tslib@2.6.2)
@@ -1684,26 +1681,6 @@ packages:
       graphql: 16.8.1
       json-pointer: 0.6.2
       lodash.get: 4.4.2
-      tslib: 2.6.2
-    dev: false
-
-  /@graphql-mesh/transform-filter-schema@0.96.2(@graphql-mesh/types@0.95.8)(@graphql-mesh/utils@0.95.8)(@graphql-tools/utils@10.0.12)(graphql@16.8.1)(tslib@2.6.2):
-    resolution: {integrity: sha512-E44bcagwS5P+vNt+bcTIrqpTtGKX+Wu0aR4YIhEjcrevAV/Yaz0UjfAytoLDIdSqnMgMrODI4Y0e/BaifEX5Bg==}
-    engines: {node: '>=16.0.0'}
-    peerDependencies:
-      '@graphql-mesh/types': ^0.96.2
-      '@graphql-mesh/utils': ^0.96.2
-      '@graphql-tools/utils': ^9.2.1 || ^10.0.0
-      graphql: '*'
-      tslib: ^2.4.0
-    dependencies:
-      '@graphql-mesh/types': 0.95.8(@graphql-mesh/store@0.95.8)(@graphql-tools/utils@10.0.12)(graphql@16.8.1)(tslib@2.6.2)
-      '@graphql-mesh/utils': 0.95.8(@graphql-mesh/cross-helpers@0.4.1)(@graphql-mesh/types@0.95.8)(@graphql-tools/utils@10.0.12)(graphql@16.8.1)(tslib@2.6.2)
-      '@graphql-tools/delegate': 10.0.3(graphql@16.8.1)
-      '@graphql-tools/utils': 10.0.12(graphql@16.8.1)
-      '@graphql-tools/wrap': 10.0.1(graphql@16.8.1)
-      graphql: 16.8.1
-      minimatch: 9.0.3
       tslib: 2.6.2
     dev: false
 
