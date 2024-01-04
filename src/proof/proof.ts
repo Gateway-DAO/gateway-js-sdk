@@ -27,6 +27,7 @@ export class Proof {
    */
   async getProof(id: string) {
     try {
+      isUUIDValid(id);
       return await this.sdk.proof_query({ id: id });
     } catch (error: any) {
       throw new Error(errorHandler(error));
@@ -62,6 +63,7 @@ export class Proof {
    */
   async createProofMessage(requestId: string) {
     try {
+      isUUIDValid(requestId);
       return await this.sdk.createProofMessage_mutation({
         requestId: requestId,
       });
@@ -131,6 +133,9 @@ export class Proof {
     take,
   }: receivedProofs_queryQueryVariables = {}) {
     try {
+      if (organizationId) {
+        isUUIDValid(organizationId);
+      }
       return await this.sdk.receivedProofs_query({
         order,
         organizationId,
