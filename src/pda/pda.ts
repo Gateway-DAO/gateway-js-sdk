@@ -5,6 +5,7 @@ import {
   UpdatePDAInput,
 } from '../../.mesh';
 import { PDAFilter, PDAStatus } from '../types';
+import { DEFAULT_TAKE_LIMIT } from '../utils/constants';
 import { errorHandler } from '../utils/errorHandler';
 import { isUUIDValid, validateObjectProperties } from '../utils/validators';
 
@@ -39,7 +40,7 @@ export class PDA {
    * of type `FilterPDAInput`.
    * @returns a Promise that resolves to a number.
    */
-  async getPDACount(filter?: FilterPDAInput) {
+  async getPDACount(filter: FilterPDAInput = {}) {
     try {
       return (await this.sdk.PDACount_query({ filter })).PDACount;
     } catch (error) {
@@ -53,10 +54,18 @@ export class PDA {
    * @param {PDAFilter}  - - `filter`: An object that contains filter criteria for the query.
    * @returns a Promise that resolves to a value of type PDAs_queryQuery.
    */
-  async getPDAs({ filter, order, skip, take }: PDAFilter = {}) {
+  async getPDAs(
+    { filter, order, skip, take }: PDAFilter = {
+      filter: {},
+      order: {} as JSON,
+      skip: 0,
+      take: DEFAULT_TAKE_LIMIT,
+    },
+  ) {
     try {
       return await this.sdk.PDAs_query({ filter, order, skip, take });
     } catch (error) {
+      console.log(error);
       throw new Error(errorHandler(error));
     }
   }
@@ -68,7 +77,14 @@ export class PDA {
    * used to specify conditions that the returned PDAs must meet.
    * @returns a Promise that resolves to an object of type `issuedPDAs_queryQuery`.
    */
-  async getIssuedPDAs({ filter, order, skip, take }: PDAFilter = {}) {
+  async getIssuedPDAs(
+    { filter, order, skip, take }: PDAFilter = {
+      filter: {},
+      order: {} as JSON,
+      skip: 0,
+      take: DEFAULT_TAKE_LIMIT,
+    },
+  ) {
     try {
       return await this.sdk.issuedPDAs_query({ filter, order, skip, take });
     } catch (error) {
@@ -83,7 +99,7 @@ export class PDA {
    * specify criteria for filtering the issued PDAs. It is of type `FilterPDAInput`.
    * @returns a Promise that resolves to a number.
    */
-  async getIssuedPDAsCount(filter?: FilterPDAInput) {
+  async getIssuedPDAsCount(filter: FilterPDAInput = {}) {
     try {
       return (await this.sdk.issuedPDAsCount_query({ filter })).issuedPDAsCount;
     } catch (error) {
@@ -98,7 +114,7 @@ export class PDA {
    * filter the results of the query. It is of type `FilterPDAInput`.
    * @returns a Promise that resolves to a number.
    */
-  async myPDACount(filter?: FilterPDAInput) {
+  async myPDACount(filter: FilterPDAInput = {}) {
     try {
       return (await this.sdk.myPDACount_query({ filter })).myPDACount;
     } catch (error) {

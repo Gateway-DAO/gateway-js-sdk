@@ -7,6 +7,7 @@ import {
   UpdateOrganizationInput,
 } from '../../.mesh';
 import { OrganizationIdentifierType } from '../types';
+import { DEFAULT_TAKE_LIMIT } from '../utils/constants';
 import { errorHandler } from '../utils/errorHandler';
 import { isStringValid, validateObjectProperties } from '../utils/validators';
 
@@ -135,15 +136,17 @@ export class Organization {
    * to filter the organizations based on certain criteria.
    * @returns the result of the `organizations_query` method call from the `sdk` object.
    */
-  async getOrganizations({
-    filter,
-    skip,
-    take,
-  }: {
-    filter?: FilterOrganizationInput;
-    skip?: number;
-    take?: number;
-  } = {}) {
+  async getOrganizations(
+    {
+      filter,
+      skip,
+      take,
+    }: {
+      filter?: FilterOrganizationInput;
+      skip?: number;
+      take?: number;
+    } = { filter: {}, skip: 0, take: DEFAULT_TAKE_LIMIT },
+  ) {
     try {
       return await this.sdk.organizations_query({ filter, skip, take });
     } catch (error) {

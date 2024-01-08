@@ -4,6 +4,7 @@ import {
   dataModels_queryQueryVariables,
   FilterDataModelInput,
 } from '../../.mesh';
+import { DEFAULT_TAKE_LIMIT } from '../utils/constants';
 import { errorHandler } from '../utils/errorHandler';
 import { isUUIDValid, validateObjectProperties } from '../utils/validators';
 
@@ -61,12 +62,14 @@ export class DataModel {
    * call.
    */
 
-  async getDataModels({
-    filter,
-    order,
-    skip,
-    take,
-  }: dataModels_queryQueryVariables = {}) {
+  async getDataModels(
+    { filter, order, skip, take }: dataModels_queryQueryVariables = {
+      filter: {},
+      order: {},
+      skip: 0,
+      take: DEFAULT_TAKE_LIMIT,
+    },
+  ) {
     try {
       const data = await this.sdk.dataModels_query({
         filter,
