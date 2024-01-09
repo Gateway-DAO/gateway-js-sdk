@@ -3,9 +3,10 @@ import {
   Sdk,
   FilterPDAInput,
   UpdatePDAInput,
+  PDAs_queryQueryVariables,
+  issuedPDAs_queryQueryVariables,
 } from '../../.mesh';
-import { PDAFilter, PDAStatus } from '../types';
-import { DEFAULT_TAKE_LIMIT } from '../utils/constants';
+import { PDAStatus } from '../types';
 import { errorHandler } from '../utils/errorHandler';
 import { isUUIDValid, validateObjectProperties } from '../utils/validators';
 
@@ -26,7 +27,7 @@ export class PDA {
   async getPDA(id: string) {
     try {
       isUUIDValid(id);
-      return await this.sdk.PDA_query({ id });
+      return this.sdk.PDA_query({ id });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -54,16 +55,9 @@ export class PDA {
    * @param {PDAFilter}  - - `filter`: An object that contains filter criteria for the query.
    * @returns a Promise that resolves to a value of type PDAs_queryQuery.
    */
-  async getPDAs(
-    { filter, order, skip, take }: PDAFilter = {
-      filter: {},
-      order: {} as JSON,
-      skip: 0,
-      take: DEFAULT_TAKE_LIMIT,
-    },
-  ) {
+  async getPDAs(variables?: PDAs_queryQueryVariables) {
     try {
-      return await this.sdk.PDAs_query({ filter, order, skip, take });
+      return this.sdk.PDAs_query(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -76,16 +70,9 @@ export class PDA {
    * used to specify conditions that the returned PDAs must meet.
    * @returns a Promise that resolves to an object of type `issuedPDAs_queryQuery`.
    */
-  async getIssuedPDAs(
-    { filter, order, skip, take }: PDAFilter = {
-      filter: {},
-      order: {} as JSON,
-      skip: 0,
-      take: DEFAULT_TAKE_LIMIT,
-    },
-  ) {
+  async getIssuedPDAs(variables?: issuedPDAs_queryQueryVariables) {
     try {
-      return await this.sdk.issuedPDAs_query({ filter, order, skip, take });
+      return this.sdk.issuedPDAs_query(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -98,7 +85,7 @@ export class PDA {
    * specify criteria for filtering the issued PDAs. It is of type `FilterPDAInput`.
    * @returns a Promise that resolves to a number.
    */
-  async getIssuedPDAsCount(filter: FilterPDAInput = {}) {
+  async getIssuedPDAsCount(filter?: FilterPDAInput) {
     try {
       return (await this.sdk.issuedPDAsCount_query({ filter })).issuedPDAsCount;
     } catch (error) {
@@ -113,7 +100,7 @@ export class PDA {
    * filter the results of the query. It is of type `FilterPDAInput`.
    * @returns a Promise that resolves to a number.
    */
-  async myPDACount(filter: FilterPDAInput = {}) {
+  async myPDACount(filter?: FilterPDAInput) {
     try {
       return (await this.sdk.myPDACount_query({ filter })).myPDACount;
     } catch (error) {
@@ -130,7 +117,7 @@ export class PDA {
   async changePDAStatus({ id, status }: { id: string; status: PDAStatus }) {
     try {
       isUUIDValid(id);
-      return await this.sdk.changePDAStatus_mutation({ input: { id, status } });
+      return this.sdk.changePDAStatus_mutation({ input: { id, status } });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -145,7 +132,7 @@ export class PDA {
   async createPDA(pdaInput: CreatePDAInput) {
     try {
       validateObjectProperties(pdaInput);
-      return await this.sdk.createPDA_mutation({ input: pdaInput });
+      return this.sdk.createPDA_mutation({ input: pdaInput });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -163,7 +150,7 @@ export class PDA {
   async updatePDA(updatedPDA: UpdatePDAInput) {
     try {
       validateObjectProperties(updatedPDA);
-      return await this.sdk.updatePDA_mutation({ input: updatedPDA });
+      return this.sdk.updatePDA_mutation({ input: updatedPDA });
     } catch (error) {
       throw new Error(errorHandler(error));
     }

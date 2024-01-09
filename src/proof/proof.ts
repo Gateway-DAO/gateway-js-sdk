@@ -28,7 +28,7 @@ export class Proof {
   async getProof(id: string) {
     try {
       isUUIDValid(id);
-      return await this.sdk.proof_query({ id: id });
+      return this.sdk.proof_query({ id: id });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -47,7 +47,7 @@ export class Proof {
 
   async createProof(inputVariables?: createProof_mutationMutationVariables) {
     try {
-      return await this.sdk.createProof_mutation(inputVariables);
+      return this.sdk.createProof_mutation(inputVariables);
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -64,7 +64,7 @@ export class Proof {
   async createProofMessage(requestId: string) {
     try {
       isUUIDValid(requestId);
-      return await this.sdk.createProofMessage_mutation({
+      return this.sdk.createProofMessage_mutation({
         requestId: requestId,
       });
     } catch (error: any) {
@@ -79,19 +79,9 @@ export class Proof {
    * filter or customize the query results.
    * @returns the result of the `proofs_query` method call.
    */
-  async getProofs({
-    filter,
-    order,
-    skip,
-    take,
-  }: proofs_queryQueryVariables = {}) {
+  async getProofs(variables?: proofs_queryQueryVariables) {
     try {
-      return await this.sdk.proofs_query({
-        filter,
-        order,
-        skip,
-        take,
-      });
+      return this.sdk.proofs_query(variables);
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -111,7 +101,7 @@ export class Proof {
     take,
   }: proofsByPDAIds_queryQueryVariables) {
     try {
-      return await this.sdk.proofsByPDAIds_query({ pdaIds, skip, take });
+      return this.sdk.proofsByPDAIds_query({ pdaIds, skip, take });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -126,22 +116,12 @@ export class Proof {
    * can be used to filter or customize the query results.
    * @returns the result of the `receivedProofs_query` method call.
    */
-  async getReceivedProofs({
-    order,
-    organizationId,
-    skip,
-    take,
-  }: receivedProofs_queryQueryVariables = {}) {
+  async getReceivedProofs(variables?: receivedProofs_queryQueryVariables) {
     try {
-      if (organizationId) {
-        isUUIDValid(organizationId);
+      if (variables && variables.organizationId) {
+        isUUIDValid(variables.organizationId);
       }
-      return await this.sdk.receivedProofs_query({
-        order,
-        organizationId,
-        skip,
-        take,
-      });
+      return this.sdk.receivedProofs_query(variables);
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -161,7 +141,7 @@ export class Proof {
       if (organizationId) {
         isUUIDValid(organizationId);
       }
-      return await this.sdk.receivedProofsCount_query({ organizationId });
+      return this.sdk.receivedProofsCount_query({ organizationId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -175,13 +155,9 @@ export class Proof {
    * @returns the result of the `sentProofs_query` method call.
    */
 
-  async getSentProofs({
-    order,
-    skip,
-    take,
-  }: sentProofs_queryQueryVariables = {}) {
+  async getSentProofs(variables?: sentProofs_queryQueryVariables) {
     try {
-      return await this.sdk.sentProofs_query({ order, skip, take });
+      return this.sdk.sentProofs_query(variables);
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -199,7 +175,7 @@ export class Proof {
     queryVariables?: sentProofsCount_queryQueryVariables,
   ) {
     try {
-      return await this.sdk.sentProofsCount_query(queryVariables);
+      return this.sdk.sentProofsCount_query(queryVariables);
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
