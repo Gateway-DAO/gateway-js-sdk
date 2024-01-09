@@ -3,3 +3,4 @@ test/*
 .mesh/*
 __mocks__/*
 dist/*
+custom-fetch.js
