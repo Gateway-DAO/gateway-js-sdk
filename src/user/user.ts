@@ -4,9 +4,9 @@ import {
   FilterPDAInput,
   Sdk,
   UpdateUserInput,
+  myPDAs_queryQueryVariables,
 } from '../../.mesh';
-import { PDAFilter, UserIdentifierType } from '../types';
-import { DEFAULT_TAKE_LIMIT } from '../utils/constants';
+import { UserIdentifierType } from '../types';
 import { errorHandler } from '../utils/errorHandler';
 import {
   isEmailValid,
@@ -28,7 +28,7 @@ export class User {
    */
   async me() {
     try {
-      return await this.sdk.me_query();
+      return this.sdk.me_query();
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -50,7 +50,7 @@ export class User {
   }) {
     try {
       isStringValid(value);
-      return await this.sdk.user_query({ input: { type, value } });
+      return this.sdk.user_query({ input: { type, value } });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -78,16 +78,9 @@ export class User {
    * @param {PDAFilter}  - - `filter`: An object that contains filter criteria for the query.
    * @returns a Promise that resolves to a value of type `myPDAs_queryQuery`.
    */
-  async myPDAs(
-    { filter, order, skip, take }: PDAFilter = {
-      filter: {},
-      order: {} as JSON,
-      skip: 0,
-      take: DEFAULT_TAKE_LIMIT,
-    },
-  ) {
+  async myPDAs(variables?: myPDAs_queryQueryVariables) {
     try {
-      return await this.sdk.myPDAs_query({ filter, order, skip, take });
+      return this.sdk.myPDAs_query(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -102,7 +95,7 @@ export class User {
    * logical operators like AND and OR to combine multiple conditions.
    * @returns the count of data models that match the provided filter.
    */
-  async myDataModelsCount(filter: FilterDataModelInput = {}) {
+  async myDataModelsCount(filter?: FilterDataModelInput) {
     try {
       return (await this.sdk.dataModelsCount_query({ filter })).dataModelsCount;
     } catch (error) {
@@ -119,9 +112,7 @@ export class User {
    * specific conditions such as template name, creator, or any other relevant attributes.
    * @returns the count of myDataRequestTemplates that match the provided filter.
    */
-  async myDataRequestTemplatesCount(
-    filter: FilterDataRequestTemplateInput = {},
-  ) {
+  async myDataRequestTemplatesCount(filter?: FilterDataRequestTemplateInput) {
     try {
       return (await this.sdk.myDataRequestTemplatesCount_query({ filter }))
         .myDataRequestTemplatesCount;
@@ -141,7 +132,7 @@ export class User {
   async updateUser(updatedUser: UpdateUserInput) {
     try {
       validateObjectProperties(updatedUser);
-      return await this.sdk.updateUser_mutation({ input: updatedUser });
+      return this.sdk.updateUser_mutation({ input: updatedUser });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -158,7 +149,7 @@ export class User {
   async updateMyDisplayName(displayName: string) {
     try {
       isStringValid(displayName);
-      return await this.sdk.updateMyDisplayName_mutation({ displayName });
+      return this.sdk.updateMyDisplayName_mutation({ displayName });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -175,7 +166,7 @@ export class User {
   async updateMyGatewayId(gatewayId: string) {
     try {
       isStringValid(gatewayId);
-      return await this.sdk.updateMyGatewayId_mutation({ gatewayId });
+      return this.sdk.updateMyGatewayId_mutation({ gatewayId });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -189,7 +180,7 @@ export class User {
    */
   async updateMyProfilePicture(profilePictureUrl: string) {
     try {
-      return await this.sdk.updateMyProfilePicture_mutation({
+      return this.sdk.updateMyProfilePicture_mutation({
         profilePictureUrl,
       });
     } catch (error) {

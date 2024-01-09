@@ -2,6 +2,7 @@ import {
   FilterDataRequestTemplateInput,
   Sdk,
   TemplateSchemaInput,
+  dataRequestTemplates_queryQueryVariables,
 } from '../../.mesh';
 import { errorHandler } from '../utils/errorHandler';
 import { isUUIDValid, validateObjectProperties } from '../utils/validators';
@@ -24,7 +25,7 @@ export class DataRequestTemplate {
   async createDataRequestTemplate(templateInput: TemplateSchemaInput) {
     try {
       validateObjectProperties(templateInput);
-      return await this.sdk.createDataRequestTemplate_mutation({
+      return this.sdk.createDataRequestTemplate_mutation({
         input: templateInput,
       });
     } catch (error) {
@@ -42,7 +43,7 @@ export class DataRequestTemplate {
   async getDataRequestTemplate(id: string) {
     try {
       isUUIDValid(id);
-      return await this.sdk.dataRequestTemplate_query({ id });
+      return this.sdk.dataRequestTemplate_query({ id });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -57,25 +58,10 @@ export class DataRequestTemplate {
    * that resolves to the data request templates.
    */
   async getDataRequestTemplates(
-    {
-      filter,
-      order,
-      skip,
-      take,
-    }: {
-      filter?: FilterDataRequestTemplateInput;
-      order?: JSON;
-      skip?: number;
-      take?: number;
-    } = { filter: {}, order: {} as JSON, skip: 0, take: 10 },
+    variables?: dataRequestTemplates_queryQueryVariables,
   ) {
     try {
-      return await this.sdk.dataRequestTemplates_query({
-        filter,
-        order,
-        skip,
-        take,
-      });
+      return this.sdk.dataRequestTemplates_query(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -89,9 +75,7 @@ export class DataRequestTemplate {
    * `FilterDataRequestTemplateInput`.
    * @returns the count of data request templates.
    */
-  async getDataRequestsTemplateCount(
-    filter: FilterDataRequestTemplateInput = {},
-  ) {
+  async getDataRequestsTemplateCount(filter?: FilterDataRequestTemplateInput) {
     try {
       return (await this.sdk.dataRequestTemplatesCount_query({ filter }))
         .dataRequestTemplatesCount;

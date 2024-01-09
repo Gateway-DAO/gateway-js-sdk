@@ -45,7 +45,7 @@ export class Request {
   async getDataRequest(requestId: string) {
     try {
       isUUIDValid(requestId);
-      return await this.sdk.dataRequest_query({ requestId });
+      return this.sdk.dataRequest_query({ requestId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -61,7 +61,7 @@ export class Request {
    */
   async getDataRequestCount(filterVariables?: FilterDataRequestInput) {
     try {
-      return await this.sdk.dataRequestCount_query({ filter: filterVariables });
+      return this.sdk.dataRequestCount_query({ filter: filterVariables });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -77,7 +77,7 @@ export class Request {
   async getDataRequestStatus(requestId: string) {
     try {
       isUUIDValid(requestId);
-      return await this.sdk.dataRequestStatus_query({ requestId });
+      return this.sdk.dataRequestStatus_query({ requestId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -94,7 +94,7 @@ export class Request {
    */
   async getDataRequests(filterVariables?: FilterDataRequestInput) {
     try {
-      return await this.sdk.dataRequests_query({ filter: filterVariables });
+      return this.sdk.dataRequests_query({ filter: filterVariables });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -108,19 +108,9 @@ export class Request {
    * These variables can be used to filter or customize the query results.
    * @returns the result of the `requestsReceived_query` method call.
    */
-  async getRequestsReceived({
-    filter,
-    order,
-    skip,
-    take,
-  }: requestsReceived_queryQueryVariables = {}) {
+  async getRequestsReceived(variables?: requestsReceived_queryQueryVariables) {
     try {
-      return await this.sdk.requestsReceived_query({
-        filter,
-        order,
-        skip,
-        take,
-      });
+      return this.sdk.requestsReceived_query(variables);
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -136,7 +126,7 @@ export class Request {
    */
   async getRequestsReceivedCount(filterVariables?: FilterDataRequestInput) {
     try {
-      return await this.sdk.requestsReceivedCount_query({
+      return this.sdk.requestsReceivedCount_query({
         filter: filterVariables,
       });
     } catch (error: any) {
@@ -153,14 +143,9 @@ export class Request {
    * any variables, you can omit this parameter.
    * @returns the result of the `requestsSent_query` method call.
    */
-  async getRequestsSent({
-    filter,
-    order,
-    skip,
-    take,
-  }: requestsSent_queryQueryVariables = {}) {
+  async getRequestsSent(variables?: requestsSent_queryQueryVariables) {
     try {
-      return await this.sdk.requestsSent_query({ filter, order, skip, take });
+      return this.sdk.requestsSent_query(variables);
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -176,7 +161,7 @@ export class Request {
    */
   async getRequestsSentCount(filterVariables?: FilterDataRequestInput) {
     try {
-      return await this.sdk.requestsSentCount_query({
+      return this.sdk.requestsSentCount_query({
         filter: filterVariables,
       });
     } catch (error: any) {

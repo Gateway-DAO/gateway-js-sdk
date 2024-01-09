@@ -1,13 +1,13 @@
 import {
   CreateOrganizationInput,
-  FilterOrganizationInput,
   MemberInput,
   Sdk,
   TransferMemberInput,
   UpdateOrganizationInput,
+  organizations_queryQueryVariables,
 } from '../../.mesh';
 import { OrganizationIdentifierType } from '../types';
-import { DEFAULT_TAKE_LIMIT } from '../utils/constants';
+
 import { errorHandler } from '../utils/errorHandler';
 import { isStringValid, validateObjectProperties } from '../utils/validators';
 
@@ -31,7 +31,7 @@ export class Organization {
   async createOrganization(organizationInput: CreateOrganizationInput) {
     try {
       validateObjectProperties(organizationInput);
-      return await this.sdk.createOrganization_mutation({
+      return this.sdk.createOrganization_mutation({
         input: organizationInput,
       });
     } catch (error) {
@@ -48,7 +48,7 @@ export class Organization {
    */
   async addMemberToOrganization(memberInput: MemberInput) {
     try {
-      return await this.sdk.addMemberToOrganization_mutation({
+      return this.sdk.addMemberToOrganization_mutation({
         input: memberInput,
       });
     } catch (error) {
@@ -66,7 +66,7 @@ export class Organization {
    */
   async changeMemberRole(memberInput: MemberInput) {
     try {
-      return await this.sdk.changeMemberRole_mutation({ input: memberInput });
+      return this.sdk.changeMemberRole_mutation({ input: memberInput });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -101,7 +101,7 @@ export class Organization {
   async updateOrganization(updatedOrganization: UpdateOrganizationInput) {
     try {
       validateObjectProperties(updatedOrganization);
-      return await this.sdk.updateOrganization_mutation({
+      return this.sdk.updateOrganization_mutation({
         input: updatedOrganization,
       });
     } catch (error) {
@@ -123,7 +123,7 @@ export class Organization {
   async getOrganization(type: OrganizationIdentifierType, value: string) {
     try {
       isStringValid(value);
-      return await this.sdk.organization_query({ input: { type, value } });
+      return this.sdk.organization_query({ input: { type, value } });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -136,19 +136,9 @@ export class Organization {
    * to filter the organizations based on certain criteria.
    * @returns the result of the `organizations_query` method call from the `sdk` object.
    */
-  async getOrganizations(
-    {
-      filter,
-      skip,
-      take,
-    }: {
-      filter?: FilterOrganizationInput;
-      skip?: number;
-      take?: number;
-    } = { filter: {}, skip: 0, take: DEFAULT_TAKE_LIMIT },
-  ) {
+  async getOrganizations(variables?: organizations_queryQueryVariables) {
     try {
-      return await this.sdk.organizations_query({ filter, skip, take });
+      return await this.sdk.organizations_query(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
