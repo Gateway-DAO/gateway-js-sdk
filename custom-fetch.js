@@ -1,17 +1,6 @@
-import { Headers, fetch } from '@whatwg-node/fetch';
-import { MeshContext } from '@graphql-mesh/runtime';
+const { Headers, fetch } = require('@whatwg-node/fetch');
 
-type ContextModified = MeshContext & {
-  token: string;
-  apiKey: string;
-  url: string;
-};
-
-export default function patchedFetch(
-  url: string,
-  init: RequestInit,
-  context: ContextModified,
-) {
+module.exports = function (url, init, context) {
   const headers = new Headers();
   headers.set(
     'accept',
@@ -22,4 +11,4 @@ export default function patchedFetch(
   headers.set('X-Api-Key', context?.apiKey);
   init.headers = headers;
   return fetch(context?.url || url, init);
-}
+};

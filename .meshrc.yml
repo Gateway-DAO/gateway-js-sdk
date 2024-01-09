@@ -14,7 +14,7 @@ sources:
                 type: PDAMetadata
                 field: pdametadastatus
 
-customFetch: ./custom-fetch.ts
+customFetch: ./custom-fetch.js
 
 sdk:
   generateOperations:
