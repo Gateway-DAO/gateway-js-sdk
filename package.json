@@ -11,6 +11,9 @@
     "format": "prettier --write .",
     "build": "tsc"
   },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "sdk",
     "sdk-typescript",
