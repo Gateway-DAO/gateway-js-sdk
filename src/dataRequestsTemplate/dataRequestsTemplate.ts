@@ -56,17 +56,19 @@ export class DataRequestTemplate {
    * @returns the result of the `dataRequestTemplates_query` method call, which is a Promise
    * that resolves to the data request templates.
    */
-  async getDataRequestTemplates({
-    filter,
-    order,
-    skip,
-    take,
-  }: {
-    filter?: FilterDataRequestTemplateInput;
-    order?: JSON;
-    skip?: number;
-    take?: number;
-  } = {}) {
+  async getDataRequestTemplates(
+    {
+      filter,
+      order,
+      skip,
+      take,
+    }: {
+      filter?: FilterDataRequestTemplateInput;
+      order?: JSON;
+      skip?: number;
+      take?: number;
+    } = { filter: {}, order: {} as JSON, skip: 0, take: 10 },
+  ) {
     try {
       return await this.sdk.dataRequestTemplates_query({
         filter,
@@ -87,7 +89,9 @@ export class DataRequestTemplate {
    * `FilterDataRequestTemplateInput`.
    * @returns the count of data request templates.
    */
-  async getDataRequestsTemplateCount(filter?: FilterDataRequestTemplateInput) {
+  async getDataRequestsTemplateCount(
+    filter: FilterDataRequestTemplateInput = {},
+  ) {
     try {
       return (await this.sdk.dataRequestTemplatesCount_query({ filter }))
         .dataRequestTemplatesCount;
