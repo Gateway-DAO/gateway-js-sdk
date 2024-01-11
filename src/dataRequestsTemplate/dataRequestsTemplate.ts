@@ -25,7 +25,7 @@ export class DataRequestTemplate {
   async createDataRequestTemplate(templateInput: TemplateSchemaInput) {
     try {
       validateObjectProperties(templateInput);
-      return this.sdk.createDataRequestTemplate_mutation({
+      return await this.sdk.createDataRequestTemplate_mutation({
         input: templateInput,
       });
     } catch (error) {
@@ -43,7 +43,7 @@ export class DataRequestTemplate {
   async getDataRequestTemplate(id: string) {
     try {
       isUUIDValid(id);
-      return this.sdk.dataRequestTemplate_query({ id });
+      return await this.sdk.dataRequestTemplate_query({ id });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -61,7 +61,7 @@ export class DataRequestTemplate {
     variables?: dataRequestTemplates_queryQueryVariables,
   ) {
     try {
-      return this.sdk.dataRequestTemplates_query(variables);
+      return await this.sdk.dataRequestTemplates_query(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -79,6 +79,50 @@ export class DataRequestTemplate {
     try {
       return (await this.sdk.dataRequestTemplatesCount_query({ filter }))
         .dataRequestTemplatesCount;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
+  }
+
+  /**
+   * The function `getDataRequestsTemplatesMetadata` gets metadat of template
+   * to the SDK and returns the result, or throws an error if something goes wrong.
+   * @returns the result of the `dataRequestTemplatesMetadata_queryQuery` method call.
+   */
+  async getDataRequestsTemplatesMetadata() {
+    try {
+      return await this.sdk.dataRequestTemplatesMetadata_query();
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
+  }
+
+  /**
+   * The function `getVerifiersByDataRequestTemplate` gets verifier for a data request template
+   * to the SDK and returns the result, or throws an error if something goes wrong.
+   * @param {string} id - The variables is a id of the template
+   * @returns the result of the `verifiersByDataRequestTemplate_queryQuery` method call.
+   */
+  async getVerifiersByDataRequestTemplate(id: string) {
+    try {
+      isUUIDValid(id);
+      return await this.sdk.verifiersByDataRequestTemplate_query({ id });
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
+  }
+
+  /**
+   * The function `getVerifiersByDataRequestTemplateCount` gets count of recently made transactions
+   * to the SDK and returns the result, or throws an error if something goes wrong.
+   * @param {string} id - The variables is a id of the template
+   * @returns the result of the `verifiersByDataRequestTemplateCount_queryQuery` method call.
+   */
+  async getVerifiersByDataRequestTemplateCount(id: string) {
+    try {
+      isUUIDValid(id);
+      return (await this.sdk.verifiersByDataRequestTemplateCount_query({ id }))
+        .verifiersByDataRequestTemplateCount;
     } catch (error) {
       throw new Error(errorHandler(error));
     }

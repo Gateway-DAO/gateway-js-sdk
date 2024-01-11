@@ -4,13 +4,17 @@ import {
   FilterPDAInput,
   Sdk,
   UpdateUserInput,
+  myFinancialTransactionsCount_queryQueryVariables,
+  myFinancialTransactions_queryQueryVariables,
   myPDAs_queryQueryVariables,
+  myTransactions_queryQueryVariables,
 } from '../../.mesh';
 import { UserIdentifierType } from '../types';
 import { errorHandler } from '../utils/errorHandler';
 import {
   isEmailValid,
   isStringValid,
+  isUUIDValid,
   validateObjectProperties,
 } from '../utils/validators';
 
@@ -73,9 +77,9 @@ export class User {
   }
 
   /**
-   * The function `myPDAs` is an asynchronous function that takes in a `PDAFilter` object and returns a
+   * The function `myPDAs` is an asynchronous function that takes in a `myPDAs_queryQueryVariables` object and returns a
    * promise that resolves to a `myPDAs_queryQuery` object.
-   * @param {PDAFilter}  - - `filter`: An object that contains filter criteria for the query.
+   * @param {myPDAs_queryQueryVariables}  - - `filter`: An object that contains filter criteria for the query.
    * @returns a Promise that resolves to a value of type `myPDAs_queryQuery`.
    */
   async myPDAs(variables?: myPDAs_queryQueryVariables) {
@@ -116,6 +120,70 @@ export class User {
     try {
       return (await this.sdk.myDataRequestTemplatesCount_query({ filter }))
         .myDataRequestTemplatesCount;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
+  }
+
+  /**
+   * The function `myFinancialTransactions` gets recently made financial transactions
+   * to the SDK and returns the result, or throws an error if something goes wrong.
+   * @param {myFinancialTransactionsCount_queryQueryVariables} variables - The variables is a complex filter type
+   * @returns the result of the `myFinancialTransactions_queryQuery` method call.
+   */
+  async myFinancialTransactions(
+    variables?: myFinancialTransactions_queryQueryVariables,
+  ) {
+    try {
+      if (variables?.organizationId) isUUIDValid(variables.organizationId);
+      return await this.sdk.myFinancialTransactions_query(variables);
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
+  }
+
+  /**
+   * The function `myFinancialTransactionsCount` gets count of recently made transactions
+   * to the SDK and returns the result, or throws an error if something goes wrong.
+   * @param {myFinancialTransactionsCount_queryQueryVariables} variables - The variables is a complex filter type
+   * @returns the result of the `myFinancialTransactionsCount_queryQuery` method call.
+   */
+  async myFinancialTransactionsCount(
+    variables?: myFinancialTransactionsCount_queryQueryVariables,
+  ) {
+    try {
+      if (variables?.organizationId) isUUIDValid(variables.organizationId);
+      return (await this.sdk.myFinancialTransactionsCount_query(variables))
+        .myFinancialTransactionsCount;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
+  }
+
+  /**
+   * The function `myTransactions_query` gets recently made transactions
+   * to the SDK and returns the result, or throws an error if something goes wrong.
+   * @param {myTransactions_queryQueryVariables} variables - The variables is a complex filter type
+   * @returns the result of the `myTransactions_queryQuery` method call.
+   */
+  async myTransactions(variables?: myTransactions_queryQueryVariables) {
+    try {
+      return await this.sdk.myTransactions_query(variables);
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
+  }
+
+  /**
+   * The function `myWallet` gets wallet summary by making a query request
+   * to the SDK and returns the result, or throws an error if something goes wrong.
+   * @param {string} organizationId - The organizationId parameter is a string that represents the org id
+   * @returns the result of the `myWallet_queryQuery` method call.
+   */
+  async myWallet(organizationId?: string) {
+    try {
+      if (organizationId) isUUIDValid(organizationId);
+      return await this.sdk.myWallet_query({ organizationId });
     } catch (error) {
       throw new Error(errorHandler(error));
     }

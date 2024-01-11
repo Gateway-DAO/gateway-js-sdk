@@ -1,7 +1,5 @@
-import { Organization } from '../src/organization/organization';
 import { User } from '../src/user/user';
-import { organizationStub } from '../test/stubs/organization.stub';
-import { userStub } from '../test/stubs/user.stub';
+import { userStub, walletStub } from '../test/stubs/user.stub';
 
 export const UserMockService = (user: User) => ({
   meMock: jest.spyOn(user.sdk, 'me_query').mockResolvedValue({
@@ -39,4 +37,17 @@ export const UserMockService = (user: User) => ({
           'https://www.tryodyssey.xyz/images/campaigns/lifi/odyssey_lifi.png',
       }).profilePicture,
     }),
+  myFinancialTransactionsCountMock: jest
+    .spyOn(user.sdk, 'myFinancialTransactionsCount_query')
+    .mockResolvedValue({
+      myFinancialTransactionsCount: 10,
+    }),
+  mywalletMock: jest.spyOn(user.sdk, 'myWallet_query').mockResolvedValue({
+    myWallet: walletStub(),
+  }),
+  // myFinancialTransactionsMock: jest
+  //   .spyOn(user.sdk, 'myFinancialTransactions_query')
+  //   .mockResolvedValue({
+  //     myFinancialTransactions: userStub().
+  //   }),
 });

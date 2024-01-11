@@ -1,4 +1,3 @@
-import { FilterPDAInput } from '../.mesh';
 
 export enum UserIdentifierType {
   EMAIL = 'EMAIL',
@@ -14,13 +13,6 @@ export enum PDAStatus {
   'Suspended' = 'Suspended',
   'Valid' = 'Valid',
 }
-
-export type PDAFilter = {
-  filter?: FilterPDAInput;
-  order?: JSON;
-  skip?: number;
-  take?: number;
-};
 
 export enum OrganizationIdentifierType {
   GATEWAY_ID = 'GATEWAY_ID',

@@ -44,3 +44,5 @@ export class Gateway {
     this.user = new User(this.sdk);
   }
 }
+// calculateProofCost
+// findValidPDAsForRequest

@@ -7,8 +7,6 @@ import {
 import { errorHandler } from '../utils/errorHandler';
 import { isUUIDValid, validateObjectProperties } from '../utils/validators';
 
-/* The `DataModel` class is a TypeScript class that provides methods for creating and retrieving data
-models. */
 
 export class DataModel {
   public sdk: Sdk;

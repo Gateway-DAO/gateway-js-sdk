@@ -41,7 +41,7 @@ export class PDA {
    * of type `FilterPDAInput`.
    * @returns a Promise that resolves to a number.
    */
-  async getPDACount(filter: FilterPDAInput = {}) {
+  async getPDACount(filter?: FilterPDAInput) {
     try {
       return (await this.sdk.PDACount_query({ filter })).PDACount;
     } catch (error) {
@@ -52,7 +52,7 @@ export class PDA {
   /**
    * The function `getPDAs` retrieves PDAs based on the provided filter, order, skip, and take
    * parameters.
-   * @param {PDAFilter}  - - `filter`: An object that contains filter criteria for the query.
+   * @param {PDAs_queryQueryVariables}  - - `filter`: An object that contains filter criteria for the query.
    * @returns a Promise that resolves to a value of type PDAs_queryQuery.
    */
   async getPDAs(variables?: PDAs_queryQueryVariables) {
@@ -66,7 +66,7 @@ export class PDA {
   /**
    * The function `getIssuedPDAs` retrieves issued PDAs based on the provided filter, order, skip, and
    * take parameters.
-   * @param {PDAFilter}  - - `filter`: An object that contains filter criteria for the query. It is
+   * @param {issuedPDAs_queryQueryVariables}  - - `filter`: An object that contains filter criteria for the query. It is
    * used to specify conditions that the returned PDAs must meet.
    * @returns a Promise that resolves to an object of type `issuedPDAs_queryQuery`.
    */
@@ -88,21 +88,6 @@ export class PDA {
   async getIssuedPDAsCount(filter?: FilterPDAInput) {
     try {
       return (await this.sdk.issuedPDAsCount_query({ filter })).issuedPDAsCount;
-    } catch (error) {
-      throw new Error(errorHandler(error));
-    }
-  }
-
-  /**
-   * The function `myPDACount` is an asynchronous function that returns the count of myPDAs based on an
-   * optional filter.
-   * @param {FilterPDAInput} [filter] - The `filter` parameter is an optional input that can be used to
-   * filter the results of the query. It is of type `FilterPDAInput`.
-   * @returns a Promise that resolves to a number.
-   */
-  async myPDACount(filter?: FilterPDAInput) {
-    try {
-      return (await this.sdk.myPDACount_query({ filter })).myPDACount;
     } catch (error) {
       throw new Error(errorHandler(error));
     }
