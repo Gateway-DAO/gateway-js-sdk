@@ -10,7 +10,7 @@
     "skipLibCheck": true,
     "allowJs": true,
     "typeRoots": ["./typings", "./node_modules/@types/"],
-    "outDir": "./dist",
-    "declaration": true
+    "outDir": "lib",
+    "declaration": true,
   }
 }

@@ -27,7 +27,7 @@ export class PDA {
   async getPDA(id: string) {
     try {
       isUUIDValid(id);
-      return this.sdk.PDA_query({ id });
+      return await this.sdk.PDA_query({ id });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -57,7 +57,7 @@ export class PDA {
    */
   async getPDAs(variables?: PDAs_queryQueryVariables) {
     try {
-      return this.sdk.PDAs_query(variables);
+      return await this.sdk.PDAs_query(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -72,7 +72,7 @@ export class PDA {
    */
   async getIssuedPDAs(variables?: issuedPDAs_queryQueryVariables) {
     try {
-      return this.sdk.issuedPDAs_query(variables);
+      return await this.sdk.issuedPDAs_query(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -102,7 +102,7 @@ export class PDA {
   async changePDAStatus({ id, status }: { id: string; status: PDAStatus }) {
     try {
       isUUIDValid(id);
-      return this.sdk.changePDAStatus_mutation({ input: { id, status } });
+      return await this.sdk.changePDAStatus_mutation({ input: { id, status } });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -117,7 +117,7 @@ export class PDA {
   async createPDA(pdaInput: CreatePDAInput) {
     try {
       validateObjectProperties(pdaInput);
-      return this.sdk.createPDA_mutation({ input: pdaInput });
+      return await this.sdk.createPDA_mutation({ input: pdaInput });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -135,7 +135,7 @@ export class PDA {
   async updatePDA(updatedPDA: UpdatePDAInput) {
     try {
       validateObjectProperties(updatedPDA);
-      return this.sdk.updatePDA_mutation({ input: updatedPDA });
+      return await this.sdk.updatePDA_mutation({ input: updatedPDA });
     } catch (error) {
       throw new Error(errorHandler(error));
     }

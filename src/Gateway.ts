@@ -7,6 +7,14 @@ import { Proof } from './proof/proof';
 import { Request } from './request/request';
 import { DataModel } from './data-model/data-model';
 import { User } from './user/user';
+export {
+  AuthType,
+  Chain,
+  OrganizationIdentifierType,
+  PDAStatus,
+  UserIdentifierType,
+  OrganizationRole,
+} from './types';
 
 export class Gateway {
   private sdk: Sdk;
@@ -44,5 +52,3 @@ export class Gateway {
     this.user = new User(this.sdk);
   }
 }
-// calculateProofCost
-// findValidPDAsForRequest
