@@ -45,6 +45,21 @@ export const UserMockService = (user: User) => ({
   mywalletMock: jest.spyOn(user.sdk, 'myWallet_query').mockResolvedValue({
     myWallet: walletStub(),
   }),
+  updateUserDisplayNameMock: jest
+    .spyOn(user.sdk, 'updateMyDisplayName_mutation')
+    .mockResolvedValue({
+      updateMyDisplayName: userStub().displayName,
+    }),
+  updateUserGatewayIdMock: jest
+    .spyOn(user.sdk, 'updateMyGatewayId_mutation')
+    .mockResolvedValue({
+      updateMyGatewayId: userStub(),
+    }),
+  updateUserNotificationEmaailMock: jest
+    .spyOn(user.sdk, 'updateNotificationEmail_mutation')
+    .mockResolvedValue({
+      updateNotificationEmail: { user: userStub() },
+    }),
   // myFinancialTransactionsMock: jest
   //   .spyOn(user.sdk, 'myFinancialTransactions_query')
   //   .mockResolvedValue({

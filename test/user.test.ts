@@ -121,6 +121,36 @@ describe('USER SERVICE TESTING', () => {
     expect(updateUserMock).toHaveBeenCalled();
   });
 
+  it('update user display name', async () => {
+    const { updateUserDisplayNameMock } = UserMockService(user);
+
+    const { updateMyDisplayName } = await user.updateMyDisplayName(
+      userStub().displayName!,
+    );
+    expect(updateMyDisplayName).toEqual(userStub().displayName!);
+    expect(updateUserDisplayNameMock).toHaveBeenCalled();
+  });
+
+  it('update user gateway id', async () => {
+    const { updateUserGatewayIdMock } = UserMockService(user);
+
+    const { updateMyGatewayId } = await user.updateMyGatewayId(
+      userStub().displayName!,
+    );
+    expect(updateMyGatewayId.displayName).toEqual(userStub().displayName!);
+    expect(updateUserGatewayIdMock).toHaveBeenCalled();
+  });
+
+  it('update user notification email', async () => {
+    const { updateUserNotificationEmaailMock } = UserMockService(user);
+
+    const { user: updatedUser } = await user.updateNotificationEmail(
+      userStub().email!,
+    );
+    expect(updatedUser.email).toEqual(userStub().email!);
+    expect(updateUserNotificationEmaailMock).toHaveBeenCalled();
+  });
+
   it('update profile picture', async () => {
     const { updateMyProfilePictureMock } = UserMockService(user);
 
