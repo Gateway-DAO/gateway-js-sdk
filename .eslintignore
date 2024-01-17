@@ -4,3 +4,5 @@ test/*
 __mocks__/*
 dist/*
 custom-fetch.js
+release.config.js
+commitlint.config.js

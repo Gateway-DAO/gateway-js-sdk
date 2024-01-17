@@ -1,0 +1,21 @@
+name: Release
+
+on:
+  pull_request:
+    branches: ['testing/git-tags']
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install semantic-release extra plugins
+        run: pnpm install -D @semantic-release/changelog @semantic-release/git
+      - name: Build
+        run: pnpm run build
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm dlx semantic-release

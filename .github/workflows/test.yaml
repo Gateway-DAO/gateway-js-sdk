@@ -18,7 +18,5 @@ jobs:
         run: pnpm lint
       - name: Build Graphql queries
         run: pnpm mesh build
-      - name: Format code
-        run: pnpm format
       - name: Test project
         run: pnpm test

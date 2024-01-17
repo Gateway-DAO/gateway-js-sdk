@@ -1,6 +1,6 @@
 {
   "name": "@Gateway-dao/js-sdk",
-  "version": "0.0.0",
+  "version": "0.0.0-semantic-release",
   "description": "A Typescript SDK for the Gateway API",
   "main": "dist/src/Gateway.js",
   "types": "dist/src/Gateway.d.ts",
@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
+    "prepare": "husky install",
     "build": "tsc"
   },
   "files": [
@@ -28,9 +29,12 @@
     "@solana/web3.js": "^1.87.6",
     "@whatwg-node/fetch": "^0.9.13",
     "ethers": "^5.7.2",
-    "graphql": "^16.8.1"
+    "graphql": "^16.8.1",
+    "husky": "^8.0.3"
   },
   "devDependencies": {
+    "@commitlint/cli": "^18.4.4",
+    "@commitlint/config-conventional": "^18.4.4",
     "@types/jest": "^29.5.11",
     "@types/node": "^20.10.4",
     "@typescript-eslint/eslint-plugin": "^6.13.2",
