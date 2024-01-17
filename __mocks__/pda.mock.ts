@@ -19,7 +19,13 @@ export const PDAMockService = (pda: PDA) => ({
   pdasMock: jest
     .spyOn(pda.sdk, 'PDAs_query')
     .mockResolvedValue({ PDAs: [pdaStub()] }),
-  issuedPDAMock: jest
+  issuedCountPDAMock: jest
     .spyOn(pda.sdk, 'issuedPDAsCount_query')
     .mockResolvedValue({ issuedPDAsCount: 10 }),
+  issuedPDAMock: jest
+    .spyOn(pda.sdk, 'issuedPDAs_query')
+    .mockResolvedValue({ issuedPDAs: [pdaStub()] }),
+  updatePDAMock: jest
+    .spyOn(pda.sdk, 'updatePDA_mutation')
+    .mockResolvedValue({ updatePDA: pdaStub() }),
 });

@@ -68,11 +68,32 @@ describe('PDA SERVICE TESTING', () => {
   });
 
   it('issued pdas count', async () => {
-    const { issuedPDAMock } = PDAMockService(pda);
+    const { issuedCountPDAMock } = PDAMockService(pda);
 
     const count = await pda.getIssuedPDAsCount();
 
     expect(count).toBeGreaterThanOrEqual(0);
+    expect(issuedCountPDAMock).toHaveBeenCalled();
+  });
+
+  it('issued pdas', async () => {
+    const { issuedPDAMock } = PDAMockService(pda);
+
+    const { issuedPDAs } = await pda.getIssuedPDAs();
+
+    expect(issuedPDAs.length).toBeGreaterThanOrEqual(0);
     expect(issuedPDAMock).toHaveBeenCalled();
+  });
+
+  it('update pda', async () => {
+    const { updatePDAMock } = PDAMockService(pda);
+
+    const { updatePDA } = await pda.updatePDA({
+      id: pdaStub().id,
+      title: pdaStub().dataAsset?.title,
+    });
+
+    expect(updatePDA.dataAsset?.title).toBe(pdaStub().dataAsset?.title);
+    expect(updatePDAMock).toHaveBeenCalled();
   });
 });

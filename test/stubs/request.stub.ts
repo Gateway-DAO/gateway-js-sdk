@@ -22,5 +22,3 @@ export const requestStub = (overrideDataRequest?: any): DataRequest => ({
   },
   ...overrideDataRequest,
 });
-
-

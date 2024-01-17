@@ -1,4 +1,4 @@
-import {  getMeshSDK } from '../.mesh';
+import { getMeshSDK } from '../.mesh';
 import { DataModel } from '../src/data-model/data-model';
 import {
   dataModelCreateStub,

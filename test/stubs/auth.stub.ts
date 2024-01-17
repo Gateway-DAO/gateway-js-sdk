@@ -1,3 +1,4 @@
+import { Auth } from '../../.mesh';
 import { Chain } from '../../src/types';
 
 export const authStub = (overrideAuth?: any) => ({
@@ -14,5 +15,6 @@ export const authStub = (overrideAuth?: any) => ({
     'a86d21a712aebd1e6d5a4cb02a6a4a30f41e319a670b401c0bf0fc04c617e0f1',
   signature: '65f18a8b37cbf73d8b201345ed1ccf983e0a571b69b2eef17465a26e3b187700',
   message: 'message is valid',
+  token: 'a86d21a712aebd1e6d5a4cb02a6a4a30f41e319a670b401c0bf0fc04c617e0f1',
   ...overrideAuth,
 });
