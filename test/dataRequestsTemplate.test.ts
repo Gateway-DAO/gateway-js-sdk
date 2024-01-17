@@ -59,12 +59,51 @@ describe('DATA REQUESTS TEMPLATE TESTING', () => {
   });
 
   it('get data request templates count', async () => {
-    const { getDataRequestsTemplateCount } =
+    const { getDataRequestsTemplateCountMock } =
       DataRequestTemplateMockService(dataRequestTemplate);
 
     const count = await dataRequestTemplate.getDataRequestsTemplateCount();
 
     expect(count).toBeGreaterThan(0);
-    expect(getDataRequestsTemplateCount).toHaveBeenCalled();
+    expect(getDataRequestsTemplateCountMock).toHaveBeenCalled();
+  });
+
+  it('get data request templates metadata', async () => {
+    const { getDataRequestsTemplatesMetadataMock } =
+      DataRequestTemplateMockService(dataRequestTemplate);
+
+    const { dataRequestTemplatesMetadata } =
+      await dataRequestTemplate.getDataRequestsTemplatesMetadata();
+
+    expect(dataRequestTemplatesMetadata.tags.length).toBe(
+      dataRequestTemplateStub().tags.length,
+    );
+    expect(getDataRequestsTemplatesMetadataMock).toHaveBeenCalled();
+  });
+
+  it('get verifiers by data request templates id', async () => {
+    const { getVerifiersByDataRequestTemplateMock } =
+      DataRequestTemplateMockService(dataRequestTemplate);
+
+    const { verifiersByDataRequestTemplate } =
+      await dataRequestTemplate.getVerifiersByDataRequestTemplate(
+        dataRequestTemplateStub().id,
+      );
+
+    expect(verifiersByDataRequestTemplate).toBeDefined();
+    expect(getVerifiersByDataRequestTemplateMock).toHaveBeenCalled();
+  });
+
+  it('get verifiers count by data request templates', async () => {
+    const { getVerifiersByDataRequestTemplateCountMock } =
+      DataRequestTemplateMockService(dataRequestTemplate);
+
+    const count =
+      await dataRequestTemplate.getVerifiersByDataRequestTemplateCount(
+        dataRequestTemplateStub().id,
+      );
+
+    expect(count).toBeGreaterThan(0);
+    expect(getVerifiersByDataRequestTemplateCountMock).toHaveBeenCalled();
   });
 });

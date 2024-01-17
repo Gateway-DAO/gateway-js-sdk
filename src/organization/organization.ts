@@ -31,7 +31,7 @@ export class Organization {
   async createOrganization(organizationInput: CreateOrganizationInput) {
     try {
       validateObjectProperties(organizationInput);
-      return this.sdk.createOrganization_mutation({
+      return await this.sdk.createOrganization_mutation({
         input: organizationInput,
       });
     } catch (error) {
@@ -48,7 +48,7 @@ export class Organization {
    */
   async addMemberToOrganization(memberInput: MemberInput) {
     try {
-      return this.sdk.addMemberToOrganization_mutation({
+      return await this.sdk.addMemberToOrganization_mutation({
         input: memberInput,
       });
     } catch (error) {
@@ -66,7 +66,7 @@ export class Organization {
    */
   async changeMemberRole(memberInput: MemberInput) {
     try {
-      return this.sdk.changeMemberRole_mutation({ input: memberInput });
+      return await this.sdk.changeMemberRole_mutation({ input: memberInput });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -101,7 +101,7 @@ export class Organization {
   async updateOrganization(updatedOrganization: UpdateOrganizationInput) {
     try {
       validateObjectProperties(updatedOrganization);
-      return this.sdk.updateOrganization_mutation({
+      return await this.sdk.updateOrganization_mutation({
         input: updatedOrganization,
       });
     } catch (error) {
@@ -123,7 +123,7 @@ export class Organization {
   async getOrganization(type: OrganizationIdentifierType, value: string) {
     try {
       isStringValid(value);
-      return this.sdk.organization_query({ input: { type, value } });
+      return await this.sdk.organization_query({ input: { type, value } });
     } catch (error) {
       throw new Error(errorHandler(error));
     }

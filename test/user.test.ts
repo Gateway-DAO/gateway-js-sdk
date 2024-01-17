@@ -2,7 +2,7 @@ import { getMeshSDK } from '../.mesh';
 import { UserMockService } from '../__mocks__/user.mock';
 import { UserIdentifierType } from '../src/types';
 import { User } from '../src/user/user';
-import { userStub } from './stubs/user.stub';
+import { userStub, walletStub } from './stubs/user.stub';
 
 let user: User;
 
@@ -73,6 +73,42 @@ describe('USER SERVICE TESTING', () => {
 
     expect(count).toBeGreaterThanOrEqual(0);
     expect(myDataRequestTemplatesCountMock).toHaveBeenCalled();
+  });
+
+  // it('my financial transactions', async () => {
+  //   const { myDataRequestTemplatesCountMock } = UserMockService(user);
+
+  //   const count = await user.myFinancialTransactions();
+
+  //   expect(count).toBeGreaterThanOrEqual(0);
+  //   expect(myDataRequestTemplatesCountMock).toHaveBeenCalled();
+  // });
+
+  it('my financial transactions count', async () => {
+    const { myFinancialTransactionsCountMock } = UserMockService(user);
+
+    const count = await user.myFinancialTransactionsCount();
+
+    expect(count).toBeGreaterThanOrEqual(0);
+    expect(myFinancialTransactionsCountMock).toHaveBeenCalled();
+  });
+
+  // it('my transactions', async () => {
+  //   const { myDataRequestTemplatesCountMock } = UserMockService(user);
+
+  //   const count = await user.myTransactions();
+
+  //   expect(count).toBeGreaterThanOrEqual(0);
+  //   expect(myDataRequestTemplatesCountMock).toHaveBeenCalled();
+  // });
+
+  it('my wallet', async () => {
+    const { mywalletMock } = UserMockService(user);
+
+    const { myWallet } = await user.myWallet();
+
+    expect(myWallet.balance).toBe(walletStub().balance);
+    expect(mywalletMock).toHaveBeenCalled();
   });
 
   it('update user', async () => {

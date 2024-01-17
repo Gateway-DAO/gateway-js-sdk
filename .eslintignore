@@ -2,5 +2,5 @@ jest.config.js
 test/*
 .mesh/*
 __mocks__/*
-dist/*
+lib/*
 custom-fetch.js

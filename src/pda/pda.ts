@@ -27,7 +27,7 @@ export class PDA {
   async getPDA(id: string) {
     try {
       isUUIDValid(id);
-      return this.sdk.PDA_query({ id });
+      return await this.sdk.PDA_query({ id });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -41,7 +41,7 @@ export class PDA {
    * of type `FilterPDAInput`.
    * @returns a Promise that resolves to a number.
    */
-  async getPDACount(filter: FilterPDAInput = {}) {
+  async getPDACount(filter?: FilterPDAInput) {
     try {
       return (await this.sdk.PDACount_query({ filter })).PDACount;
     } catch (error) {
@@ -52,12 +52,12 @@ export class PDA {
   /**
    * The function `getPDAs` retrieves PDAs based on the provided filter, order, skip, and take
    * parameters.
-   * @param {PDAFilter}  - - `filter`: An object that contains filter criteria for the query.
+   * @param {PDAs_queryQueryVariables}  - - `filter`: An object that contains filter criteria for the query.
    * @returns a Promise that resolves to a value of type PDAs_queryQuery.
    */
   async getPDAs(variables?: PDAs_queryQueryVariables) {
     try {
-      return this.sdk.PDAs_query(variables);
+      return await this.sdk.PDAs_query(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -66,13 +66,13 @@ export class PDA {
   /**
    * The function `getIssuedPDAs` retrieves issued PDAs based on the provided filter, order, skip, and
    * take parameters.
-   * @param {PDAFilter}  - - `filter`: An object that contains filter criteria for the query. It is
+   * @param {issuedPDAs_queryQueryVariables}  - - `filter`: An object that contains filter criteria for the query. It is
    * used to specify conditions that the returned PDAs must meet.
    * @returns a Promise that resolves to an object of type `issuedPDAs_queryQuery`.
    */
   async getIssuedPDAs(variables?: issuedPDAs_queryQueryVariables) {
     try {
-      return this.sdk.issuedPDAs_query(variables);
+      return await this.sdk.issuedPDAs_query(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -94,21 +94,6 @@ export class PDA {
   }
 
   /**
-   * The function `myPDACount` is an asynchronous function that returns the count of myPDAs based on an
-   * optional filter.
-   * @param {FilterPDAInput} [filter] - The `filter` parameter is an optional input that can be used to
-   * filter the results of the query. It is of type `FilterPDAInput`.
-   * @returns a Promise that resolves to a number.
-   */
-  async myPDACount(filter?: FilterPDAInput) {
-    try {
-      return (await this.sdk.myPDACount_query({ filter })).myPDACount;
-    } catch (error) {
-      throw new Error(errorHandler(error));
-    }
-  }
-
-  /**
    * The function `changePDAStatus` is an asynchronous function that takes an `id` and a `status` as
    * parameters and returns a Promise that resolves to a `changePDAStatus_mutationMutation` object.
    * @param  - - `id`: The ID of the PDA  whose status needs to be changed.
@@ -117,7 +102,7 @@ export class PDA {
   async changePDAStatus({ id, status }: { id: string; status: PDAStatus }) {
     try {
       isUUIDValid(id);
-      return this.sdk.changePDAStatus_mutation({ input: { id, status } });
+      return await this.sdk.changePDAStatus_mutation({ input: { id, status } });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -132,7 +117,7 @@ export class PDA {
   async createPDA(pdaInput: CreatePDAInput) {
     try {
       validateObjectProperties(pdaInput);
-      return this.sdk.createPDA_mutation({ input: pdaInput });
+      return await this.sdk.createPDA_mutation({ input: pdaInput });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -150,7 +135,7 @@ export class PDA {
   async updatePDA(updatedPDA: UpdatePDAInput) {
     try {
       validateObjectProperties(updatedPDA);
-      return this.sdk.updatePDA_mutation({ input: updatedPDA });
+      return await this.sdk.updatePDA_mutation({ input: updatedPDA });
     } catch (error) {
       throw new Error(errorHandler(error));
     }

@@ -17,9 +17,26 @@ export const DataRequestTemplateMockService = (
   getDataRequestTemplatesMock: jest
     .spyOn(dataRequestTemplate.sdk, 'dataRequestTemplates_query')
     .mockResolvedValue({ dataRequestTemplates: [dataRequestTemplateStub()] }),
-  getDataRequestsTemplateCount: jest
+  getDataRequestsTemplateCountMock: jest
     .spyOn(dataRequestTemplate.sdk, 'dataRequestTemplatesCount_query')
     .mockResolvedValue({
       dataRequestTemplatesCount: 10,
+    }),
+  getDataRequestsTemplatesMetadataMock: jest
+    .spyOn(dataRequestTemplate.sdk, 'dataRequestTemplatesMetadata_query')
+    .mockResolvedValue({
+      dataRequestTemplatesMetadata: {
+        tags: [dataRequestTemplateStub().tags[0]],
+      },
+    }),
+  getVerifiersByDataRequestTemplateMock: jest
+    .spyOn(dataRequestTemplate.sdk, 'verifiersByDataRequestTemplate_query')
+    .mockResolvedValue({
+      verifiersByDataRequestTemplate: [],
+    }),
+  getVerifiersByDataRequestTemplateCountMock: jest
+    .spyOn(dataRequestTemplate.sdk, 'verifiersByDataRequestTemplateCount_query')
+    .mockResolvedValue({
+      verifiersByDataRequestTemplateCount: 10,
     }),
 });
