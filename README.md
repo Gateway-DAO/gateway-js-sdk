@@ -186,4 +186,4 @@ If you want to support the active development of the SDK [Please talk to us on D
 [discord-image]: https://img.shields.io/discord/733027681184251937.svg?style=flat&label=Join%20Community&color=7289DA
 [discord-url]: https://discord.gg/tgt3KjcHGs
 [github-url]: https://github.com/Gateway-DAO/javascript-sdk
-[test-passing]: https://github.com/fedora-infra/fedora-messaging/actions/workflows/main.yml/badge.svg?branch=develop
+[test-passing]: https://github.com/Gateway-DAO/gateway-js-sdk/actions/workflows/main.yml/badge.svg?branch=main
