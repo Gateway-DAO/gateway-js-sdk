@@ -1,4 +1,3 @@
-
 export enum UserIdentifierType {
   EMAIL = 'EMAIL',
   EVM = 'EVM',

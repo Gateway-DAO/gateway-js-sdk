@@ -7,7 +7,6 @@ import {
 import { errorHandler } from '../utils/errorHandler';
 import { isUUIDValid, validateObjectProperties } from '../utils/validators';
 
-
 export class DataModel {
   public sdk: Sdk;
 
