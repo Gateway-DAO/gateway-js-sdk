@@ -36,4 +36,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      run: npx semantic-release@22.0.12
+      run: pnpm dlx semantic-release@22.0.12
