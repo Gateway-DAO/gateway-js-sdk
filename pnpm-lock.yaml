@@ -1,8 +1,6 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
+
 
 dependencies:
   '@graphql-mesh/cli':
