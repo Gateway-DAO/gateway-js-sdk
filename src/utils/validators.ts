@@ -18,8 +18,7 @@ export const isStringValid = (value: string): boolean => {
 };
 
 export const isValidUrl = (url: string): boolean => {
-  // Regular expression for a basic URL validation
-  var urlPattern =
+  const urlPattern =
     /^https:\/\/([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}(\/[a-zA-Z0-9-._?%&=]*)?$/;
 
   if (!urlPattern.test(url)) throw new Error(`${url} is not valid`);
