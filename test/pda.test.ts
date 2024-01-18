@@ -24,6 +24,16 @@ describe('PDA SERVICE TESTING', () => {
     expect(createPDAMutationMock).toHaveBeenCalled();
   });
 
+  it('pda create to throw error', async () => {
+    const { createPDAMock: createPDAMutationMock } = PDAMockService(pda);
+
+    expect(
+      async () => await pda.createPDA(pdaCreateStub({ title: '' })),
+    ).rejects.toThrow(' should be atleast 3 length');
+
+    expect(createPDAMutationMock).toHaveBeenCalled();
+  });
+
   it('pda update status', async () => {
     const { changePDAStatusMock } = PDAMockService(pda);
 
@@ -33,6 +43,20 @@ describe('PDA SERVICE TESTING', () => {
     });
 
     expect(changePDAStatus.status).toEqual(PDAStatus.Suspended);
+    expect(changePDAStatusMock).toHaveBeenCalled();
+  });
+
+  it('pda update status to throw error', async () => {
+    const { changePDAStatusMock } = PDAMockService(pda);
+
+    expect(
+      async () =>
+        await pda.changePDAStatus({
+          id: pdaStub({ id: 'f17ac10b-58cc-4372-a567' }).id,
+          status: PDAStatus.Suspended,
+        }),
+    ).rejects.toThrow('');
+
     expect(changePDAStatusMock).toHaveBeenCalled();
   });
 
@@ -94,6 +118,20 @@ describe('PDA SERVICE TESTING', () => {
     });
 
     expect(updatePDA.dataAsset?.title).toBe(pdaStub().dataAsset?.title);
+    expect(updatePDAMock).toHaveBeenCalled();
+  });
+
+  it('update pda to throw error', async () => {
+    const { updatePDAMock } = PDAMockService(pda);
+
+    expect(
+      async () =>
+        await pda.updatePDA({
+          id: pdaStub().id,
+          title: pdaCreateStub({ title: '' }).title,
+        }),
+    ).rejects.toThrow('');
+
     expect(updatePDAMock).toHaveBeenCalled();
   });
 });

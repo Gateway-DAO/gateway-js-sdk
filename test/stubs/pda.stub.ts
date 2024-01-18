@@ -26,7 +26,7 @@ export const pdaStub = (overridePDA?: any): PrivateDataAsset => ({
   ...overridePDA,
 });
 
-export const pdaCreateStub = (): CreatePDAInput => ({
+export const pdaCreateStub = (overridePDA?: any): CreatePDAInput => ({
   dataModelId: 'f47ac10b-58cc-4372-a567-0e02b2c3d471',
   description: 'test',
   title: 'test',
@@ -38,4 +38,5 @@ export const pdaCreateStub = (): CreatePDAInput => ({
     value: 'sid',
   },
   expirationDate: new Date('2021-01-01T12:00:0'),
+  ...overridePDA,
 });
