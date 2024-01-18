@@ -11,21 +11,23 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Setup Node.js
       uses: actions/setup-node@v1
       with:
         node-version: 18.x
+    - name: Install pnpm
+      run: npm install -g pnpm@7.33.5
     - name: Install dependencies
-      run: npx ci
+      run: pnpm install
     - name: Install semantic-release extra plugins
-      run: npm install --save-dev @semantic-release/changelog @semantic-release/git      
+      run: pnpm install -D @semantic-release/changelog @semantic-release/git      
     - name: Lint
-      run: npm run lint-fix
+      run:  pnpm lint
     - name: Test
-      run: npm run test:unit --if-present
+      run:  pnpm test
     - name: Build
-      run: npm run build      
+      run:  pnpm build      
     - name: Release
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

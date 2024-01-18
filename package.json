@@ -1,6 +1,6 @@
 {
   "name": "@gateway/sdk",
-  "version": "0.0.0",
+  "version": "0.0.0-semantic-release",
   "description": "A Typescript SDK for the Gateway API",
   "main": "dist/src/Gateway.js",
   "types": "dist/src/Gateway.d.ts",
