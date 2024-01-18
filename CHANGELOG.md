@@ -1,9 +1,15 @@
-# [1.0.0-beta.2](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2024-01-18)
+# [1.0.0-beta.3](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2024-01-18)
 
 
 ### Bug Fixes
 
-* actions nodet setup version upgraded ([e99f1ba](https://github.com/Gateway-DAO/gateway-js-sdk/commit/e99f1ba6da6c4af9336f3118e3da690e06599b1b))
+* deleted user test ([b1628fa](https://github.com/Gateway-DAO/gateway-js-sdk/commit/b1628faf68bd964d63b68efbf9a5f3d3dec13906))
+
+# [1.0.0-beta.2](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2024-01-18)
+
+### Bug Fixes
+
+- actions nodet setup version upgraded ([e99f1ba](https://github.com/Gateway-DAO/gateway-js-sdk/commit/e99f1ba6da6c4af9336f3118e3da690e06599b1b))
 
 # 1.0.0-beta.1 (2024-01-18)
 
