@@ -1,5 +1,9 @@
 import { User } from '../src/user/user';
-import { userStub, walletStub } from '../test/stubs/user.stub';
+import {
+  financialTransactionsStub,
+  userStub,
+  walletStub,
+} from '../test/stubs/user.stub';
 
 export const UserMockService = (user: User) => ({
   meMock: jest.spyOn(user.sdk, 'me_query').mockResolvedValue({
@@ -60,9 +64,9 @@ export const UserMockService = (user: User) => ({
     .mockResolvedValue({
       updateNotificationEmail: { user: userStub() },
     }),
-  // myFinancialTransactionsMock: jest
-  //   .spyOn(user.sdk, 'myFinancialTransactions_query')
-  //   .mockResolvedValue({
-  //     myFinancialTransactions: userStub().
-  //   }),
+  myFinancialTransactionsMock: jest
+    .spyOn(user.sdk, 'myFinancialTransactions_query')
+    .mockResolvedValue({
+      myFinancialTransactions: financialTransactionsStub(),
+    }),
 });

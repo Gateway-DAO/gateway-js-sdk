@@ -75,14 +75,14 @@ describe('USER SERVICE TESTING', () => {
     expect(myDataRequestTemplatesCountMock).toHaveBeenCalled();
   });
 
-  // it('my financial transactions', async () => {
-  //   const { myDataRequestTemplatesCountMock } = UserMockService(user);
+  it('my financial transactions', async () => {
+    const { myFinancialTransactionsMock } = UserMockService(user);
 
-  //   const count = await user.myFinancialTransactions();
+    const { myFinancialTransactions } = await user.myFinancialTransactions();
 
-  //   expect(count).toBeGreaterThanOrEqual(0);
-  //   expect(myDataRequestTemplatesCountMock).toHaveBeenCalled();
-  // });
+    expect(myFinancialTransactions.length).toBeGreaterThanOrEqual(0);
+    expect(myFinancialTransactionsMock).toHaveBeenCalled();
+  });
 
   it('my financial transactions count', async () => {
     const { myFinancialTransactionsCountMock } = UserMockService(user);

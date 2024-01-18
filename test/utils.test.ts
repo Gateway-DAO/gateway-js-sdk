@@ -11,7 +11,7 @@ import {
   validateSolanaWallet,
 } from '../src/utils/validators';
 import { authStub } from './stubs/auth.stub';
-// 78%
+
 describe('UTILS TESTING', () => {
   it('error handler testing normal', () => {
     const result = errorHandler('Something went wrong');
