@@ -15,7 +15,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: 20.6.x
+        node-version: 18.x
     - name: Install pnpm
       run: npm install -g pnpm@7.33.5
     - name: Install dependencies
@@ -36,4 +36,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      run: npx semantic-release
+      run: npx semantic-release@22.0.12
