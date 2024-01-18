@@ -69,6 +69,16 @@ describe('PDA SERVICE TESTING', () => {
     expect(getPDAMock).toHaveBeenCalled();
   });
 
+  it('get pda to throw error', async () => {
+    const { getPDAMock } = PDAMockService(pda);
+
+    expect(
+      async () => await pda.getPDA(pdaStub({ id: '' }).id),
+    ).rejects.toThrow('');
+
+    expect(getPDAMock).toHaveBeenCalled();
+  });
+
   it('pda count', async () => {
     const { pdaCountMock } = PDAMockService(pda);
 
