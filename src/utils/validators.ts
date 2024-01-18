@@ -17,6 +17,15 @@ export const isStringValid = (value: string): boolean => {
   return true;
 };
 
+export const isValidUrl = (url: string): boolean => {
+  // Regular expression for a basic URL validation
+  var urlPattern =
+    /^https:\/\/([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}(\/[a-zA-Z0-9-._?%&=]*)?$/;
+
+  if (!urlPattern.test(url)) throw new Error(`${url} is not valid`);
+  return true;
+};
+
 export const isUUIDValid = (uuid: string): boolean => {
   const uuidRegex =
     /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;

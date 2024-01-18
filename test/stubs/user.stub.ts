@@ -19,8 +19,7 @@ export const userStub = (overrideUser?: Partial<User>): User => ({
   gatewayId: 'testuser01',
   email: 'testuser01@mygateway.xyz',
   displayName: 'testuser02',
-  profilePicture:
-    'https://www.tryodyssey.xyz/images/campaigns/lifi/odyssey_lifi.png',
+  profilePicture: 'https://fake-url.com',
   ...overrideUser,
 });
 

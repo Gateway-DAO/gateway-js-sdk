@@ -5,6 +5,7 @@ import {
   isEmailValid,
   isStringValid,
   isUUIDValid,
+  isValidUrl,
   isWalletAddressvalid,
   validateEtherumWallet,
   validateObjectProperties,
@@ -40,6 +41,14 @@ describe('UTILS TESTING', () => {
     const result = isUUIDValid('f17ac10b-58cc-4372-a567-0e02b2c3d479');
     expect(result).toBeDefined();
     expect(() => isUUIDValid('f17ac10b-58cc-4372-a567')).toThrow(
+      'f17ac10b-58cc-4372-a567 is not valid',
+    );
+  });
+
+  it('url validator', () => {
+    const result = isValidUrl('https://fake-url.com');
+    expect(result).toBeDefined();
+    expect(() => isValidUrl('f17ac10b-58cc-4372-a567')).toThrow(
       'f17ac10b-58cc-4372-a567 is not valid',
     );
   });

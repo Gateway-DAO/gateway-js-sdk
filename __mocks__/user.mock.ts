@@ -37,8 +37,7 @@ export const UserMockService = (user: User) => ({
     .spyOn(user.sdk, 'updateMyProfilePicture_mutation')
     .mockResolvedValue({
       updateMyProfilePicture: userStub({
-        profilePicture:
-          'https://www.tryodyssey.xyz/images/campaigns/lifi/odyssey_lifi.png',
+        profilePicture: userStub().profilePicture,
       }).profilePicture,
     }),
   myFinancialTransactionsCountMock: jest
