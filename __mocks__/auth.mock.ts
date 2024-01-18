@@ -8,6 +8,7 @@ export const AuthMockService = (auth: Auth) => ({
     .mockResolvedValue({
       checkUsernameAvailability: true,
     }),
+
   addEmailMock: jest.spyOn(auth.sdk, 'addEmail_mutation').mockResolvedValue({
     addEmail: authStub(),
   }),

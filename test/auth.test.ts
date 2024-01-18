@@ -24,6 +24,15 @@ describe('AUTH SERVICE TESTING', () => {
     expect(checkUsernameAvailabilityMock).toHaveBeenCalled();
   });
 
+  it('check username availability fail', async () => {
+    jest
+      .spyOn(auth.sdk, 'checkUsernameAvailability_query')
+      .mockRejectedValue(new Error('Failed'));
+    expect(async () => {
+      await auth.checkUsernameAvailability(authStub().username);
+    }).rejects.toThrow('Failed');
+  });
+
   it('add email', async () => {
     const { addEmailMock } = AuthMockService(auth);
 
