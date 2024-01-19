@@ -3,6 +3,7 @@ test/*
 .mesh/*
 __mocks__/*
 lib/*
+coverage/*
 custom-fetch.js
 commitlint.config.js
 release.config.js

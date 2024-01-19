@@ -110,6 +110,7 @@ describe('USER SERVICE TESTING', () => {
     const { myWallet } = await user.myWallet();
 
     expect(myWallet.balance).toBe(walletStub().balance);
+
     expect(mywalletMock).toHaveBeenCalled();
   });
 
@@ -120,6 +121,7 @@ describe('USER SERVICE TESTING', () => {
       displayName: userStub().displayName!,
     });
     expect(updateUser.displayName!).toEqual(userStub().displayName!);
+
     expect(updateUserMock).toHaveBeenCalled();
   });
 
@@ -131,6 +133,7 @@ describe('USER SERVICE TESTING', () => {
     );
 
     expect(updateMyProfilePicture).toEqual(userStub().profilePicture!);
+
     expect(updateMyProfilePictureMock).toHaveBeenCalled();
   });
 });

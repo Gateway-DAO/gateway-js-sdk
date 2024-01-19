@@ -28,14 +28,17 @@ export const validateEtherumWallet = (wallet: string): boolean => {
   if (ethers.utils.isAddress(wallet)) {
     return true;
   }
+
   throw new Error(`${wallet} is invalid`);
 };
 
 export const validateSolanaWallet = (wallet: string): boolean => {
   const key = new PublicKey(wallet);
+
   if (PublicKey.isOnCurve(key.toBytes())) {
     return true;
   }
+
   throw new Error(`${wallet} is invalid`);
 };
 
