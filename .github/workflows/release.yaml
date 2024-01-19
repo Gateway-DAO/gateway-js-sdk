@@ -2,7 +2,7 @@ name: Release
 
 on:
   push:
-    branches: [main, beta]
+    branches: [main]
 
 jobs:
   release:
@@ -32,8 +32,8 @@ jobs:
         run: pnpm test
       - name: Build
         run: pnpm build
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        #run: pnpm dlx semantic-release@22.0.12
+      # - name: Release
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      #   run: pnpm dlx semantic-release@22.0.12
