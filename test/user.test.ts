@@ -21,6 +21,7 @@ describe('USER SERVICE TESTING', () => {
     const { me } = await user.me();
 
     expect(me.gatewayId).toEqual(userStub().gatewayId);
+
     expect(meMock).toHaveBeenCalled();
   });
 
@@ -33,6 +34,7 @@ describe('USER SERVICE TESTING', () => {
     });
 
     expect(res.user?.gatewayId).toEqual(userStub().gatewayId);
+
     expect(getSingleUserMock).toHaveBeenCalled();
   });
 
