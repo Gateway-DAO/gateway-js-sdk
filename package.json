@@ -13,9 +13,9 @@
     "build": "tsc"
   },
   "lint-staged": {
-    "*": [
-      "pnpm lint",
+    "*.ts": [
       "pnpm format",
+      "pnpm lint",
       "git add"
     ]
   },

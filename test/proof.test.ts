@@ -22,6 +22,7 @@ afterAll(() => {
 describe('PROOF SERVICE TESTING', () => {
   it('proof create', async () => {
     const { createProofMock } = ProofMockService(proof);
+
     const { createProof } = await proof.createProof(createProofStub());
 
     expect(createProof.id).toBe(proofStub().id);
@@ -37,6 +38,7 @@ describe('PROOF SERVICE TESTING', () => {
 
   it('get proofs', async () => {
     const { getProofsMock } = ProofMockService(proof);
+
     const { proofs: resultProofs } = await proof.getProofs();
     expect(resultProofs?.length).toBeGreaterThan(0);
     expect(getProofsMock).toHaveBeenCalled();
@@ -63,6 +65,7 @@ describe('PROOF SERVICE TESTING', () => {
   it('get received proofs', async () => {
     const { getReceivedProofsMock } = ProofMockService(proof);
     const { receivedProofs } = await proof.getReceivedProofs();
+
     expect(receivedProofs.length).toBeGreaterThan(0);
     expect(getReceivedProofsMock).toHaveBeenCalled();
   });
@@ -71,12 +74,14 @@ describe('PROOF SERVICE TESTING', () => {
     const { getReceivedProofsCountMock } = ProofMockService(proof);
     const { receivedProofsCount } = await proof.getReceivedProofsCount();
     expect(receivedProofsCount).toBeGreaterThanOrEqual(0);
+
     expect(getReceivedProofsCountMock).toHaveBeenCalled();
   });
 
   it('get sent proofs', async () => {
     const { getSentProofsMock } = ProofMockService(proof);
     const { sentProofs } = await proof.getSentProofs();
+
     expect(sentProofs.length).toBeGreaterThanOrEqual(0);
     expect(getSentProofsMock).toHaveBeenCalled();
   });
