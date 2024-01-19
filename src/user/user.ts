@@ -15,6 +15,7 @@ import {
   isEmailValid,
   isStringValid,
   isUUIDValid,
+  isValidUrl,
   validateObjectProperties,
 } from '../utils/validators';
 
@@ -248,6 +249,7 @@ export class User {
    */
   async updateMyProfilePicture(profilePictureUrl: string) {
     try {
+      isValidUrl(profilePictureUrl);
       return this.sdk.updateMyProfilePicture_mutation({
         profilePictureUrl,
       });

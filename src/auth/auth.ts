@@ -23,6 +23,7 @@ export class Auth {
    */
   async checkUsernameAvailability(username: string) {
     try {
+      isStringValid(username);
       return (await this.sdk.checkUsernameAvailability_query({ username }))
         .checkUsernameAvailability;
     } catch (error) {
@@ -92,6 +93,7 @@ export class Auth {
     walletConfirmationInput: AddWalletConfirmationInput,
   ) {
     try {
+      isStringValid(walletConfirmationInput.signature);
       return await this.sdk.addWalletConfirmation_mutation({
         input: walletConfirmationInput,
       });
@@ -156,6 +158,7 @@ export class Auth {
   async loginWallet(wallet: string, chain: Chain, signature: string) {
     try {
       isWalletAddressvalid(wallet, chain);
+      isStringValid(signature);
       return (
         await this.sdk.loginWallet_mutation({
           input: { wallet, signature },

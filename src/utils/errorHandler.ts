@@ -10,6 +10,5 @@ export const errorHandler = (error: any): string => {
       return error.message;
     }
   }
-
   return 'Something went wrong!';
 };

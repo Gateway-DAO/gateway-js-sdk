@@ -33,6 +33,19 @@ describe('ORGANIZATION SERVICE TESTING', () => {
     expect(createOrganizationMock).toHaveBeenCalled();
   });
 
+  it('organization create to throw error', async () => {
+    const { createOrganizationMock } = OrganizationMockService(organization);
+
+    expect(
+      async () =>
+        await organization.createOrganization(
+          organizationCreateStub({ username: '' }),
+        ),
+    ).rejects.toThrow(' should be atleast 3 length');
+
+    expect(createOrganizationMock).toHaveBeenCalled();
+  });
+
   it('get single organization', async () => {
     const { getOrganizationMock } = OrganizationMockService(organization);
 
@@ -42,6 +55,20 @@ describe('ORGANIZATION SERVICE TESTING', () => {
     );
 
     expect(res.organization?.id).toEqual(organizationStub().id);
+    expect(getOrganizationMock).toHaveBeenCalled();
+  });
+
+  it('get single organization to throw error', async () => {
+    const { getOrganizationMock } = OrganizationMockService(organization);
+
+    expect(
+      async () =>
+        await organization.getOrganization(
+          OrganizationIdentifierType.ORG_ID,
+          organizationStub({ id: '' }).id,
+        ),
+    ).rejects.toThrow('');
+
     expect(getOrganizationMock).toHaveBeenCalled();
   });
 
@@ -59,6 +86,20 @@ describe('ORGANIZATION SERVICE TESTING', () => {
     expect(updateOrganizationMock).toHaveBeenCalled();
   });
 
+  it('update organization to throw error', async () => {
+    const { updateOrganizationMock } = OrganizationMockService(organization);
+
+    let updatedOrgObj = {
+      description: 'updated description',
+      id: organizationStub({ id: '' }).id,
+    };
+    expect(
+      async () => await organization.updateOrganization(updatedOrgObj),
+    ).rejects.toThrow('');
+
+    expect(updateOrganizationMock).toHaveBeenCalled();
+  });
+
   it('member crud organization', async () => {
     const {
       addMemberToOrganizationMock,
@@ -69,7 +110,7 @@ describe('ORGANIZATION SERVICE TESTING', () => {
     let addMemberObj = {
       organization: {
         type: OrganizationIdentifierType.ORG_ID,
-        value: process.env.ORGAINZATION_ID!,
+        value: organizationStub().id,
       },
       user: { type: UserIdentifierType.GATEWAY_ID, value: 'testing_sdk' },
     };

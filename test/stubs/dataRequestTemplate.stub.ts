@@ -33,7 +33,9 @@ export const dataRequestTemplateStub = (
   ...overrideDataRequestTemplate,
 });
 
-export const dataRequestTemplateCreateStub = (): TemplateSchemaInput => ({
+export const dataRequestTemplateCreateStub = (
+  overrideDataRequestTemplate?: any,
+): TemplateSchemaInput => ({
   title: 'test',
   description: 'test',
   dataModels: [
@@ -51,4 +53,5 @@ export const dataRequestTemplateCreateStub = (): TemplateSchemaInput => ({
       },
     },
   ],
+  ...overrideDataRequestTemplate,
 });

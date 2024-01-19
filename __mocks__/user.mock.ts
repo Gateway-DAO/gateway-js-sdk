@@ -1,5 +1,9 @@
 import { User } from '../src/user/user';
-import { userStub, walletStub } from '../test/stubs/user.stub';
+import {
+  financialTransactionsStub,
+  userStub,
+  walletStub,
+} from '../test/stubs/user.stub';
 
 export const UserMockService = (user: User) => ({
   meMock: jest.spyOn(user.sdk, 'me_query').mockResolvedValue({
@@ -33,8 +37,7 @@ export const UserMockService = (user: User) => ({
     .spyOn(user.sdk, 'updateMyProfilePicture_mutation')
     .mockResolvedValue({
       updateMyProfilePicture: userStub({
-        profilePicture:
-          'https://www.tryodyssey.xyz/images/campaigns/lifi/odyssey_lifi.png',
+        profilePicture: userStub().profilePicture,
       }).profilePicture,
     }),
   myFinancialTransactionsCountMock: jest
@@ -45,9 +48,24 @@ export const UserMockService = (user: User) => ({
   mywalletMock: jest.spyOn(user.sdk, 'myWallet_query').mockResolvedValue({
     myWallet: walletStub(),
   }),
-  // myFinancialTransactionsMock: jest
-  //   .spyOn(user.sdk, 'myFinancialTransactions_query')
-  //   .mockResolvedValue({
-  //     myFinancialTransactions: userStub().
-  //   }),
+  updateUserDisplayNameMock: jest
+    .spyOn(user.sdk, 'updateMyDisplayName_mutation')
+    .mockResolvedValue({
+      updateMyDisplayName: userStub().displayName,
+    }),
+  updateUserGatewayIdMock: jest
+    .spyOn(user.sdk, 'updateMyGatewayId_mutation')
+    .mockResolvedValue({
+      updateMyGatewayId: userStub(),
+    }),
+  updateUserNotificationEmaailMock: jest
+    .spyOn(user.sdk, 'updateNotificationEmail_mutation')
+    .mockResolvedValue({
+      updateNotificationEmail: { user: userStub() },
+    }),
+  myFinancialTransactionsMock: jest
+    .spyOn(user.sdk, 'myFinancialTransactions_query')
+    .mockResolvedValue({
+      myFinancialTransactions: financialTransactionsStub(),
+    }),
 });

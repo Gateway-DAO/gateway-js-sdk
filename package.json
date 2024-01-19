@@ -5,7 +5,7 @@
   "main": "dist/src/Gateway.js",
   "types": "dist/src/Gateway.d.ts",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
