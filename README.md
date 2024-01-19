@@ -5,8 +5,8 @@
 [![NPM version][npm-image]][npm-url]
 [![NPM downloads][downloads-image]][downloads-url]
 [![Join Discord][discord-image]][discord-url]
-[![Build status][travis-image]][travis-url]
-[![Coverage Status][coveralls-image]][coveralls-url]
+[![Build status][travis-image]][test-passing]
+[![Coverage Status][codecov-image]][codecov-url]
 
 ## Introduction
 
@@ -137,7 +137,6 @@ async function main() {
 main();
 ```
 
-
 ## Error Handling
 
 All the methods throw a validation error if the validation does not match for example:- invalid wallet, invalid uuid for all ids,
@@ -177,13 +176,13 @@ If you want to support the active development of the SDK [Please talk to us on D
    pnpm test
    ```
 
-[gateway-package-name]: @gateway/sdk
 [npm-image]: https://img.shields.io/npm/v/docusign-esign.svg?style=flat
 [npm-url]: https://npmjs.org/package/@Gateway-dao-js-sdk
 [downloads-image]: https://img.shields.io/npm/dm/docusign-esign.svg?style=flat
 [downloads-url]: https://npmjs.org/package/docusign-esign
-[coveralls-image]: https://coveralls.io/repos/github/docusign/@Gateway-dao-js-sdk/badge.svg?branch=master
-[coveralls-url]: https://coveralls.io/github/docusign/@Gateway-dao-js-sdk?branch=master
+[codecov-image]: https://codecov.io/gh/Gateway-DAO/gateway-js-sdk/graph/badge.svg?token=8N92RFGZHI
+[codecov-url]: https://codecov.io/gh/Gateway-DAO/gateway-js-sdk
 [discord-image]: https://img.shields.io/discord/733027681184251937.svg?style=flat&label=Join%20Community&color=7289DA
 [discord-url]: https://discord.gg/tgt3KjcHGs
 [github-url]: https://github.com/Gateway-DAO/javascript-sdk
+[test-passing]: https://github.com/Gateway-DAO/gateway-js-sdk/actions/workflows/main.yml/badge.svg?branch=main

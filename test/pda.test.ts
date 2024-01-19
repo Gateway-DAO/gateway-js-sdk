@@ -24,6 +24,16 @@ describe('PDA SERVICE TESTING', () => {
     expect(createPDAMutationMock).toHaveBeenCalled();
   });
 
+  it('pda create to throw error', async () => {
+    const { createPDAMock: createPDAMutationMock } = PDAMockService(pda);
+
+    expect(
+      async () => await pda.createPDA(pdaCreateStub({ title: '' })),
+    ).rejects.toThrow(' should be atleast 3 length');
+
+    expect(createPDAMutationMock).toHaveBeenCalled();
+  });
+
   it('pda update status', async () => {
     const { changePDAStatusMock } = PDAMockService(pda);
 
@@ -36,12 +46,36 @@ describe('PDA SERVICE TESTING', () => {
     expect(changePDAStatusMock).toHaveBeenCalled();
   });
 
+  it('pda update status to throw error', async () => {
+    const { changePDAStatusMock } = PDAMockService(pda);
+
+    expect(
+      async () =>
+        await pda.changePDAStatus({
+          id: pdaStub({ id: 'f17ac10b-58cc-4372-a567' }).id,
+          status: PDAStatus.Suspended,
+        }),
+    ).rejects.toThrow('');
+
+    expect(changePDAStatusMock).toHaveBeenCalled();
+  });
+
   it('get pda', async () => {
     const { getPDAMock } = PDAMockService(pda);
 
     const { PDA } = await pda.getPDA(pdaStub().id);
 
     expect(PDA?.dataAsset?.title).toEqual(pdaStub().dataAsset?.title);
+    expect(getPDAMock).toHaveBeenCalled();
+  });
+
+  it('get pda to throw error', async () => {
+    const { getPDAMock } = PDAMockService(pda);
+
+    expect(
+      async () => await pda.getPDA(pdaStub({ id: '' }).id),
+    ).rejects.toThrow('');
+
     expect(getPDAMock).toHaveBeenCalled();
   });
 
@@ -68,11 +102,46 @@ describe('PDA SERVICE TESTING', () => {
   });
 
   it('issued pdas count', async () => {
-    const { issuedPDAMock } = PDAMockService(pda);
+    const { issuedCountPDAMock } = PDAMockService(pda);
 
     const count = await pda.getIssuedPDAsCount();
 
     expect(count).toBeGreaterThanOrEqual(0);
+    expect(issuedCountPDAMock).toHaveBeenCalled();
+  });
+
+  it('issued pdas', async () => {
+    const { issuedPDAMock } = PDAMockService(pda);
+
+    const { issuedPDAs } = await pda.getIssuedPDAs();
+
+    expect(issuedPDAs.length).toBeGreaterThanOrEqual(0);
     expect(issuedPDAMock).toHaveBeenCalled();
+  });
+
+  it('update pda', async () => {
+    const { updatePDAMock } = PDAMockService(pda);
+
+    const { updatePDA } = await pda.updatePDA({
+      id: pdaStub().id,
+      title: pdaStub().dataAsset?.title,
+    });
+
+    expect(updatePDA.dataAsset?.title).toBe(pdaStub().dataAsset?.title);
+    expect(updatePDAMock).toHaveBeenCalled();
+  });
+
+  it('update pda to throw error', async () => {
+    const { updatePDAMock } = PDAMockService(pda);
+
+    expect(
+      async () =>
+        await pda.updatePDA({
+          id: pdaStub().id,
+          title: pdaCreateStub({ title: '' }).title,
+        }),
+    ).rejects.toThrow('');
+
+    expect(updatePDAMock).toHaveBeenCalled();
   });
 });

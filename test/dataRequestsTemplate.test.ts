@@ -32,6 +32,20 @@ describe('DATA REQUESTS TEMPLATE TESTING', () => {
     expect(createDataRequestTemplateMock).toHaveBeenCalled();
   });
 
+  it('create data request template to throw error', async () => {
+    const { createDataRequestTemplateMock } =
+      DataRequestTemplateMockService(dataRequestTemplate);
+
+    expect(
+      async () =>
+        await dataRequestTemplate.createDataRequestTemplate(
+          dataRequestTemplateCreateStub({ title: '' }),
+        ),
+    ).rejects.toThrow('');
+
+    expect(createDataRequestTemplateMock).toHaveBeenCalled();
+  });
+
   it('get data request template by id', async () => {
     const { getDataRequestTemplateMock } =
       DataRequestTemplateMockService(dataRequestTemplate);
@@ -41,6 +55,20 @@ describe('DATA REQUESTS TEMPLATE TESTING', () => {
     );
 
     expect(res.dataRequestTemplate?.id).toEqual(dataRequestTemplateStub().id);
+    expect(getDataRequestTemplateMock).toHaveBeenCalled();
+  });
+
+  it('get data request template by id to throw error', async () => {
+    const { getDataRequestTemplateMock } =
+      DataRequestTemplateMockService(dataRequestTemplate);
+
+    expect(
+      async () =>
+        await dataRequestTemplate.getDataRequestTemplate(
+          dataRequestTemplateStub({ id: '' }).id,
+        ),
+    ).rejects.toThrow(' is not valid');
+
     expect(getDataRequestTemplateMock).toHaveBeenCalled();
   });
 
@@ -94,6 +122,20 @@ describe('DATA REQUESTS TEMPLATE TESTING', () => {
     expect(getVerifiersByDataRequestTemplateMock).toHaveBeenCalled();
   });
 
+  it('get verifiers by data request templates id to throw error', async () => {
+    const { getVerifiersByDataRequestTemplateMock } =
+      DataRequestTemplateMockService(dataRequestTemplate);
+
+    expect(
+      async () =>
+        await dataRequestTemplate.getVerifiersByDataRequestTemplate(
+          dataRequestTemplateStub({ id: '' }).id,
+        ),
+    ).rejects.toThrow(' is not valid');
+
+    expect(getVerifiersByDataRequestTemplateMock).toHaveBeenCalled();
+  });
+
   it('get verifiers count by data request templates', async () => {
     const { getVerifiersByDataRequestTemplateCountMock } =
       DataRequestTemplateMockService(dataRequestTemplate);
@@ -104,6 +146,20 @@ describe('DATA REQUESTS TEMPLATE TESTING', () => {
       );
 
     expect(count).toBeGreaterThan(0);
+    expect(getVerifiersByDataRequestTemplateCountMock).toHaveBeenCalled();
+  });
+
+  it('get verifiers count by data request templates to throw error', async () => {
+    const { getVerifiersByDataRequestTemplateCountMock } =
+      DataRequestTemplateMockService(dataRequestTemplate);
+
+    expect(
+      async () =>
+        await dataRequestTemplate.getVerifiersByDataRequestTemplateCount(
+          dataRequestTemplateStub({ id: '' }).id,
+        ),
+    ).rejects.toThrow(' is not valid');
+
     expect(getVerifiersByDataRequestTemplateCountMock).toHaveBeenCalled();
   });
 });

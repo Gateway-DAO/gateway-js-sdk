@@ -36,6 +36,20 @@ describe('USER SERVICE TESTING', () => {
     expect(getSingleUserMock).toHaveBeenCalled();
   });
 
+  it('single user to throw error', async () => {
+    const { getSingleUserMock } = UserMockService(user);
+
+    expect(
+      async () =>
+        await user.getSingleUser({
+          type: UserIdentifierType.GATEWAY_ID,
+          value: userStub({ gatewayId: '' }).gatewayId!,
+        }),
+    ).rejects.toThrow('');
+
+    expect(getSingleUserMock).toHaveBeenCalled();
+  });
+
   it('my pdas count', async () => {
     const { myPDACountMock } = UserMockService(user);
 
@@ -75,14 +89,14 @@ describe('USER SERVICE TESTING', () => {
     expect(myDataRequestTemplatesCountMock).toHaveBeenCalled();
   });
 
-  // it('my financial transactions', async () => {
-  //   const { myDataRequestTemplatesCountMock } = UserMockService(user);
+  it('my financial transactions', async () => {
+    const { myFinancialTransactionsMock } = UserMockService(user);
 
-  //   const count = await user.myFinancialTransactions();
+    const { myFinancialTransactions } = await user.myFinancialTransactions();
 
-  //   expect(count).toBeGreaterThanOrEqual(0);
-  //   expect(myDataRequestTemplatesCountMock).toHaveBeenCalled();
-  // });
+    expect(myFinancialTransactions.length).toBeGreaterThanOrEqual(0);
+    expect(myFinancialTransactionsMock).toHaveBeenCalled();
+  });
 
   it('my financial transactions count', async () => {
     const { myFinancialTransactionsCountMock } = UserMockService(user);
@@ -92,15 +106,6 @@ describe('USER SERVICE TESTING', () => {
     expect(count).toBeGreaterThanOrEqual(0);
     expect(myFinancialTransactionsCountMock).toHaveBeenCalled();
   });
-
-  // it('my transactions', async () => {
-  //   const { myDataRequestTemplatesCountMock } = UserMockService(user);
-
-  //   const count = await user.myTransactions();
-
-  //   expect(count).toBeGreaterThanOrEqual(0);
-  //   expect(myDataRequestTemplatesCountMock).toHaveBeenCalled();
-  // });
 
   it('my wallet', async () => {
     const { mywalletMock } = UserMockService(user);
@@ -117,8 +122,91 @@ describe('USER SERVICE TESTING', () => {
     const { updateUser } = await user.updateUser({
       displayName: userStub().displayName!,
     });
+
     expect(updateUser.displayName!).toEqual(userStub().displayName!);
     expect(updateUserMock).toHaveBeenCalled();
+  });
+
+  it('update user to throw error', async () => {
+    const { updateUserMock } = UserMockService(user);
+
+    expect(
+      async () =>
+        await user.updateUser({
+          displayName: userStub({ displayName: '' }).displayName!,
+        }),
+    ).rejects.toThrow('');
+
+    expect(updateUserMock).toHaveBeenCalled();
+  });
+
+  it('update user display name', async () => {
+    const { updateUserDisplayNameMock } = UserMockService(user);
+
+    const { updateMyDisplayName } = await user.updateMyDisplayName(
+      userStub().displayName!,
+    );
+    expect(updateMyDisplayName).toEqual(userStub().displayName!);
+    expect(updateUserDisplayNameMock).toHaveBeenCalled();
+  });
+
+  it('update user display name to throw error', async () => {
+    const { updateUserDisplayNameMock } = UserMockService(user);
+
+    expect(
+      async () =>
+        await user.updateMyDisplayName(
+          userStub({ displayName: '' }).displayName!,
+        ),
+    ).rejects.toThrow('');
+
+    expect(updateUserDisplayNameMock).toHaveBeenCalled();
+  });
+
+  it('update user gateway id', async () => {
+    const { updateUserGatewayIdMock } = UserMockService(user);
+
+    const { updateMyGatewayId } = await user.updateMyGatewayId(
+      userStub().displayName!,
+    );
+    expect(updateMyGatewayId.displayName).toEqual(userStub().displayName!);
+    expect(updateUserGatewayIdMock).toHaveBeenCalled();
+  });
+
+  it('update user gateway id to throw error', async () => {
+    const { updateUserGatewayIdMock } = UserMockService(user);
+
+    expect(
+      async () =>
+        await user.updateMyGatewayId(
+          userStub({ displayName: '' }).displayName!,
+        ),
+    ).rejects.toThrow('');
+
+    expect(updateUserGatewayIdMock).toHaveBeenCalled();
+  });
+
+  it('update user notification email', async () => {
+    const { updateUserNotificationEmaailMock } = UserMockService(user);
+
+    const { user: updatedUser } = await user.updateNotificationEmail(
+      userStub().email!,
+    );
+    expect(updatedUser.email).toEqual(userStub().email!);
+    expect(updateUserNotificationEmaailMock).toHaveBeenCalled();
+  });
+
+  it('update user notification email to throw error', async () => {
+    const { updateUserNotificationEmaailMock } = UserMockService(user);
+
+    expect(
+      async () =>
+        await user.updateNotificationEmail(
+          userStub({ email: 'wrong-email.com' }).email!,
+        ),
+    ).rejects.toThrow('wrong-email.com is not valid');
+
+    expect(updateUserNotificationEmaailMock).toHaveBeenCalled();
   });
 
   it('update profile picture', async () => {
@@ -129,6 +217,19 @@ describe('USER SERVICE TESTING', () => {
     );
 
     expect(updateMyProfilePicture).toEqual(userStub().profilePicture!);
+    expect(updateMyProfilePictureMock).toHaveBeenCalled();
+  });
+
+  it('update profile picture to throw error', async () => {
+    const { updateMyProfilePictureMock } = UserMockService(user);
+
+    expect(
+      async () =>
+        await user.updateMyProfilePicture(
+          userStub({ profilePicture: 'http://fake-url.com' }).profilePicture!,
+        ),
+    ).rejects.toThrow('');
+
     expect(updateMyProfilePictureMock).toHaveBeenCalled();
   });
 });

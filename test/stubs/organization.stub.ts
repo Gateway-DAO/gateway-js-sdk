@@ -21,10 +21,13 @@ export const organizationStub = (
   ...overrideOrganization,
 });
 
-export const organizationCreateStub = (): CreateOrganizationInput => ({
+export const organizationCreateStub = (
+  overrideOrganization?: any,
+): CreateOrganizationInput => ({
   username: 'test_for_sdk_2',
   name: 'test org sdk 2',
   description: 'test organization',
+  ...overrideOrganization,
 });
 
 export const memberOrganizationStub = (overrideMember?: any) => ({
