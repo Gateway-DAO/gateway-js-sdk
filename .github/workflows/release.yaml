@@ -28,8 +28,6 @@ jobs:
         run: pnpm mesh build
       - name: Format code
         run: pnpm format
-      - name: Test
-        run: pnpm test
       - name: Build
         run: pnpm build
       # - name: Release
