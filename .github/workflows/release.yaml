@@ -10,30 +10,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: 18.x
-    - name: Install pnpm
-      run: npm install -g pnpm@7.33.5
-    - name: Install dependencies
-      run: pnpm install
-    - name: Install semantic-release extra plugins
-      run: pnpm install -D @semantic-release/changelog @semantic-release/git      
-    - name: Lint
-      run:  pnpm lint
-    - name: Build Graphql queries
-      run: pnpm mesh build
-    - name: Format code
-      run: pnpm format
-    - name: Test
-      run:  pnpm test
-    - name: Build
-      run:  pnpm build      
-    - name: Release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      run: pnpm dlx semantic-release@22.0.12
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
+      - name: Install pnpm
+        run: npm install -g pnpm@7.33.5
+      - name: Install dependencies
+        run: pnpm install
+      - name: Install semantic-release extra plugins
+        run: pnpm install -D @semantic-release/changelog @semantic-release/git
+      - name: Lint
+        run: pnpm lint
+      - name: Build Graphql queries
+        run: pnpm mesh build
+      - name: Format code
+        run: pnpm format
+      - name: Test
+        run: pnpm test
+      - name: Build
+        run: pnpm build
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        #run: pnpm dlx semantic-release@22.0.12
