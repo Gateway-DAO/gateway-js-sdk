@@ -5,3 +5,4 @@ __mocks__/*
 lib/*
 custom-fetch.js
 coverage/*
+dist/*

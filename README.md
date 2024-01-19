@@ -5,7 +5,7 @@
 [![NPM version][npm-image]][npm-url]
 [![NPM downloads][downloads-image]][downloads-url]
 [![Join Discord][discord-image]][discord-url]
-[![Build status][travis-image]][test-passing]
+[![Run Eslint & Test cases](https://github.com/Gateway-DAO/gateway-js-sdk/actions/workflows/test.yaml/badge.svg)](https://github.com/Gateway-DAO/gateway-js-sdk/actions/workflows/test.yaml)
 [![Coverage Status][codecov-image]][codecov-url]
 
 ## Introduction
@@ -18,20 +18,32 @@ A TypeScript SDK for the Gateway API. This library is built with TypeScript deve
 
 - Full type information for methods and responses.
 - Bearer Token Support
-- Supports Node.js 14+.
+- Supports Node.js 16+.
 
-## Installing
+## Installation
 
+### Using npm
 ```
-pnpm add @gateway/sdk
+npm install @gateway-dao/sdk
 ```
+
+### Using pnpm
+```
+pnpm add @gateway-dao/sdk
+```
+
+### Using yarn
+```
+yarn install @gateway-dao/sdk
+```
+
 
 ## Gateway Client
 
 To setup the gateway client we will authenticate with a bearer-token and a Api key as follows
 
 ```typescript
-import { Gateway } from '@gateway/sdk';
+import { Gateway } from '@gateway-dao/sdk';
 
 const gateway = new Gateway({
   apiKey: 'your-api-key',
@@ -49,7 +61,7 @@ Make sure to add try catch blocks around methods to catch all the validation and
 ### Creating a PDA
 
 ```typescript
-import { Gateway, UserIdentifierType } from '@gateway/sdk';
+import { Gateway, UserIdentifierType } from '@gateway-dao/sdk';
 
 const gateway = new Gateway({ apiKey: 'your-api-key', token: 'your-token' });
 
@@ -79,7 +91,7 @@ main();
 ### Getting a Organization
 
 ```typescript
-import { Gateway } from '@gateway/sdk';
+import { Gateway } from '@gateway-dao/sdk';
 
 const gateway = new Gateway({ apiKey: 'your-api-key', token: 'your-token' });
 
@@ -103,7 +115,7 @@ main();
 ### Create a Data request template
 
 ```typescript
-import { Gateway } from '@gateway/sdk';
+import { Gateway } from '@gateway-dao/sdk';
 
 const gateway = new Gateway({ apiKey: 'your-api-key', token: 'your-token' });
 
@@ -144,45 +156,19 @@ Incase of any protocol errors we will throw a custom message which is a string w
 
 ## License
 
-The Gateway Javascript SDK is licensed under the [MIT License](https://github.com/Gateway-DAO/javascript-sdk/blob/master/LICENSE).
+The Gateway Javascript SDK is licensed under the [MIT License](https://github.com/Gateway-DAO/javascript-sdk/blob/main/LICENSE.md).
 
 ## Contributing
 
-If you want to support the active development of the SDK [Please talk to us on Discord](https://discord.gg/tgt3KjcHGs).Before contributing!.
+If you want to support the active development of the SDK. [Please go through our Contribution guide](https://github.com/Gateway-DAO/gateway-js-sdk/blob/main/CONTRIBUTING.md)
 
-### 🔧 Installation
 
-1. Clone this repo
-
-   ```sh
-   git clone https://github.com/Gateway-DAO/javascript-sdk
-   ```
-
-2. Install dependencies using pnpm
-
-   ```sh
-   pnpm i
-   ```
-
-3. Create the sdk using graphql mesh(it should give .mesh folder with sdk in it)
-
-   ```sh
-   pnpm mesh build
-   ```
-
-4. Run test command to test sdk using jest
-
-   ```sh
-   pnpm test
-   ```
-
-[npm-image]: https://img.shields.io/npm/v/docusign-esign.svg?style=flat
-[npm-url]: https://npmjs.org/package/@Gateway-dao-js-sdk
-[downloads-image]: https://img.shields.io/npm/dm/docusign-esign.svg?style=flat
-[downloads-url]: https://npmjs.org/package/docusign-esign
+[npm-image]: https://img.shields.io/npm/v/%40gateway-dao%2Fsdk.svg?style=flat
+[npm-url]: https://www.npmjs.com/package/@gateway-dao/sdk
+[downloads-image]: https://img.shields.io/npm/dm/%40gateway-dao%2Fsdk
+[downloads-url]: https://www.npmjs.com/package/@gateway-dao/sdk
 [codecov-image]: https://codecov.io/gh/Gateway-DAO/gateway-js-sdk/graph/badge.svg?token=8N92RFGZHI
 [codecov-url]: https://codecov.io/gh/Gateway-DAO/gateway-js-sdk
 [discord-image]: https://img.shields.io/discord/733027681184251937.svg?style=flat&label=Join%20Community&color=7289DA
 [discord-url]: https://discord.gg/tgt3KjcHGs
-[github-url]: https://github.com/Gateway-DAO/javascript-sdk
-[test-passing]: https://github.com/Gateway-DAO/gateway-js-sdk/actions/workflows/main.yml/badge.svg?branch=main
+
