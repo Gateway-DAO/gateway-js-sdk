@@ -137,7 +137,6 @@ async function main() {
 main();
 ```
 
-
 ## Error Handling
 
 All the methods throw a validation error if the validation does not match for example:- invalid wallet, invalid uuid for all ids,

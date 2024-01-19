@@ -12,5 +12,5 @@
     "typeRoots": ["./typings", "./node_modules/@types/"],
     "outDir": "lib",
     "declaration": true,
-  }
+  },
 }
