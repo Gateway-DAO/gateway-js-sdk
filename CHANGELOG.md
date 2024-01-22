@@ -1,10 +1,16 @@
-# [1.0.0-develop.3](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-develop.2...v1.0.0-develop.3) (2024-01-22)
+# [1.0.0-develop.4](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-develop.3...v1.0.0-develop.4) (2024-01-22)
 
 
 ### Bug Fixes
 
-* **build:** changed lib-> dir ([6c7faa2](https://github.com/Gateway-DAO/gateway-js-sdk/commit/6c7faa2f394ddd6b1e4221731ecd8e5f76d7fe33))
-* **build:** generated output location ([e6811f0](https://github.com/Gateway-DAO/gateway-js-sdk/commit/e6811f085d49bd3525fd32cd12add4de0f2b2e6a))
+* **tracking:** for output dirs ([583ca4b](https://github.com/Gateway-DAO/gateway-js-sdk/commit/583ca4b99f82c7e540d986d386c085b97e85238b))
+
+# [1.0.0-develop.3](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-develop.2...v1.0.0-develop.3) (2024-01-22)
+
+### Bug Fixes
+
+- **build:** changed lib-> dir ([6c7faa2](https://github.com/Gateway-DAO/gateway-js-sdk/commit/6c7faa2f394ddd6b1e4221731ecd8e5f76d7fe33))
+- **build:** generated output location ([e6811f0](https://github.com/Gateway-DAO/gateway-js-sdk/commit/e6811f085d49bd3525fd32cd12add4de0f2b2e6a))
 
 # [1.0.0-develop.2](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-develop.1...v1.0.0-develop.2) (2024-01-22)
 
