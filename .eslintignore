@@ -2,7 +2,7 @@ jest.config.js
 test/*
 .mesh/*
 __mocks__/*
-lib/*
+dist/*
 coverage/*
 custom-fetch.js
 commitlint.config.js
