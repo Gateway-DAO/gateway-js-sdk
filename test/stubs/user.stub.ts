@@ -139,7 +139,6 @@ export const financialTransactionsStub = (): FinancialTransaction[] => {
           owner: '',
           pda: '',
           verifier: '',
-          pdametadastatus: 'Expired',
           proof: '',
           requestTemplate: '',
           signedBy: '',

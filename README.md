@@ -51,6 +51,18 @@ const gateway = new Gateway({
   url: '',
 });
 ```
+**Make sure you add token without Bearer as we add Bearer automatically when you make request. Else it will give you Unauthorized error even if your token is correct**
+For example
+```typescript
+import { Gateway } from '@gateway-dao/sdk';
+
+const gateway = new Gateway({
+  apiKey: 'your-api-key',
+  token: 'Bearer your-token', 
+  // wrong will not work just use token: 'your-token'
+  url: '',
+});
+```
 
 This library supports Bearer Token along with Api Key. Do not share your authentication token with people you don’t trust. This gives the user control over your account and they will be able to manage PDAs (and more) with it. Use environment variables to keep it safe.
 
