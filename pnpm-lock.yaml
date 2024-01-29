@@ -46,6 +46,9 @@ devDependencies:
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.13.2
     version: 6.19.0(eslint@8.56.0)(typescript@5.3.3)
+  dts-minify:
+    specifier: ^0.3.2
+    version: 0.3.2
   eslint:
     specifier: ^8.55.0
     version: 8.56.0
@@ -85,6 +88,9 @@ devDependencies:
   typescript:
     specifier: ^5.3.3
     version: 5.3.3
+  uglify-js:
+    specifier: ^3.17.4
+    version: 3.17.4
 
 packages:
 
@@ -1633,7 +1639,7 @@ packages:
       tsconfig-paths: 4.2.0
       tslib: 2.6.2
       typescript: 5.3.3
-      uWebSockets.js: github.com/uNetworking/uWebSockets.js/f97da56fe535bb6d318c62ed31e0f44cef104f05
+      uWebSockets.js: github.com/uNetworking/uWebSockets.js/105d9ec47126cb82e4a6f3a08aa2ac78b4bb14f1
       yargs: 17.7.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -4173,6 +4179,10 @@ packages:
     resolution: {integrity: sha512-20TuZZHCEZ2O71q9/+8BwKwZ0QtD9D8ObhrihJPr+vLLYlSuAU3/zL4cSlgbfeoGHTjCSJBa7NGcrF9/Bx/WJQ==}
     engines: {node: '>=4'}
     dev: false
+
+  /dts-minify@0.3.2:
+    resolution: {integrity: sha512-X7SlplQ8TjJMNWwbPfD6Q0s+y2EZqImsrQDEvZcFc3QYy9vdwdUpZi+jos0BBT6c8EJn33F+uePHuofwkRCToA==}
+    dev: true
 
   /eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
@@ -8049,6 +8059,12 @@ packages:
     resolution: {integrity: sha512-bhTyI94tZofjo+Dn8SN6Zv8nBDvyXTymAdM3LDI/0IboIUwTu1rEhW7v2TfiVsoYWgkQ4kOVqnI8APUFbIQIFQ==}
     dev: false
 
+  /uglify-js@3.17.4:
+    resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==}
+    engines: {node: '>=0.8.0'}
+    hasBin: true
+    dev: true
+
   /unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
     dependencies:
@@ -8403,8 +8419,8 @@ packages:
     dev: false
     optional: true
 
-  github.com/uNetworking/uWebSockets.js/f97da56fe535bb6d318c62ed31e0f44cef104f05:
-    resolution: {tarball: https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/f97da56fe535bb6d318c62ed31e0f44cef104f05}
+  github.com/uNetworking/uWebSockets.js/105d9ec47126cb82e4a6f3a08aa2ac78b4bb14f1:
+    resolution: {tarball: https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/105d9ec47126cb82e4a6f3a08aa2ac78b4bb14f1}
     name: uWebSockets.js
-    version: 20.40.0
+    version: 20.41.0
     dev: false
