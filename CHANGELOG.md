@@ -1,3 +1,10 @@
+# [1.0.0-develop.7](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-develop.6...v1.0.0-develop.7) (2024-01-29)
+
+
+### Features
+
+* **build:** minified the build size from 1.08 MB => 580 KB ([d09abfd](https://github.com/Gateway-DAO/gateway-js-sdk/commit/d09abfd4d51d0838bc57d720077eb56569a5c4ab))
+
 # [1.0.0-develop.6](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-develop.5...v1.0.0-develop.6) (2024-01-23)
 
 ### Bug Fixes
