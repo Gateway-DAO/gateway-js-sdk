@@ -1,10 +1,9 @@
 ---
 name: Feature request
 about: Suggest an idea to improve sdk
-title: "[Feat]"
+title: '[Feat]'
 labels: enhancement
 assignees: ''
-
 ---
 
 **Is your feature request related to a problem? Please describe.**

@@ -1,9 +1,8 @@
 # [1.0.0-develop.6](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-develop.5...v1.0.0-develop.6) (2024-01-23)
 
-
 ### Bug Fixes
 
-* **tracking:** refresh .gitignore ([03317a8](https://github.com/Gateway-DAO/gateway-js-sdk/commit/03317a8bc497d119c3232e5ca59f35882d37f289))
+- **tracking:** refresh .gitignore ([03317a8](https://github.com/Gateway-DAO/gateway-js-sdk/commit/03317a8bc497d119c3232e5ca59f35882d37f289))
 
 # [1.0.0-develop.5](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-develop.4...v1.0.0-develop.5) (2024-01-23)
 

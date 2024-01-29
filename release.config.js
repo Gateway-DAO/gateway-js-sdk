@@ -3,8 +3,8 @@ module.exports = {
     'main',
     {
       name: 'develop',
-      prerelease: true
-    }
+      prerelease: true,
+    },
   ],
   plugins: [
     '@semantic-release/commit-analyzer',
