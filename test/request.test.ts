@@ -30,11 +30,37 @@ describe('REQUEST SERVICE TESTING', () => {
     expect(createDataRequestMock).toHaveBeenCalled();
   });
 
+  it('data request create -> throw error', async () => {
+    const { createDataRequestMock } = RequestMockService(request);
+    const { dataUse, owner, dataRequestTemplate } = requestStub();
+    expect(
+      async () =>
+        await request.createDataRequest({
+          dataUse,
+          owner: {
+            type: 'GATEWAY_ID',
+            value: 'Ticketmaster',
+          },
+          dataRequestTemplateId: 'wrong',
+        }),
+    ).rejects.toThrow(' is not valid');
+    expect(createDataRequestMock).toHaveBeenCalled();
+  });
+
   it('get data request', async () => {
     const { getDataRequestMock } = RequestMockService(request);
     const { dataRequest } = await request.getDataRequest(requestStub().id);
 
     expect(dataRequest.id).toBe(requestStub().id);
+    expect(getDataRequestMock).toHaveBeenCalled();
+  });
+
+  it('get data request -> throw error', async () => {
+    const { getDataRequestMock } = RequestMockService(request);
+
+    expect(async () => await request.getDataRequest('wrong')).rejects.toThrow(
+      'wrong is not valid',
+    );
     expect(getDataRequestMock).toHaveBeenCalled();
   });
 
@@ -52,6 +78,15 @@ describe('REQUEST SERVICE TESTING', () => {
       requestStub().id,
     );
     expect(dataRequestStatus).toEqual(requestStub().status);
+    expect(getDataRequestStatusMock).toHaveBeenCalled();
+  });
+
+  it('get data request status -> throww message', async () => {
+    const { getDataRequestStatusMock } = RequestMockService(request);
+
+    expect(
+      async () => await request.getDataRequestStatus('wrong'),
+    ).rejects.toThrow('wrong is not valid');
     expect(getDataRequestStatusMock).toHaveBeenCalled();
   });
 
