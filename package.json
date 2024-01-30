@@ -28,19 +28,20 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "@gateway-dao/sdk": "link:",
     "@graphql-mesh/cli": "^0.87.16",
     "@graphql-mesh/graphql": "^0.95.8",
     "@graphql-mesh/runtime": "^0.96.11",
     "@graphql-mesh/transform-filter-schema": "^0.96.3",
+    "@graphql-mesh/utils": "^0.96.3",
+    "@graphql-tools/url-loader": "^8.0.1",
     "@solana/web3.js": "^1.87.6",
     "@whatwg-node/fetch": "^0.9.13",
     "ethers": "^5.7.2",
-    "graphql": "^16.8.1",
     "fast-json-stringify": "^5.10.0",
+    "graphql": "^16.8.1",
     "long": "^5.2.3",
-    "uglify-es": "^3.3.9",
-    "@graphql-mesh/utils": "^0.96.3",
-    "@graphql-tools/url-loader": "^8.0.1"
+    "uglify-es": "^3.3.9"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.4.4",

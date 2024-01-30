@@ -47,6 +47,9 @@ export class Proof {
 
   async createProof(inputVariables?: createProof_mutationMutationVariables) {
     try {
+      if (inputVariables?.requestId) {
+        isUUIDValid(inputVariables.requestId);
+      }
       return this.sdk.createProof_mutation(inputVariables);
     } catch (error: any) {
       throw new Error(errorHandler(error));

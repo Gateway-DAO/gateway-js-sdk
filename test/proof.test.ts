@@ -29,6 +29,16 @@ describe('PROOF SERVICE TESTING', () => {
     expect(createProofMock).toHaveBeenCalled();
   });
 
+  it('proof create -> throw error', async () => {
+    const { createProofMock } = ProofMockService(proof);
+
+    expect(
+      async () =>
+        await proof.createProof(createProofStub({ requestId: '324324' })),
+    ).rejects.toThrow('324324 is not valid');
+    expect(createProofMock).toHaveBeenCalled();
+  });
+
   it('get proof', async () => {
     const { getProofMock } = ProofMockService(proof);
     const { proof: resultProof } = await proof.getProof(proofStub().id);
@@ -36,9 +46,16 @@ describe('PROOF SERVICE TESTING', () => {
     expect(getProofMock).toHaveBeenCalled();
   });
 
+  it('get proof -> throw error', async () => {
+    const { getProofMock } = ProofMockService(proof);
+    expect(async () => await proof.getProof('324324324')).rejects.toThrow(
+      '324324324 is not valid',
+    );
+    expect(getProofMock).toHaveBeenCalled();
+  });
+
   it('get proofs', async () => {
     const { getProofsMock } = ProofMockService(proof);
-
     const { proofs: resultProofs } = await proof.getProofs();
     expect(resultProofs?.length).toBeGreaterThan(0);
     expect(getProofsMock).toHaveBeenCalled();
@@ -49,6 +66,15 @@ describe('PROOF SERVICE TESTING', () => {
     const { createProofMessage: resultMessage } =
       await proof.createProofMessage(requestId);
     expect(resultMessage).toEqual(createProofMessage);
+    expect(createProofMessageMock).toHaveBeenCalled();
+  });
+
+  it('create proof message -> throw message', async () => {
+    const { createProofMessageMock } = ProofMockService(proof);
+
+    expect(
+      async () => await proof.createProofMessage('1432424'),
+    ).rejects.toThrow('1432424 is not valid');
     expect(createProofMessageMock).toHaveBeenCalled();
   });
 
