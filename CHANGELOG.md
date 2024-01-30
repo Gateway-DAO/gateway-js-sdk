@@ -1,9 +1,15 @@
-# [1.0.0-develop.8](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-develop.7...v1.0.0-develop.8) (2024-01-30)
+# [1.0.0-develop.9](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-develop.8...v1.0.0-develop.9) (2024-01-30)
 
 
 ### Features
 
-* making sure we get a release ([776a7b5](https://github.com/Gateway-DAO/gateway-js-sdk/commit/776a7b5e6c1104f16849cdb3c57bee4c10579afa))
+* removed d.ts compress ([055091e](https://github.com/Gateway-DAO/gateway-js-sdk/commit/055091ed2fd1d491d27d3896ea9d1b3e190cd089))
+
+# [1.0.0-develop.8](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-develop.7...v1.0.0-develop.8) (2024-01-30)
+
+### Features
+
+- making sure we get a release ([776a7b5](https://github.com/Gateway-DAO/gateway-js-sdk/commit/776a7b5e6c1104f16849cdb3c57bee4c10579afa))
 
 # [1.0.0-develop.7](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-develop.6...v1.0.0-develop.7) (2024-01-29)
 
