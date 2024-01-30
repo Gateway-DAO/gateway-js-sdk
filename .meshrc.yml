@@ -4,15 +4,10 @@ sources:
       graphql:
         endpoint: https://develop.protocol.mygateway.xyz/graphql
     transforms:
-      - rename:
+      - filterSchema:
           mode: bare
-          renames:
-            - from:
-                type: PDAMetadata
-                field: status
-              to:
-                type: PDAMetadata
-                field: pdametadastatus
+          filters:
+            - PDAMetadata.!status
 
 customFetch: ./custom-fetch.js
 

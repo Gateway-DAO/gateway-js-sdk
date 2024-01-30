@@ -8,3 +8,4 @@ custom-fetch.js
 commitlint.config.js
 release.config.js
 .husky/*
+scripts/*

@@ -23,20 +23,22 @@ A TypeScript SDK for the Gateway API. This library is built with TypeScript deve
 ## Installation
 
 ### Using npm
+
 ```
 npm install @gateway-dao/sdk
 ```
 
 ### Using pnpm
+
 ```
 pnpm add @gateway-dao/sdk
 ```
 
 ### Using yarn
+
 ```
 yarn install @gateway-dao/sdk
 ```
-
 
 ## Gateway Client
 
@@ -48,6 +50,20 @@ import { Gateway } from '@gateway-dao/sdk';
 const gateway = new Gateway({
   apiKey: 'your-api-key',
   token: 'your-token',
+  url: '',
+});
+```
+
+**Make sure you add token without Bearer as we add Bearer automatically when you make request. Else it will give you Unauthorized error even if your token is correct**
+For example
+
+```typescript
+import { Gateway } from '@gateway-dao/sdk';
+
+const gateway = new Gateway({
+  apiKey: 'your-api-key',
+  token: 'Bearer your-token',
+  // wrong will not work just use token: 'your-token'
   url: '',
 });
 ```
@@ -162,7 +178,6 @@ The Gateway Javascript SDK is licensed under the [MIT License](https://github.co
 
 If you want to support the active development of the SDK. [Please go through our Contribution guide](https://github.com/Gateway-DAO/gateway-js-sdk/blob/main/CONTRIBUTING.md)
 
-
 [npm-image]: https://img.shields.io/npm/v/%40gateway-dao%2Fsdk.svg?style=flat
 [npm-url]: https://www.npmjs.com/package/@gateway-dao/sdk
 [downloads-image]: https://img.shields.io/npm/dm/%40gateway-dao%2Fsdk
@@ -171,4 +186,3 @@ If you want to support the active development of the SDK. [Please go through our
 [codecov-url]: https://codecov.io/gh/Gateway-DAO/gateway-js-sdk
 [discord-image]: https://img.shields.io/discord/733027681184251937.svg?style=flat&label=Join%20Community&color=7289DA
 [discord-url]: https://discord.gg/tgt3KjcHGs
-

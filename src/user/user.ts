@@ -1,11 +1,11 @@
 import {
   FilterDataModelInput,
   FilterDataRequestTemplateInput,
-  FilterPDAInput,
   Sdk,
   UpdateUserInput,
   myFinancialTransactionsCount_queryQueryVariables,
   myFinancialTransactions_queryQueryVariables,
+  myPDACount_queryQueryVariables,
   myPDAs_queryQueryVariables,
   myTransactions_queryQueryVariables,
 } from '../../.mesh';
@@ -69,9 +69,9 @@ export class User {
    * of type `FilterPDAInput`.
    * @returns a Promise that resolves to a number.
    */
-  async myPDACount(filter: FilterPDAInput = {}) {
+  async myPDACount(filter?: myPDACount_queryQueryVariables) {
     try {
-      return (await this.sdk.myPDACount_query({ filter })).myPDACount;
+      return (await this.sdk.myPDACount_query(filter)).myPDACount;
     } catch (error) {
       throw new Error(errorHandler(error));
     }

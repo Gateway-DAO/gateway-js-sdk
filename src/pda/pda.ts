@@ -5,6 +5,7 @@ import {
   UpdatePDAInput,
   PDAs_queryQueryVariables,
   issuedPDAs_queryQueryVariables,
+  PDACount_queryQueryVariables,
 } from '../../.mesh';
 import { PDAStatus } from '../types';
 import { errorHandler } from '../utils/errorHandler';
@@ -41,9 +42,9 @@ export class PDA {
    * of type `FilterPDAInput`.
    * @returns a Promise that resolves to a number.
    */
-  async getPDACount(filter?: FilterPDAInput) {
+  async getPDACount(filter?: PDACount_queryQueryVariables) {
     try {
-      return (await this.sdk.PDACount_query({ filter })).PDACount;
+      return (await this.sdk.PDACount_query(filter)).PDACount;
     } catch (error) {
       throw new Error(errorHandler(error));
     }
