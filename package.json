@@ -28,7 +28,6 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@gateway-dao/sdk": "link:",
     "@graphql-mesh/cli": "^0.87.16",
     "@graphql-mesh/graphql": "^0.95.8",
     "@graphql-mesh/runtime": "^0.96.11",
