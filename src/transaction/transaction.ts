@@ -45,7 +45,7 @@ export class Transaction {
   /**
    * The function `getTransactionCount` is an asynchronous function that queries the transaction count,
    * with an optional parameter to show money transactions.
-   * @param {boolean} [showMoneyTxs] - The parameter "showMoneyTxs" is a boolean value that determines
+   * @param {boolean} [showMoneyTxs] -    The parameter "showMoneyTxs" is a boolean value that determines
    * whether or not to include money transactions in the count. If set to true, the count will include
    * money transactions. If set to false or not provided, the count will only include non-money
    * transactions.
