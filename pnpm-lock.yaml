@@ -1,8 +1,6 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: false
-  excludeLinksFromLockfile: false
+
 
 dependencies:
   '@gateway-dao/sdk':
