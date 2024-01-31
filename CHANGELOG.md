@@ -1,9 +1,15 @@
-# [1.0.0-develop.10](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-develop.9...v1.0.0-develop.10) (2024-01-30)
+# [1.0.0-develop.11](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-develop.10...v1.0.0-develop.11) (2024-01-31)
 
+
+### Bug Fixes
+
+* package lock ([564cffa](https://github.com/Gateway-DAO/gateway-js-sdk/commit/564cffae464a7b8038e927ee96c8d5ae72122018))
+
+# [1.0.0-develop.10](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-develop.9...v1.0.0-develop.10) (2024-01-30)
 
 ### Features
 
-* modified compression algo ([42c7158](https://github.com/Gateway-DAO/gateway-js-sdk/commit/42c7158796e840e0e3be58e9fb9fcfd844be69e8))
+- modified compression algo ([42c7158](https://github.com/Gateway-DAO/gateway-js-sdk/commit/42c7158796e840e0e3be58e9fb9fcfd844be69e8))
 
 # [1.0.0-develop.9](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0-develop.8...v1.0.0-develop.9) (2024-01-30)
 
