@@ -13,7 +13,7 @@ export const transactionStub = (overirdeTransaction?: any): Transaction => ({
       id: '65b025cd7b20022a8d08844b',
       memo: null,
       total: -0.01,
-      transactionId: '65b025cc7b20022a8d088449',
+      transactionId: '65ba321f3d17fd2bd6d9f49d',
       type: 'EXPENSE',
       updatedAt: '2024-01-23T20:47:09.298Z',
       value: 0,
@@ -35,7 +35,7 @@ export const transactionStub = (overirdeTransaction?: any): Transaction => ({
     walletId: '657afe924edc79257aba7aed',
     website: 'http://mygateway.xyz',
   },
-  id: '65b025cc7b20022a8d088449',
+  id: '65ba321f3d17fd2bd6d9f49d',
   metadata: {
     dataModel: '75928d4b-e3de-4952-80ac-f8723dffac1e',
     expirationDate: null,
