@@ -36,7 +36,7 @@ export class Gateway {
     token: string;
     url: string;
   }) {
-    if (!apiKey && !token) throw new Error('No token found');
+    if (!apiKey && !token) throw new Error('No token found!');
     this.sdk = getMeshSDK({
       apiKey,
       token,
