@@ -12,7 +12,7 @@
 
 A TypeScript SDK for the Gateway API. This library is built with TypeScript developers in mind, but it also works with JavaScript.
 
-**Note: This SDK is in beta and is not ready for production**
+**Note: Make sure to [read our frontend docs](https://github.com/Gateway-DAO/gateway-js-sdk/blob/main/FRONTEND_DOCS.md) incase you are going to use SDK for frontend environemnts like Next.js**
 
 ### Features
 
@@ -37,7 +37,7 @@ pnpm add @gateway-dao/sdk
 ### Using yarn
 
 ```
-yarn install @gateway-dao/sdk
+yarn add @gateway-dao/sdk
 ```
 
 ## Gateway Client
@@ -168,7 +168,7 @@ main();
 ## Error Handling
 
 All the methods throw a validation error if the validation does not match for example:- invalid wallet, invalid uuid for all ids,
-Incase of any protocol errors we will throw a custom message which is a string which has all neccessary info regarding error.
+Incase of any protocol errors we will throw a custom message which is a string which has all neccessary info regarding error. Make sure to use try catch blocks to handle those.
 
 ## License
 

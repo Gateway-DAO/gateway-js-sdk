@@ -29,6 +29,19 @@ describe('DATA MODEL CLASS METHODS TESTING', () => {
     expect(createDataModelMock).toHaveBeenCalled();
   });
 
+  it('create data model -> throw error ', async () => {
+    const { createDataModelMock } = DataModelMockService(dataModel);
+
+    expect(
+      async () =>
+        await dataModel.createDataModel({
+          ...dataModelCreateStub(),
+          title: '',
+        }),
+    ).rejects.toThrow(' should be atleast 3 length');
+    expect(createDataModelMock).toHaveBeenCalled();
+  });
+
   it('get data model', async () => {
     const { getDataModelMock } = DataModelMockService(dataModel);
 
@@ -36,6 +49,15 @@ describe('DATA MODEL CLASS METHODS TESTING', () => {
       dataModelStub().id,
     );
     expect(rdataModel).toEqual(dataModelStub());
+    expect(getDataModelMock).toHaveBeenCalled();
+  });
+
+  it('get data model -> throw error', async () => {
+    const { getDataModelMock } = DataModelMockService(dataModel);
+
+    expect(async () => await dataModel.getDataModel('wrong')).rejects.toThrow(
+      'wrong is not valid',
+    );
     expect(getDataModelMock).toHaveBeenCalled();
   });
 
@@ -72,11 +94,27 @@ describe('DATA MODEL CLASS METHODS TESTING', () => {
     expect(getIssuersByDataModelMock).toHaveBeenCalled();
   });
 
+  it('get issuers by data model -> throw error', async () => {
+    const { getIssuersByDataModelMock } = DataModelMockService(dataModel);
+    expect(
+      async () => await dataModel.getIssuersByDataModel('wrong'),
+    ).rejects.toThrow('wrong is not valid');
+    expect(getIssuersByDataModelMock).toHaveBeenCalled();
+  });
+
   it('get isssuers by data model count', async () => {
     const { getIssuersDataModelCountMock } = DataModelMockService(dataModel);
     const { issuersByDataModelCount } =
       await dataModel.getIssuersByDataModelCount(dataModelStub().id);
     expect(issuersByDataModelCount).toBeGreaterThanOrEqual(0);
+    expect(getIssuersDataModelCountMock).toHaveBeenCalled();
+  });
+
+  it('get isssuers by data model count -> throw error', async () => {
+    const { getIssuersDataModelCountMock } = DataModelMockService(dataModel);
+    expect(
+      async () => await dataModel.getIssuersByDataModelCount('wrong'),
+    ).rejects.toThrow('wrong is not valid');
     expect(getIssuersDataModelCountMock).toHaveBeenCalled();
   });
 
@@ -87,6 +125,16 @@ describe('DATA MODEL CLASS METHODS TESTING', () => {
       await dataModel.getTotalofIssuersByDataModel(dataModelStub().id);
 
     expect(getTotalofIssuersByDataModel).toBeGreaterThanOrEqual(0);
+    expect(getTotalofIssuersByDataModelMock).toHaveBeenCalled();
+  });
+
+  it('get total issuers by data model -> throw error ', async () => {
+    const { getTotalofIssuersByDataModelMock } =
+      DataModelMockService(dataModel);
+
+    expect(
+      async () => await dataModel.getTotalofIssuersByDataModel('wrong'),
+    ).rejects.toThrow('wrong is not valid');
     expect(getTotalofIssuersByDataModelMock).toHaveBeenCalled();
   });
 });

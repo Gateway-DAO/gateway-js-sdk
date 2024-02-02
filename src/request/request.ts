@@ -6,7 +6,7 @@ import {
   requestsSent_queryQueryVariables,
 } from '../../.mesh';
 import { errorHandler } from '../utils/errorHandler';
-import { isUUIDValid } from '../utils/validators';
+import { isUUIDValid, validateObjectProperties } from '../utils/validators';
 
 export class Request {
   public sdk: Sdk;
@@ -27,6 +27,7 @@ export class Request {
    */
   async createDataRequest(inputSchema: DataRequestSchemaInput) {
     try {
+      validateObjectProperties(inputSchema);
       return this.sdk.createDataRequest_mutation({ input: inputSchema });
     } catch (error: any) {
       throw new Error(errorHandler(error));
