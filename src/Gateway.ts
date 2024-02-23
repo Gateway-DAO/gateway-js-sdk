@@ -40,7 +40,7 @@ export class Gateway {
   }) {
     if (!apiKey) throw new Error('No apikey found!');
     if (!token) throw new Error('No token found!');
-    if (!url) throw new Error('No url found!');
+    if (!url) throw new Error('No url found!.Enter either testnet or prod');
 
     this.sdk = getMeshSDK({
       apiKey,
