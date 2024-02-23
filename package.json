@@ -12,6 +12,9 @@
     "prepare": "husky install",
     "build": "rm -rf dist && tsc && scripts/compress.sh && node scripts/compress.js"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "lint-staged": {
     "*.ts": [
       "pnpm format",

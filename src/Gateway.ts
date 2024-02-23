@@ -7,6 +7,7 @@ import { Proof } from './proof/proof';
 import { Request } from './request/request';
 import { DataModel } from './data-model/data-model';
 import { User } from './user/user';
+import { Transaction } from './transaction/transaction';
 export {
   AuthType,
   Chain,
@@ -26,6 +27,7 @@ export class Gateway {
   public dataRequestTemplate: DataRequestTemplate;
   public organization: Organization;
   public auth: Auth;
+  public transaction: Transaction;
 
   constructor({
     apiKey,
@@ -36,7 +38,10 @@ export class Gateway {
     token: string;
     url: string;
   }) {
-    if (!apiKey && !token) throw new Error('No token found!');
+    if (!apiKey) throw new Error('No apikey found!');
+    if (!token) throw new Error('No token found!');
+    if (!url) throw new Error('No url found!');
+
     this.sdk = getMeshSDK({
       apiKey,
       token,
@@ -50,5 +55,6 @@ export class Gateway {
     this.proof = new Proof(this.sdk);
     this.request = new Request(this.sdk);
     this.user = new User(this.sdk);
+    this.transaction = new Transaction(this.sdk);
   }
 }
