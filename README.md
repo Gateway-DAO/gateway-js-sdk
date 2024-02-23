@@ -18,7 +18,7 @@ A TypeScript SDK for the Gateway API. This library is built with TypeScript deve
 
 - Full type information for methods and responses.
 - Bearer Token Support
-- Supports Node.js 16+.
+- Supports Node.js 18+.
 
 ## Installation
 
@@ -50,7 +50,7 @@ import { Gateway } from '@gateway-dao/sdk';
 const gateway = new Gateway({
   apiKey: 'your-api-key',
   token: 'your-token',
-  url: '',
+  url: 'https://sandbox.protocol.mygateway.xyz/graphql',
 });
 ```
 
@@ -64,7 +64,7 @@ const gateway = new Gateway({
   apiKey: 'your-api-key',
   token: 'Bearer your-token',
   // wrong will not work just use token: 'your-token'
-  url: '',
+  url: 'https://sandbox.protocol.mygateway.xyz/graphql',
 });
 ```
 
@@ -79,7 +79,11 @@ Make sure to add try catch blocks around methods to catch all the validation and
 ```typescript
 import { Gateway, UserIdentifierType } from '@gateway-dao/sdk';
 
-const gateway = new Gateway({ apiKey: 'your-api-key', token: 'your-token' });
+const gateway = new Gateway({
+  apiKey: 'your-api-key',
+  token: 'your-token',
+  url: 'https://sandbox.protocol.mygateway.xyz/graphql',
+});
 
 async function main() {
   try {
@@ -109,7 +113,11 @@ main();
 ```typescript
 import { Gateway } from '@gateway-dao/sdk';
 
-const gateway = new Gateway({ apiKey: 'your-api-key', token: 'your-token' });
+const gateway = new Gateway({
+  apiKey: 'your-api-key',
+  token: 'your-token',
+  url: 'https://sandbox.protocol.mygateway.xyz/graphql',
+});
 
 async function main() {
   try {
@@ -133,7 +141,11 @@ main();
 ```typescript
 import { Gateway } from '@gateway-dao/sdk';
 
-const gateway = new Gateway({ apiKey: 'your-api-key', token: 'your-token' });
+const gateway = new Gateway({
+  apiKey: 'your-api-key',
+  token: 'your-token',
+  url: 'https://sandbox.protocol.mygateway.xyz/graphql',
+});
 
 async function main() {
   try {
