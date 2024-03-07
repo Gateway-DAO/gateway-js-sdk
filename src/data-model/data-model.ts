@@ -28,7 +28,7 @@ export class DataModel {
       return this.sdk.createDataModel_mutation({
         input: createModelInput,
       });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
