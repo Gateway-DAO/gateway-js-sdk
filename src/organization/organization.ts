@@ -51,7 +51,7 @@ export class Organization {
       return await this.sdk.addMemberToOrganization_mutation({
         input: memberInput,
       });
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(errorHandler(error));
     }
   }
