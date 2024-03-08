@@ -1,12 +1,13 @@
 import { Request } from '../src/request/request';
-import { getMeshSDK } from '../.mesh';
+import { getSdk } from '../.mesh';
 import { RequestMockService } from '../__mocks__/request.mock';
 import { requestStub } from './stubs/request.stub';
+import { GraphQLClient } from 'graphql-request';
 
 let request: Request;
 
 beforeAll(() => {
-  request = new Request(getMeshSDK());
+  request = new Request(getSdk(new GraphQLClient('')));
 });
 
 afterAll(() => {

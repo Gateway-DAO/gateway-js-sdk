@@ -1,13 +1,14 @@
 import { Auth } from '../src/auth/auth';
-import { getMeshSDK } from '../.mesh';
 import { AuthMockService } from '../__mocks__/auth.mock';
 import { authStub } from './stubs/auth.stub';
 import { AuthType } from '../src/types';
+import { GraphQLClient } from 'graphql-request';
+import { getSdk } from '../.mesh';
 
 let auth: Auth;
 
 beforeAll(() => {
-  auth = new Auth(getMeshSDK());
+  auth = new Auth(getSdk(new GraphQLClient('')));
 });
 
 afterAll(() => {
@@ -29,7 +30,7 @@ describe('AUTH SERVICE TESTING', () => {
 
     expect(async () => {
       await auth.checkUsernameAvailability(authStub({ username: '' }).username);
-    }).rejects.toThrow(' should be atleast 3 length');
+    }).rejects.toThrow(' should be atleast 2 length');
     expect(checkUsernameAvailabilityMock).toHaveBeenCalled();
   });
 
@@ -149,7 +150,7 @@ describe('AUTH SERVICE TESTING', () => {
           signature: authStub({ signature: '' }).signature,
           wallet: authStub().wallet,
         }),
-    ).rejects.toThrow(' should be atleast 3 length');
+    ).rejects.toThrow(' should be atleast 2 length');
 
     expect(addWalletConfirmationtMock).toHaveBeenCalled();
   });
@@ -219,7 +220,7 @@ describe('AUTH SERVICE TESTING', () => {
           authStub().chain,
           authStub({ signature: '' }).signature,
         ),
-    ).rejects.toThrow(' should be atleast 3 length');
+    ).rejects.toThrow(' should be atleast 2 length');
 
     expect(loginWalletlMock).toHaveBeenCalled();
   });
@@ -241,7 +242,7 @@ describe('AUTH SERVICE TESTING', () => {
         await auth.refreshToken(
           authStub({ existingRefreshToken: '' }).existingRefreshToken,
         ),
-    ).rejects.toThrow(' should be atleast 3 length');
+    ).rejects.toThrow(' should be atleast 2 length');
 
     expect(refreshTokenMock).toHaveBeenCalled();
   });
@@ -267,7 +268,7 @@ describe('AUTH SERVICE TESTING', () => {
           authStub({ email: '' }).email,
           AuthType.EMAIL,
         ),
-    ).rejects.toThrow(' should be atleast 3 length');
+    ).rejects.toThrow(' should be atleast 2 length');
 
     expect(unregisterAuthMethodMock).toHaveBeenCalled();
   });

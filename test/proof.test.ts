@@ -1,5 +1,5 @@
 import { Proof } from '../src/proof/proof';
-import { getMeshSDK } from '../.mesh';
+import { getSdk } from '../.mesh';
 import {
   proofStub,
   createProofMessage,
@@ -8,11 +8,12 @@ import {
 } from './stubs/proof.stub';
 import { ProofMockService } from '../__mocks__/proof.mock';
 import { pdaStub } from './stubs/pda.stub';
+import { GraphQLClient } from 'graphql-request';
 
 let proof: Proof;
 
 beforeAll(() => {
-  proof = new Proof(getMeshSDK());
+  proof = new Proof(getSdk(new GraphQLClient('')));
 });
 
 afterAll(() => {

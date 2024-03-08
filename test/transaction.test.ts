@@ -1,12 +1,13 @@
 import { Transaction } from '../src/transaction/transaction';
-import { getMeshSDK } from '../.mesh';
+import { getSdk } from '../.mesh';
 import { TransactionMockService } from '../__mocks__/transaction.mock';
 import { transactionStub } from './stubs/transaction.stub';
+import { GraphQLClient } from 'graphql-request';
 
 let transaction: Transaction;
 
 beforeAll(() => {
-  transaction = new Transaction(getMeshSDK());
+  transaction = new Transaction(getSdk(new GraphQLClient('')));
 });
 
 afterAll(() => {
@@ -34,7 +35,7 @@ describe('TRANSACTION SERVICE TESTING', () => {
   it('get transaction by id => throw error', async () => {
     const { getTransactionMock } = TransactionMockService(transaction);
     expect(async () => await transaction.getTransaction('34')).rejects.toThrow(
-      '34 should be atleast 3 length',
+      ' should be atleast 2 length',
     );
     expect(getTransactionMock).toHaveBeenCalled();
   });

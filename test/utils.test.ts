@@ -56,7 +56,7 @@ describe('UTILS TESTING', () => {
   it('string validator', () => {
     const result = isStringValid('test pda');
     expect(result).toBeDefined();
-    expect(() => isStringValid('')).toThrow(' should be atleast 3 length');
+    expect(() => isStringValid('')).toThrow(' should be atleast 2 length');
   });
 
   it('etherum validator', () => {

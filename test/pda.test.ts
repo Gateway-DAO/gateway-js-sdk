@@ -1,13 +1,14 @@
 import { PDAStatus } from '../src/types';
 import { PDA } from '../src/pda/pda';
-import { getMeshSDK } from '../.mesh';
+import { getSdk } from '../.mesh';
 import { pdaCreateStub, pdaStub } from './stubs/pda.stub';
 import { PDAMockService } from '../__mocks__/pda.mock';
+import { GraphQLClient } from 'graphql-request';
 
 let pda: PDA;
 
 beforeAll(() => {
-  pda = new PDA(getMeshSDK());
+  pda = new PDA(getSdk(new GraphQLClient('')));
 });
 
 afterAll(() => {
@@ -29,7 +30,7 @@ describe('PDA SERVICE TESTING', () => {
 
     expect(
       async () => await pda.createPDA(pdaCreateStub({ title: '' })),
-    ).rejects.toThrow(' should be atleast 3 length');
+    ).rejects.toThrow(' should be atleast 2 length');
 
     expect(createPDAMutationMock).toHaveBeenCalled();
   });

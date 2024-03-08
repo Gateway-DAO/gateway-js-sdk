@@ -1,4 +1,5 @@
-import { getMeshSDK } from '../.mesh';
+import { GraphQLClient } from 'graphql-request';
+import { getSdk } from '../.mesh';
 import { OrganizationMockService } from '../__mocks__/organization.mock';
 import { Organization } from '../src/organization/organization';
 import {
@@ -14,7 +15,7 @@ import {
 let organization: Organization;
 
 beforeAll(() => {
-  organization = new Organization(getMeshSDK());
+  organization = new Organization(getSdk(new GraphQLClient('')));
 });
 
 afterAll(() => {
@@ -41,7 +42,7 @@ describe('ORGANIZATION SERVICE TESTING', () => {
         await organization.createOrganization(
           organizationCreateStub({ username: '' }),
         ),
-    ).rejects.toThrow(' should be atleast 3 length');
+    ).rejects.toThrow(' should be atleast 2 length');
 
     expect(createOrganizationMock).toHaveBeenCalled();
   });

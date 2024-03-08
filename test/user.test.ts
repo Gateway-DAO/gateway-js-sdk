@@ -1,4 +1,5 @@
-import { getMeshSDK } from '../.mesh';
+import { GraphQLClient } from 'graphql-request';
+import { getSdk } from '../.mesh';
 import { UserMockService } from '../__mocks__/user.mock';
 import { UserIdentifierType } from '../src/types';
 import { User } from '../src/user/user';
@@ -7,7 +8,7 @@ import { userStub, walletStub } from './stubs/user.stub';
 let user: User;
 
 beforeAll(() => {
-  user = new User(getMeshSDK());
+  user = new User(getSdk(new GraphQLClient('')));
 });
 
 afterAll(() => {
