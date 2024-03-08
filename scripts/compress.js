@@ -26,10 +26,6 @@ function processFile(inputFile, outputFile) {
 }
 
 const filesToProcess = [
-  {
-    input: 'dist/.mesh/sources/GatewaySDK/types.d.ts',
-    output: 'dist/.mesh/sources/GatewaySDK/types.d.ts',
-  },
   { input: 'dist/.mesh/index.d.ts', output: 'dist/.mesh/index.d.ts' },
 ];
 
