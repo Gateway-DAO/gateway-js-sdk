@@ -1,5 +1,5 @@
 {
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts","gatewaySdk/**/*.ts"],
   "exclude": ["jest.config.ts", "test", "**/*.test.ts"],
   "compilerOptions": {
     "target": "es2016",

@@ -6,3 +6,4 @@ dist/
 *.tgz
 coverage/
 .DS_STORE
+gatewaySdk/
