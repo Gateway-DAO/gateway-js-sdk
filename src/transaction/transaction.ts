@@ -1,4 +1,4 @@
-import { Sdk, transactions_queryQueryVariables } from '../../.mesh';
+import { Sdk, transactions_queryQueryVariables } from '../../gatewaySdk';
 import { errorHandler } from '../utils/errorHandler';
 import { isStringValid } from '../utils/validators';
 

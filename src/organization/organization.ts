@@ -5,7 +5,7 @@ import {
   TransferMemberInput,
   UpdateOrganizationInput,
   organizations_queryQueryVariables,
-} from '../../.mesh';
+} from '../../gatewaySdk';
 import { OrganizationIdentifierType } from '../types';
 
 import { errorHandler } from '../utils/errorHandler';

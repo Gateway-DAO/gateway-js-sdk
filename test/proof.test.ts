@@ -1,5 +1,5 @@
 import { Proof } from '../src/proof/proof';
-import { getSdk } from '../.mesh';
+import { getSdk } from '../gatewaySdk';
 import {
   proofStub,
   createProofMessage,

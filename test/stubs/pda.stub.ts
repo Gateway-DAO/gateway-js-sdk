@@ -1,4 +1,4 @@
-import { CreatePDAInput, PrivateDataAsset } from '../../.mesh';
+import { CreatePDAInput, PrivateDataAsset } from '../../gatewaySdk';
 import { UserIdentifierType } from '../../src/types';
 
 export const pdaStub = (overridePDA?: any): PrivateDataAsset => ({

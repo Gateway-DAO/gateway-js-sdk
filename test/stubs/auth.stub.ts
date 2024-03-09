@@ -1,4 +1,4 @@
-import { Auth } from '../../.mesh';
+import { Auth } from '../../gatewaySdk';
 import { Chain } from '../../src/types';
 
 export const authStub = (overrideAuth?: any) => ({

@@ -1,6 +1,6 @@
 import { PDAStatus } from '../src/types';
 import { PDA } from '../src/pda/pda';
-import { getSdk } from '../.mesh';
+import { getSdk } from '../gatewaySdk';
 import { pdaCreateStub, pdaStub } from './stubs/pda.stub';
 import { PDAMockService } from '../__mocks__/pda.mock';
 import { GraphQLClient } from 'graphql-request';

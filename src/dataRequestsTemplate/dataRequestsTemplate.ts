@@ -3,7 +3,7 @@ import {
   Sdk,
   TemplateSchemaInput,
   dataRequestTemplates_queryQueryVariables,
-} from '../../.mesh';
+} from '../../gatewaySdk';
 import { errorHandler } from '../utils/errorHandler';
 import { isUUIDValid, validateObjectProperties } from '../utils/validators';
 

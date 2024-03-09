@@ -1,5 +1,5 @@
 import { GraphQLClient } from 'graphql-request';
-import { getSdk, Sdk } from '../.mesh';
+import { getSdk, Sdk } from '../gatewaySdk';
 import { Organization } from './organization/organization';
 import { Auth } from './auth/auth';
 import { PDA } from './pda/pda';

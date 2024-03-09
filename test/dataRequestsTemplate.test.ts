@@ -1,5 +1,5 @@
 import { GraphQLClient } from 'graphql-request';
-import { getSdk } from '../.mesh';
+import { getSdk } from '../gatewaySdk';
 import { DataRequestTemplateMockService } from '../__mocks__/dataRequestTemplate.mock';
 import { DataRequestTemplate } from '../src/dataRequestsTemplate/dataRequestsTemplate';
 import {

@@ -1,4 +1,4 @@
-import { getSdk } from '../.mesh';
+import { getSdk } from '../gatewaySdk';
 import { DataModel } from '../src/data-model/data-model';
 import {
   dataModelCreateStub,

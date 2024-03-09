@@ -3,7 +3,7 @@ import {
   Sdk,
   dataModels_queryQueryVariables,
   FilterDataModelInput,
-} from '../../.mesh';
+} from '../../gatewaySdk';
 import { errorHandler } from '../utils/errorHandler';
 import { isUUIDValid, validateObjectProperties } from '../utils/validators';
 

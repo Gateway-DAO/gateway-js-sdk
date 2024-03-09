@@ -1,5 +1,5 @@
 import { Request } from '../src/request/request';
-import { getSdk } from '../.mesh';
+import { getSdk } from '../gatewaySdk';
 import { RequestMockService } from '../__mocks__/request.mock';
 import { requestStub } from './stubs/request.stub';
 import { GraphQLClient } from 'graphql-request';
