@@ -7,6 +7,7 @@ import { getUnifiedSchema } from './utils';
 import BareFilter from './BareFilter';
 import { generateTsArtifacts } from './generateArtificats';
 import { join } from 'path';
+import fs from 'fs';
 
 async function fetchAndGetUnifiedSchema(): Promise<{
   unifiedSchema: GraphQLSchema;
@@ -57,6 +58,13 @@ async function fetchAndGetUnifiedSchema(): Promise<{
 
 async function generateSdk() {
   try {
+    fs.rmdir(
+      join(__dirname, '..', '..', 'gatewaySdk'),
+      { recursive: true },
+      (e) => {
+        if (e) console.log('Error in deleting existing artifacts: ', e);
+      },
+    );
     const { rawSource, unifiedSchema } = await fetchAndGetUnifiedSchema();
     generateTsArtifacts({
       baseDir: join(__dirname, '..', '..'),

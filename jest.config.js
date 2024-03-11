@@ -2,5 +2,5 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  coveragePathIgnorePatterns: ['.mesh/*'],
+  coveragePathIgnorePatterns: ['.gatewaySdk/*'],
 };

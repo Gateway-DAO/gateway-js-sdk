@@ -13,7 +13,8 @@
 - Every significant change is documented in the [changelog file](https://github.com/Gateway-DAO/javascript-sdk/blob/main/CHANGELOG.md).
 
 ### Branch Organization
-- Make sure to fork the repository before contributing and create the new branch using develop as the base branch. 
+
+- Make sure to fork the repository before contributing and create the new branch using develop as the base branch.
 
 - Submit all changes directly to the `develop` branch. We use separate branches for development or for upcoming releases. And then after the bug/feature is working we release in main branch.
 

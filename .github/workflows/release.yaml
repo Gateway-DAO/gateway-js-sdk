@@ -25,7 +25,7 @@ jobs:
       - name: Lint
         run: pnpm lint
       - name: Build Graphql queries
-        run: pnpm mesh build
+        run: pnpm generate:sdk
       - name: Format code
         run: pnpm format
       - name: Build

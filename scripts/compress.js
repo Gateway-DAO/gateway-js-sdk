@@ -26,7 +26,11 @@ function processFile(inputFile, outputFile) {
 }
 
 const filesToProcess = [
-  { input: 'dist/.mesh/index.d.ts', output: 'dist/.mesh/index.d.ts' },
+  { input: 'dist/gatewaySdk/index.d.ts', output: 'dist/gatewaySdk/index.d.ts' },
+  {
+    input: 'dist/gatewaySdk/sources/gatewaySdk/types.d.ts',
+    output: 'dist/gatewaySdk/sources/gatewaySdk/types.d.ts',
+  },
 ];
 
 filesToProcess.forEach((file) => {

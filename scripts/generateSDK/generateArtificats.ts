@@ -138,6 +138,8 @@ export async function generateTsArtifacts({
   }
   const codegenOutput =
     '// @ts-nocheck\n' +
+    '/* This file is auto generated \n' +
+    'Do not make changes to this file */\n' +
     (
       await codegen({
         filename: 'types.ts',
