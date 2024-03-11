@@ -1,4 +1,4 @@
-import { FinancialTransaction, User, Wallet } from '../../.mesh';
+import { FinancialTransaction, User, Wallet } from '../../gatewaySdk';
 
 export const userStub = (overrideUser?: Partial<User>): User => ({
   id: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
@@ -129,24 +129,13 @@ export const financialTransactionsStub = (): FinancialTransaction[] => {
         updatedAt: '2024-01-09T13:09:28.999Z',
         financialTransactions: [],
         metadata: {
-          creator: '',
-          dataModel: '',
-          dataModels: [],
           earnings: 1,
           fees: 1,
-          issuer: '',
-          organization: '',
           owner: '',
-          pda: '',
           verifier: '',
           proof: '',
           requestTemplate: '',
-          signedBy: '',
           status: '',
-          user: '',
-          users: [],
-          usersAdmin: [''],
-          verified: false,
         },
       },
       transactionId: '659d4588abb2c024ff2ef8e3',

@@ -1,4 +1,4 @@
-import { DataRequestTemplate, TemplateSchemaInput } from '../../.mesh';
+import { DataRequestTemplate, TemplateSchemaInput } from '../../gatewaySdk';
 
 export const dataRequestTemplateStub = (
   overrideDataRequestTemplate?: any,

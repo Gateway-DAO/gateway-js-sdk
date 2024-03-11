@@ -1,4 +1,5 @@
 export const errorHandler = (error: any): string => {
+  // return error.response.errors[0].message;
   if (typeof error === 'object' && error !== null) {
     if (
       Array.isArray(error.errors) &&

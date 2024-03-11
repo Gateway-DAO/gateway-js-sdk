@@ -1,4 +1,4 @@
-import { Proof, createProof_mutationMutationVariables } from '../../.mesh';
+import { Proof, createProof_mutationMutationVariables } from '../../gatewaySdk';
 
 export const proofStub = (overrideProof?: any): Proof => ({
   id: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',

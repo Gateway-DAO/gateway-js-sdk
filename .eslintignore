@@ -4,8 +4,9 @@ test/*
 __mocks__/*
 dist/*
 coverage/*
-custom-fetch.js
 commitlint.config.js
 release.config.js
 .husky/*
 scripts/*
+gatewaySdk/
+src/testMutationsAndQuery.ts

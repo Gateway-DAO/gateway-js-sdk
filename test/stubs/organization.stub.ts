@@ -2,7 +2,7 @@ import {
   CreateOrganizationInput,
   MemberInput,
   Organization,
-} from '../../.mesh';
+} from '../../gatewaySdk';
 import { OrganizationRole } from '../../src/types';
 import { userStub } from './user.stub';
 

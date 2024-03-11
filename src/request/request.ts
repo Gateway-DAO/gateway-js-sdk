@@ -4,7 +4,7 @@ import {
   Sdk,
   requestsReceived_queryQueryVariables,
   requestsSent_queryQueryVariables,
-} from '../../.mesh';
+} from '../../gatewaySdk';
 import { errorHandler } from '../utils/errorHandler';
 import { isUUIDValid, validateObjectProperties } from '../utils/validators';
 
@@ -28,7 +28,7 @@ export class Request {
   async createDataRequest(inputSchema: DataRequestSchemaInput) {
     try {
       validateObjectProperties(inputSchema);
-      return this.sdk.createDataRequest_mutation({ input: inputSchema });
+      return await this.sdk.createDataRequest_mutation({ input: inputSchema });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -46,7 +46,7 @@ export class Request {
   async getDataRequest(requestId: string) {
     try {
       isUUIDValid(requestId);
-      return this.sdk.dataRequest_query({ requestId });
+      return await this.sdk.dataRequest_query({ requestId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -62,7 +62,7 @@ export class Request {
    */
   async getDataRequestCount(filterVariables?: FilterDataRequestInput) {
     try {
-      return this.sdk.dataRequestCount_query({ filter: filterVariables });
+      return await this.sdk.dataRequestCount_query({ filter: filterVariables });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -78,7 +78,7 @@ export class Request {
   async getDataRequestStatus(requestId: string) {
     try {
       isUUIDValid(requestId);
-      return this.sdk.dataRequestStatus_query({ requestId });
+      return await this.sdk.dataRequestStatus_query({ requestId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -95,7 +95,7 @@ export class Request {
    */
   async getDataRequests(filterVariables?: FilterDataRequestInput) {
     try {
-      return this.sdk.dataRequests_query({ filter: filterVariables });
+      return await this.sdk.dataRequests_query({ filter: filterVariables });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -111,7 +111,7 @@ export class Request {
    */
   async getRequestsReceived(variables?: requestsReceived_queryQueryVariables) {
     try {
-      return this.sdk.requestsReceived_query(variables);
+      return await this.sdk.requestsReceived_query(variables);
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -127,7 +127,7 @@ export class Request {
    */
   async getRequestsReceivedCount(filterVariables?: FilterDataRequestInput) {
     try {
-      return this.sdk.requestsReceivedCount_query({
+      return await this.sdk.requestsReceivedCount_query({
         filter: filterVariables,
       });
     } catch (error: any) {
@@ -146,7 +146,7 @@ export class Request {
    */
   async getRequestsSent(variables?: requestsSent_queryQueryVariables) {
     try {
-      return this.sdk.requestsSent_query(variables);
+      return await this.sdk.requestsSent_query(variables);
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -162,7 +162,7 @@ export class Request {
    */
   async getRequestsSentCount(filterVariables?: FilterDataRequestInput) {
     try {
-      return this.sdk.requestsSentCount_query({
+      return await this.sdk.requestsSentCount_query({
         filter: filterVariables,
       });
     } catch (error: any) {

@@ -3,7 +3,7 @@ import {
   Sdk,
   dataModels_queryQueryVariables,
   FilterDataModelInput,
-} from '../../.mesh';
+} from '../../gatewaySdk';
 import { errorHandler } from '../utils/errorHandler';
 import { isUUIDValid, validateObjectProperties } from '../utils/validators';
 
@@ -25,10 +25,10 @@ export class DataModel {
   async createDataModel(createModelInput: CreateDataModelInput) {
     try {
       validateObjectProperties(createModelInput);
-      return this.sdk.createDataModel_mutation({
+      return await this.sdk.createDataModel_mutation({
         input: createModelInput,
       });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -43,7 +43,7 @@ export class DataModel {
   async getDataModel(dataModelId: string) {
     try {
       isUUIDValid(dataModelId);
-      return this.sdk.dataModel_query({ id: dataModelId });
+      return await this.sdk.dataModel_query({ id: dataModelId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -60,8 +60,7 @@ export class DataModel {
 
   async getDataModels(variables?: dataModels_queryQueryVariables) {
     try {
-      const data = this.sdk.dataModels_query(variables);
-      return data;
+      return await this.sdk.dataModels_query(variables);
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -91,7 +90,7 @@ export class DataModel {
 
   async getDataModelsCount(filterVariables?: FilterDataModelInput) {
     try {
-      return this.sdk.dataModelsCount_query({
+      return await this.sdk.dataModelsCount_query({
         filter: filterVariables,
       });
     } catch (error: any) {
@@ -107,7 +106,7 @@ export class DataModel {
    */
   async getDataModelsMetaData() {
     try {
-      return this.sdk.dataModelsMetadata_query();
+      return await this.sdk.dataModelsMetadata_query();
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -121,7 +120,7 @@ export class DataModel {
   async getIssuersByDataModel(id: string) {
     try {
       isUUIDValid(id);
-      return this.sdk.issuersByDataModel_query({ id: id });
+      return await this.sdk.issuersByDataModel_query({ id: id });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -137,7 +136,7 @@ export class DataModel {
   async getIssuersByDataModelCount(dataModelId: string) {
     try {
       isUUIDValid(dataModelId);
-      return this.sdk.issuersByDataModelCount_query({ id: dataModelId });
+      return await this.sdk.issuersByDataModelCount_query({ id: dataModelId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -153,7 +152,7 @@ export class DataModel {
   async getTotalofIssuersByDataModel(dataModelId: string) {
     try {
       isUUIDValid(dataModelId);
-      return this.sdk.getTotalofIssuersByDataModel_query({ dataModelId });
+      return await this.sdk.getTotalofIssuersByDataModel_query({ dataModelId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
