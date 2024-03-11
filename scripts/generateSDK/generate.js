@@ -1,18 +1,11 @@
-import {
-  GraphQLSchema,
-  buildClientSchema,
-  getIntrospectionQuery,
-} from 'graphql';
-import { getUnifiedSchema } from './utils';
-import BareFilter from './BareFilter';
-import { generateTsArtifacts } from './generateArtificats';
-import { join } from 'path';
-import fs from 'fs';
+const { buildClientSchema, getIntrospectionQuery } = require('graphql');
+const { getUnifiedSchema } = require('./utils');
+const BareFilter = require('./BareFilter');
+const { generateTsArtifacts } = require('./generateArtificats');
+const { join } = require('path');
+const fs = require('fs');
 
-async function fetchAndGetUnifiedSchema(): Promise<{
-  unifiedSchema: GraphQLSchema;
-  rawSource: any;
-}> {
+async function fetchAndGetUnifiedSchema() {
   try {
     // Get the schema from graphql end point
     const response = await fetch(
@@ -58,13 +51,19 @@ async function fetchAndGetUnifiedSchema(): Promise<{
 
 async function generateSdk() {
   try {
-    fs.rmdir(
-      join(__dirname, '..', '..', 'gatewaySdk'),
-      { recursive: true },
-      (e) => {
-        if (e) console.log('Error in deleting existing artifacts: ', e);
-      },
-    );
+    fs.access(join(__dirname, '..', '..', 'gatewaySdk'), (err) => {
+      if (err) {
+      } else {
+        fs.rmdir(
+          join(__dirname, '..', '..', 'gatewaySdk'),
+          { recursive: true },
+          (e) => {
+            if (e) console.log('Error in deleting existing artifacts: ', e);
+          },
+        );
+      }
+    });
+
     const { rawSource, unifiedSchema } = await fetchAndGetUnifiedSchema();
     generateTsArtifacts({
       baseDir: join(__dirname, '..', '..'),

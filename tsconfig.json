@@ -1,8 +1,4 @@
 {
-  "ts-node": {
-    // Do not forget to ``
-    "require": ["tsconfig-paths/register"]
-  },
   "include": ["src/**/*.ts", "gatewaySdk/**/*.ts"],
   "exclude": ["jest.config.ts", "test", "**/*.test.ts"],
   "compilerOptions": {

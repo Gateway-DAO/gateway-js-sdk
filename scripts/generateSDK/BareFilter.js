@@ -1,14 +1,13 @@
-import { GraphQLSchema } from 'graphql';
-import { Minimatch } from 'minimatch';
-import { MapperKind, mapSchema } from '@graphql-tools/utils';
+const { Minimatch } = require('minimatch');
+const { MapperKind, mapSchema } = require('@graphql-tools/utils');
 
-export default class BareFilter {
+class BareFilter {
   noWrap = true;
-  typeGlobs: string[];
-  fieldsMap: Map<string, string[]>;
-  argsMap: Map<string, string[]>;
+  typeGlobs;
+  fieldsMap;
+  argsMap;
 
-  constructor({ filters }: { filters: string[] }) {
+  constructor({ filters }) {
     this.typeGlobs = [];
     this.fieldsMap = new Map();
     this.argsMap = new Map();
@@ -41,7 +40,7 @@ export default class BareFilter {
     }
   }
 
-  matchInArray(rulesArray: string[], value: string): null | undefined {
+  matchInArray(rulesArray, value) {
     for (const rule of rulesArray) {
       const ruleMatcher = new Minimatch(rule);
       if (!ruleMatcher.match(value)) return null;
@@ -49,7 +48,7 @@ export default class BareFilter {
     return undefined;
   }
 
-  transformSchema(schema: GraphQLSchema) {
+  transformSchema(schema) {
     let transformedSchema = mapSchema(schema, {
       ...(this.typeGlobs.length && {
         [MapperKind.TYPE]: (type) =>
@@ -67,12 +66,12 @@ export default class BareFilter {
 
           if (
             hasFieldRules &&
-            this.matchInArray(fieldRules!, fieldName) === null
+            this.matchInArray(fieldRules, fieldName) === null
           )
             return null;
           if (!hasArgRules) return undefined;
 
-          const fieldArgs = Object.entries(fieldConfig.args!).reduce(
+          const fieldArgs = Object.entries(fieldConfig.args).reduce(
             (args, [argName, argConfig]) =>
               this.matchInArray(argRules, argName) === null
                 ? args
@@ -90,7 +89,7 @@ export default class BareFilter {
 
           if (
             hasFieldRules &&
-            this.matchInArray(fieldRules!, fieldName) === null
+            this.matchInArray(fieldRules, fieldName) === null
           )
             return null;
 
@@ -108,3 +107,5 @@ export default class BareFilter {
     return transformedSchema;
   }
 }
+
+module.exports = BareFilter;

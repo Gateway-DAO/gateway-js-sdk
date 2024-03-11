@@ -1,16 +1,15 @@
-import fs from 'fs';
-import { dirname as getDirname } from 'path';
-import { DocumentNode, print } from 'graphql';
-import {
+const fs = require('fs');
+const { dirname: getDirname } = require('path');
+const { DocumentNode, print } = require('graphql');
+const {
   mapSchema,
   memoize1,
   buildOperationNodeForField,
   getRootTypeMap,
   parseGraphQLSDL,
-} from '@graphql-tools/utils';
-import { GraphQLSchema } from 'graphql';
+} = require('@graphql-tools/utils');
 
-export function getUnifiedSchema(rawSource: any): GraphQLSchema {
+function getUnifiedSchema(rawSource) {
   let schema = rawSource;
 
   schema.extensions = schema.extensions || {};
@@ -21,7 +20,7 @@ export function getUnifiedSchema(rawSource: any): GraphQLSchema {
           const nonExecutableSchema = mapSchema(schema);
           if (rawSource.transforms?.length) {
             return rawSource.transforms.reduce(
-              (schema: any, transform: any) =>
+              (schema, transform) =>
                 'transformSchema' in transform
                   ? transform.transformSchema(schema, rawSource)
                   : schema,
@@ -36,14 +35,14 @@ export function getUnifiedSchema(rawSource: any): GraphQLSchema {
   return schema;
 }
 
-export async function pathExists(path: string) {
+async function pathExists(path) {
   if (!path) {
     return false;
   }
   try {
     await fs.promises.stat(path);
     return true;
-  } catch (e: any) {
+  } catch (e) {
     if (e.code === 'ENOENT') {
       return false;
     } else {
@@ -52,17 +51,12 @@ export async function pathExists(path: string) {
   }
 }
 
-export function writeJSON(
-  path: string,
-  data: any,
-  replacer?: any,
-  space?: any,
-) {
+function writeJSON(path, data, replacer, space) {
   const stringified = JSON.stringify(data, replacer, space);
   return writeFile(path, stringified, 'utf-8');
 }
 
-export const writeFile = async (filePath: string, data: any, options?: any) => {
+const writeFile = async (filePath, data, options) => {
   if (typeof filePath === 'string') {
     const containingDir = getDirname(filePath);
     if (!(await pathExists(containingDir))) {
@@ -72,7 +66,7 @@ export const writeFile = async (filePath: string, data: any, options?: any) => {
   return fs.promises.writeFile(filePath, data, options);
 };
 
-export async function mkdir(path: string, options = { recursive: true }) {
+async function mkdir(path, options = { recursive: true }) {
   const ifExists = await pathExists(path);
   if (!ifExists) {
     await fs.promises.mkdir(path, options);
@@ -81,11 +75,9 @@ export async function mkdir(path: string, options = { recursive: true }) {
 
 const tempMap = new Map();
 
-export const printWithCache = memoize1(function printWithCache(
-  document: DocumentNode,
-): string {
+const printWithCache = memoize1(function printWithCache(document) {
   const stringifedDocumentJson = JSON.stringify(document);
-  let sdl: string = tempMap.get(stringifedDocumentJson);
+  let sdl = tempMap.get(stringifedDocumentJson);
   if (!sdl) {
     sdl = print(document).trim();
     tempMap.set(stringifedDocumentJson, sdl);
@@ -93,11 +85,8 @@ export const printWithCache = memoize1(function printWithCache(
   return sdl;
 });
 
-export function generateOperations(
-  schema: GraphQLSchema,
-  selectionSetDepth: number,
-): any[] {
-  const sources: any[] = [];
+function generateOperations(schema, selectionSetDepth) {
+  const sources = [];
   const rootTypeMap = getRootTypeMap(schema);
   for (const [operationType, rootType] of rootTypeMap) {
     const fieldMap = rootType.getFields();
@@ -117,3 +106,13 @@ export function generateOperations(
   }
   return sources;
 }
+
+module.exports = {
+  generateOperations,
+  printWithCache,
+  mkdir,
+  writeFile,
+  writeJSON,
+  getUnifiedSchema,
+  pathExists,
+};

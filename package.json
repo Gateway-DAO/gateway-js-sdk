@@ -11,7 +11,7 @@
     "format": "prettier --write .",
     "prepare": "husky install",
     "build": "rm -rf dist && tsc && scripts/compress.sh && node scripts/compress.js",
-    "generate:sdk": "ts-node scripts/generateSdk/index.ts"
+    "generate:sdk": "node scripts/generateSDK/generate.js"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -67,7 +67,8 @@
     "minimatch": "^9.0.3",
     "prettier": "^3.1.1",
     "ts-jest": "^29.1.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "uglifyjs": "^2.4.11"
   },
   "repository": {
     "type": "git",

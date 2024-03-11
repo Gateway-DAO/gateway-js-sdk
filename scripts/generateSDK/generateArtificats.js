@@ -1,22 +1,21 @@
-import fs from 'fs';
-import { join, relative, resolve, normalize } from 'path';
-import { GraphQLSchema } from 'graphql';
-import ts from 'typescript';
-import { codegen } from '@graphql-codegen/core';
-import * as typedDocumentNodePlugin from '@graphql-codegen/typed-document-node';
-import * as tsBasePlugin from '@graphql-codegen/typescript';
-import * as typescriptGraphqlRequestSdk from '@graphql-codegen/typescript-graphql-request';
-import * as tsOperationsPlugin from '@graphql-codegen/typescript-operations';
-import * as tsResolversPlugin from '@graphql-codegen/typescript-resolvers';
-import {
+const fs = require('fs');
+const { join, relative, resolve, normalize } = require('path');
+const ts = require('typescript');
+const { codegen } = require('@graphql-codegen/core');
+const typedDocumentNodePlugin = require('@graphql-codegen/typed-document-node');
+const tsBasePlugin = require('@graphql-codegen/typescript');
+const typescriptGraphqlRequestSdk = require('@graphql-codegen/typescript-graphql-request');
+const tsOperationsPlugin = require('@graphql-codegen/typescript-operations');
+const tsResolversPlugin = require('@graphql-codegen/typescript-resolvers');
+const {
   pathExists,
   printWithCache,
   writeFile,
   generateOperations,
-} from './utils';
-import { printSchemaWithDirectives } from '@graphql-tools/utils';
+} = require('./utils');
+const { printSchemaWithDirectives } = require('@graphql-tools/utils');
 
-function toPascalCase(str: string) {
+function toPascalCase(str) {
   return str
     .replace(/(\w)(\w*)/g, function (_, first, rest) {
       return first.toUpperCase() + rest.toLowerCase();
@@ -24,11 +23,7 @@ function toPascalCase(str: string) {
     .replace(/\s+/g, '');
 }
 
-async function generateTypesForApi(options: {
-  schema: GraphQLSchema;
-  name: string;
-  contextVariables: Record<string, string>;
-}) {
+async function generateTypesForApi(options) {
   const config = {
     skipTypename: true,
     namingConvention: 'keep',
@@ -40,7 +35,7 @@ async function generateTypesForApi(options: {
     documents: [],
     config,
     schemaAst: options.schema,
-    schema: undefined as any, // This is not necessary on codegen. Will be removed later
+    schema: undefined, // This is not necessary on codegen. Will be removed later
     skipDocumentsValidation: true,
     plugins: [
       {
@@ -69,27 +64,18 @@ export namespace ${namespace} {
 
 const BASEDIR_ASSIGNMENT_COMMENT = `/* BASEDIR_ASSIGNMENT */`;
 
-export async function generateTsArtifacts({
+async function generateTsArtifacts({
   unifiedSchema,
   rawSources,
   baseDir,
   artifactsDirectory,
   setDepth,
   fileType,
-}: {
-  unifiedSchema: GraphQLSchema;
-  rawSources: readonly any[];
-  baseDir: string;
-  artifactsDirectory: string;
-  setDepth: number;
-  fileType: 'ts';
 }) {
   const artifactsDir = join(baseDir, artifactsDirectory);
   console.log('Generating index file in TypeScript');
   for (const rawSource of rawSources) {
-    const transformedSchema = (unifiedSchema.extensions as any).sourceMap.get(
-      rawSource,
-    );
+    const transformedSchema = unifiedSchema.extensions.sourceMap.get(rawSource);
     const sdl = printSchemaWithDirectives(transformedSchema);
     await writeFile(
       join(artifactsDir, `sources/GatewaySDK/schema.graphql`),
@@ -98,7 +84,7 @@ export async function generateTsArtifacts({
   }
   const documentsInput = generateOperations(unifiedSchema, setDepth);
 
-  const pluginsInput: Record<string, any>[] = [
+  const pluginsInput = [
     {
       typescript: {},
     },
@@ -124,7 +110,7 @@ export async function generateTsArtifacts({
         },
       },
     );
-    const documentHashMap: Record<string, string> = {};
+    const documentHashMap = {};
     for (const document of documentsInput) {
       if (document.sha256Hash) {
         documentHashMap[document.sha256Hash] =
@@ -159,7 +145,7 @@ export async function generateTsArtifacts({
           federation: false,
         },
         schemaAst: unifiedSchema,
-        schema: undefined as any, // This is not necessary on codegen.
+        schema: undefined, // This is not necessary on codegen.
         skipDocumentsValidation: true,
         pluginMap: {
           typescript: tsBasePlugin,
@@ -172,13 +158,10 @@ export async function generateTsArtifacts({
               const importCodes = new Set();
               await Promise.all(
                 rawSources.map(async (source) => {
-                  const sourceMap = unifiedSchema.extensions.sourceMap as Map<
-                    any,
-                    GraphQLSchema
-                  >;
+                  const sourceMap = unifiedSchema.extensions.sourceMap;
                   const sourceSchema = sourceMap.get(source);
                   const { identifier, codeAst } = await generateTypesForApi({
-                    schema: sourceSchema!,
+                    schema: sourceSchema,
                     name: 'GatewaySDK',
                     contextVariables: { key: 'value' },
                   });
@@ -223,7 +206,7 @@ export async function generateTsArtifacts({
 
   const tsFilePath = join(artifactsDir, 'index.ts');
 
-  const jobs: (() => Promise<void>)[] = [];
+  const jobs = [];
   const jsFilePath = join(artifactsDir, 'index.js');
   const dtsFilePath = join(artifactsDir, 'index.d.ts');
 
@@ -260,12 +243,8 @@ export async function generateTsArtifacts({
   }
 }
 
-export function compileTS(
-  tsFilePath: string,
-  module: ts.ModuleKind,
-  outputFilePaths: string[],
-) {
-  const options: ts.CompilerOptions = {
+function compileTS(tsFilePath, module, outputFilePaths) {
+  const options = {
     target: ts.ScriptTarget.ESNext,
     module,
     sourceMap: false,
@@ -287,3 +266,5 @@ export function compileTS(
   const program = ts.createProgram([tsFilePath], options, host);
   program.emit();
 }
+
+module.exports = { generateTsArtifacts, compileTS };
