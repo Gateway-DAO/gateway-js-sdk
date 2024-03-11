@@ -16,8 +16,8 @@ jobs:
         run: pnpm install
       - name: Run Eslint
         run: pnpm lint
-      - name: Install ts-node
-        run: npm install -g ts-node
+      - name: Install ts-node-dev
+        run: npm install -g ts-node && npm i -D tsconfig-paths
       - name: Build Graphql queries
         run: pnpm generate:sdk
       - name: Format code
