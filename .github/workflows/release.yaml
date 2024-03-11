@@ -24,6 +24,8 @@ jobs:
         run: pnpm install -D @semantic-release/changelog @semantic-release/git
       - name: Lint
         run: pnpm lint
+      - name: Install ts-node
+        run: npm install -g ts-node
       - name: Build Graphql queries
         run: pnpm generate:sdk
       - name: Format code

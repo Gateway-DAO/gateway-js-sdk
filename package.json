@@ -11,7 +11,7 @@
     "format": "prettier --write .",
     "prepare": "husky install",
     "build": "rm -rf dist && tsc && scripts/compress.sh && node scripts/compress.js",
-    "generate:sdk": "ts-node-dev scripts/generateSdk/index.ts"
+    "generate:sdk": "ts-node scripts/generateSdk/index.ts"
   },
   "engines": {
     "node": ">=18.0.0"
