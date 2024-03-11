@@ -109,9 +109,6 @@ devDependencies:
   typescript:
     specifier: ^5.3.3
     version: 5.4.2
-  uglifyjs:
-    specifier: ^2.4.11
-    version: 2.4.11
 
 packages:
 
@@ -6433,11 +6430,6 @@ packages:
 
   /ua-parser-js@1.0.37:
     resolution: {integrity: sha512-bhTyI94tZofjo+Dn8SN6Zv8nBDvyXTymAdM3LDI/0IboIUwTu1rEhW7v2TfiVsoYWgkQ4kOVqnI8APUFbIQIFQ==}
-    dev: true
-
-  /uglifyjs@2.4.11:
-    resolution: {integrity: sha512-iR5+eXZCsoqmlzqYYENJm+rtX/KpC+jhhCtgORtBeVxRET+mfFHlyArl3DgYEqRTVDOxenv0OojFg02tf6LluA==}
-    deprecated: uglifyjs is deprecated - use uglify-js instead.
     dev: true
 
   /unbox-primitive@1.0.2:

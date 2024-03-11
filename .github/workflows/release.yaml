@@ -19,7 +19,7 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm@7.33.5
       - name: Install uglifyjs
-        run: npm install -g uglifyjs
+        run: npm install uglify-js -g
       - name: Install dependencies
         run: pnpm install
       - name: Install semantic-release extra plugins
