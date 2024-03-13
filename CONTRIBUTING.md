@@ -56,10 +56,10 @@
    pnpm i
    ```
 
-3. Create the sdk using graphql mesh(it should give .mesh folder with sdk in it)
+3. Create the sdk using our custom script(it should give .gatewaySdk folder with sdk in it)
 
    ```sh
-   pnpm mesh build
+   pnpm generate:sdk
    ```
 
 4. Run test command to test sdk using jest

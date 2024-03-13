@@ -1,6 +1,5 @@
 jest.config.js
 test/*
-.mesh/*
 __mocks__/*
 dist/*
 coverage/*

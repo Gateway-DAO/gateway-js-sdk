@@ -2,11 +2,10 @@
 
 This section will give you an overview of using SDK in frontend environment like Next.js.
 
-- **Before starting it is not recommended to use SDK in a frontend environment because the dependencies which we use mainly graphql mesh generally have bundling problems with webpack**. So you might face unexpected problems while using it. Although we have some potential solutions which will discuss as well in the docs.
+- **Please upgrade to latest version of sdk to avoid adding any extra configuration for frontend environments.If you are already using latest version of the sdk or upgraded to latest one there is no need to read this doc**. So you might face unexpected problems while using it. Although we have some potential solutions which will discuss as well in the docs.
 
-- **It is still highly recommend to use SDK in a backend environments as there are no bundling problems and will work smoothly.**
 
-### Bypassing graphql mesh using next.config.js
+### Bypassing graphql mesh using next.config.js (Deperacted in v2 of sdk)
 
 - You need to modify the next.config file in your nextjs application below is the code you paste to make sure you dont get any dependencies errors.
 

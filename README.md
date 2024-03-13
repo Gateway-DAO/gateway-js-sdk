@@ -12,13 +12,14 @@
 
 A TypeScript SDK for the Gateway API. This library is built with TypeScript developers in mind, but it also works with JavaScript.
 
-**Note: Make sure to [read our frontend docs](https://github.com/Gateway-DAO/gateway-js-sdk/blob/main/FRONTEND_DOCS.md) incase you are going to use SDK for frontend environemnts like Next.js**
+**Note: Our latest version of sdk works   without doing any extra configuration for frontend environments.**
 
 ### Features
 
 - Full type information for methods and responses.
 - Bearer Token Support
 - Supports Node.js 18+.
+- Works in frontend environments without adding any extra configuration.
 
 ## Installation
 
