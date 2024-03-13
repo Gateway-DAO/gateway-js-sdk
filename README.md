@@ -12,7 +12,7 @@
 
 A TypeScript SDK for the Gateway API. This library is built with TypeScript developers in mind, but it also works with JavaScript.
 
-**Note: Our latest version of sdk works   without doing any extra configuration for frontend environments.**
+**Note: Our latest version of sdk works without adding any extra configuration for frontend environments.**
 
 ### Features
 

@@ -2,7 +2,7 @@
 
 This section will give you an overview of using SDK in frontend environment like Next.js.
 
-- **Please upgrade to latest version of sdk to avoid adding any extra configuration for frontend environments.If you are already using latest version of the sdk or upgraded to latest one there is no need to read this doc**. So you might face unexpected problems while using it. Although we have some potential solutions which will discuss as well in the docs.
+- **Please upgrade to latest version of sdk to avoid adding any extra configuration for frontend environments.If you are already using latest version of the sdk or upgraded to latest one there is no need to read this doc**. We have some potential solutions(if you are using v1) which will discuss as well in the docs.
 
 
 ### Bypassing graphql mesh using next.config.js (Deperacted in v2 of sdk)

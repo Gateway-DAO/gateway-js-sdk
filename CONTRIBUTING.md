@@ -42,7 +42,7 @@
 
 ### Contributing Guildeline
 
-- You have Node.js installed at LTS with version 16+ and using pnpm as package manager.
+- You have Node.js installed at LTS with version 18+ and using pnpm as package manager.
 - You have knowldge of git.
 - Read the [code base overview](https://github.com/Gateway-DAO/javascript-sdk/blob/main/CODE_BASE_OVERVIEW.md) to have a short introduction about how we manage/write code.
 
