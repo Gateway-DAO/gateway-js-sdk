@@ -42,7 +42,7 @@
 
 ### Contributing Guildeline
 
-- You have Node.js installed at LTS with version 16+ and using pnpm as package manager.
+- You have Node.js installed at LTS with version 18+ and using pnpm as package manager.
 - You have knowldge of git.
 - Read the [code base overview](https://github.com/Gateway-DAO/javascript-sdk/blob/main/CODE_BASE_OVERVIEW.md) to have a short introduction about how we manage/write code.
 
@@ -56,10 +56,10 @@
    pnpm i
    ```
 
-3. Create the sdk using graphql mesh(it should give .mesh folder with sdk in it)
+3. Create the sdk using our custom script(it should give .gatewaySdk folder with sdk in it)
 
    ```sh
-   pnpm mesh build
+   pnpm generate:sdk
    ```
 
 4. Run test command to test sdk using jest

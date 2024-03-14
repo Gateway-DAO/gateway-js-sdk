@@ -33,7 +33,7 @@ export class User {
    */
   async me() {
     try {
-      return this.sdk.me_query();
+      return await this.sdk.me_query();
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -55,7 +55,7 @@ export class User {
   }) {
     try {
       isStringValid(value);
-      return this.sdk.user_query({ input: { type, value } });
+      return await this.sdk.user_query({ input: { type, value } });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -85,7 +85,7 @@ export class User {
    */
   async myPDAs(variables?: myPDAs_queryQueryVariables) {
     try {
-      return this.sdk.myPDAs_query(variables);
+      return await this.sdk.myPDAs_query(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -201,7 +201,7 @@ export class User {
   async updateUser(updatedUser: UpdateUserInput) {
     try {
       validateObjectProperties(updatedUser);
-      return this.sdk.updateUser_mutation({ input: updatedUser });
+      return await this.sdk.updateUser_mutation({ input: updatedUser });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -218,7 +218,7 @@ export class User {
   async updateMyDisplayName(displayName: string) {
     try {
       isStringValid(displayName);
-      return this.sdk.updateMyDisplayName_mutation({ displayName });
+      return await this.sdk.updateMyDisplayName_mutation({ displayName });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -235,7 +235,7 @@ export class User {
   async updateMyGatewayId(gatewayId: string) {
     try {
       isStringValid(gatewayId);
-      return this.sdk.updateMyGatewayId_mutation({ gatewayId });
+      return await this.sdk.updateMyGatewayId_mutation({ gatewayId });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -250,7 +250,7 @@ export class User {
   async updateMyProfilePicture(profilePictureUrl: string) {
     try {
       isValidUrl(profilePictureUrl);
-      return this.sdk.updateMyProfilePicture_mutation({
+      return await this.sdk.updateMyProfilePicture_mutation({
         profilePictureUrl,
       });
     } catch (error) {
