@@ -56,7 +56,7 @@ describe('UTILS TESTING', () => {
   it('string validator', () => {
     const result = isStringValid('test pda');
     expect(result).toBeDefined();
-    expect(() => isStringValid('')).toThrow(' should be atleast 3 length');
+    expect(() => isStringValid('')).toThrow(' should be atleast 2 length');
   });
 
   it('etherum validator', () => {
@@ -101,7 +101,7 @@ describe('UTILS TESTING', () => {
       dataModelId: 'f17ac10b-58cc-4372-a567-0e02b2c3d479',
       description: 'test',
       title: 'test',
-      date: new Date(),
+      dateTest: new Date(),
       owner: {
         type: UserIdentifierType.GATEWAY_ID,
         value: 'test',

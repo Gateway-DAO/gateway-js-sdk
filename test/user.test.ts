@@ -1,4 +1,5 @@
-import { getMeshSDK } from '../.mesh';
+import { GraphQLClient } from 'graphql-request';
+import { getSdk } from '../gatewaySdk';
 import { UserMockService } from '../__mocks__/user.mock';
 import { UserIdentifierType } from '../src/types';
 import { User } from '../src/user/user';
@@ -7,7 +8,7 @@ import { userStub, walletStub } from './stubs/user.stub';
 let user: User;
 
 beforeAll(() => {
-  user = new User(getMeshSDK());
+  user = new User(getSdk(new GraphQLClient('')));
 });
 
 afterAll(() => {
@@ -100,6 +101,19 @@ describe('USER SERVICE TESTING', () => {
     expect(myFinancialTransactionsMock).toHaveBeenCalled();
   });
 
+  it('my financial transactions -> throw error', async () => {
+    const { myFinancialTransactionsMock } = UserMockService(user);
+
+    expect(
+      async () =>
+        await user.myFinancialTransactions({
+          organizationId: 'test',
+        }),
+    ).rejects.toThrow('');
+
+    expect(myFinancialTransactionsMock).toHaveBeenCalled();
+  });
+
   it('my financial transactions count', async () => {
     const { myFinancialTransactionsCountMock } = UserMockService(user);
 
@@ -109,12 +123,42 @@ describe('USER SERVICE TESTING', () => {
     expect(myFinancialTransactionsCountMock).toHaveBeenCalled();
   });
 
+  it('my financial transactions count -> throw error', async () => {
+    const { myFinancialTransactionsCountMock } = UserMockService(user);
+
+    expect(
+      async () =>
+        await user.myFinancialTransactionsCount({
+          organizationId: 'test',
+        }),
+    ).rejects.toThrow('');
+
+    expect(myFinancialTransactionsCountMock).toHaveBeenCalled();
+  });
+
+  it('my transactions count -> throw error', async () => {
+    const { myTransactionsMock } = UserMockService(user);
+
+    const { myTransactions } = await user.myTransactions();
+
+    expect(myTransactions.length).toBeGreaterThanOrEqual(0);
+    expect(myTransactionsMock).toHaveBeenCalled();
+  });
+
   it('my wallet', async () => {
     const { mywalletMock } = UserMockService(user);
 
     const { myWallet } = await user.myWallet();
 
     expect(myWallet.balance).toBe(walletStub().balance);
+
+    expect(mywalletMock).toHaveBeenCalled();
+  });
+
+  it('my wallet -> throw error', async () => {
+    const { mywalletMock } = UserMockService(user);
+
+    expect(async () => await user.myWallet('test')).rejects.toThrow('');
 
     expect(mywalletMock).toHaveBeenCalled();
   });

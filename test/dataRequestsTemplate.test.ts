@@ -1,4 +1,5 @@
-import { getMeshSDK } from '../.mesh';
+import { GraphQLClient } from 'graphql-request';
+import { getSdk } from '../gatewaySdk';
 import { DataRequestTemplateMockService } from '../__mocks__/dataRequestTemplate.mock';
 import { DataRequestTemplate } from '../src/dataRequestsTemplate/dataRequestsTemplate';
 import {
@@ -9,7 +10,7 @@ import {
 let dataRequestTemplate: DataRequestTemplate;
 
 beforeAll(() => {
-  dataRequestTemplate = new DataRequestTemplate(getMeshSDK());
+  dataRequestTemplate = new DataRequestTemplate(getSdk(new GraphQLClient('')));
 });
 
 afterAll(() => {

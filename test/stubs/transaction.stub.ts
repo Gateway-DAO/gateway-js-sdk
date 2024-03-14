@@ -1,4 +1,4 @@
-import { Transaction } from '../../.mesh';
+import { Transaction } from '../../gatewaySdk';
 
 export const transactionStub = (overirdeTransaction?: any): Transaction => ({
   action: 'PDA_ISSUANCE',

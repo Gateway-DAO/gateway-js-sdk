@@ -1,4 +1,5 @@
 import { User } from '../src/user/user';
+import { transactionStub } from '../test/stubs/transaction.stub';
 import {
   financialTransactionsStub,
   userStub,
@@ -45,6 +46,9 @@ export const UserMockService = (user: User) => ({
     .mockResolvedValue({
       myFinancialTransactionsCount: 10,
     }),
+  myTransactionsMock: jest
+    .spyOn(user.sdk, 'myTransactions_query')
+    .mockResolvedValue({ myTransactions: [transactionStub()] }),
   mywalletMock: jest.spyOn(user.sdk, 'myWallet_query').mockResolvedValue({
     myWallet: walletStub(),
   }),

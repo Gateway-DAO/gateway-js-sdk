@@ -1,7 +1,8 @@
 node_modules/
-.mesh/
 .vscode/
 .env
 dist/
 *.tgz
 coverage/
+.DS_STORE
+gatewaySdk/

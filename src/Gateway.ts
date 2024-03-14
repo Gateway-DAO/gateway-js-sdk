@@ -1,4 +1,5 @@
-import { getMeshSDK, Sdk } from '../.mesh';
+import { GraphQLClient } from 'graphql-request';
+import { getSdk, Sdk } from '../gatewaySdk';
 import { Organization } from './organization/organization';
 import { Auth } from './auth/auth';
 import { PDA } from './pda/pda';
@@ -42,11 +43,11 @@ export class Gateway {
     if (!token) throw new Error('No token found!');
     if (!url) throw new Error('No url found!.Enter either testnet or prod');
 
-    this.sdk = getMeshSDK({
-      apiKey,
-      token,
-      url,
+    const client = new GraphQLClient(url, {
+      headers: { Authorization: `Bearer ${token}`, 'X-Api-Key': apiKey },
     });
+
+    this.sdk = getSdk(client);
     this.pda = new PDA(this.sdk);
     this.dataRequestTemplate = new DataRequestTemplate(this.sdk);
     this.organization = new Organization(this.sdk);

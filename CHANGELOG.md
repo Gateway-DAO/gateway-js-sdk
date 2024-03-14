@@ -1,9 +1,8 @@
 ## [1.1.1](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.1.0...v1.1.1) (2024-02-23)
 
-
 ### Bug Fixes
 
-* release triggers ([d08d5f4](https://github.com/Gateway-DAO/gateway-js-sdk/commit/d08d5f4b50e099e943751dff0b37c8b16f63373b))
+- release triggers ([d08d5f4](https://github.com/Gateway-DAO/gateway-js-sdk/commit/d08d5f4b50e099e943751dff0b37c8b16f63373b))
 
 # [1.1.0](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.0.0...v1.1.0) (2024-02-23)
 

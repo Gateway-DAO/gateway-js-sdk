@@ -12,16 +12,20 @@ jobs:
         uses: actions/checkout@v3
       - name: Install pnpm
         run: npm install -g pnpm@7.33.5
+      - name: Install uglifyjs
+        run: npm install uglify-js -g
       - name: Install Project Dependencies
         run: pnpm install
       - name: Run Eslint
         run: pnpm lint
       - name: Build Graphql queries
-        run: pnpm mesh build
+        run: pnpm generate:sdk
       - name: Format code
         run: pnpm format
       - name: Test project
         run: pnpm test
+      - name: Build
+        run: pnpm build
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         env:

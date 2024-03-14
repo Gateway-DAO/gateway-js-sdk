@@ -6,7 +6,7 @@ import {
   PDAs_queryQueryVariables,
   issuedPDAs_queryQueryVariables,
   PDACount_queryQueryVariables,
-} from '../../.mesh';
+} from '../../gatewaySdk';
 import { PDAStatus } from '../types';
 import { errorHandler } from '../utils/errorHandler';
 import { isUUIDValid, validateObjectProperties } from '../utils/validators';

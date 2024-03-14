@@ -1,4 +1,4 @@
-import { DataRequest } from '../../.mesh';
+import { DataRequest } from '../../gatewaySdk';
 
 export const requestStub = (overrideDataRequest?: any): DataRequest => ({
   arweaveUrl: 'https://arweave.net/Mrs7eYW4366sIOM4nZ9mKHU-XnftQ_RbfDS1Hx1EQWM',

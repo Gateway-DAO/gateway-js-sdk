@@ -1,4 +1,4 @@
-import { AddWalletConfirmationInput, Sdk } from '../../.mesh';
+import { AddWalletConfirmationInput, Sdk } from '../../gatewaySdk';
 import { AuthType, Chain } from '../types';
 import { errorHandler } from '../utils/errorHandler';
 import {

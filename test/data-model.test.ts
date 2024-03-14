@@ -1,4 +1,4 @@
-import { getMeshSDK } from '../.mesh';
+import { getSdk } from '../gatewaySdk';
 import { DataModel } from '../src/data-model/data-model';
 import {
   dataModelCreateStub,
@@ -6,11 +6,12 @@ import {
   dataModelMetaDataStub,
 } from './stubs/dataModel.stub';
 import { DataModelMockService } from '../__mocks__/dataModel.mock';
+import { GraphQLClient } from 'graphql-request';
 
 let dataModel: DataModel;
 
 beforeAll(() => {
-  dataModel = new DataModel(getMeshSDK());
+  dataModel = new DataModel(getSdk(new GraphQLClient('')));
 });
 
 afterAll(() => {
@@ -38,7 +39,7 @@ describe('DATA MODEL CLASS METHODS TESTING', () => {
           ...dataModelCreateStub(),
           title: '',
         }),
-    ).rejects.toThrow(' should be atleast 3 length');
+    ).rejects.toThrow(' should be atleast 2 length');
     expect(createDataModelMock).toHaveBeenCalled();
   });
 

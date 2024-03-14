@@ -1,4 +1,4 @@
-import { Sdk, transactions_queryQueryVariables } from '../../.mesh';
+import { Sdk, transactions_queryQueryVariables } from '../../gatewaySdk';
 import { errorHandler } from '../utils/errorHandler';
 import { isStringValid } from '../utils/validators';
 
@@ -20,7 +20,7 @@ export class Transaction {
   async getTransaction(id: string) {
     try {
       isStringValid(id);
-      return this.sdk.transaction_query({ id: id });
+      return await this.sdk.transaction_query({ id: id });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -36,7 +36,7 @@ export class Transaction {
    */
   async getTransactions(variables?: transactions_queryQueryVariables) {
     try {
-      return this.sdk.transactions_query(variables);
+      return await this.sdk.transactions_query(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -53,7 +53,7 @@ export class Transaction {
    */
   async getTransactionCount(showMoneyTxs?: boolean) {
     try {
-      return this.sdk.transactionsCount_query({ showMoneyTxs });
+      return await this.sdk.transactionsCount_query({ showMoneyTxs });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
