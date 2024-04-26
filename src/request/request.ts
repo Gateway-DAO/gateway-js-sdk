@@ -4,7 +4,7 @@ import {
   Sdk,
   requestsReceived_queryQueryVariables,
   requestsSent_queryQueryVariables,
-} from '../../gatewaySdk';
+} from '../../gatewaySdk/sources/GatewayV2';
 import { errorHandler } from '../utils/errorHandler';
 import { isUUIDValid, validateObjectProperties } from '../utils/validators';
 

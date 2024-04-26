@@ -1,4 +1,7 @@
-import { DataRequestTemplate, TemplateSchemaInput } from '../../gatewaySdk';
+import {
+  DataRequestTemplate,
+  TemplateSchemaInput,
+} from '../../gatewaySdk/sources/GatewayV2';
 
 export const dataRequestTemplateStub = (
   overrideDataRequestTemplate?: any,

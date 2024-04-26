@@ -1,4 +1,7 @@
-import { AddWalletConfirmationInput, Sdk } from '../../gatewaySdk';
+import {
+  AddWalletConfirmationInput,
+  Sdk,
+} from '../../gatewaySdk/sources/GatewayV2';
 import { AuthType, Chain } from '../types';
 import { errorHandler } from '../utils/errorHandler';
 import {

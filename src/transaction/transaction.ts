@@ -1,4 +1,7 @@
-import { Sdk, transactions_queryQueryVariables } from '../../gatewaySdk';
+import {
+  Sdk,
+  transactions_queryQueryVariables,
+} from '../../gatewaySdk/sources/GatewayV2';
 import { errorHandler } from '../utils/errorHandler';
 import { isStringValid } from '../utils/validators';
 

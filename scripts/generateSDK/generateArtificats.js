@@ -15,14 +15,6 @@ const {
 } = require('./utils');
 const { printSchemaWithDirectives } = require('@graphql-tools/utils');
 
-function toPascalCase(str) {
-  return str
-    .replace(/(\w)(\w*)/g, function (_, first, rest) {
-      return first.toUpperCase() + rest.toLowerCase();
-    })
-    .replace(/\s+/g, '');
-}
-
 async function generateTypesForApi(options) {
   const config = {
     skipTypename: true,
@@ -46,7 +38,7 @@ async function generateTypesForApi(options) {
       typescript: tsBasePlugin,
     },
   });
-  const namespace = toPascalCase(`${options.name}Types`);
+  const namespace = `${options.name}Types`;
 
   const codeAst = `
 
@@ -71,6 +63,7 @@ async function generateTsArtifacts({
   artifactsDirectory,
   setDepth,
   fileType,
+  sdkName,
 }) {
   const artifactsDir = join(baseDir, artifactsDirectory);
   console.log('Generating index file in TypeScript');
@@ -78,7 +71,7 @@ async function generateTsArtifacts({
     const transformedSchema = unifiedSchema.extensions.sourceMap.get(rawSource);
     const sdl = printSchemaWithDirectives(transformedSchema);
     await writeFile(
-      join(artifactsDir, `sources/GatewaySDK/schema.graphql`),
+      join(artifactsDir, `sources/${sdkName}/schema.graphql`),
       sdl,
     );
   }
@@ -162,7 +155,7 @@ async function generateTsArtifacts({
                   const sourceSchema = sourceMap.get(source);
                   const { identifier, codeAst } = await generateTypesForApi({
                     schema: sourceSchema,
-                    name: 'GatewaySDK',
+                    name: sdkName,
                     contextVariables: { key: 'value' },
                   });
                   if (codeAst) {
@@ -172,7 +165,7 @@ async function generateTsArtifacts({
                       'Do not make changes to this file */' +
                       codeAst;
                     await writeFile(
-                      join(artifactsDir, `sources/GatewaySDK/types.ts`),
+                      join(artifactsDir, `sources/${sdkName}/types.ts`),
                       content,
                     );
                   }
@@ -204,7 +197,7 @@ async function generateTsArtifacts({
     baseDir,
   )}');`;
 
-  const tsFilePath = join(artifactsDir, 'index.ts');
+  const tsFilePath = join(artifactsDir, `sources/${sdkName}/index.ts`);
 
   const jobs = [];
   const jsFilePath = join(artifactsDir, 'index.js');

@@ -1,4 +1,4 @@
-import { Transaction } from '../../gatewaySdk';
+import { Transaction } from '../../gatewaySdk/sources/GatewayV2';
 
 export const transactionStub = (overirdeTransaction?: any): Transaction => ({
   action: 'PDA_ISSUANCE',

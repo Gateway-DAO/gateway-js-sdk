@@ -2,7 +2,7 @@ import {
   CreateOrganizationInput,
   MemberInput,
   Organization,
-} from '../../gatewaySdk';
+} from '../../gatewaySdk/sources/GatewayV2';
 import { OrganizationRole } from '../../src/types';
 import { userStub } from './user.stub';
 

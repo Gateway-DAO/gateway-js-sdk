@@ -5,41 +5,33 @@ const { generateTsArtifacts } = require('./generateArtificats');
 const { join } = require('path');
 const fs = require('fs');
 
-async function fetchAndGetUnifiedSchema() {
+async function fetchAndGetUnifiedSchema({ url }) {
   try {
-    // Get the schema from graphql end point
-    const response = await fetch(
-      'https://develop.protocol.mygateway.xyz/graphql',
-      {
-        method: 'POST',
-        headers: {
-          accept:
-            'application/graphql-response+json, application/json, multipart/mixed',
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({ query: getIntrospectionQuery() }),
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        accept:
+          'application/graphql-response+json, application/json, multipart/mixed',
+        'content-type': 'application/json',
       },
-    );
+      body: JSON.stringify({ query: getIntrospectionQuery() }),
+    });
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    // Decode it to JSON
     const data = await response.json();
 
-    // Build a base schema needed so that we can parse it and create codegen
     const baseSchema = buildClientSchema(data.data, {
       assumeValid: true,
     });
 
-    // We need to remove some duplicate values from our schema we use bare filters to do that!
     const bareFilter = new BareFilter({
       filters: ['PDAMetadata.!status', 'RequestMetadata.!request'],
     });
     const modifedSchema = bareFilter.transformSchema(baseSchema);
 
-    // Now we get perfect schema which we can use to generate ts files
     return {
       unifiedSchema: getUnifiedSchema(modifedSchema),
       rawSource: data.data,
@@ -49,7 +41,7 @@ async function fetchAndGetUnifiedSchema() {
   }
 }
 
-async function generateSdk() {
+async function generateSdk({ url, sdkName }) {
   try {
     fs.access(join(__dirname, '..', '..', 'gatewaySdk'), (err) => {
       if (err) {
@@ -64,7 +56,9 @@ async function generateSdk() {
       }
     });
 
-    const { rawSource, unifiedSchema } = await fetchAndGetUnifiedSchema();
+    const { rawSource, unifiedSchema } = await fetchAndGetUnifiedSchema({
+      url,
+    });
     generateTsArtifacts({
       baseDir: join(__dirname, '..', '..'),
       artifactsDirectory: 'gatewaySdk',
@@ -72,10 +66,28 @@ async function generateSdk() {
       rawSources: [rawSource],
       setDepth: 2,
       unifiedSchema,
+      sdkName,
     });
+    console.log(`Done Generating ${sdkName}`)
   } catch (error) {
-    console.log('Error in generateSdk: ', error);
+    console.error('Error in generateSdk: ', error);
   }
 }
 
-generateSdk();
+const generateSdkInBatch = () => {
+  const config = [
+    {
+      sdkName: 'GatewayV2',
+      url: 'https://develop.protocol.mygateway.xyz/graphql',
+    },
+    {
+      sdkName: 'GatewayV3',
+      url: 'https://v3-dev.protocol.mygateway.xyz/graphql',
+    },
+  ];
+  config.forEach(
+    async (c) => await generateSdk({ url: c.url, sdkName: c.sdkName }),
+  );
+};
+
+generateSdkInBatch();

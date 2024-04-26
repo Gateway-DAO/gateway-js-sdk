@@ -3,7 +3,7 @@ import {
   Sdk,
   dataModels_queryQueryVariables,
   FilterDataModelInput,
-} from '../../gatewaySdk';
+} from '../../gatewaySdk/sources/GatewayV2';
 import { errorHandler } from '../utils/errorHandler';
 import { isUUIDValid, validateObjectProperties } from '../utils/validators';
 

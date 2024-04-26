@@ -5,7 +5,7 @@ import {
   TransferMemberInput,
   UpdateOrganizationInput,
   organizations_queryQueryVariables,
-} from '../../gatewaySdk';
+} from '../../gatewaySdk/sources/GatewayV2';
 import { OrganizationIdentifierType } from '../types';
 
 import { errorHandler } from '../utils/errorHandler';

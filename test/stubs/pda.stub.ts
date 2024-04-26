@@ -1,4 +1,7 @@
-import { CreatePDAInput, PrivateDataAsset } from '../../gatewaySdk';
+import {
+  CreatePDAInput,
+  PrivateDataAsset,
+} from '../../gatewaySdk/sources/GatewayV2';
 import { UserIdentifierType } from '../../src/types';
 
 export const pdaStub = (overridePDA?: any): PrivateDataAsset => ({

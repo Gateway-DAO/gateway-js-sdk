@@ -6,7 +6,7 @@ import {
   receivedProofs_queryQueryVariables,
   sentProofsCount_queryQueryVariables,
   sentProofs_queryQueryVariables,
-} from '../../gatewaySdk';
+} from '../../gatewaySdk/sources/GatewayV2';
 import { errorHandler } from '../utils/errorHandler';
 import { isUUIDValid } from '../utils/validators';
 

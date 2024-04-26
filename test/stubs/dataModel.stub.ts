@@ -2,7 +2,7 @@ import {
   DataModel,
   CreateDataModelInput,
   DataModelsMetadata,
-} from '../../gatewaySdk';
+} from '../../gatewaySdk/sources/GatewayV2';
 
 export const dataModelStub = (
   overrideDataModel?: Partial<DataModel>,

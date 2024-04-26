@@ -1,4 +1,4 @@
-import { Auth } from '../../gatewaySdk';
+import { Auth } from '../../gatewaySdk/sources/GatewayV2';
 import { Chain } from '../../src/types';
 
 export const authStub = (overrideAuth?: any) => ({

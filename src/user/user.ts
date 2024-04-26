@@ -8,7 +8,7 @@ import {
   myPDACount_queryQueryVariables,
   myPDAs_queryQueryVariables,
   myTransactions_queryQueryVariables,
-} from '../../gatewaySdk';
+} from '../../gatewaySdk/sources/GatewayV2';
 import { UserIdentifierType } from '../types';
 import { errorHandler } from '../utils/errorHandler';
 import {

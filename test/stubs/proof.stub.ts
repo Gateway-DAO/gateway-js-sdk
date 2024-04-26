@@ -1,4 +1,7 @@
-import { Proof, createProof_mutationMutationVariables } from '../../gatewaySdk';
+import {
+  Proof,
+  createProof_mutationMutationVariables,
+} from '../../gatewaySdk/sources/GatewayV2';
 
 export const proofStub = (overrideProof?: any): Proof => ({
   id: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',

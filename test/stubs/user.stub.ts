@@ -1,4 +1,8 @@
-import { FinancialTransaction, User, Wallet } from '../../gatewaySdk';
+import {
+  FinancialTransaction,
+  User,
+  Wallet,
+} from '../../gatewaySdk/sources/GatewayV2';
 
 export const userStub = (overrideUser?: Partial<User>): User => ({
   id: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
