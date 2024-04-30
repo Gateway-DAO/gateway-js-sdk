@@ -1,29 +1,26 @@
-import {
-  Gateway,
-  OrganizationIdentifierType,
-  UserIdentifierType,
-} from './Gateway';
+import { Gateway } from './Gateway';
 
-const USER_GATEWAY_ID = 'sid';
+// const USER_GATEWAY_ID = 'sid';
 
-function generateRandomString() {
-  let result = '';
-  const characters =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const charactersLength = characters.length;
+// function generateRandomString() {
+//   let result = '';
+//   const characters =
+//     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+//   const charactersLength = characters.length;
 
-  for (let i = 0; i < 10; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
+//   for (let i = 0; i < 10; i++) {
+//     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+//   }
 
-  return result;
-}
+//   return result;
+// }
 
 const testMutationsAndQueries = async () => {
   const gatewayInstance = new Gateway({
-    apiKey: '',
+    apiKey: 'm9Y5ntNcTlwQ2LbRpYr6K_VhxJXuZJ6Q',
     token: '',
     url: 'https://develop.protocol.mygateway.xyz/graphql',
+    logging: true,
   });
   try {
     await gatewayInstance.user.me();

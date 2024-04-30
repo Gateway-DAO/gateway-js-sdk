@@ -1,9 +1,5 @@
 import { GraphQLClient } from 'graphql-request';
-import {
-  getSdk,
-  Sdk,
-  SdkFunctionWrapper,
-} from '../gatewaySdk/sources/GatewayV2';
+import { getSdk, Sdk } from '../gatewaySdk/sources/GatewayV2';
 import { Organization } from './organization/organization';
 import { Auth } from './auth/auth';
 import { PDA } from './pda/pda';
@@ -13,6 +9,8 @@ import { Request } from './request/request';
 import { DataModel } from './data-model/data-model';
 import { User } from './user/user';
 import { Transaction } from './transaction/transaction';
+import { checkVersion, clientTimingWrapper, urlsChecker } from './utils/helper';
+
 export {
   AuthType,
   Chain,
@@ -38,41 +36,26 @@ export class Gateway {
     apiKey,
     token,
     url,
+    logging = false,
   }: {
     apiKey: string;
     token: string;
     url: string;
+    logging?: boolean;
   }) {
     if (!apiKey) throw new Error('No apikey found!');
     if (!token) throw new Error('No token found!');
     if (!url) throw new Error('No url found!.Enter either testnet or prod');
 
-    const clientTimingWrapper: SdkFunctionWrapper = async <T>(
-      action: () => Promise<T>,
-      operationName: string,
-      operationType?: string,
-    ): Promise<T> => {
-      const startTime = new Date();
-      const result: any = await action();
-      console.log(
-        `${Object.keys(result)[0]} ${operationType} took (ms)`,
-        (new Date() as any) - (startTime as any),
-      );
-      return result;
-    };
+    urlsChecker(url);
 
-    const checkVersion = async () => {
-      const result = await (
-        await fetch('https://registry.npmjs.org/@gateway-dao/sdk/latest')
-      ).json();
-      console.log(result, result.version);
-    };
+    checkVersion();
 
     const client = new GraphQLClient(url, {
       headers: { Authorization: `Bearer ${token}`, 'X-Api-Key': apiKey },
     });
 
-    this.sdk = getSdk(client, clientTimingWrapper);
+    this.sdk = getSdk(client, logging ? clientTimingWrapper : undefined);
     this.pda = new PDA(this.sdk);
     this.dataRequestTemplate = new DataRequestTemplate(this.sdk);
     this.organization = new Organization(this.sdk);
