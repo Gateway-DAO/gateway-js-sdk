@@ -68,7 +68,7 @@ async function generateSdk({ url, sdkName }) {
       unifiedSchema,
       sdkName,
     });
-    console.log(`Done Generating ${sdkName}`)
+    console.log(`Done Generating ${sdkName}`);
   } catch (error) {
     console.error('Error in generateSdk: ', error);
   }
