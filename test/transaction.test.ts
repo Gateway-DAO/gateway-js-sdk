@@ -1,5 +1,5 @@
 import { Transaction } from '../src/transaction/transaction';
-import { getSdk } from '../gatewaySdk';
+import { getSdk } from '../gatewaySdk/sources/GatewayV2';
 import { TransactionMockService } from '../__mocks__/transaction.mock';
 import { transactionStub } from './stubs/transaction.stub';
 import { GraphQLClient } from 'graphql-request';

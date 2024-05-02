@@ -6,3 +6,4 @@ dist/
 coverage/
 .DS_STORE
 gatewaySdk/
+src/testing.ts

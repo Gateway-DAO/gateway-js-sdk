@@ -1,5 +1,5 @@
 import { GraphQLClient } from 'graphql-request';
-import { getSdk } from '../gatewaySdk';
+import { getSdk } from '../gatewaySdk/sources/GatewayV2';
 import { UserMockService } from '../__mocks__/user.mock';
 import { UserIdentifierType } from '../src/types';
 import { User } from '../src/user/user';

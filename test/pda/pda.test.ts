@@ -1,9 +1,10 @@
-import { PDAStatus } from '../src/types';
-import { PDA } from '../src/pda/pda';
-import { getSdk } from '../gatewaySdk';
-import { pdaCreateStub, pdaStub } from './stubs/pda.stub';
-import { PDAMockService } from '../__mocks__/pda.mock';
 import { GraphQLClient } from 'graphql-request';
+
+import { PDAStatus } from '../../src/types';
+import { PDA } from '../../src/pda/pda';
+import { getSdk } from '../../gatewaySdk/sources/GatewayV2';
+import { pdaCreateStub, pdaStub } from '../stubs/pda/pda.stub';
+import { PDAMockService } from '../../__mocks__/pda/pda.mock';
 
 let pda: PDA;
 

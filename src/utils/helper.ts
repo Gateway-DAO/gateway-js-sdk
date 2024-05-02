@@ -42,7 +42,15 @@ export const checkVersion = async () => {
   }
 };
 
-export const urlsChecker = (url: string): boolean => {
+export const parameterChecker = (
+  apiKey: string,
+  token: string,
+  url: string,
+): boolean => {
+  if (!apiKey) throw new Error('No apikey found!');
+  if (!token) throw new Error('No token found!');
+  if (!url)
+    throw new Error('No url found!.Use either sandbox or production url');
   const urls = [
     'https://protocol.mygateway.xyz/graphql',
     'https://sandbox.protocol.mygateway.xyz/graphql',
@@ -51,5 +59,5 @@ export const urlsChecker = (url: string): boolean => {
   ];
 
   if (urls.includes(url)) return true;
-  else throw new Error('No valid url found!');
+  else throw new Error('No valid url found!. Use sandbox or production url');
 };

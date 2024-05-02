@@ -1,5 +1,5 @@
 import { Proof } from '../src/proof/proof';
-import { getSdk } from '../gatewaySdk';
+import { getSdk } from '../gatewaySdk/sources/GatewayV2';
 import {
   proofStub,
   createProofMessage,
@@ -7,7 +7,7 @@ import {
   requestId,
 } from './stubs/proof.stub';
 import { ProofMockService } from '../__mocks__/proof.mock';
-import { pdaStub } from './stubs/pda.stub';
+import { pdaStub } from './stubs/pda/pda.stub';
 import { GraphQLClient } from 'graphql-request';
 
 let proof: Proof;

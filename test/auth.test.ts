@@ -3,7 +3,7 @@ import { AuthMockService } from '../__mocks__/auth.mock';
 import { authStub } from './stubs/auth.stub';
 import { AuthType } from '../src/types';
 import { GraphQLClient } from 'graphql-request';
-import { getSdk } from '../gatewaySdk';
+import { getSdk } from '../gatewaySdk/sources/GatewayV2';
 
 let auth: Auth;
 

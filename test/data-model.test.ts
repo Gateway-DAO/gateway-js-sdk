@@ -1,4 +1,4 @@
-import { getSdk } from '../gatewaySdk';
+import { getSdk } from '../gatewaySdk/sources/GatewayV2';
 import { DataModel } from '../src/data-model/data-model';
 import {
   dataModelCreateStub,

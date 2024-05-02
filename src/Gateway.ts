@@ -9,7 +9,11 @@ import { Request } from './request/request';
 import { DataModel } from './data-model/data-model';
 import { User } from './user/user';
 import { Transaction } from './transaction/transaction';
-import { checkVersion, clientTimingWrapper, urlsChecker } from './utils/helper';
+import {
+  checkVersion,
+  clientTimingWrapper,
+  parameterChecker,
+} from './utils/helper';
 
 export {
   AuthType,
@@ -43,11 +47,7 @@ export class Gateway {
     url: string;
     logging?: boolean;
   }) {
-    if (!apiKey) throw new Error('No apikey found!');
-    if (!token) throw new Error('No token found!');
-    if (!url) throw new Error('No url found!.Enter either testnet or prod');
-
-    urlsChecker(url);
+    parameterChecker(apiKey, token, url);
 
     checkVersion();
 

@@ -1,5 +1,5 @@
 import { GraphQLClient } from 'graphql-request';
-import { getSdk } from '../gatewaySdk';
+import { getSdk } from '../gatewaySdk/sources/GatewayV2';
 import { OrganizationMockService } from '../__mocks__/organization.mock';
 import { Organization } from '../src/organization/organization';
 import {

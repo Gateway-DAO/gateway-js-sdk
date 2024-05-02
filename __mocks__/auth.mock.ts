@@ -1,6 +1,6 @@
 import { Auth } from '../src/auth/auth';
 import { authStub } from '../test/stubs/auth.stub';
-import { pdaStub } from '../test/stubs/pda.stub';
+import { pdaStub } from '../test/stubs/pda/pda.stub';
 
 export const AuthMockService = (auth: Auth) => ({
   checkUsernameAvailabilityMock: jest
