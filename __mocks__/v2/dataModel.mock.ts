@@ -1,9 +1,9 @@
-import { DataModel } from '../src/data-model/data-model';
+import { DataModel } from '../../src/data-model/data-model';
 import {
   dataModelStub,
   dataModelMetaDataStub,
   dataModelCreateStub,
-} from '../test/stubs/dataModel.stub';
+} from '../../test/stubs/dataModel.stub';
 
 export const DataModelMockService = (dataModel: DataModel) => ({
   createDataModelMock: jest

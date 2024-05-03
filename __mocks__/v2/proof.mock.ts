@@ -1,5 +1,5 @@
-import { Proof } from '../src/proof/proof';
-import { proofStub, createProofMessage } from '../test/stubs/proof.stub';
+import { Proof } from '../../src/proof/proof';
+import { proofStub, createProofMessage } from '../../test/stubs/proof.stub';
 
 export const ProofMockService = (proof: Proof) => ({
   getProofMock: jest.spyOn(proof.sdk, 'proof_query').mockResolvedValue({

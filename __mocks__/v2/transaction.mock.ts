@@ -1,5 +1,5 @@
-import { Transaction } from '../src/transaction/transaction';
-import { transactionStub } from '../test/stubs/transaction.stub';
+import { Transaction } from '../../src/transaction/transaction';
+import { transactionStub } from '../../test/stubs/transaction.stub';
 
 export const TransactionMockService = (transaction: Transaction) => ({
   getTransactionCountMock: jest

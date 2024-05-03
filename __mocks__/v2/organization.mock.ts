@@ -1,10 +1,10 @@
-import { Organization } from '../src/organization/organization';
-import { OrganizationRole } from '../src/types';
+import { Organization } from '../../src/organization/organization';
+import { OrganizationRole } from '../../src/types';
 import {
   memberOrganizationStub,
   organizationStub,
-} from '../test/stubs/organization.stub';
-import { userStub } from '../test/stubs/user.stub';
+} from '../../test/stubs/organization.stub';
+import { userStub } from '../../test/stubs/user.stub';
 
 export const OrganizationMockService = (organization: Organization) => ({
   createOrganizationMock: jest

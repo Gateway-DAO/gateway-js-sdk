@@ -1,5 +1,5 @@
-import { DataRequestTemplate } from '../src/dataRequestsTemplate/dataRequestsTemplate';
-import { dataRequestTemplateStub } from '../test/stubs/dataRequestTemplate.stub';
+import { DataRequestTemplate } from '../../src/dataRequestsTemplate/dataRequestsTemplate';
+import { dataRequestTemplateStub } from '../../test/stubs/dataRequestTemplate.stub';
 
 export const DataRequestTemplateMockService = (
   dataRequestTemplate: DataRequestTemplate,

@@ -1,5 +1,5 @@
-import { Request } from '../src/request/request';
-import { requestStub } from '../test/stubs/request.stub';
+import { Request } from '../../src/request/request';
+import { requestStub } from '../../test/stubs/request.stub';
 
 export const RequestMockService = (request: Request) => ({
   createDataRequestMock: jest
