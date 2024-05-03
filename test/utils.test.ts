@@ -11,7 +11,7 @@ import {
   validateObjectProperties,
   validateSolanaWallet,
 } from '../src/utils/validators';
-import { authStub } from './stubs/auth.stub';
+import { authStub } from './stubs/v2/auth.stub';
 
 describe('UTILS TESTING', () => {
   it('error handler testing normal', () => {

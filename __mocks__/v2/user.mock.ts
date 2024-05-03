@@ -1,10 +1,10 @@
-import { User } from '../../src/user/user';
-import { transactionStub } from '../../test/stubs/transaction.stub';
+import { User } from '../../src/v2/user/user';
+import { transactionStub } from '../../test/stubs/v2/transaction.stub';
 import {
   financialTransactionsStub,
   userStub,
   walletStub,
-} from '../../test/stubs/user.stub';
+} from '../../test/stubs/v2/user.stub';
 
 export const UserMockService = (user: User) => ({
   meMock: jest.spyOn(user.sdk, 'me_query').mockResolvedValue({

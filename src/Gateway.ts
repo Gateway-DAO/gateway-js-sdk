@@ -1,14 +1,14 @@
 import { GraphQLClient } from 'graphql-request';
 import { getSdk, Sdk } from '../gatewaySdk/sources/GatewayV2';
-import { Organization } from './organization/organization';
-import { Auth } from './auth/auth';
-import { PDA } from './pda/pda';
-import { DataRequestTemplate } from './dataRequestsTemplate/dataRequestsTemplate';
-import { Proof } from './proof/proof';
-import { Request } from './request/request';
-import { DataModel } from './data-model/data-model';
-import { User } from './user/user';
-import { Transaction } from './transaction/transaction';
+import { Organization } from './v2/organization/organization';
+import { Auth } from './v2/auth/auth';
+import { PDA } from './v2/pda/pda';
+import { DataRequestTemplate } from './v2/dataRequestsTemplate/dataRequestsTemplate';
+import { Proof } from './v2/proof/proof';
+import { Request } from './v2/request/request';
+import { DataModel } from './v2/data-model/data-model';
+import { User } from './v2/user/user';
+import { Transaction } from './v2/transaction/transaction';
 import {
   checkVersion,
   clientTimingWrapper,

@@ -1,5 +1,5 @@
-import { PDA } from '../../src/pda/pda';
-import { pdaStub } from '../../test/stubs/pda/pda.stub';
+import { PDA } from '../../src/v2/pda/pda';
+import { pdaStub } from '../../test/stubs/v2/pda.stub';
 
 export const PDAMockService = (pda: PDA) => ({
   createPDAMock: jest.spyOn(pda.sdk, 'createPDA_mutation').mockResolvedValue({
