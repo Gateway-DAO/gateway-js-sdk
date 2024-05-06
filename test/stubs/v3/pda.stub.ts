@@ -1,8 +1,9 @@
 import {
   CreatePDAInput,
+  PDABody,
   PrivateDataAsset,
 } from '../../../gatewaySdk/sources/GatewayV3';
-import { UserIdentifierType } from '../../../src/types';
+import { UserIdentifierTypeV3 } from '../../../src/types';
 
 export const pdaStub = (overridePDA?: any): PrivateDataAsset => ({
   arweaveUrl: 'https://arweave.net/test',
@@ -11,16 +12,9 @@ export const pdaStub = (overridePDA?: any): PrivateDataAsset => ({
   issuanceDate: new Date('2021-01-01T12:00:00Z'),
   lastUpdated: new Date('2021-01-01T12:00:00Z'),
   status: 'Valid',
-  dataAsset: {
-    description: 'test',
-    title: 'test',
-    claim: { gatewayUse: 'test' },
-    expirationDate: new Date('2021-01-01T12:00:00Z'),
-    claimArray: [],
-    dataModel: {},
-    issuer: {},
-    owner: {},
-  },
+  cipher: '',
+  issuer: {},
+  owner: {},
   expirationDate: new Date('2021-01-01T12:00:00Z'),
   hash: '9c10c15ea609ca3598a35b551e2ebe4827e8fb99b5da8443c0cf84ff20872a1b',
   issuerHash:
@@ -30,6 +24,13 @@ export const pdaStub = (overridePDA?: any): PrivateDataAsset => ({
 });
 
 export const pdaCreateStub = (overridePDA?: any): CreatePDAInput => ({
+  data: pdaBodyData(),
+  signature: '0xadssada',
+  signingKey: '0xadssada',
+  ...overridePDA,
+});
+
+export const pdaBodyData = (overrideData?: any): any => ({
   dataModelId: 'f47ac10b-58cc-4372-a567-0e02b2c3d471',
   description: 'test',
   title: 'test',
@@ -37,9 +38,9 @@ export const pdaCreateStub = (overridePDA?: any): CreatePDAInput => ({
     gatewayUse: 'test',
   },
   owner: {
-    type: UserIdentifierType.GATEWAY_ID,
+    type: UserIdentifierTypeV3.USER_ID,
     value: 'sid',
   },
   expirationDate: new Date('2021-01-01T12:00:0'),
-  ...overridePDA,
+  ...overrideData,
 });

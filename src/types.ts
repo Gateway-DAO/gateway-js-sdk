@@ -6,6 +6,15 @@ export enum UserIdentifierType {
   USER_ID = 'USER_ID',
 }
 
+export enum UserIdentifierTypeV3 {
+  EMAIL = 'EMAIL',
+  EVM = 'EVM',
+  POK = 'POKT',
+  SOLANA = 'SOLANA',
+  USERNAME = 'USERNAME',
+  USER_DID = 'USER_DID',
+  USER_ID = 'USER_ID',
+}
 export enum PDAStatus {
   'Expired' = 'Expired',
   'Revoked' = 'Revoked',

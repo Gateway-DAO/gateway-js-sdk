@@ -3,7 +3,7 @@ import { GraphQLClient } from 'graphql-request';
 import { PDAStatus } from '../../src/types';
 import { PDA } from '../../src/v3/pda/pda';
 import { getSdk } from '../../gatewaySdk/sources/GatewayV3';
-import { pdaCreateStub, pdaStub } from '../stubs/v2/pda.stub';
+import { pdaBodyData, pdaCreateStub, pdaStub } from '../stubs/v3/pda.stub';
 import { PDAMockService } from '../../__mocks__/v3/pda.mock';
 
 let pda: PDA;
@@ -17,50 +17,50 @@ afterAll(() => {
 });
 
 describe('PDA SERVICE TESTING', () => {
-  //   it('pda create', async () => {
-  //     const { createPDAMock: createPDAMutationMock } = PDAMockService(pda);
+  it('pda create', async () => {
+    const { createPDAMock: createPDAMutationMock } = PDAMockService(pda);
 
-  //     const { createPDA } = await pda.createPDA(pdaCreateStub());
+    const { createPDA } = await pda.createPDA(pdaCreateStub());
 
-  //     expect(createPDA.id).toBe(pdaStub().id);
-  //     expect(createPDAMutationMock).toHaveBeenCalled();
-  //   });
+    expect(createPDA.id).toBe(pdaStub().id);
+    expect(createPDAMutationMock).toHaveBeenCalled();
+  });
 
-  //   it('pda create to throw error', async () => {
-  //     const { createPDAMock: createPDAMutationMock } = PDAMockService(pda);
+  it('pda create to throw error', async () => {
+    const { createPDAMock: createPDAMutationMock } = PDAMockService(pda);
 
-  //     expect(
-  //       async () => await pda.createPDA(pdaCreateStub({ title: '' })),
-  //     ).rejects.toThrow(' should be atleast 2 length');
+    expect(
+      async () => await pda.createPDA(pdaCreateStub({ title: '' })),
+    ).rejects.toThrow(' should be atleast 2 length');
 
-  //     expect(createPDAMutationMock).toHaveBeenCalled();
-  //   });
+    expect(createPDAMutationMock).toHaveBeenCalled();
+  });
 
-  //   it('pda update status', async () => {
-  //     const { changePDAStatusMock } = PDAMockService(pda);
+  it('pda update status', async () => {
+    const { changePDAStatusMock } = PDAMockService(pda);
 
-  //     const { changePDAStatus } = await pda.changePDAStatus({
-  //       id: pdaStub().id,
-  //       status: PDAStatus.Suspended,
-  //     });
+    const { changePDAStatus } = await pda.changePDAStatus({
+      id: pdaStub().id,
+      status: PDAStatus.Suspended,
+    });
 
-  //     expect(changePDAStatus.status).toEqual(PDAStatus.Suspended);
-  //     expect(changePDAStatusMock).toHaveBeenCalled();
-  //   });
+    expect(changePDAStatus.status).toEqual(PDAStatus.Suspended);
+    expect(changePDAStatusMock).toHaveBeenCalled();
+  });
 
-  //   it('pda update status to throw error', async () => {
-  //     const { changePDAStatusMock } = PDAMockService(pda);
+  it('pda update status to throw error', async () => {
+    const { changePDAStatusMock } = PDAMockService(pda);
 
-  //     expect(
-  //       async () =>
-  //         await pda.changePDAStatus({
-  //           id: pdaStub({ id: 'f17ac10b-58cc-4372-a567' }).id,
-  //           status: PDAStatus.Suspended,
-  //         }),
-  //     ).rejects.toThrow('');
+    expect(
+      async () =>
+        await pda.changePDAStatus({
+          id: pdaStub({ id: 'f17ac10b-58cc-4372-a567' }).id,
+          status: PDAStatus.Suspended,
+        }),
+    ).rejects.toThrow('');
 
-  //     expect(changePDAStatusMock).toHaveBeenCalled();
-  //   });
+    expect(changePDAStatusMock).toHaveBeenCalled();
+  });
 
   it('get pda', async () => {
     const { getPDAMock } = PDAMockService(pda);
@@ -71,79 +71,83 @@ describe('PDA SERVICE TESTING', () => {
     expect(getPDAMock).toHaveBeenCalled();
   });
 
-  //   it('get pda to throw error', async () => {
-  //     const { getPDAMock } = PDAMockService(pda);
+  it('get pda to throw error', async () => {
+    const { getPDAMock } = PDAMockService(pda);
 
-  //     expect(
-  //       async () => await pda.getPDA(pdaStub({ id: '' }).id),
-  //     ).rejects.toThrow('');
+    expect(
+      async () => await pda.getPDA(pdaStub({ id: '' }).id),
+    ).rejects.toThrow('');
 
-  //     expect(getPDAMock).toHaveBeenCalled();
-  //   });
+    expect(getPDAMock).toHaveBeenCalled();
+  });
 
-  //   it('pda count', async () => {
-  //     const { pdaCountMock } = PDAMockService(pda);
+  it('pda count', async () => {
+    const { pdaCountMock } = PDAMockService(pda);
 
-  //     const count = await pda.getPDACount();
+    const count = await pda.getPDACount();
 
-  //     expect(count).toBeGreaterThanOrEqual(0);
-  //     expect(pdaCountMock).toHaveBeenCalled();
-  //   });
+    expect(count).toBeGreaterThanOrEqual(0);
+    expect(pdaCountMock).toHaveBeenCalled();
+  });
 
-  //   it('pdas', async () => {
-  //     const { pdasMock } = PDAMockService(pda);
+  it('pdas', async () => {
+    const { pdasMock } = PDAMockService(pda);
 
-  //     const { PDAs } = await pda.getPDAs({
-  //       filter: { dataModelIds: [pdaCreateStub().dataModelId] },
-  //       skip: 0,
-  //       take: 10,
-  //     });
+    const { PDAs } = await pda.getPDAs({
+      filter: { dataModelIds: [pdaCreateStub().data.dataModelId!] },
+      skip: 0,
+      take: 10,
+    });
 
-  //     expect(PDAs.length).toBeGreaterThanOrEqual(0);
-  //     expect(pdasMock).toHaveBeenCalled();
-  //   });
+    expect(PDAs.length).toBeGreaterThanOrEqual(0);
+    expect(pdasMock).toHaveBeenCalled();
+  });
 
-  //   it('issued pdas count', async () => {
-  //     const { issuedCountPDAMock } = PDAMockService(pda);
+  it('issued pdas count', async () => {
+    const { issuedCountPDAMock } = PDAMockService(pda);
 
-  //     const count = await pda.getIssuedPDAsCount();
+    const count = await pda.getIssuedPDAsCount();
 
-  //     expect(count).toBeGreaterThanOrEqual(0);
-  //     expect(issuedCountPDAMock).toHaveBeenCalled();
-  //   });
+    expect(count).toBeGreaterThanOrEqual(0);
+    expect(issuedCountPDAMock).toHaveBeenCalled();
+  });
 
-  //   it('issued pdas', async () => {
-  //     const { issuedPDAMock } = PDAMockService(pda);
+  it('issued pdas', async () => {
+    const { issuedPDAMock } = PDAMockService(pda);
 
-  //     const { issuedPDAs } = await pda.getIssuedPDAs();
+    const { issuedPDAs } = await pda.getIssuedPDAs();
 
-  //     expect(issuedPDAs.length).toBeGreaterThanOrEqual(0);
-  //     expect(issuedPDAMock).toHaveBeenCalled();
-  //   });
+    expect(issuedPDAs.length).toBeGreaterThanOrEqual(0);
+    expect(issuedPDAMock).toHaveBeenCalled();
+  });
 
-  //   it('update pda', async () => {
-  //     const { updatePDAMock } = PDAMockService(pda);
+  it('update pda', async () => {
+    const { updatePDAMock } = PDAMockService(pda);
 
-  //     const { updatePDA } = await pda.updatePDA({
-  //       id: pdaStub().id,
-  //       title: pdaStub().dataAsset?.title,
-  //     });
+    const { updatePDA } = await pda.updatePDA({
+      data: pdaBodyData({ id: pdaStub().id }),
+      did: 'did:gatewayid:abc123',
+      signature:
+        '0x9ddccd4e4f97187334ec2ed980906c7adad096bd892a393243158c3acb6cf6d1',
+    });
 
-  //     expect(updatePDA.dataAsset?.title).toBe(pdaStub().dataAsset?.title);
-  //     expect(updatePDAMock).toHaveBeenCalled();
-  //   });
+    expect(updatePDA.id).toBe(pdaStub().id);
+    expect(updatePDAMock).toHaveBeenCalled();
+  });
 
-  //   it('update pda to throw error', async () => {
-  //     const { updatePDAMock } = PDAMockService(pda);
+  it('update pda to throw error', async () => {
+    const { updatePDAMock } = PDAMockService(pda);
 
-  //     expect(
-  //       async () =>
-  //         await pda.updatePDA({
-  //           id: pdaStub().id,
-  //           title: pdaCreateStub({ title: '' }).title,
-  //         }),
-  //     ).rejects.toThrow('');
+    expect(
+      async () =>
+        await pda.updatePDA({
+          data: pdaBodyData({ id: pdaStub().id }),
+          did: '',
+          signature:
+            '0x9ddccd4e4f97187334ec2ed980906c7adad096bd892a393243158c3acb6cf6d1',
+        }),
+    ).rejects.toThrow('');
 
-  //     expect(updatePDAMock).toHaveBeenCalled();
-  //   });
+    expect(updatePDAMock).toHaveBeenCalled();
+  });
 });
