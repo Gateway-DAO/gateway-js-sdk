@@ -6,6 +6,11 @@ export enum UserIdentifierType {
   USER_ID = 'USER_ID',
 }
 
+export enum SignCipherEnum {
+  ED25519 = 'ED25519',
+  SECP256K1 = 'SECP256K1',
+}
+
 export enum UserIdentifierTypeV3 {
   EMAIL = 'EMAIL',
   EVM = 'EVM',

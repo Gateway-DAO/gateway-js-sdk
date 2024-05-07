@@ -6,7 +6,7 @@ import {
   isStringValid,
   isUUIDValid,
   isValidUrl,
-  isWalletAddressvalid,
+  isWalletAddressValid,
   validateEtherumWallet,
   validateObjectProperties,
   validateSolanaWallet,
@@ -68,13 +68,13 @@ describe('UTILS TESTING', () => {
   });
 
   it('etherum & solana validator', () => {
-    const result = isWalletAddressvalid(
+    const result = isWalletAddressValid(
       '9aohAjd3okUogzGJT6N2cQUDwBbi2ay7oSzPPaQjQ22s',
       Chain.SOL,
     );
     expect(result).toBeDefined();
     expect(() =>
-      isWalletAddressvalid('f17ac10b-58cc-4372-a567-0e02b2c3d479', Chain.SOL),
+      isWalletAddressValid('f17ac10b-58cc-4372-a567-0e02b2c3d479', Chain.SOL),
     ).toThrow('Non-base58 character');
   });
 

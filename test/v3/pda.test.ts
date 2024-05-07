@@ -30,7 +30,7 @@ describe('PDA SERVICE TESTING', () => {
     const { createPDAMock: createPDAMutationMock } = PDAMockService(pda);
 
     expect(
-      async () => await pda.createPDA(pdaCreateStub({ title: '' })),
+      async () => await pda.createPDA(pdaCreateStub({ data: { title: '' } })),
     ).rejects.toThrow(' should be atleast 2 length');
 
     expect(createPDAMutationMock).toHaveBeenCalled();
@@ -40,8 +40,12 @@ describe('PDA SERVICE TESTING', () => {
     const { changePDAStatusMock } = PDAMockService(pda);
 
     const { changePDAStatus } = await pda.changePDAStatus({
-      id: pdaStub().id,
-      status: PDAStatus.Suspended,
+      data: {
+        id: pdaStub({ id: 'f47ac10b-58cc-4372-a567-0e02b2c3d479' }).id,
+        status: PDAStatus.Suspended,
+      },
+      signature: pdaCreateStub().signature,
+      signingKey: pdaCreateStub().signingKey,
     });
 
     expect(changePDAStatus.status).toEqual(PDAStatus.Suspended);
@@ -54,8 +58,12 @@ describe('PDA SERVICE TESTING', () => {
     expect(
       async () =>
         await pda.changePDAStatus({
-          id: pdaStub({ id: 'f17ac10b-58cc-4372-a567' }).id,
-          status: PDAStatus.Suspended,
+          data: {
+            id: pdaStub({ id: '' }).id,
+            status: PDAStatus.Suspended,
+          },
+          signature: pdaCreateStub().signature,
+          signingKey: pdaCreateStub().signingKey,
         }),
     ).rejects.toThrow('');
 

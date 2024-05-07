@@ -4,12 +4,21 @@ import {
   issuedPDAs_queryQueryVariables,
   PDACount_queryQueryVariables,
   PDAs_queryQueryVariables,
-  PDAStatus,
+  UpdatePDAStatusInput,
   Sdk,
   UpdatePDAInput,
 } from '../../../gatewaySdk/sources/GatewayV3';
+import { Chain } from '../../types';
 import { errorHandler } from '../../utils/errorHandler';
-import { isUUIDValid, validateObjectProperties } from '../../utils/validators';
+import {
+  isUUIDValid,
+  isWalletAddressValid,
+  validateObjectProperties,
+} from '../../utils/validators';
+
+// ask about helper functions like json encoder
+// about validating singature
+// about wallet type
 
 export class PDA {
   public sdk: Sdk;
@@ -100,10 +109,11 @@ export class PDA {
    * @param  - - `id`: The ID of the PDA  whose status needs to be changed.
    * @returns a Promise that resolves to a `changePDAStatus_mutationMutation` object.
    */
-  async changePDAStatus({ id, status }: { id: string; status: PDAStatus }) {
+  async changePDAStatus(input: UpdatePDAStatusInput) {
     try {
-      isUUIDValid(id);
-      return await this.sdk.changePDAStatus_mutation({ input: { id, status } });
+      validateObjectProperties(input.data);
+      isWalletAddressValid(input.signingKey, Chain.EVM);
+      return await this.sdk.changePDAStatus_mutation({ input });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -117,7 +127,8 @@ export class PDA {
    */
   async createPDA(pdaInput: CreatePDAInput) {
     try {
-      validateObjectProperties(pdaInput);
+      validateObjectProperties(pdaInput.data);
+      isWalletAddressValid(pdaInput.signingKey, Chain.EVM);
       return await this.sdk.createPDA_mutation({ input: pdaInput });
     } catch (error) {
       throw new Error(errorHandler(error));

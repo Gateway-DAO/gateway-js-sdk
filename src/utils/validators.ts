@@ -50,7 +50,7 @@ export const validateSolanaWallet = (wallet: string): boolean => {
   throw new Error(`${wallet} is invalid`);
 };
 
-export const isWalletAddressvalid = (wallet: string, chain: Chain): boolean => {
+export const isWalletAddressValid = (wallet: string, chain: Chain): boolean => {
   if (chain === Chain.EVM) {
     return validateEtherumWallet(wallet);
   } else if (chain === Chain.SOL) {
@@ -68,7 +68,7 @@ export const isDateValid = (date: string): boolean => {
   return true;
 };
 
-export const isDIDValud = (did: string): boolean => {
+export const isDIDValid = (did: string): boolean => {
   const didRegex = /^did:gatewayid:\w+$/;
   if (!didRegex.test(did)) throw new Error(`${did} is not valid did`);
 
@@ -80,8 +80,7 @@ export const validateObjectProperties = (obj: Record<string, any>): void => {
     if (typeof obj[key] === 'string') {
       try {
         if (key.toLocaleLowerCase() === 'did') {
-          // TODO did validation
-          isDIDValud(obj[key]);
+          isDIDValid(obj[key]);
         } else if (key.toLocaleLowerCase().includes('id')) {
           isUUIDValid(obj[key]);
         } else if (key.toLocaleLowerCase().includes('date')) {

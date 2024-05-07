@@ -4,6 +4,7 @@ import {
   PrivateDataAsset,
 } from '../../../gatewaySdk/sources/GatewayV3';
 import { UserIdentifierTypeV3 } from '../../../src/types';
+import { authStub } from './auth.stub';
 
 export const pdaStub = (overridePDA?: any): PrivateDataAsset => ({
   arweaveUrl: 'https://arweave.net/test',
@@ -26,7 +27,7 @@ export const pdaStub = (overridePDA?: any): PrivateDataAsset => ({
 export const pdaCreateStub = (overridePDA?: any): CreatePDAInput => ({
   data: pdaBodyData(),
   signature: '0xadssada',
-  signingKey: '0xadssada',
+  signingKey: authStub().wallet,
   ...overridePDA,
 });
 

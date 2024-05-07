@@ -8,7 +8,7 @@ import {
   isEmailValid,
   isStringValid,
   isUUIDValid,
-  isWalletAddressvalid,
+  isWalletAddressValid,
 } from '../../utils/validators';
 
 export class Auth {
@@ -19,7 +19,7 @@ export class Auth {
   }
 
   /**
-   * The function checks the availability of a username by making a async query to the SDK.
+   * The function checks the availability of a username by making a async query to the Gateway Protocol.
    * @param {string} username - The `username` parameter is a string that represents the username that
    * needs to be checked for availability.
    * @returns the result of the `checkUsernameAvailability` method, is a boolean
@@ -78,7 +78,7 @@ export class Auth {
    */
   async addWallet(wallet: string, chain: Chain) {
     try {
-      isWalletAddressvalid(wallet, chain);
+      isWalletAddressValid(wallet, chain);
       return (await this.sdk.addWallet_mutation({ input: { wallet, chain } }))
         .addWallet;
     } catch (error) {
@@ -113,7 +113,7 @@ export class Auth {
    */
   async createWalletNonce(wallet: string, chain: Chain) {
     try {
-      isWalletAddressvalid(wallet, chain);
+      isWalletAddressValid(wallet, chain);
       return (
         await this.sdk.createWalletNonce_mutation({ input: { wallet, chain } })
       ).createWalletNonce;
@@ -160,7 +160,7 @@ export class Auth {
    */
   async loginWallet(wallet: string, chain: Chain, signature: string) {
     try {
-      isWalletAddressvalid(wallet, chain);
+      isWalletAddressValid(wallet, chain);
       isStringValid(signature);
       return (
         await this.sdk.loginWallet_mutation({
