@@ -1,8 +1,10 @@
 #!/bin/sh
 
-files="dist/gatewaySdk/sources/*.js dist/gatewaySdk/src/*.js"
 
-for file in $files; do
+cd "dist/"
+
+find . -type f -name "*.js" | while read -r file; do
+    echo "Processing file: $file"
     uglifyjs "$file" -o "$file"
 done
 
