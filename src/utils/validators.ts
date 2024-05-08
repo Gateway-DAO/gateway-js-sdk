@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 import { PublicKey } from '@solana/web3.js';
 import { Chain } from '../types';
 import { STRING_VALIDATION_LENGTH } from './constants';
+import { FilterPDAInput } from '../../gatewaySdk/sources/GatewayV3';
 
 export const isEmailValid = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -90,5 +91,18 @@ export const validateObjectProperties = (obj: Record<string, any>): void => {
         throw error;
       }
     }
+  }
+};
+
+export const validatePDAFilter = (filter: FilterPDAInput) => {
+  try {
+    if (filter.dataModelIds) {
+      filter.dataModelIds.map((id) => isUUIDValid(id));
+    }
+    if (filter.ids) {
+      filter.ids.map((id) => isUUIDValid(id));
+    }
+  } catch (error) {
+    throw error;
   }
 };

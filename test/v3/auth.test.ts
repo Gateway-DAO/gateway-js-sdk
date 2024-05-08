@@ -4,6 +4,7 @@ import { getSdk } from '../../gatewaySdk/sources/GatewayV3';
 import { AuthMockService } from '../../__mocks__/v3/auth.mock';
 import { authStub } from '../stubs/v3/auth.stub';
 import { Auth } from '../../src/v3/auth/auth';
+import { SignCipherEnum } from '../../src/types';
 
 let auth: Auth;
 
@@ -100,6 +101,19 @@ describe('AUTH SERVICE TESTING', () => {
     expect(createUserMock).toHaveBeenCalled();
   });
 
+  it('create user to throw wrong wallet error', async () => {
+    const { createUserMock } = AuthMockService(auth);
+
+    expect(async () => {
+      await auth.createUser({
+        signature: authStub().signature,
+        signingKey: authStub().wallet,
+        signingCipher: SignCipherEnum.ED25519,
+      });
+    }).rejects.toThrow('');
+    expect(createUserMock).toHaveBeenCalled();
+  });
+
   it('generate nonce', async () => {
     const { generateNonceMock } = AuthMockService(auth);
 
@@ -115,6 +129,15 @@ describe('AUTH SERVICE TESTING', () => {
     expect(async () => {
       await auth.generateNonce(authStub({ wallet: '' }).wallet);
     }).rejects.toThrow(` is invalid`);
+    expect(generateNonceMock).toHaveBeenCalled();
+  });
+
+  it('generate nonce to throw wrong wallet error', async () => {
+    const { generateNonceMock } = AuthMockService(auth);
+
+    expect(async () => {
+      await auth.generateNonce(authStub().wallet, SignCipherEnum.ED25519);
+    }).rejects.toThrow('');
     expect(generateNonceMock).toHaveBeenCalled();
   });
 
@@ -139,6 +162,19 @@ describe('AUTH SERVICE TESTING', () => {
         signingKey: authStub().wallet,
       });
     }).rejects.toThrow(` should be atleast 2 length`);
+    expect(refreshTokenMock).toHaveBeenCalled();
+  });
+
+  it('refresh token to throw wrong wallet error', async () => {
+    const { refreshTokenMock } = AuthMockService(auth);
+
+    expect(async () => {
+      await auth.refreshToken({
+        signature: authStub().signature,
+        signingKey: authStub().wallet,
+        cipher: 'ED25519',
+      });
+    }).rejects.toThrow('');
     expect(refreshTokenMock).toHaveBeenCalled();
   });
 });

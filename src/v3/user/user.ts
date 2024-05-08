@@ -1,6 +1,6 @@
 import { UserIdentifierTypeV3 } from '../../types';
 import { errorHandler } from '../../utils/errorHandler';
-import { isStringValid } from '../../utils/validators';
+import { isStringValid, validatePDAFilter } from '../../utils/validators';
 import {
   FilterDataModelInput,
   myActivities_queryQueryVariables,
@@ -62,6 +62,7 @@ export class User {
    */
   async myPDACount(filter?: myPDACount_queryQueryVariables) {
     try {
+      if (filter?.filter) validatePDAFilter(filter.filter);
       return (await this.sdk.myPDACount_query(filter)).myPDACount;
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -74,9 +75,10 @@ export class User {
    * @param {myPDAs_queryQueryVariables}  - - `filter`: An object that contains filter criteria for the query.
    * @returns a Promise that resolves to a value of type `myPDAs_queryQuery`.
    */
-  async myPDAs(variables?: myPDAs_queryQueryVariables) {
+  async myPDAs(filter?: myPDAs_queryQueryVariables) {
     try {
-      return await this.sdk.myPDAs_query(variables);
+      if (filter?.filter) validatePDAFilter(filter.filter);
+      return await this.sdk.myPDAs_query(filter);
     } catch (error) {
       throw new Error(errorHandler(error));
     }

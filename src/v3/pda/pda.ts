@@ -14,6 +14,7 @@ import {
   isUUIDValid,
   isWalletAddressValid,
   validateObjectProperties,
+  validatePDAFilter,
 } from '../../utils/validators';
 
 // secp256k1=evm by default
@@ -52,6 +53,7 @@ export class PDA {
    */
   async getPDACount(filter?: PDACount_queryQueryVariables) {
     try {
+      if (filter?.filter) validatePDAFilter(filter.filter);
       return (await this.sdk.PDACount_query(filter)).PDACount;
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -66,6 +68,7 @@ export class PDA {
    */
   async getPDAs(variables?: PDAs_queryQueryVariables) {
     try {
+      if (variables?.filter) validatePDAFilter(variables.filter);
       return await this.sdk.PDAs_query(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -81,6 +84,7 @@ export class PDA {
    */
   async getIssuedPDAs(variables?: issuedPDAs_queryQueryVariables) {
     try {
+      if (variables?.filter) validatePDAFilter(variables.filter);
       return await this.sdk.issuedPDAs_query(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -96,6 +100,7 @@ export class PDA {
    */
   async getIssuedPDAsCount(filter?: FilterPDAInput) {
     try {
+      if (filter) validatePDAFilter(filter);
       return (await this.sdk.issuedPDAsCount_query({ filter })).issuedPDAsCount;
     } catch (error) {
       throw new Error(errorHandler(error));

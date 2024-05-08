@@ -18,5 +18,6 @@ export const authStub = (overrideAuth?: any) => ({
   jwt: 'eyJhsGciOiJIUzI1NiIsInR5cCI6IkpXVC19.eyAkaW',
   did: 'did:gatewayid:abc123',
   cipher: 'a86d21a712aebd1e6d5a4cb02a6a4a30f41e319a670b401c0bf0fc04c617e0f1',
+  solanaWallet: '8dsy95biKJu8kJNLfRibdEy4BWmChf7q42vsjceatLGL',
   ...overrideAuth,
 });

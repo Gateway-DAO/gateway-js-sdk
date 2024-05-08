@@ -1,7 +1,7 @@
 import { GraphQLClient } from 'graphql-request';
 import { getSdk } from '../../gatewaySdk/sources/GatewayV3';
 import { User } from '../../src/v3/user/user';
-import { userStub } from '../stubs/v3/user.stub';
+import { invalidUUID, userStub } from '../stubs/v3/user.stub';
 import { UserMockService } from '../../__mocks__/v3/user.mock';
 import { UserIdentifierType, UserIdentifierTypeV3 } from '../../src/types';
 
@@ -62,6 +62,17 @@ describe('USER SERVICE TESTING', () => {
     expect(myPDACountMock).toHaveBeenCalled();
   });
 
+  it('my pdas count to throw error', async () => {
+    const { myPDACountMock } = UserMockService(user);
+
+    expect(
+      async () =>
+        await user.myPDACount({ filter: { dataModelIds: [invalidUUID] } }),
+    ).rejects.toThrow(`${invalidUUID} is not valid uuid`);
+
+    expect(myPDACountMock).toHaveBeenCalled();
+  });
+
   it('my pdas', async () => {
     const { myPDAsMock } = UserMockService(user);
 
@@ -71,6 +82,17 @@ describe('USER SERVICE TESTING', () => {
     });
 
     expect(myPDAs.length).toBeGreaterThanOrEqual(0);
+    expect(myPDAsMock).toHaveBeenCalled();
+  });
+
+  it('my pdas to throw error', async () => {
+    const { myPDAsMock } = UserMockService(user);
+
+    expect(
+      async () =>
+        await user.myPDAs({ filter: { dataModelIds: [invalidUUID] } }),
+    ).rejects.toThrow(`${invalidUUID} is not valid uuid`);
+
     expect(myPDAsMock).toHaveBeenCalled();
   });
 

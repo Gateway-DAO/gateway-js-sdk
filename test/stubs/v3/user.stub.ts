@@ -41,3 +41,5 @@ export const activitiesStub = (): Activity[] => {
     },
   ];
 };
+
+export const invalidUUID = '111';
