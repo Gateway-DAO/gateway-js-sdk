@@ -5,9 +5,11 @@ import {
   clientTimingWrapper,
   parameterChecker,
 } from './utils/helper';
+import { PDA } from './v3/pda/pda';
 
 export class GatewayV3 {
   private sdk: Sdk;
+  private pda: PDA;
 
   constructor({
     apiKey,
@@ -29,5 +31,6 @@ export class GatewayV3 {
     });
 
     this.sdk = getSdk(client, logging ? clientTimingWrapper : undefined);
+    this.pda = new PDA(this.sdk);
   }
 }

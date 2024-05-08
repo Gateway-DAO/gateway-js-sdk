@@ -5,6 +5,7 @@ import { PDA } from '../../src/v3/pda/pda';
 import { getSdk } from '../../gatewaySdk/sources/GatewayV3';
 import { pdaBodyData, pdaCreateStub, pdaStub } from '../stubs/v3/pda.stub';
 import { PDAMockService } from '../../__mocks__/v3/pda.mock';
+import { authStub } from '../stubs/v3/auth.stub';
 
 let pda: PDA;
 
@@ -134,9 +135,8 @@ describe('PDA SERVICE TESTING', () => {
 
     const { updatePDA } = await pda.updatePDA({
       data: pdaBodyData({ id: pdaStub().id }),
-      did: 'did:gatewayid:abc123',
-      signature:
-        '0x9ddccd4e4f97187334ec2ed980906c7adad096bd892a393243158c3acb6cf6d1',
+      did: authStub().did,
+      signature: authStub().signature,
     });
 
     expect(updatePDA.id).toBe(pdaStub().id);

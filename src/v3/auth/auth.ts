@@ -83,7 +83,13 @@ export class Auth {
     signingCipher?: SignCipherEnum;
   }) {
     try {
-      isWalletAddressValid(signingKey, Chain.EVM);
+      let chain: Chain;
+      if (signingCipher === undefined) {
+        chain = Chain.EVM;
+      } else if (signingCipher === SignCipherEnum.ED25519) {
+        chain = Chain.SOL;
+      } else chain = Chain.EVM;
+      isWalletAddressValid(signingKey, chain);
       isStringValid(signature);
       return (
         await this.sdk.createUser_mutation({
@@ -105,7 +111,13 @@ export class Auth {
    */
   async generateNonce(wallet: string, cipher?: SignCipherEnum) {
     try {
-      isWalletAddressValid(wallet, Chain.EVM);
+      let chain: Chain;
+      if (cipher === undefined) {
+        chain = Chain.EVM;
+      } else if (cipher === SignCipherEnum.ED25519) {
+        chain = Chain.SOL;
+      } else chain = Chain.EVM;
+      isWalletAddressValid(wallet, chain);
       return await this.sdk.generateNonce_mutation({
         input: { wallet, cipher },
       });
@@ -121,7 +133,13 @@ export class Auth {
    */
   async refreshToken(input: SignedWalletNonceInput) {
     try {
-      isWalletAddressValid(input.signingKey, Chain.EVM);
+      let chain: Chain;
+      if (input.cipher === undefined) {
+        chain = Chain.EVM;
+      } else if (input.cipher === SignCipherEnum.ED25519) {
+        chain = Chain.SOL;
+      } else chain = Chain.EVM;
+      isWalletAddressValid(input.signingKey, chain);
       isStringValid(input.signature);
       return (await this.sdk.refreshToken_mutation({ input })).refreshToken;
     } catch (error) {

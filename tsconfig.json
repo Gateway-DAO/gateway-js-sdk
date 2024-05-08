@@ -11,11 +11,6 @@
     "allowJs": true,
     "typeRoots": ["./typings", "./node_modules/@types/"],
     "outDir": "./dist/",
-    "declaration": true,
-    "paths": {
-      "@/*": ["./src/*"],
-      "@gatewaySdk/*": ["./gatewaySdk/sources/*"]
-    },
-    "allowSyntheticDefaultImports": true
+    "declaration": true,   
   }
 }

@@ -8,7 +8,7 @@ import {
   Sdk,
   UpdatePDAInput,
 } from '../../../gatewaySdk/sources/GatewayV3';
-import { Chain } from '../../types';
+import { Chain, SignCipherEnum } from '../../types';
 import { errorHandler } from '../../utils/errorHandler';
 import {
   isUUIDValid,
@@ -16,9 +16,8 @@ import {
   validateObjectProperties,
 } from '../../utils/validators';
 
-// ask about helper functions like json encoder
-// about validating singature
-// about wallet type
+// secp256k1=evm by default
+// Ed25519=solana
 
 export class PDA {
   public sdk: Sdk;
@@ -111,8 +110,14 @@ export class PDA {
    */
   async changePDAStatus(input: UpdatePDAStatusInput) {
     try {
+      let chain: Chain;
+      if (input.signingCipher === undefined) {
+        chain = Chain.EVM;
+      } else if (input.signingCipher === SignCipherEnum.ED25519) {
+        chain = Chain.SOL;
+      } else chain = Chain.EVM;
       validateObjectProperties(input.data);
-      isWalletAddressValid(input.signingKey, Chain.EVM);
+      isWalletAddressValid(input.signingKey, chain);
       return await this.sdk.changePDAStatus_mutation({ input });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -127,8 +132,14 @@ export class PDA {
    */
   async createPDA(pdaInput: CreatePDAInput) {
     try {
+      let chain: Chain;
+      if (pdaInput.signingCipher === undefined) {
+        chain = Chain.EVM;
+      } else if (pdaInput.signingCipher === SignCipherEnum.ED25519) {
+        chain = Chain.SOL;
+      } else chain = Chain.EVM;
       validateObjectProperties(pdaInput.data);
-      isWalletAddressValid(pdaInput.signingKey, Chain.EVM);
+      isWalletAddressValid(pdaInput.signingKey, chain);
       return await this.sdk.createPDA_mutation({ input: pdaInput });
     } catch (error) {
       throw new Error(errorHandler(error));
