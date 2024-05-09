@@ -11,6 +11,8 @@ import {
 import { Chain, SignCipherEnum } from '../../types';
 import { errorHandler } from '../../utils/errorHandler';
 import {
+  isDIDValid,
+  isStringValid,
   isUUIDValid,
   isWalletAddressValid,
   validateObjectProperties,
@@ -162,7 +164,9 @@ export class PDA {
    */
   async updatePDA(updatedPDA: UpdatePDAInput) {
     try {
-      validateObjectProperties(updatedPDA);
+      validateObjectProperties(updatedPDA.data);
+      isDIDValid(updatedPDA.did);
+      isStringValid(updatedPDA.signature);
       return await this.sdk.updatePDA_mutation({ input: updatedPDA });
     } catch (error) {
       throw new Error(errorHandler(error));
