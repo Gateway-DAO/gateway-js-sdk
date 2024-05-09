@@ -34,6 +34,16 @@ export class Proof {
     }
   }
 
+  /**
+   * The function `createProof` asynchronously calls the `createProof_mutation` method with input
+   * variables and handles any errors that occur.
+   * @param {CreateProofInput} inputVariables - The `inputVariables` parameter in the `createProof`
+   * function is of type `CreateProofInput`. This parameter likely contains the necessary data or
+   * variables required to create a proof using the `sdk.createProof_mutation` method. The function is an
+   * asynchronous function that awaits the result of the `sdk
+   * @returns The `createProof` function is returning the result of the `this.sdk.createProof_mutation({
+   * input: inputVariables })` call after awaiting its completion.
+   */
   async createProof(inputVariables: CreateProofInput) {
     try {
       return await this.sdk.createProof_mutation({ input: inputVariables });
