@@ -99,4 +99,50 @@ export class DataModel {
       throw new Error(errorHandler(error));
     }
   }
+
+  /**
+   * The function `getIssuersByDataModel` retrieves issuers based on a given data model ID using an SDK.
+   * @param {string} id - A string representing the ID of the data model.
+   * @returns the result of the `issuersByDataModel_query` method call.
+   */
+  async getIssuersByDataModel(id: string) {
+    try {
+      isUUIDValid(id);
+      return await this.sdk.issuersByDataModel_query({ id: id });
+    } catch (error: any) {
+      throw new Error(errorHandler(error));
+    }
+  }
+
+  /**
+   * The function `getIssuersByDataModelCount` retrieves the count of issuers based on a given data model
+   * ID.
+   * @param {string} dataModelId - The dataModelId parameter is a string that represents the ID of a data
+   * model.
+   * @returns the result of the `issuersByDataModelCount_query` method call.
+   */
+  async getIssuersByDataModelCount(dataModelId: string) {
+    try {
+      isUUIDValid(dataModelId);
+      return await this.sdk.issuersByDataModelCount_query({ id: dataModelId });
+    } catch (error: any) {
+      throw new Error(errorHandler(error));
+    }
+  }
+
+  /**
+   * The function `getTotalofIssuersByDataModel` retrieves the total number of issuers based on a given
+   * data model ID.
+   * @param {string} dataModelId - The dataModelId parameter is a string that represents the identifier
+   * of a data model. It is used to query the total number of issuers associated with that data model.
+   * @returns the result of the `getTotalofIssuersByDataModel_query` method call.
+   */
+  async getTotalofIssuersByDataModel(dataModelId: string) {
+    try {
+      isUUIDValid(dataModelId);
+      return await this.sdk.getTotalofIssuersByDataModel_query({ dataModelId });
+    } catch (error: any) {
+      throw new Error(errorHandler(error));
+    }
+  }
 }
