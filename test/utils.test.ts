@@ -6,12 +6,13 @@ import {
   isStringValid,
   isUUIDValid,
   isValidUrl,
-  isWalletAddressvalid,
+  isWalletAddressValid,
   validateEtherumWallet,
   validateObjectProperties,
+  validatePDAFilter,
   validateSolanaWallet,
 } from '../src/utils/validators';
-import { authStub } from './stubs/auth.stub';
+import { authStub } from './stubs/v2/auth.stub';
 
 describe('UTILS TESTING', () => {
   it('error handler testing normal', () => {
@@ -68,13 +69,13 @@ describe('UTILS TESTING', () => {
   });
 
   it('etherum & solana validator', () => {
-    const result = isWalletAddressvalid(
+    const result = isWalletAddressValid(
       '9aohAjd3okUogzGJT6N2cQUDwBbi2ay7oSzPPaQjQ22s',
       Chain.SOL,
     );
     expect(result).toBeDefined();
     expect(() =>
-      isWalletAddressvalid('f17ac10b-58cc-4372-a567-0e02b2c3d479', Chain.SOL),
+      isWalletAddressValid('f17ac10b-58cc-4372-a567-0e02b2c3d479', Chain.SOL),
     ).toThrow('Non-base58 character');
   });
 
@@ -109,5 +110,23 @@ describe('UTILS TESTING', () => {
     };
     const result = validateObjectProperties(sampleObject);
     expect(result).toBeUndefined();
+  });
+
+  it('validate v3 pda filter data model filter', async () => {
+    let samplePDAFilter = {
+      dataModelIds: ['111'],
+    };
+    expect(
+      async () => await validatePDAFilter(samplePDAFilter),
+    ).rejects.toThrow('111 is not valid uuid');
+  });
+
+  it('validate v3 pda filter ids filter', async () => {
+    let samplePDAFilter = {
+      ids: ['111'],
+    };
+    expect(
+      async () => await validatePDAFilter(samplePDAFilter),
+    ).rejects.toThrow('111 is not valid uuid');
   });
 });

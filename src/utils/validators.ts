@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 import { PublicKey } from '@solana/web3.js';
 import { Chain } from '../types';
 import { STRING_VALIDATION_LENGTH } from './constants';
+import { FilterPDAInput } from '../../gatewaySdk/sources/GatewayV3';
 
 export const isEmailValid = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -28,7 +29,7 @@ export const isValidUrl = (url: string): boolean => {
 export const isUUIDValid = (uuid: string): boolean => {
   const uuidRegex =
     /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
-  if (!uuidRegex.test(uuid)) throw new Error(`${uuid} is not valid`);
+  if (!uuidRegex.test(uuid)) throw new Error(`${uuid} is not valid uuid`);
   return true;
 };
 
@@ -50,7 +51,7 @@ export const validateSolanaWallet = (wallet: string): boolean => {
   throw new Error(`${wallet} is invalid`);
 };
 
-export const isWalletAddressvalid = (wallet: string, chain: Chain): boolean => {
+export const isWalletAddressValid = (wallet: string, chain: Chain): boolean => {
   if (chain === Chain.EVM) {
     return validateEtherumWallet(wallet);
   } else if (chain === Chain.SOL) {
@@ -63,8 +64,15 @@ export const isWalletAddressvalid = (wallet: string, chain: Chain): boolean => {
 export const isDateValid = (date: string): boolean => {
   const parsedDate = new Date(date);
   if (isNaN(parsedDate.getTime())) {
-    throw new Error(`${date} is not valid`);
+    throw new Error(`${date} is not valid date`);
   }
+  return true;
+};
+
+export const isDIDValid = (did: string): boolean => {
+  const didRegex = /^did:gatewayid:\w+$/;
+  if (!didRegex.test(did)) throw new Error(`${did} is not valid did`);
+
   return true;
 };
 
@@ -72,15 +80,29 @@ export const validateObjectProperties = (obj: Record<string, any>): void => {
   for (const key in obj) {
     if (typeof obj[key] === 'string') {
       try {
-        if (key.toLocaleLowerCase().includes('id')) {
+        if (key.toLocaleLowerCase() === 'did') {
+          isDIDValid(obj[key]);
+        } else if (key.toLocaleLowerCase().includes('id')) {
           isUUIDValid(obj[key]);
-        }
-        if (key.toLocaleLowerCase().includes('date')) {
+        } else if (key.toLocaleLowerCase().includes('date')) {
           isDateValid(obj[key]);
         } else isStringValid(obj[key]);
       } catch (error) {
         throw error;
       }
     }
+  }
+};
+
+export const validatePDAFilter = (filter: FilterPDAInput) => {
+  try {
+    if (filter.dataModelIds) {
+      filter.dataModelIds.map((id) => isUUIDValid(id));
+    }
+    if (filter.ids) {
+      filter.ids.map((id) => isUUIDValid(id));
+    }
+  } catch (error) {
+    throw error;
   }
 };
