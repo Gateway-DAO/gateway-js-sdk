@@ -11,7 +11,13 @@ import { invalidUUID } from '../stubs/v3/user.stub';
 let pda: PDA;
 
 beforeAll(() => {
-  pda = new PDA(getSdk(new GraphQLClient('')));
+  pda = new PDA(
+    getSdk(new GraphQLClient('')),
+    'sample-url',
+    'sample-api-key',
+    'sample-auth-token',
+  );
+  global.fetch = jest.fn();
 });
 
 afterAll(() => {
@@ -108,16 +114,6 @@ describe('PDA SERVICE TESTING', () => {
     const { PDA } = await pda.getPDA(pdaStub().id);
 
     expect(PDA?.id).toEqual(pdaStub().id);
-    expect(getPDAMock).toHaveBeenCalled();
-  });
-
-  it('get pda to throw error', async () => {
-    const { getPDAMock } = PDAMockService(pda);
-
-    expect(
-      async () => await pda.getPDA(pdaStub({ id: '' }).id),
-    ).rejects.toThrow('');
-
     expect(getPDAMock).toHaveBeenCalled();
   });
 
@@ -232,5 +228,18 @@ describe('PDA SERVICE TESTING', () => {
     ).rejects.toThrow('');
 
     expect(updatePDAMock).toHaveBeenCalled();
+  });
+
+  it('non structured pda', async () => {
+    const mockData = { data: 'Mocked data' };
+
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValueOnce(mockData),
+    });
+
+    const data = await pda.uploadFilePDA('test/v3/hello.txt', 1);
+    console.log(data);
+    expect(data).toEqual(mockData);
+    expect(fetch).toHaveBeenCalledTimes(1);
   });
 });

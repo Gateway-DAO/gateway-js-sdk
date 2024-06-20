@@ -1,3 +1,5 @@
+import { promises as fs } from 'fs';
+
 import {
   CreatePDAInput,
   FilterPDAInput,
@@ -13,20 +15,22 @@ import { errorHandler } from '../../utils/errorHandler';
 import {
   isDIDValid,
   isStringValid,
-  isUUIDValid,
   isWalletAddressValid,
   validateObjectProperties,
   validatePDAFilter,
 } from '../../utils/validators';
 
-// secp256k1=evm by default
-// Ed25519=solana
-
 export class PDA {
   public sdk: Sdk;
+  private url: string;
+  private apiKey: string;
+  private authToken: string;
 
-  constructor(sdk: Sdk) {
+  constructor(sdk: Sdk, url: string, apiKey: string, token: string) {
     this.sdk = sdk;
+    this.url = url;
+    this.apiKey = apiKey;
+    this.authToken = token;
   }
 
   /**
@@ -36,9 +40,8 @@ export class PDA {
    * want to query.
    * @returns The function `getPda` is returning a Promise that resolves to a `PDA_queryQuery` object.
    */
-  async getPDA(id: string) {
+  async getPDA(id: number) {
     try {
-      isUUIDValid(id);
       return await this.sdk.PDA_query({ id });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -170,6 +173,26 @@ export class PDA {
       return await this.sdk.updatePDA_mutation({ input: updatedPDA });
     } catch (error) {
       throw new Error(errorHandler(error));
+    }
+  }
+
+  async uploadFilePDA(filePath: string, pdaId: number) {
+    try {
+      const file = await fs.readFile(filePath, { encoding: 'base64' });
+      const formData = new FormData();
+      formData.append('pdaId', BigInt(pdaId).toString());
+      formData.append('file', file);
+      return fetch(this.url, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'x-api-key': this.apiKey,
+          Authorization: `Bearer ${this.authToken}`,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      throw new Error('File Upload failed!');
     }
   }
 }

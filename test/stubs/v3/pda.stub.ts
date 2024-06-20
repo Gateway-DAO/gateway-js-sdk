@@ -9,7 +9,7 @@ import { authStub } from './auth.stub';
 export const pdaStub = (overridePDA?: any): PrivateDataAsset => ({
   arweaveUrl: 'https://arweave.net/test',
   claimHash: '3e0e527bfcdf531ac7e7333f57f9b8eb7a7cf7388c92920b35c778df1f98673b',
-  id: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
+  id: 1,
   issuanceDate: new Date('2021-01-01T12:00:00Z'),
   lastUpdated: new Date('2021-01-01T12:00:00Z'),
   status: 'Valid',

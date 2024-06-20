@@ -55,3 +55,10 @@ export enum Chain {
   EVM = 'EVM',
   SOL = 'SOL',
 }
+
+export type EncryptedAESCipher = {
+  aesBlob: string;
+  keyBlobs: Record<string, string>;
+  iv: string;
+  tag: string;
+};

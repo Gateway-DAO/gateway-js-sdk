@@ -47,10 +47,11 @@ export const parameterChecker = (
   token: string,
   url: string,
 ): boolean => {
-  if (!apiKey) throw new Error('No apikey found!');
+  if (!apiKey) throw new Error('No api Key found!');
   if (!token) throw new Error('No token found!');
   if (!url)
     throw new Error('No url found!.Use either sandbox or production url');
+
   const urls = [
     'https://protocol.mygateway.xyz/graphql',
     'https://sandbox.protocol.mygateway.xyz/graphql',

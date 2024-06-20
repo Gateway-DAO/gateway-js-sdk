@@ -39,11 +39,11 @@ export class GatewayV3 {
     checkVersion();
 
     const client = new GraphQLClient(url, {
-      headers: { Authorization: `Bearer ${token}`, 'X-Api-Key': apiKey },
+      headers: { Authorization: `Bearer ${token}`, 'x-api-key': apiKey },
     });
 
     this.sdk = getSdk(client, logging ? clientTimingWrapper : undefined);
-    this.pda = new PDA(this.sdk);
+    this.pda = new PDA(this.sdk, url, apiKey, token);
     this.auth = new Auth(this.sdk);
     this.dataModel = new DataModel(this.sdk);
     this.organization = new Organization(this.sdk);

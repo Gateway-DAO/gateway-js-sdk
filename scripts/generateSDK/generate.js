@@ -75,7 +75,7 @@ async function generateSdk({ url, sdkName }) {
 }
 
 const generateSdkInBatch = () => {
-  const config = [
+  const configs = [
     {
       sdkName: 'GatewayV2',
       url: 'https://develop.protocol.mygateway.xyz/graphql',
@@ -85,8 +85,9 @@ const generateSdkInBatch = () => {
       url: 'https://v3-dev.protocol.mygateway.xyz/graphql',
     },
   ];
-  config.forEach(
-    async (c) => await generateSdk({ url: c.url, sdkName: c.sdkName }),
+  configs.forEach(
+    async (config) =>
+      await generateSdk({ url: config.url, sdkName: config.sdkName }),
   );
 };
 

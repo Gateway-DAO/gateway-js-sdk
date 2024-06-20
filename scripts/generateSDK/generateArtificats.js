@@ -179,7 +179,7 @@ async function generateTsArtifacts({
 
               return {
                 prepend: [[...importCodes].join('\n'), '\n\n'],
-                content: ['testing-1', 'testing-2'].join('\n\n'),
+                content: ['testing-1'].join('\n\n'),
               };
             },
           },
@@ -189,7 +189,6 @@ async function generateTsArtifacts({
     )
       .replace(`import * as Operations from 'NOWHERE';\n`, '')
       .replace('testing-1', '')
-      .replace('testing-2', '')
       .replace(/Operations./g, '');
 
   const endpointAssignmentCJS = `const baseDir = join(typeof __dirname === 'string' ? __dirname : '/', '${relative(

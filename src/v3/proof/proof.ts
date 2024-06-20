@@ -1,7 +1,7 @@
 import {
   Sdk,
   CreateProofInput,
-  proofsByPDAIds_queryQueryVariables,
+  proofsByPDA_queryQueryVariables,
   proofs_queryQueryVariables,
   receivedProofs_queryQueryVariables,
   sentProofsCount_queryQueryVariables,
@@ -69,24 +69,24 @@ export class Proof {
 
   /**
    * The function `getProofsByPDAIds` retrieves proofs by PDA IDs using a GraphQL query.
-   * @param {proofsByPDAIds_queryQueryVariables} variables - The `variables` parameter is an object that
+   * @param {proofsByPDA_queryQueryVariables} variables - The `variables` parameter is an object that
    * contains the necessary variables for the `proofsByPDAIds_query` query. These variables are used to
    * specify the criteria for retrieving proofs by PDA IDs. The specific properties and their types
    * depend on the GraphQL schema and the requirements of the `proof
    * @returns the result of the `proofsByPDAIds_query` method call.
    */
-  async getProofsByPDAIds({
+  async getProofsByPDA({
     pdaIds,
     skip,
     take,
-  }: proofsByPDAIds_queryQueryVariables) {
+  }: proofsByPDA_queryQueryVariables) {
     try {
       if (typeof pdaIds === 'string') {
         isUUIDValid(pdaIds);
       } else {
         for (const id in pdaIds) isUUIDValid(pdaIds[id]);
       }
-      return await this.sdk.proofsByPDAIds_query({ pdaIds, skip, take });
+      return await this.sdk.proofsByPDA_query({ pdaIds, skip, take });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }

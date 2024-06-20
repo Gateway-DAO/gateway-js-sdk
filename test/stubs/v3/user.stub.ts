@@ -15,10 +15,11 @@ export const userStub = (overrideUser?: Partial<User>): User => ({
   did: 'did:gatewayid:abc123',
   encryptionKey: '',
   usernameLastUpdated: new Date('2021-01-01T12:00:00Z'),
+  totalFileSize: 0,
   ...overrideUser,
 });
 
-export const activitiesStub = (): Activity[] => {
+export const activitiesStub = (): any => {
   return [
     {
       action: 'PDA_ISSUANCE',
@@ -29,12 +30,10 @@ export const activitiesStub = (): Activity[] => {
         creator: '',
         dataModel: '',
         issuer: '',
-        dataModels: [''],
         organization: '',
         owner: '',
-        pda: '',
+        pda: 1,
         proof: '',
-        requestTemplate: '',
         signedBy: '',
         status: '',
       },
