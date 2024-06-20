@@ -19,6 +19,7 @@ import {
   validateObjectProperties,
   validatePDAFilter,
 } from '../../utils/validators';
+import { MAX_UPLOAD_FILE_SIZE } from '../../utils/constants';
 
 export class PDA {
   public sdk: Sdk;
@@ -160,9 +161,7 @@ export class PDA {
    * The function `updatePDA` updates a PDA  using the provided input and returns
    * the result of the mutation.
    * @param {UpdatePDAInput} updatedPDA - The parameter `updatedPDA` is of type `UpdatePDAInput`. It is
-   * an input object that contains the data to update a PDA. The specific
-   * properties and their types within `UpdatePDAInput` would depend on the implementation of the
-   * `updatePDA_m
+   * an input object that contains the data to update a PDA.
    * @returns a Promise that resolves to an object of type `updatePDA_mutationMutation`.
    */
   async updatePDA(updatedPDA: UpdatePDAInput) {
@@ -176,8 +175,20 @@ export class PDA {
     }
   }
 
-  async uploadFilePDA(filePath: string, pdaId: number) {
+  /**
+   * The function `uploadFileAsPDA` takes a file path as input and a PDA Id
+   * and updates the PDA and makes it Valid
+   * @param {string} filePath - The parameter `filePath` is of type `string`. It should be valid file path. Maximum file size allowed is 30 MB
+   * @param {number} pdaId - The parameter `pdaId` is of type `number`. It should be valid pdaId
+   * @returns a promise of type fetch response.
+   */
+  async uploadFileAsPDA(filePath: string, pdaId: number) {
     try {
+      const { size } = await fs.stat(filePath);
+      if (size > MAX_UPLOAD_FILE_SIZE)
+        throw new Error(
+          `Current file size ${size} exceeds ${MAX_UPLOAD_FILE_SIZE}. Not reading file.`,
+        );
       const file = await fs.readFile(filePath, { encoding: 'base64' });
       const formData = new FormData();
       formData.append('pdaId', BigInt(pdaId).toString());
@@ -191,7 +202,6 @@ export class PDA {
         },
       });
     } catch (error) {
-      console.log(error);
       throw new Error('File Upload failed!');
     }
   }

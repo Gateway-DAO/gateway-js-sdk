@@ -1,15 +1,33 @@
 import forge from 'node-forge';
+import canonicalize from 'canonicalize';
+import { createHash } from 'crypto';
+import { ethers } from 'ethers';
 import { EncryptedAESCipher } from '../types';
 import { AESCIPHERSTRATERGY, ENCODING, ENCRYPTIONSCHEME } from './constants';
 
 export const hashMethod = forge.md.sha256;
 
-// generate did based on Gateway V3 Protocol
+/**
+ * Given a object gives json encoded value and we can use the result to sign in and thus generating signature
+ */
+export const jsonEncoder = (object: any) => {
+  return createHash('sha256')
+    .update(canonicalize(object) as string)
+    .digest('hex');
+};
+
+/**
+ * Generates a did based on Gateway V3 Protocol uses users public key
+ */
 export const generateDID = (publicKey: string, domain?: string) => {
   const sha256 = forge.md.sha256.create();
   sha256.update(publicKey, 'utf8');
   if (domain) return `did:gatewayId:${domain}:${sha256.digest().toHex()}`;
   return `did:gatewayId:${sha256.digest().toHex()}`;
+};
+
+export const generateNewEtherumWallet = () => {
+  return ethers.Wallet.createRandom();
 };
 
 export const generateRSAKeyPair = () => {
@@ -89,10 +107,6 @@ export const decryptWithPKI = async (
   const iv = forge.util.decode64(cipher.iv);
   const tag = forge.util.decode64(cipher.tag);
 
-  if (!privatePem) {
-    throw Error('Private key is required for decryption.');
-  }
-
   const privateKey = forge.pki.privateKeyFromPem(privatePem);
 
   const key = privateKey.decrypt(keyBlob, ENCRYPTIONSCHEME, {
@@ -104,42 +118,6 @@ export const decryptWithPKI = async (
     iv,
     tag: forge.util.createBuffer(tag),
   });
-  decipher.update(forge.util.createBuffer(aesBlob));
-
-  if (decipher.finish()) {
-    return Buffer.from(decipher.output.toString(), ENCODING).toString();
-  } else {
-    throw Error('AES-GCM decryption failed.');
-  }
-};
-
-export const sharedDecryptWithPKI = async (
-  cipher: EncryptedAESCipher,
-  privatePem: string,
-  did: string,
-): Promise<string> => {
-  const aesBlob = forge.util.decode64(cipher.aesBlob);
-  const keyBlob = forge.util.decode64(cipher.keyBlobs[did]);
-  const iv = forge.util.decode64(cipher.iv);
-  const tag = forge.util.decode64(cipher.tag);
-
-  if (!privatePem) {
-    throw Error('Private key is required for decryption.');
-  }
-
-  const privateKey = forge.pki.privateKeyFromPem(privatePem);
-
-  const key = privateKey.decrypt(keyBlob, ENCRYPTIONSCHEME, {
-    md: hashMethod.create(),
-  });
-
-  const decipher = forge.cipher.createDecipher(AESCIPHERSTRATERGY, key);
-
-  decipher.start({
-    iv,
-    tag: forge.util.createBuffer(tag),
-  });
-
   decipher.update(forge.util.createBuffer(aesBlob));
 
   if (decipher.finish()) {

@@ -234,12 +234,25 @@ describe('PDA SERVICE TESTING', () => {
     const mockData = { data: 'Mocked data' };
 
     (fetch as jest.Mock).mockResolvedValueOnce({
-      json: jest.fn().mockResolvedValueOnce(mockData),
+      mockData,
     });
 
-    const data = await pda.uploadFilePDA('test/v3/hello.txt', 1);
-    console.log(data);
-    expect(data).toEqual(mockData);
+    const data: any = await pda.uploadFileAsPDA('test/v3/hello.txt', 1);
+    expect(data.mockData).toEqual(mockData);
+    expect(fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('non structured pda to throw error', async () => {
+    const mockData = { data: 'Mocked data' };
+
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      mockData,
+    });
+
+    expect(
+      async () => await pda.uploadFileAsPDA('test/v3/hello.txt1', 1),
+    ).rejects.toThrow('');
+
     expect(fetch).toHaveBeenCalledTimes(1);
   });
 });
