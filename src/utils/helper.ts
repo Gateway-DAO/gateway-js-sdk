@@ -7,9 +7,9 @@ export const clientTimingWrapper: SdkFunctionWrapper = async <T>(
   operationType?: string,
 ): Promise<T> => {
   const startTime = new Date();
-  const result: any = await action();
+  const result: Awaited<T> = await action();
   console.log(
-    `${Object.keys(result)[0]} ${operationType} took ${(new Date() as any) - (startTime as any)} (ms)`,
+    `Gateway_SDK ${Object.keys(result as any)[0]} ${operationType} took ${(new Date() as any) - (startTime as any)} (ms)`,
   );
   return result;
 };
@@ -30,8 +30,8 @@ export const checkVersion = async () => {
       try {
         const packageJson = JSON.parse(data);
         if (packageJson.version !== result.version)
-          console.warn(
-            `You are using ${packageJson.version} which is outdated. Please update to ${result.version} which is latest.`,
+          console.error(
+            `You are using Gateway SDK (${packageJson.version}) which is outdated. Please update to latest version of Gateway SDK (${result.version}).\nhttps://www.npmjs.com/package/@gateway-dao/sdk `,
           );
       } catch (e) {
         console.error('Error parsing package.json:', e);

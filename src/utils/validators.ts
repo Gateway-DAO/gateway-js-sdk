@@ -99,9 +99,6 @@ export const validatePDAFilter = (filter: FilterPDAInput) => {
     if (filter.dataModelIds) {
       filter.dataModelIds.map((id) => isUUIDValid(id));
     }
-    if (filter.ids) {
-      filter.ids.map((id) => isUUIDValid(id));
-    }
   } catch (error) {
     throw error;
   }

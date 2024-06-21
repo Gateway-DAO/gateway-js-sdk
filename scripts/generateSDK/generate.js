@@ -82,9 +82,10 @@ const generateSdkInBatch = () => {
     },
     {
       sdkName: 'GatewayV3',
-      url: 'https://v3-dev.protocol.mygateway.xyz/graphql',
+      url: 'http://127.0.0.1:3000/graphql',
     },
   ];
+  // url: 'https://v3-dev.protocol.mygateway.xyz/graphql',
   configs.forEach(
     async (config) =>
       await generateSdk({ url: config.url, sdkName: config.sdkName }),

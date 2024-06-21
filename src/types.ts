@@ -27,6 +27,14 @@ export enum PDAStatus {
   'Valid' = 'Valid',
 }
 
+export enum PDAStatusV3 {
+  'Expired' = 'Expired',
+  'Pending' = 'Pending',
+  'Revoked' = 'Revoked',
+  'Suspended' = 'Suspended',
+  'Valid' = 'Valid',
+}
+
 export enum OrganizationIdentifierType {
   GATEWAY_ID = 'GATEWAY_ID',
   ORG_ID = 'ORG_ID',

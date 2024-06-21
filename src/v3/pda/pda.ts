@@ -10,16 +10,14 @@ import {
   Sdk,
   UpdatePDAInput,
 } from '../../../gatewaySdk/sources/GatewayV3';
-import { Chain, SignCipherEnum } from '../../types';
+import { PDAStatusV3, SignCipherEnum } from '../../types';
 import { errorHandler } from '../../utils/errorHandler';
 import {
-  isDIDValid,
-  isStringValid,
-  isWalletAddressValid,
   validateObjectProperties,
   validatePDAFilter,
 } from '../../utils/validators';
 import { MAX_UPLOAD_FILE_SIZE } from '../../utils/constants';
+import { validateSignature } from '../../utils/v3-crypto-helper';
 
 export class PDA {
   public sdk: Sdk;
@@ -121,14 +119,20 @@ export class PDA {
    */
   async changePDAStatus(input: UpdatePDAStatusInput) {
     try {
-      let chain: Chain;
+      let signCipher: SignCipherEnum;
       if (input.signingCipher === undefined) {
-        chain = Chain.EVM;
+        signCipher = SignCipherEnum.SECP256K1;
       } else if (input.signingCipher === SignCipherEnum.ED25519) {
-        chain = Chain.SOL;
-      } else chain = Chain.EVM;
+        signCipher = SignCipherEnum.ED25519;
+      } else signCipher = SignCipherEnum.SECP256K1;
+
       validateObjectProperties(input.data);
-      isWalletAddressValid(input.signingKey, chain);
+      validateSignature({
+        signature: input.signature,
+        signingKey: input.signingKey,
+        signingCipher: signCipher,
+        data: input.data,
+      });
       return await this.sdk.changePDAStatus_mutation({ input });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -143,16 +147,22 @@ export class PDA {
    */
   async createPDA(pdaInput: CreatePDAInput) {
     try {
-      let chain: Chain;
+      let signCipher: SignCipherEnum;
       if (pdaInput.signingCipher === undefined) {
-        chain = Chain.EVM;
+        signCipher = SignCipherEnum.SECP256K1;
       } else if (pdaInput.signingCipher === SignCipherEnum.ED25519) {
-        chain = Chain.SOL;
-      } else chain = Chain.EVM;
+        signCipher = SignCipherEnum.ED25519;
+      } else signCipher = SignCipherEnum.SECP256K1;
+
       validateObjectProperties(pdaInput.data);
-      isWalletAddressValid(pdaInput.signingKey, chain);
+      validateSignature({
+        signature: pdaInput.signature,
+        signingKey: pdaInput.signingKey,
+        signingCipher: signCipher,
+        data: pdaInput.data,
+      });
       return await this.sdk.createPDA_mutation({ input: pdaInput });
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(errorHandler(error));
     }
   }
@@ -166,9 +176,20 @@ export class PDA {
    */
   async updatePDA(updatedPDA: UpdatePDAInput) {
     try {
+      let signCipher: SignCipherEnum;
+      if (updatedPDA.signingCipher === undefined) {
+        signCipher = SignCipherEnum.SECP256K1;
+      } else if (updatedPDA.signingCipher === SignCipherEnum.ED25519) {
+        signCipher = SignCipherEnum.ED25519;
+      } else signCipher = SignCipherEnum.SECP256K1;
+
       validateObjectProperties(updatedPDA.data);
-      isDIDValid(updatedPDA.did);
-      isStringValid(updatedPDA.signature);
+      validateSignature({
+        signature: updatedPDA.signature,
+        signingKey: updatedPDA.signingKey,
+        signingCipher: signCipher,
+        data: updatedPDA.data,
+      });
       return await this.sdk.updatePDA_mutation({ input: updatedPDA });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -185,10 +206,21 @@ export class PDA {
   async uploadFileAsPDA(filePath: string, pdaId: number) {
     try {
       const { size } = await fs.stat(filePath);
+
       if (size > MAX_UPLOAD_FILE_SIZE)
         throw new Error(
           `Current file size ${size} exceeds ${MAX_UPLOAD_FILE_SIZE}. Not reading file.`,
         );
+      const { PDA: filePda } = await this.getPDA(pdaId);
+
+      if (filePda === undefined || filePda === null)
+        throw new Error(`${pdaId} not found!`);
+
+      if (filePda.status !== PDAStatusV3.Pending)
+        throw new Error(
+          `${pdaId} should be in Pending status only. To upload a file`,
+        );
+
       const file = await fs.readFile(filePath, { encoding: 'base64' });
       const formData = new FormData();
       formData.append('pdaId', BigInt(pdaId).toString());
