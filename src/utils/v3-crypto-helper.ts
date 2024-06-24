@@ -56,9 +56,16 @@ export const validateSignature = ({
         Buffer.from(signingKey, 'hex'),
       );
     } else if (signingCipher === SignCipherEnum.SECP256K1) {
+      console.log(
+        data,
+        bodyHash,
+        ethers.utils.verifyMessage(bodyHash, signature),
+        ethers.utils.getAddress(signingKey),
+      );
       isValid =
         ethers.utils.getAddress(signingKey) ===
         ethers.utils.verifyMessage(bodyHash, signature);
+      console.log(isValid);
     } else {
       throw new Error(`Cipher ${signingCipher} not found!`);
     }
@@ -66,6 +73,7 @@ export const validateSignature = ({
       throw new Error('Invalid signature');
     }
   } catch (error) {
+    console.log(error);
     throw new Error('Invalid signature');
   }
 };

@@ -4,7 +4,9 @@ import {
   dataModels_queryQueryVariables,
   CreateDataModelInput,
 } from '../../../gatewaySdk/sources/GatewayV3';
+import { SignCipherEnum } from '../../types';
 import { errorHandler } from '../../utils/errorHandler';
+import { validateSignature } from '../../utils/v3-crypto-helper';
 import { isUUIDValid, validateObjectProperties } from '../../utils/validators';
 
 export class DataModel {
@@ -24,11 +26,25 @@ export class DataModel {
    */
   async createDataModel(createModelInput: CreateDataModelInput) {
     try {
-      validateObjectProperties(createModelInput);
+      let signCipher: SignCipherEnum;
+      if (createModelInput.signingCipher === undefined) {
+        signCipher = SignCipherEnum.SECP256K1;
+      } else if (createModelInput.signingCipher === SignCipherEnum.ED25519) {
+        signCipher = SignCipherEnum.ED25519;
+      } else signCipher = SignCipherEnum.SECP256K1;
+
+      validateObjectProperties(createModelInput.data);
+      validateSignature({
+        signature: createModelInput.signature,
+        signingKey: createModelInput.signingKey,
+        signingCipher: signCipher,
+        data: createModelInput.data,
+      });
+
       return await this.sdk.createDataModel_mutation({
         input: createModelInput,
       });
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(errorHandler(error));
     }
   }
@@ -62,6 +78,7 @@ export class DataModel {
     try {
       return await this.sdk.dataModels_query(variables);
     } catch (error) {
+      console.log(error);
       throw new Error(errorHandler(error));
     }
   }

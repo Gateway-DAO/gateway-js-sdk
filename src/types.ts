@@ -28,11 +28,11 @@ export enum PDAStatus {
 }
 
 export enum PDAStatusV3 {
-  'Expired' = 'Expired',
-  'Pending' = 'Pending',
-  'Revoked' = 'Revoked',
-  'Suspended' = 'Suspended',
-  'Valid' = 'Valid',
+  'EXPIRED' = 'EXPIRED',
+  'PENDING' = 'PENDING',
+  'REVOKED' = 'REVOKED',
+  'SUSPENDED' = 'SUSPENDED',
+  'VALID' = 'VALID',
 }
 
 export enum OrganizationIdentifierType {

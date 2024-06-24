@@ -134,7 +134,8 @@ export class PDA {
         data: input.data,
       });
       return await this.sdk.changePDAStatus_mutation({ input });
-    } catch (error) {
+    } catch (error: any) {
+      console.log(error.request.variables.input);
       throw new Error(errorHandler(error));
     }
   }
@@ -216,7 +217,7 @@ export class PDA {
       if (filePda === undefined || filePda === null)
         throw new Error(`${pdaId} not found!`);
 
-      if (filePda.status !== PDAStatusV3.Pending)
+      if (filePda.status !== PDAStatusV3.PENDING)
         throw new Error(
           `${pdaId} should be in Pending status only. To upload a file`,
         );
