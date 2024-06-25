@@ -18,6 +18,7 @@ import {
 } from '../../utils/validators';
 import { MAX_UPLOAD_FILE_SIZE } from '../../utils/constants';
 import { validateSignature } from '../../utils/v3-crypto-helper';
+import path from 'path';
 
 export class PDA {
   public sdk: Sdk;
@@ -224,8 +225,8 @@ export class PDA {
       const file = await fs.readFile(filePath, { encoding: 'base64' });
       const formData = new FormData();
       formData.append('pdaId', BigInt(pdaId).toString());
-      formData.append('file', file);
-      return fetch(this.url, {
+      formData.append('file', new Blob([file]), path.basename(filePath));
+      return await fetch(`${this.url.replace('/graphql', '')}/file/upload`, {
         method: 'POST',
         body: formData,
         headers: {
