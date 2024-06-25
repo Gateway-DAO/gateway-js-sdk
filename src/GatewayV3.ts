@@ -39,7 +39,11 @@ export class GatewayV3 {
     checkVersion();
 
     const client = new GraphQLClient(url, {
-      headers: { Authorization: `Bearer ${token}`, 'x-api-key': apiKey },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'x-api-key': apiKey,
+        'user-agent': `GATEWAY_SDK/v3`,
+      },
     });
 
     this.sdk = getSdk(client, logging ? clientTimingWrapper : undefined);

@@ -1,10 +1,10 @@
 import {
   CreateOrganizationInput,
-  MemberInput,
+  MemberOrganizationInput,
   OrganizationIdentifierType,
   organizations_queryQueryVariables,
   Sdk,
-  TransferMemberInput,
+  TransferMemberOrganizationInput,
   UpdateOrganizationInput,
 } from '../../../gatewaySdk/sources/GatewayV3';
 import { SignCipherEnum } from '../../types';
@@ -52,25 +52,37 @@ export class Organization {
         input: organizationInput,
       });
     } catch (error) {
-      console.log(error);
       throw new Error(errorHandler(error));
     }
   }
 
   /**
    * The function adds a member to an organization using the provided input.
-   * @param {MemberInput} memberInput - The `memberInput` parameter is an object that contains the
+   * @param {MemberOrganizationInput} memberInput - The `memberInput` parameter is an object that contains the
    * information needed to add a member to an organization. It likely includes properties such as the
    * member's name, email, role, and any other relevant details.
    * @returns the result of the `addMemberToOrganization_mutation` mutation call.
    */
-  async addMemberToOrganization(memberInput: MemberInput) {
+  async addMemberToOrganization(memberInput: MemberOrganizationInput) {
     try {
+      let signCipher: SignCipherEnum;
+      if (memberInput.signingCipher === undefined) {
+        signCipher = SignCipherEnum.SECP256K1;
+      } else if (memberInput.signingCipher === SignCipherEnum.ED25519) {
+        signCipher = SignCipherEnum.ED25519;
+      } else signCipher = SignCipherEnum.SECP256K1;
+
+      validateSignature({
+        data: memberInput.data,
+        signature: memberInput.signature,
+        signingKey: memberInput.signingKey,
+        signingCipher: signCipher,
+      });
+
       return await this.sdk.addMemberToOrganization_mutation({
         input: memberInput,
       });
     } catch (error) {
-      console.log(error);
       throw new Error(errorHandler(error));
     }
   }
@@ -78,13 +90,26 @@ export class Organization {
   /**
    * The function "changeMemberRole" is an asynchronous function that takes a "memberInput" parameter
    * and calls a mutation function to change the role of a member, handling any errors that occur.
-   * @param {MemberInput} memberInput - The `memberInput` parameter is an object that contains the
+   * @param {MemberOrganizationInput} memberInput - The `memberInput` parameter is an object that contains the
    * necessary information to change the role of a member. It likely includes properties such as the
    * member's ID and the new role they should be assigned to.
    * @returns the result of the `changeMemberRole_mutation` mutation, which is being awaited.
    */
-  async changeMemberRole(memberInput: MemberInput) {
+  async changeMemberRole(memberInput: MemberOrganizationInput) {
     try {
+      let signCipher: SignCipherEnum;
+      if (memberInput.signingCipher === undefined) {
+        signCipher = SignCipherEnum.SECP256K1;
+      } else if (memberInput.signingCipher === SignCipherEnum.ED25519) {
+        signCipher = SignCipherEnum.ED25519;
+      } else signCipher = SignCipherEnum.SECP256K1;
+
+      validateSignature({
+        data: memberInput.data,
+        signature: memberInput.signature,
+        signingKey: memberInput.signingKey,
+        signingCipher: signCipher,
+      });
       return await this.sdk.changeMemberRole_mutation({ input: memberInput });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -93,32 +118,60 @@ export class Organization {
 
   /**
    * The function removes a member from an organization using the provided input.
-   * @param {TransferMemberInput} memberInput - The `memberInput` parameter is an object that contains
+   * @param {TransferMemberOrganizationInput} memberInput - The `memberInput` parameter is an object that contains
    * the necessary information to remove a member from an organization. It likely includes properties
    * such as the member's ID or username, and any additional data required to complete the removal
    * process.
    * @returns the result of the `removeMemberFromOrganization_mutation` mutation call.
    */
-  async removeMemberFromOrganization(memberInput: TransferMemberInput) {
+  async removeMemberFromOrganization(
+    memberInput: TransferMemberOrganizationInput,
+  ) {
     try {
+      let signCipher: SignCipherEnum;
+      if (memberInput.signingCipher === undefined) {
+        signCipher = SignCipherEnum.SECP256K1;
+      } else if (memberInput.signingCipher === SignCipherEnum.ED25519) {
+        signCipher = SignCipherEnum.ED25519;
+      } else signCipher = SignCipherEnum.SECP256K1;
+
+      validateSignature({
+        data: memberInput.data,
+        signature: memberInput.signature,
+        signingKey: memberInput.signingKey,
+        signingCipher: signCipher,
+      });
       return await this.sdk.removeMemberFromOrganization_mutation({
         input: memberInput,
       });
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(errorHandler(error));
     }
   }
 
   /**
    * The function allows the current owner to transfer its ownership to another member of organization using the provided input.
-   * @param {TransferMemberInput} ownershipInput - The `ownershipInput` parameter is an object that contains
+   * @param {TransferMemberOrganizationInput} ownershipInput - The `ownershipInput` parameter is an object that contains
    * the necessary information to remove a member from an organization. It likely includes properties
    * such as the member's ID or username, and any additional data required to complete the removal
    * process.
    * @returns the result of the `transferOwnership_mutationMutation` mutation call.
    */
-  async transferOwnership(ownershipInput: TransferMemberInput) {
+  async transferOwnership(ownershipInput: TransferMemberOrganizationInput) {
     try {
+      let signCipher: SignCipherEnum;
+      if (ownershipInput.signingCipher === undefined) {
+        signCipher = SignCipherEnum.SECP256K1;
+      } else if (ownershipInput.signingCipher === SignCipherEnum.ED25519) {
+        signCipher = SignCipherEnum.ED25519;
+      } else signCipher = SignCipherEnum.SECP256K1;
+
+      validateSignature({
+        data: ownershipInput.data,
+        signature: ownershipInput.signature,
+        signingKey: ownershipInput.signingKey,
+        signingCipher: signCipher,
+      });
       return await this.sdk.transferOwnership_mutation({
         input: ownershipInput,
       });

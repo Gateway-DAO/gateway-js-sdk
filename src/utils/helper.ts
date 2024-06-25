@@ -14,8 +14,9 @@ export const clientTimingWrapper: SdkFunctionWrapper = async <T>(
   return result;
 };
 
-export const checkVersion = async () => {
+export const checkVersion = async (): Promise<string> => {
   let inMemory = true;
+  let version = '0.0.0';
   if (inMemory) {
     const result = await (
       await fetch('https://registry.npmjs.org/@gateway-dao/sdk/latest')
@@ -29,6 +30,7 @@ export const checkVersion = async () => {
 
       try {
         const packageJson = JSON.parse(data);
+        version = packageJson.version;
         if (packageJson.version !== result.version)
           console.error(
             `You are using Gateway SDK (${packageJson.version}) which is outdated. Please update to latest version of Gateway SDK (${result.version}).\nhttps://www.npmjs.com/package/@gateway-dao/sdk `,
@@ -39,7 +41,9 @@ export const checkVersion = async () => {
     });
 
     inMemory = false;
+    return version;
   }
+  return version;
 };
 
 export const parameterChecker = (

@@ -134,8 +134,7 @@ export class PDA {
         data: input.data,
       });
       return await this.sdk.changePDAStatus_mutation({ input });
-    } catch (error: any) {
-      console.log(error.request.variables.input);
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
