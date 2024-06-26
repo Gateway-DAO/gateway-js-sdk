@@ -1,18 +1,17 @@
 # [2.1.0-develop.1](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.0.0...v2.1.0-develop.1) (2024-05-13)
 
-
 ### Features
 
-* added pda v3 class,tests,mocks,stubs ([a0e4ced](https://github.com/Gateway-DAO/gateway-js-sdk/commit/a0e4ced1026cc3c88caf3975ab81cca4cd9d2fd3))
-* **auth:** finished auth class methods and tests ([36113fe](https://github.com/Gateway-DAO/gateway-js-sdk/commit/36113fef8de23642320216fd53b2d07583cada94))
-* changed folder structure for v2 and v3 queries and mutations ([60959be](https://github.com/Gateway-DAO/gateway-js-sdk/commit/60959be0b09d5689ae2049e966badf7a97f886ab))
-* **GatewayV3:** added gateway v3 class ([1bb6ddc](https://github.com/Gateway-DAO/gateway-js-sdk/commit/1bb6ddc620080d95ed9fe49d67bb2486b80de412))
-* **organization:** finished organization class methods and tests ([d6445ca](https://github.com/Gateway-DAO/gateway-js-sdk/commit/d6445ca4c3783e2f29d1ed042d7fa241f367463a))
-* **pda:** finished pda methods and tests ([a99497b](https://github.com/Gateway-DAO/gateway-js-sdk/commit/a99497bc64a0f858eedb2afc03197b1099c25b0e))
-* started process of adding v3 queries and mutations ([d3338d0](https://github.com/Gateway-DAO/gateway-js-sdk/commit/d3338d03001ccebf43f331b33eeaa15bf6fca164))
-* tests for data-model class ([878b0ba](https://github.com/Gateway-DAO/gateway-js-sdk/commit/878b0ba8534a6d5258e1dfa5e3001aaa72431866))
-* **user:** finished user class methods and tests ([549e539](https://github.com/Gateway-DAO/gateway-js-sdk/commit/549e53901e33503d787cbfb4e36b1bd28aa505e6))
-* v3 datamodel class ([ce60e7b](https://github.com/Gateway-DAO/gateway-js-sdk/commit/ce60e7ba80b6df74dc97275b9f16ffb87e60579d))
+- added pda v3 class,tests,mocks,stubs ([a0e4ced](https://github.com/Gateway-DAO/gateway-js-sdk/commit/a0e4ced1026cc3c88caf3975ab81cca4cd9d2fd3))
+- **auth:** finished auth class methods and tests ([36113fe](https://github.com/Gateway-DAO/gateway-js-sdk/commit/36113fef8de23642320216fd53b2d07583cada94))
+- changed folder structure for v2 and v3 queries and mutations ([60959be](https://github.com/Gateway-DAO/gateway-js-sdk/commit/60959be0b09d5689ae2049e966badf7a97f886ab))
+- **GatewayV3:** added gateway v3 class ([1bb6ddc](https://github.com/Gateway-DAO/gateway-js-sdk/commit/1bb6ddc620080d95ed9fe49d67bb2486b80de412))
+- **organization:** finished organization class methods and tests ([d6445ca](https://github.com/Gateway-DAO/gateway-js-sdk/commit/d6445ca4c3783e2f29d1ed042d7fa241f367463a))
+- **pda:** finished pda methods and tests ([a99497b](https://github.com/Gateway-DAO/gateway-js-sdk/commit/a99497bc64a0f858eedb2afc03197b1099c25b0e))
+- started process of adding v3 queries and mutations ([d3338d0](https://github.com/Gateway-DAO/gateway-js-sdk/commit/d3338d03001ccebf43f331b33eeaa15bf6fca164))
+- tests for data-model class ([878b0ba](https://github.com/Gateway-DAO/gateway-js-sdk/commit/878b0ba8534a6d5258e1dfa5e3001aaa72431866))
+- **user:** finished user class methods and tests ([549e539](https://github.com/Gateway-DAO/gateway-js-sdk/commit/549e53901e33503d787cbfb4e36b1bd28aa505e6))
+- v3 datamodel class ([ce60e7b](https://github.com/Gateway-DAO/gateway-js-sdk/commit/ce60e7ba80b6df74dc97275b9f16ffb87e60579d))
 
 # [2.0.0](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.1.1...v2.0.0) (2024-03-14)
 

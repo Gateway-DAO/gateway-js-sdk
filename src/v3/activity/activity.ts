@@ -6,7 +6,7 @@ import {
   activities_queryQueryVariables,
 } from '../../../gatewaySdk/sources/GatewayV3';
 
-export class Request {
+export class Activity {
   public sdk: Sdk;
 
   constructor(sdk: Sdk) {
@@ -30,7 +30,7 @@ export class Request {
     }
   }
 
-  async getTransactions(variables?: activities_queryQueryVariables) {
+  async getActivities(variables?: activities_queryQueryVariables) {
     try {
       return await this.sdk.activities_query(variables);
     } catch (error) {
