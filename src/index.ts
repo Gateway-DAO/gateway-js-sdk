@@ -53,11 +53,11 @@ export class Gateway {
   }
 
   private initializeModules(validationService: ValidationService) {
+    this.auth = new Auth(this.sdk, validationService);
+    this.dataModel = new DataModel(this.sdk, validationService);
     this.pda = new PDA(this.sdk);
     this.dataRequestTemplate = new DataRequestTemplate(this.sdk);
     this.organization = new Organization(this.sdk);
-    this.auth = new Auth(this.sdk, validationService);
-    this.dataModel = new DataModel(this.sdk);
     this.proof = new Proof(this.sdk);
     this.request = new Request(this.sdk);
     this.user = new User(this.sdk);

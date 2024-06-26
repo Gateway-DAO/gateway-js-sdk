@@ -5,16 +5,15 @@ import {
   FilterDataModelInput,
 } from '../../../gatewaySdk';
 import { errorHandler } from '../../utils/errorHandler';
-import {
-  isUUIDValid,
-  validateObjectProperties,
-} from '../../utils/validation-service';
+import { ValidationService } from '../../utils/validation-service';
 
 export class DataModel {
   public sdk: Sdk;
+  private validationService: ValidationService;
 
-  constructor(sdk: Sdk) {
+  constructor(sdk: Sdk, validationService: ValidationService) {
     this.sdk = sdk;
+    this.validationService = validationService;
   }
 
   /**
@@ -27,7 +26,7 @@ export class DataModel {
    */
   async createDataModel(createModelInput: CreateDataModelInput) {
     try {
-      validateObjectProperties(createModelInput);
+      this.validationService.validateObjectProperties(createModelInput);
       return await this.sdk.createDataModel_mutation({
         input: createModelInput,
       });
@@ -45,7 +44,7 @@ export class DataModel {
    */
   async getDataModel(dataModelId: string) {
     try {
-      isUUIDValid(dataModelId);
+      this.validationService.validateUUID(dataModelId);
       return await this.sdk.dataModel_query({ id: dataModelId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
@@ -122,7 +121,7 @@ export class DataModel {
    */
   async getIssuersByDataModel(id: string) {
     try {
-      isUUIDValid(id);
+      this.validationService.validateUUID(id);
       return await this.sdk.issuersByDataModel_query({ id: id });
     } catch (error: any) {
       throw new Error(errorHandler(error));
@@ -138,7 +137,7 @@ export class DataModel {
    */
   async getIssuersByDataModelCount(dataModelId: string) {
     try {
-      isUUIDValid(dataModelId);
+      this.validationService.validateUUID(dataModelId);
       return await this.sdk.issuersByDataModelCount_query({ id: dataModelId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
@@ -154,7 +153,7 @@ export class DataModel {
    */
   async getTotalofIssuersByDataModel(dataModelId: string) {
     try {
-      isUUIDValid(dataModelId);
+      this.validationService.validateUUID(dataModelId);
       return await this.sdk.getTotalofIssuersByDataModel_query({ dataModelId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
