@@ -64,6 +64,6 @@ export class Gateway {
     this.proof = new Proof(this.sdk, validationService);
     this.request = new Request(this.sdk, validationService);
     this.transaction = new Transaction(this.sdk, validationService);
-    this.user = new User(this.sdk);
+    this.user = new User(this.sdk, validationService);
   }
 }

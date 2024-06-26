@@ -11,19 +11,15 @@ import {
 } from '../../../gatewaySdk';
 import { UserIdentifierType } from '../../types/types';
 import { errorHandler } from '../../utils/errorHandler';
-import {
-  isEmailValid,
-  isStringValid,
-  isUUIDValid,
-  isValidUrl,
-  validateObjectProperties,
-} from '../../utils/validation-service';
+import { ValidationService } from '../../utils/validation-service';
 
 export class User {
   public sdk: Sdk;
+  private validationService: ValidationService;
 
-  constructor(sdk: Sdk) {
+  constructor(sdk: Sdk, validationService: ValidationService) {
     this.sdk = sdk;
+    this.validationService = validationService;
   }
 
   /**
@@ -54,7 +50,7 @@ export class User {
     value: string;
   }) {
     try {
-      isStringValid(value);
+      this.validationService.validateString(value);
       return await this.sdk.user_query({ input: { type, value } });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -136,7 +132,9 @@ export class User {
     variables?: myFinancialTransactions_queryQueryVariables,
   ) {
     try {
-      if (variables?.organizationId) isUUIDValid(variables.organizationId);
+      if (variables?.organizationId) {
+        this.validationService.validateUUID(variables.organizationId);
+      }
       return await this.sdk.myFinancialTransactions_query(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -153,7 +151,9 @@ export class User {
     variables?: myFinancialTransactionsCount_queryQueryVariables,
   ) {
     try {
-      if (variables?.organizationId) isUUIDValid(variables.organizationId);
+      if (variables?.organizationId) {
+        this.validationService.validateUUID(variables.organizationId);
+      }
       return (await this.sdk.myFinancialTransactionsCount_query(variables))
         .myFinancialTransactionsCount;
     } catch (error) {
@@ -183,7 +183,9 @@ export class User {
    */
   async myWallet(organizationId?: string) {
     try {
-      if (organizationId) isUUIDValid(organizationId);
+      if (organizationId) {
+        this.validationService.validateUUID(organizationId);
+      }
       return await this.sdk.myWallet_query({ organizationId });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -200,7 +202,7 @@ export class User {
    */
   async updateUser(updatedUser: UpdateUserInput) {
     try {
-      validateObjectProperties(updatedUser);
+      this.validationService.validateObjectProperties(updatedUser);
       return await this.sdk.updateUser_mutation({ input: updatedUser });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -217,7 +219,7 @@ export class User {
    */
   async updateMyDisplayName(displayName: string) {
     try {
-      isStringValid(displayName);
+      this.validationService.validateUUID(displayName);
       return await this.sdk.updateMyDisplayName_mutation({ displayName });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -234,7 +236,7 @@ export class User {
    */
   async updateMyGatewayId(gatewayId: string) {
     try {
-      isStringValid(gatewayId);
+      this.validationService.validateString(gatewayId);
       return await this.sdk.updateMyGatewayId_mutation({ gatewayId });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -249,7 +251,7 @@ export class User {
    */
   async updateMyProfilePicture(profilePictureUrl: string) {
     try {
-      isValidUrl(profilePictureUrl);
+      this.validationService.validateURL(profilePictureUrl);
       return await this.sdk.updateMyProfilePicture_mutation({
         profilePictureUrl,
       });
@@ -267,7 +269,7 @@ export class User {
    */
   async updateNotificationEmail(email: string) {
     try {
-      isEmailValid(email);
+      this.validationService.validateEmail(email);
       return (await this.sdk.updateNotificationEmail_mutation({ email }))
         .updateNotificationEmail;
     } catch (error) {
