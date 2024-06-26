@@ -5,16 +5,15 @@ import {
   dataRequestTemplates_queryQueryVariables,
 } from '../../../gatewaySdk';
 import { errorHandler } from '../../utils/errorHandler';
-import {
-  isUUIDValid,
-  validateObjectProperties,
-} from '../../utils/validation-service';
+import { ValidationService } from '../../utils/validation-service';
 
 export class DataRequestTemplate {
   public sdk: Sdk;
+  private validationService: ValidationService;
 
-  constructor(sdk: Sdk) {
+  constructor(sdk: Sdk, validationService: ValidationService) {
     this.sdk = sdk;
+    this.validationService = validationService;
   }
 
   /**
@@ -27,7 +26,7 @@ export class DataRequestTemplate {
    */
   async createDataRequestTemplate(templateInput: TemplateSchemaInput) {
     try {
-      validateObjectProperties(templateInput);
+      this.validationService.validateObjectProperties(templateInput);
       return await this.sdk.createDataRequestTemplate_mutation({
         input: templateInput,
       });
@@ -45,7 +44,7 @@ export class DataRequestTemplate {
    */
   async getDataRequestTemplate(id: string) {
     try {
-      isUUIDValid(id);
+      this.validationService.validateUUID(id);
       return await this.sdk.dataRequestTemplate_query({ id });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -108,7 +107,7 @@ export class DataRequestTemplate {
    */
   async getVerifiersByDataRequestTemplate(id: string) {
     try {
-      isUUIDValid(id);
+      this.validationService.validateUUID(id);
       return await this.sdk.verifiersByDataRequestTemplate_query({ id });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -123,7 +122,7 @@ export class DataRequestTemplate {
    */
   async getVerifiersByDataRequestTemplateCount(id: string) {
     try {
-      isUUIDValid(id);
+      this.validationService.validateUUID(id);
       return (await this.sdk.verifiersByDataRequestTemplateCount_query({ id }))
         .verifiersByDataRequestTemplateCount;
     } catch (error) {
