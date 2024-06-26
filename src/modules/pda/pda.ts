@@ -9,16 +9,15 @@ import {
 } from '../../../gatewaySdk';
 import { PDAStatus } from '../../types/types';
 import { errorHandler } from '../../utils/errorHandler';
-import {
-  isUUIDValid,
-  validateObjectProperties,
-} from '../../utils/validation-service';
+import { ValidationService } from '../../utils/validation-service';
 
 export class PDA {
   public sdk: Sdk;
+  private validationService: ValidationService;
 
-  constructor(sdk: Sdk) {
+  constructor(sdk: Sdk, validationService: ValidationService) {
     this.sdk = sdk;
+    this.validationService = validationService;
   }
 
   /**
@@ -30,7 +29,7 @@ export class PDA {
    */
   async getPDA(id: string) {
     try {
-      isUUIDValid(id);
+      this.validationService.validateUUID(id);
       return await this.sdk.PDA_query({ id });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -105,7 +104,7 @@ export class PDA {
    */
   async changePDAStatus({ id, status }: { id: string; status: PDAStatus }) {
     try {
-      isUUIDValid(id);
+      this.validationService.validateUUID(id);
       return await this.sdk.changePDAStatus_mutation({ input: { id, status } });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -120,7 +119,7 @@ export class PDA {
    */
   async createPDA(pdaInput: CreatePDAInput) {
     try {
-      validateObjectProperties(pdaInput);
+      this.validationService.validateObjectProperties(pdaInput);
       return await this.sdk.createPDA_mutation({ input: pdaInput });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -138,7 +137,7 @@ export class PDA {
    */
   async updatePDA(updatedPDA: UpdatePDAInput) {
     try {
-      validateObjectProperties(updatedPDA);
+      this.validationService.validateObjectProperties(updatedPDA);
       return await this.sdk.updatePDA_mutation({ input: updatedPDA });
     } catch (error) {
       throw new Error(errorHandler(error));

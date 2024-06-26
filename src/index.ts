@@ -60,7 +60,7 @@ export class Gateway {
       validationService,
     );
     this.organization = new Organization(this.sdk, validationService);
-    this.pda = new PDA(this.sdk);
+    this.pda = new PDA(this.sdk, validationService);
     this.proof = new Proof(this.sdk);
     this.request = new Request(this.sdk);
     this.user = new User(this.sdk);
