@@ -1,12 +1,14 @@
 import { Sdk, transactions_queryQueryVariables } from '../../../gatewaySdk';
 import { errorHandler } from '../../utils/errorHandler';
-import { isStringValid } from '../../utils/validation-service';
+import { ValidationService } from '../../utils/validation-service';
 
 export class Transaction {
   public sdk: Sdk;
+  private validationService: ValidationService;
 
-  constructor(sdk: Sdk) {
+  constructor(sdk: Sdk, validationService: ValidationService) {
     this.sdk = sdk;
+    this.validationService = validationService;
   }
 
   /**
@@ -19,7 +21,7 @@ export class Transaction {
    */
   async getTransaction(id: string) {
     try {
-      isStringValid(id);
+      this.validationService.validateUUID(id);
       return await this.sdk.transaction_query({ id: id });
     } catch (error) {
       throw new Error(errorHandler(error));

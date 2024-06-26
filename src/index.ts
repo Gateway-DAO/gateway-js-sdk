@@ -63,7 +63,7 @@ export class Gateway {
     this.pda = new PDA(this.sdk, validationService);
     this.proof = new Proof(this.sdk, validationService);
     this.request = new Request(this.sdk, validationService);
+    this.transaction = new Transaction(this.sdk, validationService);
     this.user = new User(this.sdk);
-    this.transaction = new Transaction(this.sdk);
   }
 }
