@@ -6,16 +6,15 @@ import {
   requestsSent_queryQueryVariables,
 } from '../../../gatewaySdk';
 import { errorHandler } from '../../utils/errorHandler';
-import {
-  isUUIDValid,
-  validateObjectProperties,
-} from '../../utils/validation-service';
+import { ValidationService } from '../../utils/validation-service';
 
 export class Request {
   public sdk: Sdk;
+  private validationService: ValidationService;
 
-  constructor(sdk: Sdk) {
+  constructor(sdk: Sdk, validationService: ValidationService) {
     this.sdk = sdk;
+    this.validationService = validationService;
   }
 
   /**
@@ -30,7 +29,7 @@ export class Request {
    */
   async createDataRequest(inputSchema: DataRequestSchemaInput) {
     try {
-      validateObjectProperties(inputSchema);
+      this.validationService.validateObjectProperties(inputSchema);
       return await this.sdk.createDataRequest_mutation({ input: inputSchema });
     } catch (error: any) {
       throw new Error(errorHandler(error));
@@ -48,7 +47,7 @@ export class Request {
    */
   async getDataRequest(requestId: string) {
     try {
-      isUUIDValid(requestId);
+      this.validationService.validateUUID(requestId);
       return await this.sdk.dataRequest_query({ requestId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
@@ -80,7 +79,7 @@ export class Request {
    */
   async getDataRequestStatus(requestId: string) {
     try {
-      isUUIDValid(requestId);
+      this.validationService.validateUUID(requestId);
       return await this.sdk.dataRequestStatus_query({ requestId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
