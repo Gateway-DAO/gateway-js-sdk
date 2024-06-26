@@ -59,8 +59,8 @@ export class Gateway {
       this.sdk,
       validationService,
     );
+    this.organization = new Organization(this.sdk, validationService);
     this.pda = new PDA(this.sdk);
-    this.organization = new Organization(this.sdk);
     this.proof = new Proof(this.sdk);
     this.request = new Request(this.sdk);
     this.user = new User(this.sdk);

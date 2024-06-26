@@ -9,16 +9,15 @@ import {
 import { OrganizationIdentifierType } from '../../types/types';
 
 import { errorHandler } from '../../utils/errorHandler';
-import {
-  isStringValid,
-  validateObjectProperties,
-} from '../../utils/validation-service';
+import { ValidationService } from '../../utils/validation-service';
 
 export class Organization {
   public sdk: Sdk;
+  private validationService: ValidationService;
 
-  constructor(sdk: Sdk) {
+  constructor(sdk: Sdk, validationService: ValidationService) {
     this.sdk = sdk;
+    this.validationService = validationService;
   }
 
   /**
@@ -33,7 +32,7 @@ export class Organization {
    */
   async createOrganization(organizationInput: CreateOrganizationInput) {
     try {
-      validateObjectProperties(organizationInput);
+      this.validationService.validateObjectProperties(organizationInput);
       return await this.sdk.createOrganization_mutation({
         input: organizationInput,
       });
@@ -103,7 +102,7 @@ export class Organization {
    */
   async updateOrganization(updatedOrganization: UpdateOrganizationInput) {
     try {
-      validateObjectProperties(updatedOrganization);
+      this.validationService.validateObjectProperties(updatedOrganization);
       return await this.sdk.updateOrganization_mutation({
         input: updatedOrganization,
       });
@@ -125,7 +124,7 @@ export class Organization {
    */
   async getOrganization(type: OrganizationIdentifierType, value: string) {
     try {
-      isStringValid(value);
+      this.validationService.validateString(value);
       return await this.sdk.organization_query({ input: { type, value } });
     } catch (error) {
       throw new Error(errorHandler(error));
