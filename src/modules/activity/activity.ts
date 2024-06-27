@@ -1,16 +1,18 @@
-import { errorHandler } from '../../helpers/error-handler';
-import { isStringValid } from '../../common/validator-service';
 import {
   Sdk,
   activitiesCount_queryQueryVariables,
   activities_queryQueryVariables,
-} from '../../../gatewaySdk/sources/GatewayV3';
+} from '../../../gatewaySdk/sources/Gateway';
+import { errorHandler } from '../../helpers/helper';
+import { ValidationService } from '../../services/validator-service';
 
 export class Activity {
-  public sdk: Sdk;
+  private sdk: Sdk;
+  private validationService: ValidationService;
 
-  constructor(sdk: Sdk) {
+  constructor(sdk: Sdk, validationService: ValidationService) {
     this.sdk = sdk;
+    this.validationService = validationService;
   }
 
   /**
@@ -23,7 +25,7 @@ export class Activity {
    */
   async getActivity(id: string) {
     try {
-      isStringValid(id);
+      this.validationService.validateString(id);
       return await this.sdk.activity_query({ id: id });
     } catch (error) {
       throw new Error(errorHandler(error));
