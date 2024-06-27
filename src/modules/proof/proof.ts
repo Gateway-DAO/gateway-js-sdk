@@ -7,8 +7,8 @@ import {
   sentProofsCount_queryQueryVariables,
   sentProofs_queryQueryVariables,
 } from '../../../gatewaySdk/sources/GatewayV3';
-import { errorHandler } from '../../utils/error-handler';
-import { isUUIDValid } from '../../utils/validator-service';
+import { errorHandler } from '../../helpers/error-handler';
+import { isUUIDValid } from '../../common/validator-service';
 
 export class Proof {
   public sdk: Sdk;

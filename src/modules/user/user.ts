@@ -1,9 +1,9 @@
-import { UserIdentifierTypeV3 } from '../../types/types';
-import { errorHandler } from '../../utils/error-handler';
+import { UserIdentifierTypeV3 } from '../../common/enums';
+import { errorHandler } from '../../helpers/error-handler';
 import {
   isStringValid,
   validatePDAFilter,
-} from '../../utils/validator-service';
+} from '../../common/validator-service';
 import {
   FilterDataModelInput,
   myActivities_queryQueryVariables,

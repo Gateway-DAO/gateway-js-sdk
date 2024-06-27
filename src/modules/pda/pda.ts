@@ -8,8 +8,8 @@ import {
   Sdk,
   UpdatePDAInput,
 } from '../../../gatewaySdk/sources/Gateway';
-import { Chain, SignCipherEnum } from '../../types/types';
-import { errorHandler } from '../../utils/error-handler';
+import { Chain, SignCipherEnum } from '../../common/enums';
+import { errorHandler } from '../../helpers/error-handler';
 import {
   isDIDValid,
   isStringValid,
@@ -17,7 +17,7 @@ import {
   isWalletAddressValid,
   validateObjectProperties,
   validatePDAFilter,
-} from '../../utils/validator-service';
+} from '../../common/validator-service';
 
 // secp256k1=evm by default
 // Ed25519=solana
