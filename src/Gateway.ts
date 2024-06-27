@@ -9,11 +9,7 @@ import { Request } from './v2/request/request';
 import { DataModel } from './v2/data-model/data-model';
 import { User } from './v2/user/user';
 import { Transaction } from './v2/transaction/transaction';
-import {
-  checkVersion,
-  clientTimingWrapper,
-  parameterChecker,
-} from './utils/helper';
+import { clientTimingWrapper, parameterChecker } from './utils/helper';
 
 export {
   AuthType,
@@ -48,8 +44,6 @@ export class Gateway {
     logging?: boolean;
   }) {
     parameterChecker(apiKey, token, url);
-
-    checkVersion();
 
     const client = new GraphQLClient(url, {
       headers: {

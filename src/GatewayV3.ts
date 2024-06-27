@@ -1,10 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import { Sdk, getSdk } from '../gatewaySdk/sources/GatewayV3';
-import {
-  checkVersion,
-  clientTimingWrapper,
-  parameterChecker,
-} from './utils/helper';
+import { clientTimingWrapper, parameterChecker } from './utils/helper';
 import { PDA } from './v3/pda/pda';
 import { Auth } from './v3/auth/auth';
 import { DataModel } from './v3/data-model/data-model';
@@ -12,6 +8,8 @@ import { Organization } from './v3/organization/organization';
 import { Proof } from './v3/proof/proof';
 import { Request } from './v3/request/request';
 import { User } from './v3/user/user';
+import { Wallet } from 'ethers';
+import { generateNewEtherumWallet } from './utils/v3-crypto-helper';
 
 export class GatewayV3 {
   private sdk: Sdk;
@@ -22,21 +20,22 @@ export class GatewayV3 {
   public proof: Proof;
   public request: Request;
   public user: User;
+  public wallet: Wallet;
 
   constructor({
     apiKey,
     token,
     url,
+    walletPrivateKey,
     logging = false,
   }: {
     apiKey: string;
     token: string;
     url: string;
+    walletPrivateKey: string;
     logging?: boolean;
   }) {
     parameterChecker(apiKey, token, url);
-
-    checkVersion();
 
     const client = new GraphQLClient(url, {
       headers: {
@@ -45,6 +44,7 @@ export class GatewayV3 {
         'user-agent': `GATEWAY_SDK/v3`,
       },
     });
+    this.wallet = generateNewEtherumWallet(walletPrivateKey);
 
     this.sdk = getSdk(client, logging ? clientTimingWrapper : undefined);
     this.pda = new PDA(this.sdk, url, apiKey, token);

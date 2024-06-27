@@ -1,5 +1,3 @@
-import { promises as fs } from 'fs';
-
 import {
   CreatePDAInput,
   FilterPDAInput,
@@ -16,9 +14,8 @@ import {
   validateObjectProperties,
   validatePDAFilter,
 } from '../../utils/validators';
-import { MAX_UPLOAD_FILE_SIZE } from '../../utils/constants';
 import { validateSignature } from '../../utils/v3-crypto-helper';
-import path from 'path';
+import axios from 'axios';
 
 export class PDA {
   public sdk: Sdk;
@@ -200,18 +197,17 @@ export class PDA {
   /**
    * The function `uploadFileAsPDA` takes a file path as input and a PDA Id
    * and updates the PDA and makes it Valid
-   * @param {string} filePath - The parameter `filePath` is of type `string`. It should be valid file path. Maximum file size allowed is 30 MB
+   * @param {File} file - The parameter `file` is of type `File`. Maximum file size allowed is 30 MB
    * @param {number} pdaId - The parameter `pdaId` is of type `number`. It should be valid pdaId
    * @returns a promise of type fetch response.
    */
-  async uploadFileAsPDA(filePath: string, pdaId: number) {
+  async uploadFileAsPDA(
+    file: Buffer,
+    pdaId: number,
+    fileName: string,
+    fileType: string,
+  ) {
     try {
-      const { size } = await fs.stat(filePath);
-
-      if (size > MAX_UPLOAD_FILE_SIZE)
-        throw new Error(
-          `Current file size ${size} exceeds ${MAX_UPLOAD_FILE_SIZE}. Not reading file.`,
-        );
       const { PDA: filePda } = await this.getPDA(pdaId);
 
       if (filePda === undefined || filePda === null)
@@ -222,18 +218,21 @@ export class PDA {
           `${pdaId} should be in Pending status only. To upload a file`,
         );
 
-      const file = await fs.readFile(filePath, { encoding: 'base64' });
       const formData = new FormData();
       formData.append('pdaId', BigInt(pdaId).toString());
-      formData.append('file', new Blob([file]), path.basename(filePath));
-      return await fetch(`${this.url.replace('/graphql', '')}/file/upload`, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'x-api-key': this.apiKey,
-          Authorization: `Bearer ${this.authToken}`,
+      formData.append('file', new Blob([file], { type: fileType }), fileName);
+
+      return await axios.post(
+        `${this.url.replace('/graphql', '')}/file/upload`,
+        formData,
+        {
+          headers: {
+            'x-api-key': this.apiKey,
+            Authorization: `Bearer ${this.authToken}`,
+            'Content-Type': 'multipart/form-data',
+          },
         },
-      });
+      );
     } catch (error) {
       throw new Error('File Upload failed!');
     }

@@ -144,7 +144,7 @@ export class Organization {
       return await this.sdk.removeMemberFromOrganization_mutation({
         input: memberInput,
       });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
