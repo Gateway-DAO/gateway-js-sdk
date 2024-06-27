@@ -42,7 +42,6 @@ export enum OrganizationIdentifierType {
 
 export enum OrganizationIdentifierTypeV3 {
   ORG_DID = 'ORG_DID',
-  ORG_ID = 'ORG_ID',
   USERNAME = 'USERNAME',
 }
 
@@ -50,6 +49,12 @@ export enum OrganizationRole {
   Admin = 'Admin',
   Member = 'Member',
   Owner = 'Owner',
+}
+
+export enum OrganizationRoleV3 {
+  ADMIN = 'ADMIN',
+  MEMBER = 'MEMBER',
+  OWNER = 'OWNER',
 }
 
 export enum AuthType {

@@ -5,7 +5,6 @@ export const userStub = (overrideUser?: Partial<User>): User => ({
   createdAt: new Date('2021-01-01T12:00:00Z'),
   updatedAt: new Date('2021-01-01T12:00:00Z'),
   username: 'test01',
-  isCompleted: true,
   issuedPDAs: [],
   receivedPDAs: [],
   receivedProofs: [],
