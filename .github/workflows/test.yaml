@@ -22,7 +22,7 @@ jobs:
         run: pnpm generate:sdk
       - name: Format code
         run: pnpm format
-      
+
       - name: Build
         run: pnpm build
       - name: Upload coverage reports to Codecov
