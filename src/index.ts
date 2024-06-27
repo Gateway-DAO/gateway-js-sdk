@@ -14,6 +14,7 @@ import { Request } from './modules/request/request';
 import { User } from './modules/user/user';
 import { Config } from './common/types';
 import { ValidationService } from './services/validator-service';
+import { Activity } from './modules/activity/activity';
 
 class SDKFactory {
   static createSDK({ apiKey, token, url, logging }: Config): Sdk {
@@ -35,6 +36,7 @@ class SDKFactory {
 
 export class Gateway {
   private sdk: Sdk;
+  public activity!: Activity;
   public pda!: PDA;
   public auth!: Auth;
   public dataModel!: DataModel;
@@ -50,6 +52,7 @@ export class Gateway {
   }
 
   private initializeModules(validationService: ValidationService) {
+    this.activity = new Activity(this.sdk, validationService);
     this.auth = new Auth(this.sdk, validationService);
     this.dataModel = new DataModel(this.sdk, validationService);
     this.organization = new Organization(this.sdk, validationService);
