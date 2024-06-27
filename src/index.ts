@@ -1,17 +1,17 @@
 import { GraphQLClient } from 'graphql-request';
-import { Sdk, getSdk } from '../gatewaySdk/sources/GatewayV3';
+import { Sdk, getSdk } from '../gatewaySdk/sources/Gateway';
 import {
   checkVersion,
   clientTimingWrapper,
   parameterChecker,
 } from './utils/helper';
-import { PDA } from './v3/pda/pda';
-import { Auth } from './v3/auth/auth';
-import { DataModel } from './v3/data-model/data-model';
-import { Organization } from './v3/organization/organization';
-import { Proof } from './v3/proof/proof';
-import { Request } from './v3/request/request';
-import { User } from './v3/user/user';
+import { PDA } from './modules/pda/pda';
+import { Auth } from './modules/auth/auth';
+import { DataModel } from './modules/data-model/data-model';
+import { Organization } from './modules/organization/organization';
+import { Proof } from './modules/proof/proof';
+import { Request } from './modules/request/request';
+import { User } from './modules/user/user';
 
 export class GatewayV3 {
   private sdk: Sdk;

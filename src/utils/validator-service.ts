@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { PublicKey } from '@solana/web3.js';
-import { Chain } from '../types';
+import { Chain } from '../types/types';
 import { STRING_VALIDATION_LENGTH } from './constants';
 import { FilterPDAInput } from '../../gatewaySdk/sources/GatewayV3';
 

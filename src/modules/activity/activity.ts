@@ -1,5 +1,5 @@
-import { errorHandler } from '../../utils/errorHandler';
-import { isStringValid } from '../../utils/validators';
+import { errorHandler } from '../../utils/error-handler';
+import { isStringValid } from '../../utils/validator-service';
 import {
   Sdk,
   activitiesCount_queryQueryVariables,

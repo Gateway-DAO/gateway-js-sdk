@@ -7,13 +7,13 @@ import {
   TransferMemberInput,
   UpdateOrganizationInput,
 } from '../../../gatewaySdk/sources/GatewayV3';
-import { Chain, SignCipherEnum } from '../../types';
-import { errorHandler } from '../../utils/errorHandler';
+import { Chain, SignCipherEnum } from '../../types/types';
+import { errorHandler } from '../../utils/error-handler';
 import {
   isStringValid,
   isWalletAddressValid,
   validateObjectProperties,
-} from '../../utils/validators';
+} from '../../utils/validator-service';
 
 export class Organization {
   public sdk: Sdk;

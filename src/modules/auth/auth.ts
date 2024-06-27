@@ -3,14 +3,14 @@ import {
   Sdk,
   SignedWalletNonceInput,
 } from '../../../gatewaySdk/sources/GatewayV3';
-import { Chain, SignCipherEnum } from '../../types';
-import { errorHandler } from '../../utils/errorHandler';
+import { Chain, SignCipherEnum } from '../../types/types';
+import { errorHandler } from '../../utils/error-handler';
 import {
   isDIDValid,
   isStringValid,
   isWalletAddressValid,
   validateObjectProperties,
-} from '../../utils/validators';
+} from '../../utils/validator-service';
 
 export class Auth {
   public sdk: Sdk;

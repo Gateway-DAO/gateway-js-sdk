@@ -7,9 +7,9 @@ import {
   UpdatePDAStatusInput,
   Sdk,
   UpdatePDAInput,
-} from '../../../gatewaySdk/sources/GatewayV3';
-import { Chain, SignCipherEnum } from '../../types';
-import { errorHandler } from '../../utils/errorHandler';
+} from '../../../gatewaySdk/sources/Gateway';
+import { Chain, SignCipherEnum } from '../../types/types';
+import { errorHandler } from '../../utils/error-handler';
 import {
   isDIDValid,
   isStringValid,
@@ -17,7 +17,7 @@ import {
   isWalletAddressValid,
   validateObjectProperties,
   validatePDAFilter,
-} from '../../utils/validators';
+} from '../../utils/validator-service';
 
 // secp256k1=evm by default
 // Ed25519=solana

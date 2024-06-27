@@ -4,8 +4,11 @@ import {
   dataModels_queryQueryVariables,
   CreateDataModelInput,
 } from '../../../gatewaySdk/sources/GatewayV3';
-import { errorHandler } from '../../utils/errorHandler';
-import { isUUIDValid, validateObjectProperties } from '../../utils/validators';
+import { errorHandler } from '../../utils/error-handler';
+import {
+  isUUIDValid,
+  validateObjectProperties,
+} from '../../utils/validator-service';
 
 export class DataModel {
   public sdk: Sdk;
