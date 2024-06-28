@@ -11,6 +11,28 @@ import { User } from './v3/user/user';
 import { Wallet } from 'ethers';
 import { generateNewEtherumWallet } from './utils/v3-crypto-helper';
 
+export {
+  AuthType,
+  Chain,
+  OrganizationIdentifierTypeV3,
+  PDAStatusV3,
+  UserIdentifierTypeV3,
+  OrganizationRoleV3,
+} from './types';
+
+export {
+  decryptWithPKI,
+  encryptWithPKI,
+  generateAESCipher,
+  generateDID,
+  generateNewEtherumWallet,
+  generateRSAKeyPair,
+  jsonEncoder,
+  sharedEncryptWithPKI,
+  signMessage,
+  validateSignature,
+} from './utils/v3-crypto-helper';
+
 export class GatewayV3 {
   private sdk: Sdk;
   public pda: PDA;
