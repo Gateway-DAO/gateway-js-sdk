@@ -137,12 +137,7 @@ export class PDA {
    */
   async createPDA(pdaInput: CreatePDAInput) {
     try {
-      let chain: Chain;
-      if (pdaInput.signingCipher === undefined) {
-        chain = Chain.EVM;
-      } else if (pdaInput.signingCipher === SignCipherEnum.ED25519) {
-        chain = Chain.SOL;
-      } else chain = Chain.EVM;
+      const chain: Chain = getChain(pdaInput.signingCipher as SignCipherEnum);
       this.validationService.validateObjectProperties(pdaInput.data);
       this.validationService.validateWalletAddress(pdaInput.signingKey, chain);
       return await this.sdk.createPDA_mutation({ input: pdaInput });

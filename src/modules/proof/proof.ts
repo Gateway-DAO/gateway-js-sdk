@@ -1,7 +1,6 @@
 import {
   Sdk,
   CreateProofInput,
-  proofsByPDAIds_queryQueryVariables,
   proofs_queryQueryVariables,
   receivedProofs_queryQueryVariables,
   sentProofsCount_queryQueryVariables,
@@ -77,11 +76,7 @@ export class Proof {
    * depend on the GraphQL schema and the requirements of the `proof
    * @returns the result of the `proofsByPDAIds_query` method call.
    */
-  async getProofsByPDAIds({
-    pdaIds,
-    skip,
-    take,
-  }: proofsByPDAIds_queryQueryVariables) {
+  async getProofsByPDAIds({ pdaIds, skip, take }: proofs_queryQueryVariables) {
     try {
       if (typeof pdaIds === 'string') {
         this.validationService.validateUUID(pdaIds);
@@ -90,8 +85,8 @@ export class Proof {
           this.validationService.validateUUID(pdaIds[id]);
         }
       }
-      return await this.sdk.proofsByPDAIds_query({ pdaIds, skip, take });
-    } catch (errorerrorHandler: any) {
+      return await this.sdk.proofsByPDA_query({ pdaIds, skip, take });
+    } catch (error: any) {
       throw new Error(errorHandler(error));
     }
   }
@@ -111,7 +106,7 @@ export class Proof {
         this.validationService.validateUUID(variables.organizationId);
       }
       return await this.sdk.receivedProofs_query(variables);
-    } catch (errorerrorHandler: any) {
+    } catch (error: any) {
       throw new Error(errorHandler(error));
     }
   }
@@ -131,7 +126,7 @@ export class Proof {
         this.validationService.validateUUID(organizationId);
       }
       return await this.sdk.receivedProofsCount_query({ organizationId });
-    } catch (errorerrorHandler: any) {
+    } catch (error: any) {
       throw new Error(errorHandler(error));
     }
   }
