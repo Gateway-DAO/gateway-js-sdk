@@ -53,7 +53,7 @@ export const OrganizationMockService = (organization: Organization) => ({
         organization: organizationStub(),
         user: userStub(),
         id: userStub().id,
-        role: 'Admin',
+        role: 'ADMIN',
       },
     }),
 });

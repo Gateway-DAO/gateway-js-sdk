@@ -6,7 +6,9 @@ import {
   requestsReceived_queryQueryVariables,
   requestsSent_queryQueryVariables,
 } from '../../../gatewaySdk/sources/GatewayV3';
+import { SignCipherEnum } from '../../types';
 import { errorHandler } from '../../utils/errorHandler';
+import { validateSignature } from '../../utils/v3-crypto-helper';
 import { isUUIDValid, validateObjectProperties } from '../../utils/validators';
 
 export class Request {
@@ -29,9 +31,27 @@ export class Request {
    */
   async createDataRequest(inputSchema: CreateDataRequestInput) {
     try {
+      let signCipher: SignCipherEnum;
+      if (inputSchema.signingCipher === undefined) {
+        signCipher = SignCipherEnum.SECP256K1;
+      } else if (inputSchema.signingCipher === SignCipherEnum.ED25519) {
+        signCipher = SignCipherEnum.ED25519;
+      } else signCipher = SignCipherEnum.SECP256K1;
+
+      validateSignature({
+        data: inputSchema.data,
+        signature: inputSchema.signature,
+        signingKey: inputSchema.signingKey,
+        signingCipher: signCipher,
+      });
       validateObjectProperties(inputSchema);
       return await this.sdk.createDataRequest_mutation({ input: inputSchema });
     } catch (error: any) {
+      console.log(
+        error,
+        error.request.variables.input,
+        error.request.variables.input.data.schema,
+      );
       throw new Error(errorHandler(error));
     }
   }
@@ -45,9 +65,22 @@ export class Request {
 
   async updateDataRequest(inputSchema: UpdateDataRequestInput) {
     try {
+      let signCipher: SignCipherEnum;
+      if (inputSchema.signingCipher === undefined) {
+        signCipher = SignCipherEnum.SECP256K1;
+      } else if (inputSchema.signingCipher === SignCipherEnum.ED25519) {
+        signCipher = SignCipherEnum.ED25519;
+      } else signCipher = SignCipherEnum.SECP256K1;
+
+      validateSignature({
+        data: inputSchema.data,
+        signature: inputSchema.signature,
+        signingKey: inputSchema.signingKey,
+        signingCipher: signCipher,
+      });
       validateObjectProperties(inputSchema);
       return await this.sdk.updateDataRequest_mutation({ input: inputSchema });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -65,7 +98,7 @@ export class Request {
     try {
       isUUIDValid(requestId);
       return await this.sdk.dataRequest_query({ requestId });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -82,7 +115,7 @@ export class Request {
   async getDataRequests(filterVariables?: FilterDataRequestInput) {
     try {
       return await this.sdk.dataRequests_query({ filter: filterVariables });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -98,7 +131,7 @@ export class Request {
   async getDataRequestCount(filterVariables?: FilterDataRequestInput) {
     try {
       return await this.sdk.dataRequestCount_query({ filter: filterVariables });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -114,7 +147,7 @@ export class Request {
     try {
       isUUIDValid(requestId);
       return await this.sdk.dataRequestStatus_query({ requestId });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -130,7 +163,7 @@ export class Request {
   async getRequestsReceived(variables?: requestsReceived_queryQueryVariables) {
     try {
       return await this.sdk.requestsReceived_query(variables);
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -148,7 +181,7 @@ export class Request {
       return await this.sdk.requestsReceivedCount_query({
         filter: filterVariables,
       });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -165,7 +198,7 @@ export class Request {
   async getRequestsSent(variables?: requestsSent_queryQueryVariables) {
     try {
       return await this.sdk.requestsSent_query(variables);
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -183,7 +216,7 @@ export class Request {
       return await this.sdk.requestsSentCount_query({
         filter: filterVariables,
       });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }

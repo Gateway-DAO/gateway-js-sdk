@@ -70,7 +70,7 @@ export const isDateValid = (date: string): boolean => {
 };
 
 export const isDIDValid = (did: string): boolean => {
-  const didRegex = /^did:gatewayid:\w+$/;
+  const didRegex = /^did:gatewayId:gateway:\w+$/;
   if (!didRegex.test(did)) throw new Error(`${did} is not valid did`);
 
   return true;
@@ -98,9 +98,6 @@ export const validatePDAFilter = (filter: FilterPDAInput) => {
   try {
     if (filter.dataModelIds) {
       filter.dataModelIds.map((id) => isUUIDValid(id));
-    }
-    if (filter.ids) {
-      filter.ids.map((id) => isUUIDValid(id));
     }
   } catch (error) {
     throw error;

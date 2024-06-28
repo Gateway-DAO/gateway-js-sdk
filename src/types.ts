@@ -27,6 +27,14 @@ export enum PDAStatus {
   'Valid' = 'Valid',
 }
 
+export enum PDAStatusV3 {
+  'EXPIRED' = 'EXPIRED',
+  'PENDING' = 'PENDING',
+  'REVOKED' = 'REVOKED',
+  'SUSPENDED' = 'SUSPENDED',
+  'VALID' = 'VALID',
+}
+
 export enum OrganizationIdentifierType {
   GATEWAY_ID = 'GATEWAY_ID',
   ORG_ID = 'ORG_ID',
@@ -34,7 +42,6 @@ export enum OrganizationIdentifierType {
 
 export enum OrganizationIdentifierTypeV3 {
   ORG_DID = 'ORG_DID',
-  ORG_ID = 'ORG_ID',
   USERNAME = 'USERNAME',
 }
 
@@ -42,6 +49,12 @@ export enum OrganizationRole {
   Admin = 'Admin',
   Member = 'Member',
   Owner = 'Owner',
+}
+
+export enum OrganizationRoleV3 {
+  ADMIN = 'ADMIN',
+  MEMBER = 'MEMBER',
+  OWNER = 'OWNER',
 }
 
 export enum AuthType {
@@ -55,3 +68,10 @@ export enum Chain {
   EVM = 'EVM',
   SOL = 'SOL',
 }
+
+export type EncryptedAESCipher = {
+  aesBlob: string;
+  keyBlobs: Record<string, string>;
+  iv: string;
+  tag: string;
+};

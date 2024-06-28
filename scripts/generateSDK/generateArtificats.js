@@ -64,6 +64,7 @@ async function generateTsArtifacts({
   setDepth,
   fileType,
   sdkName,
+  regexs,
 }) {
   const artifactsDir = join(baseDir, artifactsDirectory);
   console.log('Generating index file in TypeScript');
@@ -115,7 +116,7 @@ async function generateTsArtifacts({
       JSON.stringify(documentHashMap, null, 2),
     );
   }
-  const codegenOutput =
+  let codegenOutput =
     '// @ts-nocheck\n' +
     '/* This file is auto generated \n' +
     'Do not make changes to this file */\n' +
@@ -179,7 +180,7 @@ async function generateTsArtifacts({
 
               return {
                 prepend: [[...importCodes].join('\n'), '\n\n'],
-                content: ['testing-1', 'testing-2'].join('\n\n'),
+                content: ['testing-1'].join('\n\n'),
               };
             },
           },
@@ -189,8 +190,14 @@ async function generateTsArtifacts({
     )
       .replace(`import * as Operations from 'NOWHERE';\n`, '')
       .replace('testing-1', '')
-      .replace('testing-2', '')
       .replace(/Operations./g, '');
+
+  if (regexs) {
+    codegenOutput = regexs.reduce(
+      (str, regex) => str.replace(regex, ''),
+      codegenOutput,
+    );
+  }
 
   const endpointAssignmentCJS = `const baseDir = join(typeof __dirname === 'string' ? __dirname : '/', '${relative(
     artifactsDir,

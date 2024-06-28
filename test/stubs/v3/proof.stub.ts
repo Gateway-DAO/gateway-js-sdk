@@ -20,13 +20,12 @@ export const proofStub = (overrideProof?: any): Proof => ({
 
 export const createProofStub = (overrideProof?: any): CreateProofInput => ({
   data: {
-    claims: [
-      { keyBlob: 'dfds', pdaId: 'f47ac10b-58cc-4372-a567-0e02b2c3d479' },
-    ],
+    claims: [{ keyBlob: 'dfds', pdaId: 1 }],
   },
   signature: '0x8887d10B02C9b785Ca54A2e60c3Ce68DC6dDcdb1',
   signingKey: '0x8887d10B02C9b785Ca54A2e60c3Ce68DC6dDcdb1',
   signingCipher: 'ED25519',
+  ...overrideProof,
 });
 
 export const requestId = 'f47ac10b-58cc-4372-a567-0e02b2c3d479';

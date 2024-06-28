@@ -9,11 +9,7 @@ import { Request } from './v2/request/request';
 import { DataModel } from './v2/data-model/data-model';
 import { User } from './v2/user/user';
 import { Transaction } from './v2/transaction/transaction';
-import {
-  checkVersion,
-  clientTimingWrapper,
-  parameterChecker,
-} from './utils/helper';
+import { clientTimingWrapper, parameterChecker } from './utils/helper';
 
 export {
   AuthType,
@@ -49,10 +45,12 @@ export class Gateway {
   }) {
     parameterChecker(apiKey, token, url);
 
-    checkVersion();
-
     const client = new GraphQLClient(url, {
-      headers: { Authorization: `Bearer ${token}`, 'X-Api-Key': apiKey },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'x-api-key': apiKey,
+        'user-agent': `GATEWAY_SDK/v2`,
+      },
     });
 
     this.sdk = getSdk(client, logging ? clientTimingWrapper : undefined);
