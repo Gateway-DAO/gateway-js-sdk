@@ -4,7 +4,7 @@ import {
   SignedWalletNonceInput,
 } from '../../../gatewaySdk/sources/Gateway';
 import { Chain, SignCipherEnum } from '../../common/enums';
-import { errorHandler } from '../../helpers/helper';
+import { errorHandler, getChain } from '../../helpers/helper';
 import { ValidationService } from '../../services/validator-service';
 
 export class Auth {
@@ -80,7 +80,7 @@ export class Auth {
     signingCipher?: SignCipherEnum;
   }) {
     try {
-      const chain = this.getChain(signingCipher);
+      const chain: Chain = getChain(signingCipher);
       this.validationService.validateWalletAddress(signingKey, chain);
       this.validationService.validateString(signature);
       return (
@@ -103,7 +103,7 @@ export class Auth {
    */
   public async generateNonce(wallet: string, cipher?: SignCipherEnum) {
     try {
-      const chain = this.getChain(cipher);
+      const chain: Chain = getChain(cipher);
       this.validationService.validateWalletAddress(wallet, chain);
       return await this.sdk.generateNonce_mutation({
         input: { wallet, cipher },
@@ -120,19 +120,12 @@ export class Auth {
    */
   public async refreshToken(input: SignedWalletNonceInput) {
     try {
-      const chain = this.getChain(input.cipher as SignCipherEnum);
+      const chain: Chain = getChain(input.cipher as SignCipherEnum);
       this.validationService.validateWalletAddress(input.signingKey, chain);
       this.validationService.validateString(input.signature);
       return (await this.sdk.refreshToken_mutation({ input })).refreshToken;
     } catch (error) {
       throw new Error(errorHandler(error));
     }
-  }
-
-  private getChain(cipher?: SignCipherEnum): Chain {
-    if (cipher === SignCipherEnum.ED25519) {
-      return Chain.SOL;
-    }
-    return Chain.EVM;
   }
 }
