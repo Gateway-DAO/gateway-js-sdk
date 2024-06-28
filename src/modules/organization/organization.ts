@@ -6,20 +6,18 @@ import {
   Sdk,
   TransferMemberInput,
   UpdateOrganizationInput,
-} from '../../../gatewaySdk/sources/GatewayV3';
+} from '../../../gatewaySdk/sources/Gateway';
 import { Chain, SignCipherEnum } from '../../common/enums';
-import { errorHandler } from '../../helpers/error-handler';
-import {
-  isStringValid,
-  isWalletAddressValid,
-  validateObjectProperties,
-} from '../../common/validator-service';
+import { errorHandler, getChain } from '../../helpers/helper';
+import { ValidationService } from '../../services/validator-service';
 
 export class Organization {
-  public sdk: Sdk;
+  private sdk: Sdk;
+  private validationService: ValidationService;
 
-  constructor(sdk: Sdk) {
+  constructor(sdk: Sdk, validationService: ValidationService) {
     this.sdk = sdk;
+    this.validationService = validationService;
   }
 
   /**
@@ -34,15 +32,15 @@ export class Organization {
    */
   async createOrganization(organizationInput: CreateOrganizationInput) {
     try {
-      validateObjectProperties(organizationInput.data);
-      let chain: Chain;
-      if (organizationInput.signingCipher === undefined) {
-        chain = Chain.EVM;
-      } else if (organizationInput.signingCipher === SignCipherEnum.ED25519) {
-        chain = Chain.SOL;
-      } else chain = Chain.EVM;
-      isWalletAddressValid(organizationInput.signingKey, chain);
-      isStringValid(organizationInput.signature);
+      this.validationService.validateObjectProperties(organizationInput.data);
+      const chain: Chain = getChain(
+        organizationInput.signingCipher as SignCipherEnum,
+      );
+      this.validationService.validateWalletAddress(
+        organizationInput.signingKey,
+        chain,
+      );
+      this.validationService.validateString(organizationInput.signature);
       return await this.sdk.createOrganization_mutation({
         input: organizationInput,
       });
@@ -130,15 +128,15 @@ export class Organization {
    */
   async updateOrganization(updatedOrganization: UpdateOrganizationInput) {
     try {
-      validateObjectProperties(updatedOrganization.data);
-      let chain: Chain;
-      if (updatedOrganization.signingCipher === undefined) {
-        chain = Chain.EVM;
-      } else if (updatedOrganization.signingCipher === SignCipherEnum.ED25519) {
-        chain = Chain.SOL;
-      } else chain = Chain.EVM;
-      isWalletAddressValid(updatedOrganization.signingKey, chain);
-      isStringValid(updatedOrganization.signature);
+      this.validationService.validateObjectProperties(updatedOrganization.data);
+      const chain: Chain = getChain(
+        updatedOrganization.signingCipher as SignCipherEnum,
+      );
+      this.validationService.validateWalletAddress(
+        updatedOrganization.signingKey,
+        chain,
+      );
+      this.validationService.validateString(updatedOrganization.signature);
       return await this.sdk.updateOrganization_mutation({
         input: updatedOrganization,
       });
@@ -160,7 +158,7 @@ export class Organization {
    */
   async getOrganization(type: OrganizationIdentifierType, value: string) {
     try {
-      isStringValid(value);
+      this.validationService.validateString(value);
       return await this.sdk.organization_query({ input: { type, value } });
     } catch (error) {
       throw new Error(errorHandler(error));
