@@ -3,18 +3,17 @@ import {
   Sdk,
   dataModels_queryQueryVariables,
   CreateDataModelInput,
-} from '../../../gatewaySdk/sources/GatewayV3';
-import { errorHandler } from '../../helpers/error-handler';
-import {
-  isUUIDValid,
-  validateObjectProperties,
-} from '../../common/validator-service';
+} from '../../../gatewaySdk/sources/Gateway';
+import { errorHandler } from '../../helpers/helper';
+import { ValidationService } from '../../services/validator-service';
 
 export class DataModel {
-  public sdk: Sdk;
+  private sdk: Sdk;
+  private validationService: ValidationService;
 
-  constructor(sdk: Sdk) {
+  constructor(sdk: Sdk, validationService: ValidationService) {
     this.sdk = sdk;
+    this.validationService = validationService;
   }
 
   /**
@@ -25,9 +24,9 @@ export class DataModel {
    * model.
    * @returns a Promise that resolves to a value of type `createDataModel_mutationMutation`.
    */
-  async createDataModel(createModelInput: CreateDataModelInput) {
+  public async createDataModel(createModelInput: CreateDataModelInput) {
     try {
-      validateObjectProperties(createModelInput);
+      this.validationService.validateObjectProperties(createModelInput);
       return await this.sdk.createDataModel_mutation({
         input: createModelInput,
       });
@@ -43,9 +42,9 @@ export class DataModel {
    * @returns The `getDataModel` function is returning the result of querying the data model with the
    * provided `id` using the SDK.
    */
-  async getDataModel(id: string) {
+  public async getDataModel(id: string) {
     try {
-      isUUIDValid(id);
+      this.validationService.validateUUID(id);
       return await this.sdk.dataModel_query({ id });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -60,8 +59,7 @@ export class DataModel {
    * @returns The `getDataModels` function is returning the result of the `dataModels_query` function
    * call.
    */
-
-  async getDataModels(variables?: dataModels_queryQueryVariables) {
+  public async getDataModels(variables?: dataModels_queryQueryVariables) {
     try {
       return await this.sdk.dataModels_query(variables);
     } catch (error) {
@@ -79,7 +77,7 @@ export class DataModel {
    * @returns The `getDataModelsCount` function is returning the result of the `dataModelsCount_query`
    * method call with the provided `filterVariables` as the filter parameter.
    */
-  async getDataModelsCount(filterVariables?: FilterDataModelInput) {
+  public async getDataModelsCount(filterVariables?: FilterDataModelInput) {
     try {
       return await this.sdk.dataModelsCount_query({
         filter: filterVariables,
@@ -95,7 +93,7 @@ export class DataModel {
    * @returns The `getDataModelMetaData` function is returning the result of the
    * `dataModelsMetadata_query` method call.
    */
-  async getDataModelsMetaData() {
+  public async getDataModelsMetaData() {
     try {
       return await this.sdk.dataModelsMetadata_query();
     } catch (error: any) {
@@ -108,9 +106,9 @@ export class DataModel {
    * @param {string} id - A string representing the ID of the data model.
    * @returns the result of the `issuersByDataModel_query` method call.
    */
-  async getIssuersByDataModel(id: string) {
+  public async getIssuersByDataModel(id: string) {
     try {
-      isUUIDValid(id);
+      this.validationService.validateUUID(id);
       return await this.sdk.issuersByDataModel_query({ id: id });
     } catch (error: any) {
       throw new Error(errorHandler(error));
@@ -124,9 +122,9 @@ export class DataModel {
    * model.
    * @returns the result of the `issuersByDataModelCount_query` method call.
    */
-  async getIssuersByDataModelCount(dataModelId: string) {
+  public async getIssuersByDataModelCount(dataModelId: string) {
     try {
-      isUUIDValid(dataModelId);
+      this.validationService.validateUUID(dataModelId);
       return await this.sdk.issuersByDataModelCount_query({ id: dataModelId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
@@ -140,9 +138,9 @@ export class DataModel {
    * of a data model. It is used to query the total number of issuers associated with that data model.
    * @returns the result of the `getTotalofIssuersByDataModel_query` method call.
    */
-  async getTotalofIssuersByDataModel(dataModelId: string) {
+  public async getTotalofIssuersByDataModel(dataModelId: string) {
     try {
-      isUUIDValid(dataModelId);
+      this.validationService.validateUUID(dataModelId);
       return await this.sdk.getTotalofIssuersByDataModel_query({ dataModelId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
