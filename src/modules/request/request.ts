@@ -5,18 +5,17 @@ import {
   UpdateDataRequestInput,
   requestsReceived_queryQueryVariables,
   requestsSent_queryQueryVariables,
-} from '../../../gatewaySdk/sources/GatewayV3';
-import { errorHandler } from '../../helpers/error-handler';
-import {
-  isUUIDValid,
-  validateObjectProperties,
-} from '../../common/validator-service';
+} from '../../../gatewaySdk/sources/Gateway';
+import { errorHandler } from '../../helpers/helper';
+import { ValidationService } from '../../services/validator-service';
 
 export class Request {
-  public sdk: Sdk;
+  private sdk: Sdk;
+  private validationService: ValidationService;
 
-  constructor(sdk: Sdk) {
+  constructor(sdk: Sdk, validationService: ValidationService) {
     this.sdk = sdk;
+    this.validationService = validationService;
   }
 
   /**
@@ -32,7 +31,7 @@ export class Request {
    */
   async createDataRequest(inputSchema: CreateDataRequestInput) {
     try {
-      validateObjectProperties(inputSchema);
+      this.validationService.validateObjectProperties(inputSchema);
       return await this.sdk.createDataRequest_mutation({ input: inputSchema });
     } catch (error: any) {
       throw new Error(errorHandler(error));
@@ -48,7 +47,7 @@ export class Request {
 
   async updateDataRequest(inputSchema: UpdateDataRequestInput) {
     try {
-      validateObjectProperties(inputSchema);
+      this.validationService.validateObjectProperties(inputSchema);
       return await this.sdk.updateDataRequest_mutation({ input: inputSchema });
     } catch (error: any) {
       throw new Error(errorHandler(error));
@@ -66,7 +65,7 @@ export class Request {
    */
   async getDataRequest(requestId: string) {
     try {
-      isUUIDValid(requestId);
+      this.validationService.validateUUID(requestId);
       return await this.sdk.dataRequest_query({ requestId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
@@ -115,7 +114,7 @@ export class Request {
    */
   async getDataRequestStatus(requestId: string) {
     try {
-      isUUIDValid(requestId);
+      this.validationService.validateUUID(requestId);
       return await this.sdk.dataRequestStatus_query({ requestId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
