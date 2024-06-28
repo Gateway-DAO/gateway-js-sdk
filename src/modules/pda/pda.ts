@@ -9,24 +9,19 @@ import {
   UpdatePDAInput,
 } from '../../../gatewaySdk/sources/Gateway';
 import { Chain, SignCipherEnum } from '../../common/enums';
-import { errorHandler } from '../../helpers/error-handler';
-import {
-  isDIDValid,
-  isStringValid,
-  isUUIDValid,
-  isWalletAddressValid,
-  validateObjectProperties,
-  validatePDAFilter,
-} from '../../common/validator-service';
+import { errorHandler, getChain } from '../../helpers/helper';
+import { ValidationService } from '../../services/validator-service';
 
 // secp256k1=evm by default
 // Ed25519=solana
 
 export class PDA {
-  public sdk: Sdk;
+  private sdk: Sdk;
+  private validationService: ValidationService;
 
-  constructor(sdk: Sdk) {
+  constructor(sdk: Sdk, validationService: ValidationService) {
     this.sdk = sdk;
+    this.validationService = validationService;
   }
 
   /**
@@ -38,7 +33,7 @@ export class PDA {
    */
   async getPDA(id: string) {
     try {
-      isUUIDValid(id);
+      this.validationService.validateUUID(id);
       return await this.sdk.PDA_query({ id });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -55,7 +50,9 @@ export class PDA {
    */
   async getPDACount(filter?: PDACount_queryQueryVariables) {
     try {
-      if (filter?.filter) validatePDAFilter(filter.filter);
+      if (filter?.filter) {
+        this.validationService.validatePDAFilter(filter.filter);
+      }
       return (await this.sdk.PDACount_query(filter)).PDACount;
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -70,7 +67,9 @@ export class PDA {
    */
   async getPDAs(variables?: PDAs_queryQueryVariables) {
     try {
-      if (variables?.filter) validatePDAFilter(variables.filter);
+      if (variables?.filter) {
+        this.validationService.validatePDAFilter(variables.filter);
+      }
       return await this.sdk.PDAs_query(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -86,7 +85,9 @@ export class PDA {
    */
   async getIssuedPDAs(variables?: issuedPDAs_queryQueryVariables) {
     try {
-      if (variables?.filter) validatePDAFilter(variables.filter);
+      if (variables?.filter) {
+        this.validationService.validatePDAFilter(variables.filter);
+      }
       return await this.sdk.issuedPDAs_query(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -102,7 +103,9 @@ export class PDA {
    */
   async getIssuedPDAsCount(filter?: FilterPDAInput) {
     try {
-      if (filter) validatePDAFilter(filter);
+      if (filter) {
+        this.validationService.validatePDAFilter(filter);
+      }
       return (await this.sdk.issuedPDAsCount_query({ filter })).issuedPDAsCount;
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -117,14 +120,9 @@ export class PDA {
    */
   async changePDAStatus(input: UpdatePDAStatusInput) {
     try {
-      let chain: Chain;
-      if (input.signingCipher === undefined) {
-        chain = Chain.EVM;
-      } else if (input.signingCipher === SignCipherEnum.ED25519) {
-        chain = Chain.SOL;
-      } else chain = Chain.EVM;
-      validateObjectProperties(input.data);
-      isWalletAddressValid(input.signingKey, chain);
+      const chain: Chain = getChain(input.signingCipher as SignCipherEnum);
+      this.validationService.validateObjectProperties(input.data);
+      this.validationService.validateWalletAddress(input.signingKey, chain);
       return await this.sdk.changePDAStatus_mutation({ input });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -145,8 +143,8 @@ export class PDA {
       } else if (pdaInput.signingCipher === SignCipherEnum.ED25519) {
         chain = Chain.SOL;
       } else chain = Chain.EVM;
-      validateObjectProperties(pdaInput.data);
-      isWalletAddressValid(pdaInput.signingKey, chain);
+      this.validationService.validateObjectProperties(pdaInput.data);
+      this.validationService.validateWalletAddress(pdaInput.signingKey, chain);
       return await this.sdk.createPDA_mutation({ input: pdaInput });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -164,9 +162,9 @@ export class PDA {
    */
   async updatePDA(updatedPDA: UpdatePDAInput) {
     try {
-      validateObjectProperties(updatedPDA.data);
-      isDIDValid(updatedPDA.did);
-      isStringValid(updatedPDA.signature);
+      this.validationService.validateObjectProperties(updatedPDA.data);
+      this.validationService.validateDID(updatedPDA.did);
+      this.validationService.validateString(updatedPDA.signature);
       return await this.sdk.updatePDA_mutation({ input: updatedPDA });
     } catch (error) {
       throw new Error(errorHandler(error));
