@@ -1,9 +1,3 @@
-import { UserIdentifierTypeV3 } from '../../common/enums';
-import { errorHandler } from '../../helpers/error-handler';
-import {
-  isStringValid,
-  validatePDAFilter,
-} from '../../common/validator-service';
 import {
   FilterDataModelInput,
   myActivities_queryQueryVariables,
@@ -11,13 +5,18 @@ import {
   myPDACount_queryQueryVariables,
   myPDAs_queryQueryVariables,
   Sdk,
-} from '../../../gatewaySdk/sources/GatewayV3';
+  UserIdentifierType,
+} from '../../../gatewaySdk/sources/Gateway';
+import { errorHandler } from '../../helpers/helper';
+import { ValidationService } from '../../services/validator-service';
 
 export class User {
-  public sdk: Sdk;
+  private sdk: Sdk;
+  private validationService: ValidationService;
 
-  constructor(sdk: Sdk) {
+  constructor(sdk: Sdk, validationService: ValidationService) {
     this.sdk = sdk;
+    this.validationService = validationService;
   }
 
   /**
@@ -44,11 +43,11 @@ export class User {
     type,
     value,
   }: {
-    type: UserIdentifierTypeV3;
+    type: UserIdentifierType;
     value: string;
   }) {
     try {
-      isStringValid(value);
+      this.validationService.validateString(value);
       return await this.sdk.user_query({ input: { type, value } });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -65,7 +64,9 @@ export class User {
    */
   async myPDACount(filter?: myPDACount_queryQueryVariables) {
     try {
-      if (filter?.filter) validatePDAFilter(filter.filter);
+      if (filter?.filter) {
+        this.validationService.validatePDAFilter(filter.filter);
+      }
       return (await this.sdk.myPDACount_query(filter)).myPDACount;
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -80,7 +81,9 @@ export class User {
    */
   async myPDAs(filter?: myPDAs_queryQueryVariables) {
     try {
-      if (filter?.filter) validatePDAFilter(filter.filter);
+      if (filter?.filter) {
+        this.validationService.validatePDAFilter(filter.filter);
+      }
       return await this.sdk.myPDAs_query(filter);
     } catch (error) {
       throw new Error(errorHandler(error));
