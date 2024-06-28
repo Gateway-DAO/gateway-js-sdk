@@ -6,15 +6,17 @@ import {
   receivedProofs_queryQueryVariables,
   sentProofsCount_queryQueryVariables,
   sentProofs_queryQueryVariables,
-} from '../../../gatewaySdk/sources/GatewayV3';
-import { errorHandler } from '../../helpers/error-handler';
-import { isUUIDValid } from '../../common/validator-service';
+} from '../../../gatewaySdk/sources/Gateway';
+import { errorHandler } from '../../helpers/helper';
+import { ValidationService } from '../../services/validator-service';
 
 export class Proof {
-  public sdk: Sdk;
+  private sdk: Sdk;
+  private validationService: ValidationService;
 
-  constructor(sdk: Sdk) {
+  constructor(sdk: Sdk, validationService: ValidationService) {
     this.sdk = sdk;
+    this.validationService = validationService;
   }
 
   /**
@@ -27,7 +29,7 @@ export class Proof {
    */
   async getProof(id: string) {
     try {
-      isUUIDValid(id);
+      this.validationService.validateUUID(id);
       return await this.sdk.proof_query({ id: id });
     } catch (error: any) {
       throw new Error(errorHandler(error));
@@ -82,12 +84,14 @@ export class Proof {
   }: proofsByPDAIds_queryQueryVariables) {
     try {
       if (typeof pdaIds === 'string') {
-        isUUIDValid(pdaIds);
+        this.validationService.validateUUID(pdaIds);
       } else {
-        for (const id in pdaIds) isUUIDValid(pdaIds[id]);
+        for (const id in pdaIds) {
+          this.validationService.validateUUID(pdaIds[id]);
+        }
       }
       return await this.sdk.proofsByPDAIds_query({ pdaIds, skip, take });
-    } catch (error: any) {
+    } catch (errorerrorHandler: any) {
       throw new Error(errorHandler(error));
     }
   }
@@ -104,10 +108,10 @@ export class Proof {
   async getReceivedProofs(variables?: receivedProofs_queryQueryVariables) {
     try {
       if (variables && variables.organizationId) {
-        isUUIDValid(variables.organizationId);
+        this.validationService.validateUUID(variables.organizationId);
       }
       return await this.sdk.receivedProofs_query(variables);
-    } catch (error: any) {
+    } catch (errorerrorHandler: any) {
       throw new Error(errorHandler(error));
     }
   }
@@ -124,10 +128,10 @@ export class Proof {
   async getReceivedProofsCount(organizationId?: string) {
     try {
       if (organizationId) {
-        isUUIDValid(organizationId);
+        this.validationService.validateUUID(organizationId);
       }
       return await this.sdk.receivedProofsCount_query({ organizationId });
-    } catch (error: any) {
+    } catch (errorerrorHandler: any) {
       throw new Error(errorHandler(error));
     }
   }
