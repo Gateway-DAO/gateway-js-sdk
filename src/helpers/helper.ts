@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { Chain, SignCipherEnum } from '../common/enums';
 import { SdkFunctionWrapper } from '../../gatewaySdk/sources/Gateway';
 
 export const clientTimingWrapper: SdkFunctionWrapper = async <T>(
@@ -76,4 +77,11 @@ export const errorHandler = (error: any): string => {
     }
   }
   return 'Something went wrong!';
+};
+
+export const getChain = (cipher?: SignCipherEnum): Chain => {
+  if (cipher === SignCipherEnum.ED25519) {
+    return Chain.SOL;
+  }
+  return Chain.EVM;
 };
