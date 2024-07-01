@@ -1,7 +1,7 @@
 import { GraphQLClient } from 'graphql-request';
 
 import { getSdk } from '../../gatewaySdk/sources/GatewayV3';
-import { AuthMockService } from '../../__mocks__/v3/auth.mock';
+import { AuthMockService } from '../__mocks__/v3/auth.mock';
 import { authStub } from '../stubs/v3/auth.stub';
 import { Auth } from '../../src/v3/auth/auth';
 import { SignCipherEnum } from '../../src/types';

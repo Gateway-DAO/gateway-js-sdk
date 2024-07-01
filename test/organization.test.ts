@@ -1,18 +1,11 @@
 import { GraphQLClient } from 'graphql-request';
-import { getSdk } from '../../gatewaySdk/sources/GatewayV3';
-import { Organization } from '../../src/v3/organization/organization';
-import { OrganizationMockService } from '../../__mocks__/v3/organization.mock';
+import { OrganizationMockService } from '../__mocks__/v3/organization.mock';
 import {
   organizationCreateStub,
   organizationStub,
-} from '../stubs/v3/organization.stub';
-import {
-  OrganizationIdentifierTypeV3,
-  OrganizationRoleV3,
-  UserIdentifierTypeV3,
-} from '../../src/types';
-import { authStub } from '../stubs/v3/auth.stub';
-import { userStub } from '../stubs/v3/user.stub';
+} from './stubs/organization.stub';
+import { authStub } from './stubs/auth.stub';
+import { userStub } from './stubs/user.stub';
 
 let organization: Organization;
 
@@ -66,7 +59,7 @@ describe('ORGANIZATION SERVICE TESTING', () => {
     const { getOrganizationMock } = OrganizationMockService(organization);
 
     const res = await organization.getOrganization(
-      OrganizationIdentifierTypeV3.ORG_DID,
+      OrganizationIdentifierType.ORG_DID,
       organizationStub().did,
     );
 
@@ -80,7 +73,7 @@ describe('ORGANIZATION SERVICE TESTING', () => {
     expect(
       async () =>
         await organization.getOrganization(
-          OrganizationIdentifierTypeV3.ORG_DID,
+          OrganizationIdentifierType.ORG_DID,
           organizationStub({ did: '' }).did,
         ),
     ).rejects.toThrow('');

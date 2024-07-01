@@ -1,11 +1,11 @@
-import { getSdk } from '../../gatewaySdk/sources/GatewayV2';
-import { DataModel } from '../../src/v2/data-model/data-model';
+import { getSdk } from '../../gatewaySdk/sources/GatewayV3';
+import { DataModel } from '../../src/v3/data-model/data-model';
 import {
   dataModelCreateStub,
   dataModelStub,
   dataModelMetaDataStub,
-} from '../stubs/v2/dataModel.stub';
-import { DataModelMockService } from '../../__mocks__/v2/dataModel.mock';
+} from '../stubs/v3/data-model.stub';
+import { DataModelMockService } from '../__mocks__/v3/data-model.mock';
 import { GraphQLClient } from 'graphql-request';
 
 let dataModel: DataModel;
@@ -26,7 +26,7 @@ describe('DATA MODEL CLASS METHODS TESTING', () => {
       dataModelCreateStub(),
     );
 
-    expect(createDataModel.title).toEqual(dataModelCreateStub().title);
+    expect(createDataModel.title).toEqual(dataModelCreateStub().data.title);
     expect(createDataModelMock).toHaveBeenCalled();
   });
 
@@ -36,8 +36,14 @@ describe('DATA MODEL CLASS METHODS TESTING', () => {
     expect(
       async () =>
         await dataModel.createDataModel({
-          ...dataModelCreateStub(),
-          title: '',
+          data: {
+            title: '',
+            description: '',
+            schema: undefined,
+          },
+          signature: '',
+          signingKey: '',
+          signingCipher: 'ED25519',
         }),
     ).rejects.toThrow(' should be atleast 2 length');
     expect(createDataModelMock).toHaveBeenCalled();

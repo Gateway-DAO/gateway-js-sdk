@@ -57,3 +57,12 @@ export const getChain = (cipher?: SignCipherEnum): Chain => {
   }
   return Chain.EVM;
 };
+
+export const getSignCipher = (
+  signingCipher?: SignCipherEnum,
+): SignCipherEnum => {
+  if (signingCipher === SignCipherEnum.ED25519) {
+    return SignCipherEnum.ED25519;
+  }
+  return SignCipherEnum.SECP256K1;
+};

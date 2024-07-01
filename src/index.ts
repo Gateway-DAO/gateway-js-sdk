@@ -36,6 +36,7 @@ class SDKFactory {
 
 export class Gateway {
   private sdk: Sdk;
+  private config: Config;
   public activity!: Activity;
   public pda!: PDA;
   public auth!: Auth;
@@ -48,6 +49,7 @@ export class Gateway {
   constructor(config: Config) {
     const validationService = new ValidationService();
     this.sdk = SDKFactory.createSDK(config);
+    this.config = config;
     this.initializeModules(validationService);
   }
 
@@ -56,7 +58,7 @@ export class Gateway {
     this.auth = new Auth(this.sdk, validationService);
     this.dataModel = new DataModel(this.sdk, validationService);
     this.organization = new Organization(this.sdk, validationService);
-    this.pda = new PDA(this.sdk, validationService);
+    this.pda = new PDA(this.sdk, validationService, this.config);
     this.proof = new Proof(this.sdk, validationService);
     this.request = new Request(this.sdk, validationService);
     this.user = new User(this.sdk, validationService);

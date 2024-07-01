@@ -1,7 +1,7 @@
 import { GraphQLClient } from 'graphql-request';
 
 import { getSdk } from '../../gatewaySdk/sources/GatewayV3';
-import { ActivityMockService } from '../../__mocks__/v3/activity.mock';
+import { ActivityMockService } from '../__mocks__/v3/activity.mock';
 import { activityStub } from '../stubs/v3/activity.stub';
 import { Activity } from '../../src/v3/activity/activity';
 

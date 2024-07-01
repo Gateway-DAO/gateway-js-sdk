@@ -4,7 +4,7 @@ import { PDAStatus } from '../../src/types';
 import { PDA } from '../../src/v3/pda/pda';
 import { getSdk } from '../../gatewaySdk/sources/GatewayV3';
 import { pdaBodyData, pdaCreateStub, pdaStub } from '../stubs/v3/pda.stub';
-import { PDAMockService } from '../../__mocks__/v3/pda.mock';
+import { PDAMockService } from '../__mocks__/v3/pda.mock';
 import { authStub } from '../stubs/v3/auth.stub';
 import { invalidUUID } from '../stubs/v3/user.stub';
 

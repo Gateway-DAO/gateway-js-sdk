@@ -2,7 +2,7 @@ import { GraphQLClient } from 'graphql-request';
 import { getSdk } from '../../gatewaySdk/sources/GatewayV3';
 import { User } from '../../src/v3/user/user';
 import { invalidUUID, userStub } from '../stubs/v3/user.stub';
-import { UserMockService } from '../../__mocks__/v3/user.mock';
+import { UserMockService } from '../__mocks__/v3/user.mock';
 import { UserIdentifierType, UserIdentifierTypeV3 } from '../../src/types';
 
 let user: User;

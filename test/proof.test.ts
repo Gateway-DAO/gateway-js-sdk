@@ -1,7 +1,7 @@
 import { Proof } from '../../src/v3/proof/proof';
 import { getSdk } from '../../gatewaySdk/sources/GatewayV3';
 import { proofStub, createProofStub } from '../stubs/v3/proof.stub';
-import { ProofMockService } from '../../__mocks__/v3/proof.mock';
+import { ProofMockService } from '../__mocks__/v3/proof.mock';
 import { pdaStub } from '../stubs/v3/pda.stub';
 import { GraphQLClient } from 'graphql-request';
 
