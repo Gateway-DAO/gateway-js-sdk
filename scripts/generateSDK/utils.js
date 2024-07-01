@@ -1,13 +1,13 @@
 const fs = require('fs');
 const { dirname: getDirname } = require('path');
-const { DocumentNode, print } = require('graphql');
+const { print } = require('graphql');
 const {
   mapSchema,
   memoize1,
-  buildOperationNodeForField,
   getRootTypeMap,
   parseGraphQLSDL,
 } = require('@graphql-tools/utils');
+const { buildOperationNodeForField } = require('./BuildOperationForField');
 
 function getUnifiedSchema(rawSource) {
   let schema = rawSource;

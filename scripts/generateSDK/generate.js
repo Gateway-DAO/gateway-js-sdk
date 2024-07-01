@@ -30,7 +30,7 @@ async function fetchAndGetUnifiedSchema({ url }) {
     const bareFilter = new BareFilter({
       filters: ['PDAMetadata.!status', 'RequestMetadata.!request'],
     });
-    const modifedSchema = bareFilter.transformSchema(baseSchema);
+    let modifedSchema = bareFilter.transformSchema(baseSchema);
 
     return {
       unifiedSchema: getUnifiedSchema(modifedSchema),
@@ -59,7 +59,8 @@ async function generateSdk({ url, sdkName, regexs }) {
     const { rawSource, unifiedSchema } = await fetchAndGetUnifiedSchema({
       url,
     });
-    generateTsArtifacts({
+
+    await generateTsArtifacts({
       baseDir: join(__dirname, '..', '..'),
       artifactsDirectory: 'gatewaySdk',
       fileType: 'ts',
@@ -87,6 +88,7 @@ const generateSdkInBatch = () => {
       regexs: [/dataAsset\s*{[^}]*}/g, /data\s*{\s*dataUse\s*}/g],
     },
   ];
+  // url: 'http:127.0.0.1:3000/graphql',
   configs.forEach(
     async (config) =>
       await generateSdk({
