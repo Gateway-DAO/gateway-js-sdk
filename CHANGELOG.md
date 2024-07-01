@@ -1,3 +1,27 @@
+# [2.1.0-develop.3](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.2...v2.1.0-develop.3) (2024-06-28)
+
+
+### Bug Fixes
+
+* pnpm lock ([093e2ad](https://github.com/Gateway-DAO/gateway-js-sdk/commit/093e2ad0d1fbb751d5bbe9947065ea0296394760))
+
+# [2.1.0-develop.2](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.1...v2.1.0-develop.2) (2024-06-28)
+
+### Bug Fixes
+
+- fixed all possible bugs ([6496637](https://github.com/Gateway-DAO/gateway-js-sdk/commit/64966377cd45e31e315cd671dc690db12b8aa9e3))
+- remove test cases for now ([35019d6](https://github.com/Gateway-DAO/gateway-js-sdk/commit/35019d68cb62a4d95b647d4a9dbcdad7f898e333))
+- removed test cases for now ([1550550](https://github.com/Gateway-DAO/gateway-js-sdk/commit/155055094b50b91f17a5df3d9f6f8f9bf0ac6fcb))
+- solana version fix ([ef75028](https://github.com/Gateway-DAO/gateway-js-sdk/commit/ef75028d290edb5160d7239415d7c6a3f1ae9a56))
+
+### Features
+
+- added crypto test and upload file as pda ([1e20416](https://github.com/Gateway-DAO/gateway-js-sdk/commit/1e2041617cdea4b6eafe7701a0013198d598d2e2))
+- added signature based validations for PDA ([8ab5101](https://github.com/Gateway-DAO/gateway-js-sdk/commit/8ab510179cbc9bf2812bd9b1894ba2a86ed1604c))
+- added signature validation to orgs ([45a47da](https://github.com/Gateway-DAO/gateway-js-sdk/commit/45a47da34e5ca313ab8788d229941533d37b2bae))
+- added signatures to data model and org ([200fddd](https://github.com/Gateway-DAO/gateway-js-sdk/commit/200fddd1c4d255ce3b5a368d5906c3661618f448))
+- refactored pda class and added crypto methods ([0c471a0](https://github.com/Gateway-DAO/gateway-js-sdk/commit/0c471a06e166246e97f90f932e481185ff6cf8c8))
+
 # [2.1.0-develop.1](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.0.0...v2.1.0-develop.1) (2024-05-13)
 
 ### Features

@@ -17,9 +17,9 @@ export const ProofMockService = (proof: Proof) => ({
   }),
 
   getProofsByPDAIdsMock: jest
-    .spyOn(proof.sdk, 'proofsByPDAIds_query')
+    .spyOn(proof.sdk, 'proofsByPDA_query')
     .mockResolvedValue({
-      proofsByPDAIds: [proofStub()],
+      proofsByPDA: [proofStub()],
     }),
 
   getReceivedProofsMock: jest

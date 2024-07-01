@@ -34,6 +34,11 @@ export class Request {
       this.validationService.validateObjectProperties(inputSchema);
       return await this.sdk.createDataRequest_mutation({ input: inputSchema });
     } catch (error: any) {
+      console.log(
+        error,
+        error.request.variables.input,
+        error.request.variables.input.data.schema,
+      );
       throw new Error(errorHandler(error));
     }
   }
@@ -49,7 +54,7 @@ export class Request {
     try {
       this.validationService.validateObjectProperties(inputSchema);
       return await this.sdk.updateDataRequest_mutation({ input: inputSchema });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -67,7 +72,7 @@ export class Request {
     try {
       this.validationService.validateUUID(requestId);
       return await this.sdk.dataRequest_query({ requestId });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -84,7 +89,7 @@ export class Request {
   async getDataRequests(filterVariables?: FilterDataRequestInput) {
     try {
       return await this.sdk.dataRequests_query({ filter: filterVariables });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -100,7 +105,7 @@ export class Request {
   async getDataRequestCount(filterVariables?: FilterDataRequestInput) {
     try {
       return await this.sdk.dataRequestCount_query({ filter: filterVariables });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -116,7 +121,7 @@ export class Request {
     try {
       this.validationService.validateUUID(requestId);
       return await this.sdk.dataRequestStatus_query({ requestId });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -132,7 +137,7 @@ export class Request {
   async getRequestsReceived(variables?: requestsReceived_queryQueryVariables) {
     try {
       return await this.sdk.requestsReceived_query(variables);
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -150,7 +155,7 @@ export class Request {
       return await this.sdk.requestsReceivedCount_query({
         filter: filterVariables,
       });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -167,7 +172,7 @@ export class Request {
   async getRequestsSent(variables?: requestsSent_queryQueryVariables) {
     try {
       return await this.sdk.requestsSent_query(variables);
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -185,7 +190,7 @@ export class Request {
       return await this.sdk.requestsSentCount_query({
         filter: filterVariables,
       });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }

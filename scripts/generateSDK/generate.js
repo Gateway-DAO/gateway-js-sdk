@@ -41,7 +41,7 @@ async function fetchAndGetUnifiedSchema({ url }) {
   }
 }
 
-async function generateSdk({ url, sdkName }) {
+async function generateSdk({ url, sdkName, regexs }) {
   try {
     fs.access(join(__dirname, '..', '..', 'gatewaySdk'), (err) => {
       if (err) {
@@ -67,6 +67,7 @@ async function generateSdk({ url, sdkName }) {
       setDepth: 2,
       unifiedSchema,
       sdkName,
+      regexs,
     });
     console.log(`Done Generating ${sdkName}`);
   } catch (error) {
@@ -75,14 +76,20 @@ async function generateSdk({ url, sdkName }) {
 }
 
 const generateSdkInBatch = () => {
-  const config = [
+  const configs = [
     {
       sdkName: 'Gateway',
       url: 'https://v3-dev.protocol.mygateway.xyz/graphql',
+      regexs: [/dataAsset\s*{[^}]*}/g, /data\s*{\s*dataUse\s*}/g],
     },
   ];
-  config.forEach(
-    async (c) => await generateSdk({ url: c.url, sdkName: c.sdkName }),
+  configs.forEach(
+    async (config) =>
+      await generateSdk({
+        url: config.url,
+        sdkName: config.sdkName,
+        regexs: config.regexs,
+      }),
   );
 };
 

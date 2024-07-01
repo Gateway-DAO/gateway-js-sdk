@@ -5,6 +5,7 @@ import {
   receivedProofs_queryQueryVariables,
   sentProofsCount_queryQueryVariables,
   sentProofs_queryQueryVariables,
+  proofsByPDA_queryQueryVariables,
 } from '../../../gatewaySdk/sources/Gateway';
 import { errorHandler } from '../../helpers/helper';
 import { ValidationService } from '../../services/validator-service';
@@ -70,13 +71,17 @@ export class Proof {
 
   /**
    * The function `getProofsByPDAIds` retrieves proofs by PDA IDs using a GraphQL query.
-   * @param {proofsByPDAIds_queryQueryVariables} variables - The `variables` parameter is an object that
+   * @param {proofsByPDA_queryQueryVariables} variables - The `variables` parameter is an object that
    * contains the necessary variables for the `proofsByPDAIds_query` query. These variables are used to
    * specify the criteria for retrieving proofs by PDA IDs. The specific properties and their types
    * depend on the GraphQL schema and the requirements of the `proof
    * @returns the result of the `proofsByPDAIds_query` method call.
    */
-  async getProofsByPDAIds({ pdaIds, skip, take }: proofs_queryQueryVariables) {
+  async getProofsByPDA({
+    pdaIds,
+    skip,
+    take,
+  }: proofsByPDA_queryQueryVariables) {
     try {
       if (typeof pdaIds === 'string') {
         this.validationService.validateUUID(pdaIds);

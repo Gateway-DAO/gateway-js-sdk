@@ -5,6 +5,7 @@ import {
   myPDACount_queryQueryVariables,
   myPDAs_queryQueryVariables,
   Sdk,
+  UpdateUserInput,
   UserIdentifierType,
 } from '../../../gatewaySdk/sources/Gateway';
 import { errorHandler } from '../../helpers/helper';
@@ -118,6 +119,14 @@ export class User {
   async myActivitiesCount(filter?: myActivitiesCount_queryQueryVariables) {
     try {
       return (await this.sdk.myActivitiesCount_query(filter)).myActivitiesCount;
+    } catch (error) {
+      throw new Error(errorHandler(error));
+    }
+  }
+
+  async updateMe(updatedBody: UpdateUserInput) {
+    try {
+      return await this.sdk.updateMyUser_mutation({ input: updatedBody });
     } catch (error) {
       throw new Error(errorHandler(error));
     }

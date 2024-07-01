@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 cd "dist/"
 
 find . -type f -name "*.js" | while read -r file; do

@@ -26,11 +26,12 @@ export class DataModel {
    */
   public async createDataModel(createModelInput: CreateDataModelInput) {
     try {
-      this.validationService.validateObjectProperties(createModelInput);
+      this.validationService.validateObjectProperties(createModelInput.data);
+
       return await this.sdk.createDataModel_mutation({
         input: createModelInput,
       });
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(errorHandler(error));
     }
   }
@@ -63,6 +64,7 @@ export class DataModel {
     try {
       return await this.sdk.dataModels_query(variables);
     } catch (error) {
+      console.log(error);
       throw new Error(errorHandler(error));
     }
   }

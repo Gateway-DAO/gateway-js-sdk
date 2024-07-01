@@ -1,3 +1,4 @@
+import forge from 'node-forge';
 import { Chain, UserIdentifierType } from '../src/types';
 import { errorHandler } from '../src/utils/errorHandler';
 import {
@@ -12,9 +13,18 @@ import {
   validatePDAFilter,
   validateSolanaWallet,
 } from '../src/utils/validators';
+import {
+  decryptWithPKI,
+  encryptWithPKI,
+  generateDID,
+  generateNewEtherumWallet,
+  generateRSAKeyPair,
+  jsonEncoder,
+  sharedEncryptWithPKI,
+} from '../src/utils/v3-crypto-helper';
 import { authStub } from './stubs/v2/auth.stub';
 
-describe('UTILS TESTING', () => {
+describe('UTILS VALIDATORS TESTING', () => {
   it('error handler testing normal', () => {
     const result = errorHandler('Something went wrong');
     expect(result).toBeDefined();
@@ -128,5 +138,50 @@ describe('UTILS TESTING', () => {
     expect(
       async () => await validatePDAFilter(samplePDAFilter),
     ).rejects.toThrow('111 is not valid uuid');
+  });
+});
+
+describe('UTILS CRYPTO V3 TESTING', () => {
+  it('generate did', () => {
+    const result = generateDID('test');
+    expect(result).toBeDefined();
+  });
+
+  it('generate new etherum wallet', () => {
+    const result = generateNewEtherumWallet();
+    expect(result).toBeDefined();
+  });
+
+  it('generate RSA primary key', () => {
+    const result = generateRSAKeyPair();
+    expect(result).toBeDefined();
+  });
+
+  it('whole encryption/decryption flow', async () => {
+    const { privateKey, publicPem } = generateRSAKeyPair();
+    const did = generateDID('test');
+    const result = sharedEncryptWithPKI('hello', {
+      did,
+      publicPem: publicPem,
+    });
+
+    const result2 = encryptWithPKI('hello ser', publicPem, did);
+    const decryptedData = await decryptWithPKI(
+      result,
+      did,
+      forge.util.decode64(privateKey),
+    );
+    expect(result).toBeDefined();
+    expect(result2).toBeDefined();
+    expect(decryptedData).toBeDefined();
+    expect(decryptedData).toBe('hello');
+  });
+
+  it('json encoder', () => {
+    let sampleObject = {
+      key: 'value',
+    };
+    const encodedObject = jsonEncoder(sampleObject);
+    expect(encodedObject).toBeDefined();
   });
 });
