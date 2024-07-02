@@ -6,8 +6,9 @@ const {
   memoize1,
   getRootTypeMap,
   parseGraphQLSDL,
+  buildOperationNodeForField,
 } = require('@graphql-tools/utils');
-const { buildOperationNodeForField } = require('./BuildOperationForField');
+// const { buildOperationNodeForField } = require('./BuildOperationForField');
 
 function getUnifiedSchema(rawSource) {
   let schema = rawSource;
