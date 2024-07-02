@@ -17,12 +17,15 @@ const {
 
 let operationVariables = [];
 let fieldTypeMap = new Map();
+
 function addOperationVariable(variable) {
   operationVariables.push(variable);
 }
+
 function resetOperationVariables() {
   operationVariables = [];
 }
+
 function resetFieldMap() {
   fieldTypeMap = new Map();
 }
@@ -53,7 +56,6 @@ function buildOperationNodeForField({
     selectedFields,
     rootTypeNames,
   });
-  // attach variables
   operationNode.variableDefinitions = [...operationVariables];
   resetOperationVariables();
   resetFieldMap();
@@ -308,7 +310,6 @@ function resolveVariable(arg, name) {
     if (isNonNullType(type)) {
       return {
         kind: Kind.NON_NULL_TYPE,
-        // for v16 compatibility
         type: resolveVariableType(type.ofType),
       };
     }
