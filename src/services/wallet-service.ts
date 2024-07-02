@@ -19,9 +19,9 @@ export class WalletService {
     this.walletPrivateKey = walletPrivateKey;
     this.walletType = walletType ? walletType : SignCipherEnum.SECP256K1;
     this.wallet =
-      this.walletType === SignCipherEnum.ED25519
-        ? new SolanaService(this.walletPrivateKey)
-        : new EtherumService(this.walletPrivateKey);
+      this.walletType === SignCipherEnum.SECP256K1
+        ? new EtherumService(this.walletPrivateKey)
+        : new SolanaService(this.walletPrivateKey);
   }
 
   signMessage = (data: any) => {

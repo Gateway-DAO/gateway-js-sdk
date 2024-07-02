@@ -1,6 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 
-import { PDAStatus } from '../src/common/enums';
+import { PDAStatus, SignCipherEnum } from '../src/common/enums';
 import { PDA } from '../src/modules/pda/pda';
 import { getSdk } from '../gatewaySdk/sources/Gateway';
 import { pdaBodyData, pdaCreateStub, pdaStub } from './stubs/pda.stub';
@@ -10,30 +10,34 @@ import { invalidUUID } from './stubs/user.stub';
 import { ValidationService } from '../src/services/validator-service';
 import { Sdk } from '../gatewaySdk/sources/Gateway';
 import { Gateway } from '../src';
+import { WalletService } from '../src/services/wallet-service';
 
 let pda: PDA;
 let sdk: Sdk;
-let chwc: Gateway;
+let gatewayInstance: Gateway;
+let wallet: WalletService;
 
 beforeAll(() => {
   const validationService = new ValidationService();
-  (sdk = getSdk(
+  sdk = getSdk(
     new GraphQLClient('https://v3-dev.protocol.mygateway.xyz/graphql'),
-  )),
-    (pda = new PDA(
-      getSdk(
-        new GraphQLClient('https://v3-dev.protocol.mygateway.xyz/graphql'),
-      ),
-      validationService,
-      {
-        apiKey: '',
-        token: '',
-        url: 'https://v3-dev.protocol.mygateway.xyz/graphql',
-        walletPrivateKey: '',
-      },
-    ));
-
-  chwc = new Gateway({
+  );
+  wallet = new WalletService({
+    walletPrivateKey: '',
+    walletType: SignCipherEnum.SECP256K1,
+  });
+  pda = new PDA(
+    getSdk(new GraphQLClient('https://v3-dev.protocol.mygateway.xyz/graphql')),
+    validationService,
+    {
+      apiKey: '',
+      token: '',
+      url: 'https://v3-dev.protocol.mygateway.xyz/graphql',
+      walletPrivateKey: '',
+    },
+    wallet,
+  );
+  gatewayInstance = new Gateway({
     apiKey: '',
     token: '',
     url: 'https://v3-dev.protocol.mygateway.xyz/graphql',

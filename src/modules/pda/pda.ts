@@ -15,6 +15,9 @@ import { errorHandler, getChain } from '../../helpers/helper';
 import { ValidationService } from '../../services/validator-service';
 import { Config } from '../../common/types';
 import { WalletService } from '../../services/wallet-service';
+import { createHash, createPublicKey, verify } from 'crypto';
+import { ethers } from 'ethers';
+import canonicalize from 'canonicalize';
 
 // secp256k1=evm by default
 // Ed25519=solana
@@ -141,6 +144,57 @@ export class PDA {
     }
   }
 
+  validateSignature = ({
+    signature,
+    signingKey,
+    signingCipher,
+    data,
+  }: {
+    signature: string;
+    signingKey: string;
+    signingCipher: SignCipherEnum;
+    data: any;
+  }) => {
+    try {
+      const bodyHash = createHash('sha256')
+        .update(canonicalize(data) as string)
+        .digest('hex');
+      let isValid: boolean = false;
+      if (signingCipher === SignCipherEnum.ED25519) {
+        const publicKey = createPublicKey({
+          key: Buffer.from(signingKey, 'hex'),
+          format: 'der',
+          type: 'spki',
+        });
+
+        isValid = verify(
+          null,
+          Buffer.from(bodyHash),
+          publicKey,
+          Buffer.from(signingKey, 'hex'),
+        );
+        console.log(
+          Buffer.from(bodyHash),
+          publicKey,
+          Buffer.from(signingKey, 'hex'),
+        );
+      } else if (signingCipher === SignCipherEnum.SECP256K1) {
+        isValid =
+          ethers.utils.getAddress(signingKey) ===
+          ethers.utils.verifyMessage(bodyHash, signature);
+        console.log(isValid);
+      } else {
+        throw new Error(`Cipher ${signingCipher} not found!`);
+      }
+      if (!isValid) {
+        throw new Error('Invalid signature');
+      }
+    } catch (error) {
+      console.log(error);
+      throw new Error('Invalid signature');
+    }
+  };
+
   /**
    * The function creates a PDA  using the provided input and returns the result.
    * @param {PDABody} pdaBody - The `pdaInput` parameter is an object that contains the input
@@ -152,6 +206,14 @@ export class PDA {
       this.validationService.validateObjectProperties(pdaBody);
       const { signature, signingKey } = await this.wallet.signMessage(pdaBody);
       console.log(signature, signingKey);
+      this.validateSignature({
+        data: pdaBody,
+        signature,
+        signingKey,
+        signingCipher: this.config.walletType
+          ? this.config.walletType
+          : SignCipherEnum.SECP256K1,
+      });
       return await this.sdk.createPDAMutation({
         input: {
           data: pdaBody,
@@ -160,7 +222,7 @@ export class PDA {
           signingCipher: this.config.walletType,
         },
       });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }

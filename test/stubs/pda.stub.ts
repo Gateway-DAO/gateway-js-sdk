@@ -24,10 +24,8 @@ export const pdaStub = (overridePDA?: any): PrivateDataAsset => ({
   ...overridePDA,
 });
 
-export const pdaCreateStub = (overridePDA?: any): CreatePDAInput => ({
+export const pdaCreateStub = (overridePDA?: any): PDABody => ({
   data: pdaBodyData(),
-  signature: authStub().signature,
-  signingKey: authStub().wallet,
   ...overridePDA,
 });
 

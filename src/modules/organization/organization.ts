@@ -2,7 +2,7 @@ import {
   CreateOrganizationInput,
   MemberOrganizationInput,
   OrganizationIdentifierType,
-  organizations_queryQueryVariables,
+  organizationsQueryQueryVariables,
   Sdk,
   TransferMemberOrganizationInput,
   UpdateOrganizationInput,
@@ -41,7 +41,7 @@ export class Organization {
       );
       this.validationService.validateString(organizationInput.signature);
       this.validationService.validateObjectProperties(organizationInput.data);
-      return await this.sdk.createOrganization_mutation({
+      return await this.sdk.createOrganizationMutation({
         input: organizationInput,
       });
     } catch (error) {
@@ -58,7 +58,7 @@ export class Organization {
    */
   async addMemberToOrganization(memberInput: MemberOrganizationInput) {
     try {
-      return await this.sdk.addMemberToOrganization_mutation({
+      return await this.sdk.addMemberToOrganizationMutation({
         input: memberInput,
       });
     } catch (error) {
@@ -76,7 +76,7 @@ export class Organization {
    */
   async changeMemberRole(memberInput: MemberOrganizationInput) {
     try {
-      return await this.sdk.changeMemberRole_mutation({ input: memberInput });
+      return await this.sdk.changeMemberRoleMutation({ input: memberInput });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -94,7 +94,7 @@ export class Organization {
     memberInput: TransferMemberOrganizationInput,
   ) {
     try {
-      return await this.sdk.removeMemberFromOrganization_mutation({
+      return await this.sdk.removeMemberFromOrganizationMutation({
         input: memberInput,
       });
     } catch (error) {
@@ -112,7 +112,7 @@ export class Organization {
    */
   async transferOwnership(ownershipInput: TransferMemberOrganizationInput) {
     try {
-      return await this.sdk.transferOwnership_mutation({
+      return await this.sdk.transferOwnershipMutation({
         input: ownershipInput,
       });
     } catch (error) {
@@ -140,7 +140,7 @@ export class Organization {
       this.validationService.validateString(updatedOrganization.signature);
       this.validationService.validateObjectProperties(updatedOrganization.data);
 
-      return await this.sdk.updateOrganization_mutation({
+      return await this.sdk.updateOrganizationMutation({
         input: updatedOrganization,
       });
     } catch (error: any) {
@@ -163,7 +163,7 @@ export class Organization {
   async getOrganization(type: OrganizationIdentifierType, value: string) {
     try {
       this.validationService.validateString(value);
-      return await this.sdk.organization_query({ input: { type, value } });
+      return await this.sdk.organizationQuery({ input: { type, value } });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -176,9 +176,9 @@ export class Organization {
    * to filter the organizations based on certain criteria.
    * @returns the result of the `organizations_query` method call from the `sdk` object.
    */
-  async getOrganizations(variables?: organizations_queryQueryVariables) {
+  async getOrganizations(variables?: organizationsQueryQueryVariables) {
     try {
-      return await this.sdk.organizations_query(variables);
+      return await this.sdk.organizationsQuery(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }

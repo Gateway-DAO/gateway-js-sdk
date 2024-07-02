@@ -1,7 +1,7 @@
 import solanaWeb3, { Keypair, Signer } from '@solana/web3.js';
 import bs58 from 'bs58';
 import nacl from 'tweetnacl';
-import { decodeUTF8 } from 'tweetnacl-util';
+import { decodeUTF8, encodeBase64 } from 'tweetnacl-util';
 
 export class SolanaService {
   private walletPrivateKey;
@@ -24,7 +24,7 @@ export class SolanaService {
     message: string,
   ): Promise<{ signature: string; signingKey: string }> {
     const t = nacl.sign.detached(decodeUTF8(message), this.wallet.secretKey);
-    const signature = await Buffer.from(t.buffer).toString();
+    const signature = await encodeBase64(t);
 
     return { signature, signingKey: this.wallet.publicKey.toString() };
   }
