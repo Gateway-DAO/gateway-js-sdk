@@ -13,7 +13,6 @@ const {
   writeFile,
   generateOperations,
 } = require('./utils');
-const { printSchemaWithDirectives } = require('@graphql-tools/utils');
 
 async function generateTypesForApi(options) {
   const config = {
@@ -68,14 +67,7 @@ async function generateTsArtifacts({
 }) {
   const artifactsDir = join(baseDir, artifactsDirectory);
   console.log('Generating index file in TypeScript');
-  for (const rawSource of rawSources) {
-    const transformedSchema = unifiedSchema.extensions.sourceMap.get(rawSource);
-    const sdl = printSchemaWithDirectives(transformedSchema);
-    await writeFile(
-      join(artifactsDir, `sources/${sdkName}/schema.graphql`),
-      sdl,
-    );
-  }
+
   const documentsInput = generateOperations(unifiedSchema, setDepth);
 
   const pluginsInput = [
@@ -111,10 +103,6 @@ async function generateTsArtifacts({
           document.rawSDL || printWithCache(document.document);
       }
     }
-    await writeFile(
-      join(artifactsDir, `persisted_operations.json`),
-      JSON.stringify(documentHashMap, null, 2),
-    );
   }
   let codegenOutput =
     '// @ts-nocheck\n' +
