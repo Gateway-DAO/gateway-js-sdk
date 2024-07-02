@@ -8,11 +8,13 @@ import {
   issuedPDAsQueryQueryVariables,
   Sdk,
   UpdatePDAInput,
+  PDABody,
 } from '../../../gatewaySdk/sources/Gateway';
 import { Chain, PDAStatus, SignCipherEnum } from '../../common/enums';
 import { errorHandler, getChain } from '../../helpers/helper';
 import { ValidationService } from '../../services/validator-service';
 import { Config } from '../../common/types';
+import { WalletService } from '../../services/wallet-service';
 
 // secp256k1=evm by default
 // Ed25519=solana
@@ -20,16 +22,19 @@ import { Config } from '../../common/types';
 export class PDA {
   private sdk: Sdk;
   private validationService: ValidationService;
-  private url: string;
-  private apiKey: string;
-  private authToken: string;
+  private config: Config;
+  private wallet: WalletService;
 
-  constructor(sdk: Sdk, validationService: ValidationService, config: Config) {
+  constructor(
+    sdk: Sdk,
+    validationService: ValidationService,
+    config: Config,
+    wallet: WalletService,
+  ) {
     this.sdk = sdk;
     this.validationService = validationService;
-    this.url = config.url;
-    this.apiKey = config.apiKey;
-    this.authToken = config.token;
+    this.config = config;
+    this.wallet = wallet;
   }
 
   /**
@@ -138,17 +143,23 @@ export class PDA {
 
   /**
    * The function creates a PDA  using the provided input and returns the result.
-   * @param {CreatePDAInput} pdaInput - The `pdaInput` parameter is an object that contains the input
+   * @param {PDABody} pdaBody - The `pdaInput` parameter is an object that contains the input
    * data for creating a PDA . It is of type `CreatePDAInput`.
    * @returns the result of the `createPDA_mutation` method call, which is a Promise.
    */
-  async createPDA(pdaInput: CreatePDAInput) {
+  async createPDA(pdaBody: PDABody) {
     try {
-      const chain: Chain = getChain(pdaInput.signingCipher as SignCipherEnum);
-      this.validationService.validateWalletAddress(pdaInput.signingKey, chain);
-
-      this.validationService.validateObjectProperties(pdaInput.data);
-      return await this.sdk.createPDAMutation({ input: pdaInput });
+      this.validationService.validateObjectProperties(pdaBody);
+      const { signature, signingKey } = await this.wallet.signMessage(pdaBody);
+      console.log(signature, signingKey);
+      return await this.sdk.createPDAMutation({
+        input: {
+          data: pdaBody,
+          signature,
+          signingKey,
+          signingCipher: this.config.walletType,
+        },
+      });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -201,12 +212,12 @@ export class PDA {
       formData.append('file', new Blob([file], { type: fileType }), fileName);
 
       return await axios.post(
-        `${this.url.replace('/graphql', '')}/file/upload`,
+        `${this.config.url.replace('/graphql', '')}/file/upload`,
         formData,
         {
           headers: {
-            'x-api-key': this.apiKey,
-            Authorization: `Bearer ${this.authToken}`,
+            'x-api-key': this.config.apiKey,
+            Authorization: `Bearer ${this.config.token}`,
             'Content-Type': 'multipart/form-data',
           },
         },

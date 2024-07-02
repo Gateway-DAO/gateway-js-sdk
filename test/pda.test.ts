@@ -29,13 +29,15 @@ beforeAll(() => {
         apiKey: '',
         token: '',
         url: 'https://v3-dev.protocol.mygateway.xyz/graphql',
+        walletPrivateKey: '',
       },
     ));
-    
+
   chwc = new Gateway({
     apiKey: '',
     token: '',
     url: 'https://v3-dev.protocol.mygateway.xyz/graphql',
+    walletPrivateKey: '',
   });
   global.fetch = jest.fn();
 });

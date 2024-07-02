@@ -1,9 +1,11 @@
-import { Chain } from './enums';
+import { Chain, SignCipherEnum } from './enums';
 
 export interface Config {
   apiKey: string;
   token: string;
   url: string;
+  walletPrivateKey: string;
+  walletType?: SignCipherEnum;
   logging?: boolean;
 }
 

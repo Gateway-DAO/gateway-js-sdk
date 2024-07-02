@@ -11,13 +11,14 @@ import { User } from './modules/user/user';
 import { Config } from './common/types';
 import { ValidationService } from './services/validator-service';
 import { Activity } from './modules/activity/activity';
+import { WalletService } from './services/wallet-service';
 
 class SDKFactory {
-  static createSDK({ apiKey, token, url, logging }: Config): Sdk {
+  static createSDK({ apiKey, token, url, logging = false }: Config): Sdk {
     // parameterChecker(apiKey, token, url);
 
     const client = new GraphQLClient(url, {
-      headers: { Authorization: `Bearer ${token}`, 'X-Api-Key': apiKey },
+      headers: { Authorization: `Bearer ${token}`, 'x-api-key': apiKey },
     });
 
     return getSdk(client, logging ? clientTimingWrapper : undefined);
@@ -27,6 +28,7 @@ class SDKFactory {
 export class Gateway {
   private sdk: Sdk;
   private config: Config;
+  public wallet: WalletService;
   public activity!: Activity;
   public pda!: PDA;
   public auth!: Auth;
@@ -40,6 +42,10 @@ export class Gateway {
     const validationService = new ValidationService();
     this.sdk = SDKFactory.createSDK(config);
     this.config = config;
+    this.wallet = new WalletService({
+      walletPrivateKey: this.config.walletPrivateKey,
+      walletType: this.config.walletType,
+    });
     this.initializeModules(validationService);
   }
 
@@ -48,7 +54,7 @@ export class Gateway {
     // this.auth = new Auth(this.sdk, validationService);
     // this.dataModel = new DataModel(this.sdk, validationService);
     // this.organization = new Organization(this.sdk, validationService);
-    this.pda = new PDA(this.sdk, validationService, this.config);
+    this.pda = new PDA(this.sdk, validationService, this.config, this.wallet);
     // this.proof = new Proof(this.sdk, validationService);
     // this.request = new Request(this.sdk, validationService);
     // this.user = new User(this.sdk, validationService);
