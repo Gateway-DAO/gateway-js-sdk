@@ -1,10 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import { Sdk, getSdk } from '../gatewaySdk/sources/Gateway';
-import {
-  checkVersion,
-  clientTimingWrapper,
-  parameterChecker,
-} from './helpers/helper';
+import { clientTimingWrapper, parameterChecker } from './helpers/helper';
 import { PDA } from './modules/pda/pda';
 import { Auth } from './modules/auth/auth';
 import { DataModel } from './modules/data-model/data-model';
@@ -18,13 +14,7 @@ import { Activity } from './modules/activity/activity';
 
 class SDKFactory {
   static createSDK({ apiKey, token, url, logging }: Config): Sdk {
-    if (!apiKey) throw new Error('No API key found!');
-    if (!token) throw new Error('No token found!');
-    if (!url) throw new Error('No URL found! Enter either testnet or prod');
-
-    parameterChecker(apiKey, token, url);
-
-    checkVersion();
+    // parameterChecker(apiKey, token, url);
 
     const client = new GraphQLClient(url, {
       headers: { Authorization: `Bearer ${token}`, 'X-Api-Key': apiKey },
@@ -54,13 +44,13 @@ export class Gateway {
   }
 
   private initializeModules(validationService: ValidationService) {
-    this.activity = new Activity(this.sdk, validationService);
-    this.auth = new Auth(this.sdk, validationService);
-    this.dataModel = new DataModel(this.sdk, validationService);
-    this.organization = new Organization(this.sdk, validationService);
+    // this.activity = new Activity(this.sdk, validationService);
+    // this.auth = new Auth(this.sdk, validationService);
+    // this.dataModel = new DataModel(this.sdk, validationService);
+    // this.organization = new Organization(this.sdk, validationService);
     this.pda = new PDA(this.sdk, validationService, this.config);
-    this.proof = new Proof(this.sdk, validationService);
-    this.request = new Request(this.sdk, validationService);
-    this.user = new User(this.sdk, validationService);
+    // this.proof = new Proof(this.sdk, validationService);
+    // this.request = new Request(this.sdk, validationService);
+    // this.user = new User(this.sdk, validationService);
   }
 }

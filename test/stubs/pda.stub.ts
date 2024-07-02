@@ -2,8 +2,8 @@ import {
   CreatePDAInput,
   PDABody,
   PrivateDataAsset,
-} from '../../../gatewaySdk/sources/GatewayV3';
-import { UserIdentifierTypeV3 } from '../../../src/types';
+} from '../../gatewaySdk/sources/Gateway';
+import { UserIdentifierType } from '../../src/common/enums';
 import { authStub } from './auth.stub';
 
 export const pdaStub = (overridePDA?: any): PrivateDataAsset => ({
@@ -39,7 +39,7 @@ export const pdaBodyData = (overrideData?: any): any => ({
     gatewayUse: 'test',
   },
   owner: {
-    type: UserIdentifierTypeV3.USER_ID,
+    type: UserIdentifierType.USER_ID,
     value: 'sid',
   },
   expirationDate: new Date('2021-01-01T12:00:0'),

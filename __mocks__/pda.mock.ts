@@ -1,31 +1,32 @@
-import { PDA } from '../../src/v3/pda/pda';
-import { pdaStub } from '../../test/stubs/v3/pda.stub';
+import { pdaStub } from '../test/stubs/pda.stub';
+import { Sdk } from '../gatewaySdk/sources/Gateway';
+import { Gateway } from '../src';
 
-export const PDAMockService = (pda: PDA) => ({
-  createPDAMock: jest.spyOn(pda.sdk, 'createPDA_mutation').mockResolvedValue({
+export const PDAMockService = (sdk: Sdk) => ({
+  createPDAMock: jest.spyOn(sdk, 'createPDAMutation').mockResolvedValue({
     createPDA: pdaStub(),
   }),
-  changePDAStatusMock: jest
-    .spyOn(pda.sdk, 'changePDAStatus_mutation')
-    .mockResolvedValue({
-      changePDAStatus: pdaStub({ status: 'Suspended' }),
-    }),
-  pdaCountMock: jest
-    .spyOn(pda.sdk, 'PDACount_query')
-    .mockResolvedValue({ PDACount: 10 }),
-  getPDAMock: jest.spyOn(pda.sdk, 'PDA_query').mockResolvedValue({
-    PDA: pdaStub(),
-  }),
-  pdasMock: jest
-    .spyOn(pda.sdk, 'PDAs_query')
-    .mockResolvedValue({ PDAs: [pdaStub()] }),
-  issuedCountPDAMock: jest
-    .spyOn(pda.sdk, 'issuedPDAsCount_query')
-    .mockResolvedValue({ issuedPDAsCount: 10 }),
-  issuedPDAMock: jest
-    .spyOn(pda.sdk, 'issuedPDAs_query')
-    .mockResolvedValue({ issuedPDAs: [pdaStub()] }),
-  updatePDAMock: jest
-    .spyOn(pda.sdk, 'updatePDA_mutation')
-    .mockResolvedValue({ updatePDA: pdaStub() }),
+  // changePDAStatusMock: jest
+  //   .spyOn(sdk, 'changePDAStatusMutation')
+  //   .mockResolvedValue({
+  //     changePDAStatus: pdaStub({ status: 'Suspended' }),
+  //   }),
+  // pdaCountMock: jest
+  //   .spyOn(sdk, 'PDACountQuery')
+  //   .mockResolvedValue({ PDACount: 10 }),
+  // getPDAMock: jest.spyOn(sdk, 'PDAQuery').mockResolvedValue({
+  //   PDA: pdaStub(),
+  // }),
+  // pdasMock: jest
+  //   .spyOn(sdk, 'PDAsQuery')
+  //   .mockResolvedValue({ PDAs: [pdaStub()] }),
+  // issuedCountPDAMock: jest
+  //   .spyOn(sdk, 'issuedPDAsCountQuery')
+  //   .mockResolvedValue({ issuedPDAsCount: 10 }),
+  // issuedPDAMock: jest
+  //   .spyOn(sdk, 'issuedPDAsQuery')
+  //   .mockResolvedValue({ issuedPDAs: [pdaStub()] }),
+  // updatePDAMock: jest
+  //   .spyOn(sdk, 'updatePDAMutation')
+  //   .mockResolvedValue({ updatePDA: pdaStub() }),
 });

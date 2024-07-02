@@ -2,10 +2,10 @@ import axios from 'axios';
 import {
   CreatePDAInput,
   FilterPDAInput,
-  issuedPDAs_queryQueryVariables,
-  PDACount_queryQueryVariables,
-  PDAs_queryQueryVariables,
   UpdatePDAStatusInput,
+  PDACountQueryQueryVariables,
+  PDAsQueryQueryVariables,
+  issuedPDAsQueryQueryVariables,
   Sdk,
   UpdatePDAInput,
 } from '../../../gatewaySdk/sources/Gateway';
@@ -41,8 +41,7 @@ export class PDA {
    */
   async getPDA(id: number) {
     try {
-      this.validationService.validateUUID(id);
-      return await this.sdk.PDA_query({ id });
+      return await this.sdk.PDAQuery({ id });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -56,12 +55,12 @@ export class PDA {
    * of type `FilterPDAInput`.
    * @returns a Promise that resolves to a number.
    */
-  async getPDACount(filter?: PDACount_queryQueryVariables) {
+  async getPDACount(filter?: PDACountQueryQueryVariables) {
     try {
       if (filter?.filter) {
         this.validationService.validatePDAFilter(filter.filter);
       }
-      return (await this.sdk.PDACount_query(filter)).PDACount;
+      return (await this.sdk.PDACountQuery(filter)).PDACount;
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -70,15 +69,15 @@ export class PDA {
   /**
    * The function `getPDAs` retrieves PDAs based on the provided filter, order, skip, and take
    * parameters.
-   * @param {PDAs_queryQueryVariables}  - - `filter`: An object that contains filter criteria for the query.
+   * @param {PDAsQueryQueryVariables}  - - `filter`: An object that contains filter criteria for the query.
    * @returns a Promise that resolves to a value of type PDAs_queryQuery.
    */
-  async getPDAs(variables?: PDAs_queryQueryVariables) {
+  async getPDAs(variables?: PDAsQueryQueryVariables) {
     try {
       if (variables?.filter) {
         this.validationService.validatePDAFilter(variables.filter);
       }
-      return await this.sdk.PDAs_query(variables);
+      return await this.sdk.PDAsQuery(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -87,16 +86,16 @@ export class PDA {
   /**
    * The function `getIssuedPDAs` retrieves issued PDAs based on the provided filter, order, skip, and
    * take parameters.
-   * @param {issuedPDAs_queryQueryVariables}  - - `filter`: An object that contains filter criteria for the query. It is
+   * @param {issuedPDAsQueryQueryVariables}  - - `filter`: An object that contains filter criteria for the query. It is
    * used to specify conditions that the returned PDAs must meet.
    * @returns a Promise that resolves to an object of type `issuedPDAs_queryQuery`.
    */
-  async getIssuedPDAs(variables?: issuedPDAs_queryQueryVariables) {
+  async getIssuedPDAs(variables?: issuedPDAsQueryQueryVariables) {
     try {
       if (variables?.filter) {
         this.validationService.validatePDAFilter(variables.filter);
       }
-      return await this.sdk.issuedPDAs_query(variables);
+      return await this.sdk.issuedPDAsQuery(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -114,7 +113,7 @@ export class PDA {
       if (filter) {
         this.validationService.validatePDAFilter(filter);
       }
-      return (await this.sdk.issuedPDAsCount_query({ filter })).issuedPDAsCount;
+      return (await this.sdk.issuedPDAsCountQuery({ filter })).issuedPDAsCount;
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -131,7 +130,7 @@ export class PDA {
       const chain: Chain = getChain(input.signingCipher as SignCipherEnum);
       this.validationService.validateWalletAddress(input.signingKey, chain);
       this.validationService.validateObjectProperties(input.data);
-      return await this.sdk.changePDAStatus_mutation({ input });
+      return await this.sdk.changePDAStatusMutation({ input });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -149,7 +148,7 @@ export class PDA {
       this.validationService.validateWalletAddress(pdaInput.signingKey, chain);
 
       this.validationService.validateObjectProperties(pdaInput.data);
-      return await this.sdk.createPDA_mutation({ input: pdaInput });
+      return await this.sdk.createPDAMutation({ input: pdaInput });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -164,11 +163,10 @@ export class PDA {
    */
   async updatePDA(updatedPDA: UpdatePDAInput) {
     try {
-      this.validationService.validateDID(updatedPDA.did);
       this.validationService.validateString(updatedPDA.signature);
 
       this.validationService.validateObjectProperties(updatedPDA.data);
-      return await this.sdk.updatePDA_mutation({ input: updatedPDA });
+      return await this.sdk.updatePDAMutation({ input: updatedPDA });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
