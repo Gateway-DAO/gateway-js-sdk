@@ -1,7 +1,7 @@
 import {
   CreateUserInput,
+  loginUserMutationMutationVariables,
   Sdk,
-  SignedWalletNonceInput,
 } from '../../../gatewaySdk/sources/Gateway';
 import { Chain, SignCipherEnum } from '../../common/enums';
 import { errorHandler, getChain } from '../../helpers/helper';
@@ -96,34 +96,20 @@ export class Auth {
   }
 
   /**
-   * The function generates a nonce and message by making a async query to the Gateway Protocol.
-   * @param {string} wallet - The input parameter is of type string which represent wallet
-   * @param {SignCipherEnum?} cipher - The input parameter is of type string which represent wallet
-   * @returns the result of the `generateNonce` method, is a string which is a object of type generateNonce_mutationMutation
+   * Use this method to generate a new auth token 
+   * This function logs in a user by validating input data and calling a login mutation.
+   * @param {loginUserMutationMutationVariables} input - The `loginUser` function takes an input object
+   * of type `loginUserMutationMutationVariables`. This input object likely contains the necessary data
+   * for logging in a user, such as the signing cipher, signing key, and signature.
+   * @returns The `loginUser` object is being returned from the `loginUserMutation` function call.
    */
-  public async generateNonce(wallet: string, cipher?: SignCipherEnum) {
+  public async loginUser(input: loginUserMutationMutationVariables) {
     try {
-      const chain: Chain = getChain(cipher);
-      this.validationService.validateWalletAddress(wallet, chain);
-      return await this.sdk.generateNonceMutation({
-        input: { wallet, cipher },
-      });
-    } catch (error) {
-      throw new Error(errorHandler(error));
-    }
-  }
-
-  /**
-   * The function generates a jwt by making a async query to the Gateway Protocol.
-   * @param {SignedWalletNonceInput} input - The input parameter is of type SignedWalletNonceInput
-   * @returns the result of the `refreshToken` method, is a string which has jwt
-   */
-  public async refreshToken(input: SignedWalletNonceInput) {
-    try {
-      const chain: Chain = getChain(input.cipher as SignCipherEnum);
+      const chain: Chain = getChain(input.signingCipher as SignCipherEnum);
       this.validationService.validateWalletAddress(input.signingKey, chain);
       this.validationService.validateString(input.signature);
-      return (await this.sdk.refreshTokenMutation({ input })).refreshToken;
+      
+      return (await this.sdk.loginUserMutation(input)).loginUser;
     } catch (error) {
       throw new Error(errorHandler(error));
     }
