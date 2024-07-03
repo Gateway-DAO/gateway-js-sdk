@@ -34,4 +34,5 @@ export const activityStub = (overrideActivity?: Activity) => ({
   },
   target: null,
   updatedAt: '2024-06-25T12:02:41.828Z',
+  ...overrideActivity
 });

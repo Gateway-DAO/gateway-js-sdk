@@ -1,30 +1,37 @@
+import { GraphQLClient } from 'graphql-request';
 import { Sdk, getSdk } from '../gatewaySdk/sources/Gateway';
-import { DataModel } from '../src/modules/data-model/data-model';
 
+import { DataModel } from '../src/modules/data-model/data-model';
 import {
   dataModelCreateStub,
   dataModelStub,
   dataModelMetaDataStub,
 } from './stubs/data-model.stub';
-import { DataModelMockService } from '../__mocks__/data-model.mock';
-import { GraphQLClient } from 'graphql-request';
-import { ValidationService } from '../src/services/validator-service';
 
-import { Config } from '../src/common/types';
+import { DataModelMockService } from '../__mocks__/data-model.mock';
+import { ValidationService } from '../src/services/validator-service';
 import { WalletService } from '../src/services/wallet-service';
-import { SignCipherEnum } from '../src/common/enums';
+
 
 let sdk: Sdk;
 let dataModel: DataModel;
-let config: Config;
 
 beforeAll(() => {
   sdk = getSdk(new GraphQLClient(''));
   dataModel = new DataModel(
     sdk,
     new ValidationService(),
-    config,
-    new WalletService({ walletPrivateKey: '' }),
+    {
+      apiKey: '',
+      token: '',
+      url: '',
+      walletPrivateKey:
+        '',
+    },
+    new WalletService({
+      walletPrivateKey:
+        '',
+    }),
   );
 });
 
@@ -40,7 +47,7 @@ describe('DATA MODEL CLASS METHODS TESTING', () => {
       dataModelCreateStub(),
     );
 
-    expect(createDataModel.title).toEqual(dataModelCreateStub().data.title);
+    expect(createDataModel.title).toEqual(dataModelCreateStub().title);
     expect(createDataModelMock).toHaveBeenCalled();
   });
 
@@ -59,7 +66,7 @@ describe('DATA MODEL CLASS METHODS TESTING', () => {
   });
 
   it('get data model', async () => {
-    const { getDataModelMock } = DataModelMockService(dataModel);
+    const { getDataModelMock } = DataModelMockService(sdk);
 
     const { dataModel: rdataModel } = await dataModel.getDataModel(
       dataModelStub().id,
@@ -69,7 +76,7 @@ describe('DATA MODEL CLASS METHODS TESTING', () => {
   });
 
   it('get data model -> throw error', async () => {
-    const { getDataModelMock } = DataModelMockService(dataModel);
+    const { getDataModelMock } = DataModelMockService(sdk);
 
     expect(async () => await dataModel.getDataModel('wrong')).rejects.toThrow(
       'wrong is not valid',
@@ -78,7 +85,7 @@ describe('DATA MODEL CLASS METHODS TESTING', () => {
   });
 
   it('get data models', async () => {
-    const { getDataModelsMock } = DataModelMockService(dataModel);
+    const { getDataModelsMock } = DataModelMockService(sdk);
 
     const { dataModels } = await dataModel.getDataModels();
 
@@ -87,21 +94,23 @@ describe('DATA MODEL CLASS METHODS TESTING', () => {
   });
 
   it('get data models count', async () => {
-    const { getDataModelsCountMock } = DataModelMockService(dataModel);
+    const { getDataModelsCountMock } = DataModelMockService(sdk);
     const { dataModelsCount } = await dataModel.getDataModelsCount();
+
     expect(dataModelsCount).toBeGreaterThanOrEqual(0);
     expect(getDataModelsCountMock).toHaveBeenCalled();
   });
 
   it('get meta data of data models', async () => {
-    const { getDataModelsMetaDataMock } = DataModelMockService(dataModel);
+    const { getDataModelsMetaDataMock } = DataModelMockService(sdk);
     const { dataModelsMetadata } = await dataModel.getDataModelsMetaData();
+
     expect(dataModelsMetadata).toEqual(dataModelMetaDataStub());
     expect(getDataModelsMetaDataMock).toHaveBeenCalled();
   });
 
   it('get issuers by data model', async () => {
-    const { getIssuersByDataModelMock } = DataModelMockService(dataModel);
+    const { getIssuersByDataModelMock } = DataModelMockService(sdk);
     const { issuersByDataModel } = await dataModel.getIssuersByDataModel(
       dataModelStub().id,
     );
@@ -111,32 +120,34 @@ describe('DATA MODEL CLASS METHODS TESTING', () => {
   });
 
   it('get issuers by data model -> throw error', async () => {
-    const { getIssuersByDataModelMock } = DataModelMockService(dataModel);
+    const { getIssuersByDataModelMock } = DataModelMockService(sdk);
     expect(
       async () => await dataModel.getIssuersByDataModel('wrong'),
     ).rejects.toThrow('wrong is not valid');
+
     expect(getIssuersByDataModelMock).toHaveBeenCalled();
   });
 
   it('get isssuers by data model count', async () => {
-    const { getIssuersDataModelCountMock } = DataModelMockService(dataModel);
+    const { getIssuersDataModelCountMock } = DataModelMockService(sdk);
     const { issuersByDataModelCount } =
       await dataModel.getIssuersByDataModelCount(dataModelStub().id);
+
     expect(issuersByDataModelCount).toBeGreaterThanOrEqual(0);
     expect(getIssuersDataModelCountMock).toHaveBeenCalled();
   });
 
   it('get isssuers by data model count -> throw error', async () => {
-    const { getIssuersDataModelCountMock } = DataModelMockService(dataModel);
+    const { getIssuersDataModelCountMock } = DataModelMockService(sdk);
     expect(
       async () => await dataModel.getIssuersByDataModelCount('wrong'),
     ).rejects.toThrow('wrong is not valid');
+
     expect(getIssuersDataModelCountMock).toHaveBeenCalled();
   });
 
   it('get total issuers by data model ', async () => {
-    const { getTotalofIssuersByDataModelMock } =
-      DataModelMockService(dataModel);
+    const { getTotalofIssuersByDataModelMock } = DataModelMockService(sdk);
     const { getTotalofIssuersByDataModel } =
       await dataModel.getTotalofIssuersByDataModel(dataModelStub().id);
 
@@ -145,8 +156,7 @@ describe('DATA MODEL CLASS METHODS TESTING', () => {
   });
 
   it('get total issuers by data model -> throw error ', async () => {
-    const { getTotalofIssuersByDataModelMock } =
-      DataModelMockService(dataModel);
+    const { getTotalofIssuersByDataModelMock } = DataModelMockService(sdk);
 
     expect(
       async () => await dataModel.getTotalofIssuersByDataModel('wrong'),
