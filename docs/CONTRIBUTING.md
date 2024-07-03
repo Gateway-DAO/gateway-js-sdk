@@ -10,7 +10,7 @@
 
 - When we make breaking changes, we also introduce deprecation warnings in a minor version so that our users learn about the upcoming changes and migrate their code in advance.
 
-- Every significant change is documented in the [changelog file](https://github.com/Gateway-DAO/javascript-sdk/blob/main/CHANGELOG.md).
+- Every significant change is documented in the [changelog file](../CHANGELOG.md).
 
 ### Branch Organization
 
@@ -22,7 +22,7 @@
 
 ### Bugs
 
-- **Do not open up a GitHub issue if the bug is a security vulnerability**, and instead refer our [security policy](https://github.com/Gateway-DAO/javascript-sdk/blob/main/SECURITY.md).
+- **Do not open up a GitHub issue if the bug is a security vulnerability**, and instead refer our [security policy](SECURITY.md).
 
 - **Ensure the bug was not already reported** by searching on GitHub under [Issues](https://github.com/Gateway-dao/javascript-sdk/issues).
 
@@ -44,7 +44,7 @@
 
 - You have Node.js installed at LTS with version 18+ and using pnpm as package manager.
 - You have knowldge of git.
-- Read the [code base overview](https://github.com/Gateway-DAO/javascript-sdk/blob/main/CODE_BASE_OVERVIEW.md) to have a short introduction about how we manage/write code.
+- Read the [code base overview](CODE_BASE_OVERVIEW.md) to have a short introduction about how we manage/write code.
 
 ### Development Workflow
 

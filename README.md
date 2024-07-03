@@ -71,6 +71,11 @@ const gateway = new Gateway({
 
 This library supports Bearer Token along with Api Key. Do not share your authentication token with people you don’t trust. This gives the user control over your account and they will be able to manage PDAs (and more) with it. Use environment variables to keep it safe.
 
+## Error Handling
+
+All the methods throw a validation error if the validation does not match for example:- invalid wallet, invalid uuid for all ids,
+Incase of any protocol errors we will throw a custom message which is a string which has all neccessary info regarding error. Make sure to use try catch blocks to handle those.
+
 ## Examples
 
 Make sure to add try catch blocks around methods to catch all the validation and protocol based errors.
@@ -111,7 +116,7 @@ main();
 
 ### Getting a Organization
 
-```typescript
+````typescript
 import { Gateway } from '@gateway-dao/sdk';
 
 const gateway = new Gateway({
@@ -128,14 +133,10 @@ async function main() {
       description: 'test organization',
     };
     const { createOrganization } =
-      await gateway.organization.createOrganization(obj);
-  } catch (error) {
-    console.log(error); // Can log it for degugging
-  }
-}
+ ## Error Handling
 
-main();
-```
+All the methods throw a validation error if the validation does not match for example:- invalid wallet, invalid uuid for all ids,
+Incase of any protocol errors we will throw a custom message which is a string which has all neccessary info regarding error. Make sure to use try catch blocks to handle those.``
 
 ### Create a Data request template
 
@@ -176,20 +177,27 @@ async function main() {
 }
 
 main();
-```
-
-## Error Handling
-
-All the methods throw a validation error if the validation does not match for example:- invalid wallet, invalid uuid for all ids,
-Incase of any protocol errors we will throw a custom message which is a string which has all neccessary info regarding error. Make sure to use try catch blocks to handle those.
+````
 
 ## License
 
-The Gateway Javascript SDK is licensed under the [MIT License](https://github.com/Gateway-DAO/javascript-sdk/blob/main/LICENSE.md).
+The Gateway Javascript SDK is licensed under the [MIT License](LICENSE).
 
 ## Contributing
 
-If you want to support the active development of the SDK. [Please go through our Contribution guide](https://github.com/Gateway-DAO/gateway-js-sdk/blob/main/CONTRIBUTING.md)
+If you want to support the active development of the SDK. [Please go through our Contribution guide](docs/CONTRIBUTING.md)
+
+## Code of Conduct
+
+Please read our [Code of Conduct](docs/CODE_OF_CONDUCT.md) before contributing or engaging in discussions.
+
+## Security
+
+If you discover a security vulnerability within this package, please open a ticket on Discord. All security vulnerabilities will be promptly addressed.
+
+## Support
+
+We are always here to help you. Please talk to us on [Discord](https://discord.gg/tgt3KjcHGs) for any queries.
 
 [npm-image]: https://img.shields.io/npm/v/%40gateway-dao%2Fsdk.svg?style=flat
 [npm-url]: https://www.npmjs.com/package/@gateway-dao/sdk
