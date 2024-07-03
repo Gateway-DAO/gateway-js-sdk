@@ -50,13 +50,33 @@ export class Gateway {
   }
 
   private initializeModules(validationService: ValidationService) {
-    // this.activity = new Activity(this.sdk, validationService);
-    // this.auth = new Auth(this.sdk, validationService);
-    // this.dataModel = new DataModel(this.sdk, validationService);
-    // this.organization = new Organization(this.sdk, validationService);
+    this.activity = new Activity(this.sdk, validationService);
+    this.auth = new Auth(this.sdk, validationService);
+    this.dataModel = new DataModel(
+      this.sdk,
+      validationService,
+      this.config,
+      this.wallet,
+    );
+    this.organization = new Organization(
+      this.sdk,
+      validationService,
+      this.config,
+      this.wallet,
+    );
     this.pda = new PDA(this.sdk, validationService, this.config, this.wallet);
-    // this.proof = new Proof(this.sdk, validationService);
-    // this.request = new Request(this.sdk, validationService);
-    // this.user = new User(this.sdk, validationService);
+    this.proof = new Proof(
+      this.sdk,
+      validationService,
+      this.config,
+      this.wallet,
+    );
+    this.request = new Request(
+      this.sdk,
+      validationService,
+      this.config,
+      this.wallet,
+    );
+    this.user = new User(this.sdk, validationService);
   }
 }

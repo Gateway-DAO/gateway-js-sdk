@@ -1,59 +1,86 @@
 import {
-  CreateDataRequestInput,
+  DataRequestSchemaInput,
   FilterDataRequestInput,
+  requestsReceivedQueryQueryVariables,
+  requestsSentQueryQueryVariables,
   Sdk,
-  UpdateDataRequestInput,
-  requestsReceived_queryQueryVariables,
-  requestsSent_queryQueryVariables,
+  UpdateDataRequestData,
 } from '../../../gatewaySdk/sources/Gateway';
+import { Config } from '../../common/types';
 import { errorHandler } from '../../helpers/helper';
 import { ValidationService } from '../../services/validator-service';
+import { WalletService } from '../../services/wallet-service';
 
 export class Request {
   private sdk: Sdk;
   private validationService: ValidationService;
+  private wallet: WalletService;
+  private config: Config;
 
-  constructor(sdk: Sdk, validationService: ValidationService) {
+  constructor(
+    sdk: Sdk,
+    validationService: ValidationService,
+    config: Config,
+    wallet: WalletService,
+  ) {
     this.sdk = sdk;
     this.validationService = validationService;
+    this.wallet = wallet;
+    this.config = config;
   }
 
   /**
    * The function `createDataRequest` asynchronously creates a data request using input schema after
    * validating object properties and handling any errors.
-   * @param {CreateDataRequestInput} inputSchema - The `inputSchema` parameter in the `createDataRequest`
+   * @param {DataRequestSchemaInput} dataRequestBody - The `dataRequestBody` parameter in the `createDataRequest`
    * function is an object that contains the data needed to create a data request. It is passed to the
    * function as an argument and is expected to adhere to a specific schema defined by the
-   * `CreateDataRequestInput` type. The function first
+   * `DataRequestSchemaInput` type. The function first
    * @returns The `createDataRequest` function is returning the result of the
-   * `this.sdk.createDataRequest_mutation({ input: inputSchema })` call after validating the
-   * `inputSchema` object properties.
+   * `this.sdk.createDataRequest_mutation({ input: dataRequestBody })` call after validating the
+   * `dataRequestBody` object properties.
    */
-  async createDataRequest(inputSchema: CreateDataRequestInput) {
+  async createDataRequest(dataRequestBody: DataRequestSchemaInput) {
     try {
-      this.validationService.validateObjectProperties(inputSchema);
-      return await this.sdk.createDataRequest_mutation({ input: inputSchema });
+      this.validationService.validateObjectProperties(dataRequestBody);
+      const { signature, signingKey } =
+        await this.wallet.signMessage(dataRequestBody);
+
+      return await this.sdk.createDataRequestMutation({
+        input: {
+          data: dataRequestBody,
+          signature,
+          signingKey,
+          signingCipher: this.config.walletType,
+        },
+      });
     } catch (error: any) {
-      console.log(
-        error,
-        error.request.variables.input,
-        error.request.variables.input.data.schema,
-      );
       throw new Error(errorHandler(error));
     }
   }
+
   /**
    * The function `updateDataRequest` asynchronously updates data based on the input schema after
    * validating object properties and handling any errors.
-   * @param {UpdateDataRequestInput} inputSchema - The `updateDataRequest` function takes an
-   * `inputSchema` parameter of type `UpdateDataRequestInput`.
+   * @param {UpdateDataRequestData} updatedDataRequestBody - The `updateDataRequest` function takes an
+   * `updatedDataRequestBody` parameter of type `UpdateDataRequestData`.
    * @returns The `updateDataRequest` function is returning the result of calling
    */
-
-  async updateDataRequest(inputSchema: UpdateDataRequestInput) {
+  async updateDataRequest(updatedDataRequestBody: UpdateDataRequestData) {
     try {
-      this.validationService.validateObjectProperties(inputSchema);
-      return await this.sdk.updateDataRequest_mutation({ input: inputSchema });
+      this.validationService.validateObjectProperties(updatedDataRequestBody);
+      const { signature, signingKey } = await this.wallet.signMessage(
+        updatedDataRequestBody,
+      );
+
+      return await this.sdk.updateDataRequestMutation({
+        input: {
+          data: updatedDataRequestBody,
+          signature,
+          signingKey,
+          signingCipher: this.config.walletType,
+        },
+      });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -71,7 +98,7 @@ export class Request {
   async getDataRequest(requestId: string) {
     try {
       this.validationService.validateUUID(requestId);
-      return await this.sdk.dataRequest_query({ requestId });
+      return await this.sdk.dataRequestQuery({ requestId });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -88,7 +115,7 @@ export class Request {
    */
   async getDataRequests(filterVariables?: FilterDataRequestInput) {
     try {
-      return await this.sdk.dataRequests_query({ filter: filterVariables });
+      return await this.sdk.dataRequestsQuery({ filter: filterVariables });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -97,14 +124,14 @@ export class Request {
   /**
    * The function `getDataRequestCount` is an asynchronous function that makes a data request count
    * query using the `dataRequestCount_query` method from the `sdk` object, and returns the result.
-   * @param {dataRequestCount_queryQueryVariables} [variables] - The `variables` parameter is an
-   * optional object that contains any variables needed for the `dataRequestCount_query` query. These
-   * variables can be used to filter or customize the data request count query.
+   * @param {FilterDataRequestInput} [filterVariables] - The `filterVariables` parameter is an
+   * optional object that contains any filterVariables needed for the `dataRequestCount_query` query. These
+   * filterVariables can be used to filter or customize the data request count query.
    * @returns the result of the `dataRequestCount_query` method call.
    */
   async getDataRequestCount(filterVariables?: FilterDataRequestInput) {
     try {
-      return await this.sdk.dataRequestCount_query({ filter: filterVariables });
+      return await this.sdk.dataRequestCountQuery({ filter: filterVariables });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -120,7 +147,7 @@ export class Request {
   async getDataRequestStatus(requestId: string) {
     try {
       this.validationService.validateUUID(requestId);
-      return await this.sdk.dataRequestStatus_query({ requestId });
+      return await this.sdk.dataRequestStatusQuery({ requestId });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -129,14 +156,14 @@ export class Request {
   /**
    * The function `getRequestsReceived` is an asynchronous function that retrieves requests received
    * using the `requestsReceived_query` method from the `sdk` object.
-   * @param {requestsReceived_queryQueryVariables} [variables] - The `variables` parameter is an
+   * @param {requestsReceivedQueryQueryVariables} [variables] - The `variables` parameter is an
    * optional object that contains variables to be passed to the `requestsReceived_query` function.
    * These variables can be used to filter or customize the query results.
    * @returns the result of the `requestsReceived_query` method call.
    */
-  async getRequestsReceived(variables?: requestsReceived_queryQueryVariables) {
+  async getRequestsReceived(variables?: requestsReceivedQueryQueryVariables) {
     try {
-      return await this.sdk.requestsReceived_query(variables);
+      return await this.sdk.requestsReceivedQuery(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -145,14 +172,14 @@ export class Request {
   /**
    * The function `getRequestsReceivedCount` is an asynchronous function that retrieves the count of
    * requests received, and it handles any errors that occur during the process.
-   * @param {requestsReceivedCount_queryQueryVariables} [variables] - The "variables" parameter is an
-   * optional parameter that allows you to pass any variables needed for the
-   * "requestsReceivedCount_query" query. It is of type "requestsReceivedCount_queryQueryVariables".
+   * @param {FilterDataRequestInput} [filterVariables] - The "filterVariables" parameter is an
+   * optional parameter that allows you to pass any filterVariables needed for the
+   * "requestsReceivedCount_query" query. It is of type "FilterDataRequestInput".
    * @returns the result of the `requestsReceivedCount_query` method call.
    */
   async getRequestsReceivedCount(filterVariables?: FilterDataRequestInput) {
     try {
-      return await this.sdk.requestsReceivedCount_query({
+      return await this.sdk.requestsReceivedCountQuery({
         filter: filterVariables,
       });
     } catch (error) {
@@ -163,15 +190,15 @@ export class Request {
   /**
    * The function `getRequestsSent` is an asynchronous function that retrieves requests sent using the
    * `requestsSent_query` method from the `sdk` object.
-   * @param {requestsSent_queryQueryVariables} [variables] - The `variables` parameter is an optional
+   * @param {requestsSentQueryQueryVariables} [variables] - The `variables` parameter is an optional
    * object that contains any variables you want to pass to the `requestsSent_query` function. These
    * variables can be used to customize the query and retrieve specific data. If you don't need to pass
    * any variables, you can omit this parameter.
    * @returns the result of the `requestsSent_query` method call.
    */
-  async getRequestsSent(variables?: requestsSent_queryQueryVariables) {
+  async getRequestsSent(variables?: requestsSentQueryQueryVariables) {
     try {
-      return await this.sdk.requestsSent_query(variables);
+      return await this.sdk.requestsSentQuery(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -180,14 +207,14 @@ export class Request {
   /**
    * The function `getRequestsSentCount` is an asynchronous function that retrieves the count of
    * requests sent, and it handles any errors that occur during the process.
-   * @param {requestsSentCount_queryQueryVariables} [variables] - The "variables" parameter is an
-   * optional object that contains any variables needed for the "requestsSentCount_query" query. These
-   * variables can be used to filter or customize the query results.
+   * @param {FilterDataRequestInput} [filterVariables] - The "FilterDataRequestInput" parameter is an
+   * optional object that contains any FilterDataRequestInput needed for the "requestsSentCount_query" query. These
+   * FilterDataRequestInput can be used to filter or customize the query results.
    * @returns the result of the `requestsSentCount_query` method call.
    */
   async getRequestsSentCount(filterVariables?: FilterDataRequestInput) {
     try {
-      return await this.sdk.requestsSentCount_query({
+      return await this.sdk.requestsSentCountQuery({
         filter: filterVariables,
       });
     } catch (error) {

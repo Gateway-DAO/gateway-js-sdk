@@ -36,7 +36,6 @@
     "@graphql-typed-document-node/core": "^3.2.0",
     "@solana/web3.js": "^1.93.1",
     "axios": "^1.7.2",
-    "bs58": "^6.0.0",
     "canonicalize": "^2.0.0",
     "encoding": "^0.1.13",
     "ethers": "^5.7.2",

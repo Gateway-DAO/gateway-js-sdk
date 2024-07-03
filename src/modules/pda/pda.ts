@@ -1,23 +1,19 @@
 import axios from 'axios';
 import {
-  CreatePDAInput,
   FilterPDAInput,
-  UpdatePDAStatusInput,
   PDACountQueryQueryVariables,
   PDAsQueryQueryVariables,
   issuedPDAsQueryQueryVariables,
   Sdk,
-  UpdatePDAInput,
   PDABody,
+  UpdatePDAStatusData,
+  UpdatePDABody,
 } from '../../../gatewaySdk/sources/Gateway';
-import { Chain, PDAStatus, SignCipherEnum } from '../../common/enums';
-import { errorHandler, getChain } from '../../helpers/helper';
+import { PDAStatus } from '../../common/enums';
+import { errorHandler } from '../../helpers/helper';
 import { ValidationService } from '../../services/validator-service';
 import { Config } from '../../common/types';
 import { WalletService } from '../../services/wallet-service';
-import { createHash, createPublicKey, verify } from 'crypto';
-import { ethers } from 'ethers';
-import canonicalize from 'canonicalize';
 
 // secp256k1=evm by default
 // Ed25519=solana
@@ -128,72 +124,32 @@ export class PDA {
   }
 
   /**
-   * The function `changePDAStatus` is an asynchronous function that takes an `id` and a `status` as
-   * parameters and returns a Promise that resolves to a `changePDAStatus_mutationMutation` object.
-   * @param  - - `id`: The ID of the PDA  whose status needs to be changed.
-   * @returns a Promise that resolves to a `changePDAStatus_mutationMutation` object.
+   * The function `changePDAStatus` updates the status of a PDA (Personal Data Account) by signing a
+   * message and sending a mutation request.
+   * @param {UpdatePDAStatusData} input - The `input` parameter in the `changePDAStatus` function is of
+   * type `UpdatePDAStatusData`. This parameter is used to update the status of a PDA (Personal Digital
+   * Assistant) and contains the necessary data for the update operation.
+   * @returns The `changePDAStatus` function is returning the result of the
+   * `sdk.changePDAStatusMutation` function after passing in an object with the `data`, `signature`,
+   * `signingKey`, and `signingCipher` properties.
    */
-  async changePDAStatus(input: UpdatePDAStatusInput) {
+  async changePDAStatus(input: UpdatePDAStatusData) {
     try {
-      const chain: Chain = getChain(input.signingCipher as SignCipherEnum);
-      this.validationService.validateWalletAddress(input.signingKey, chain);
-      this.validationService.validateObjectProperties(input.data);
-      return await this.sdk.changePDAStatusMutation({ input });
+      this.validationService.validateObjectProperties(input);
+      const { signature, signingKey } = await this.wallet.signMessage(input);
+
+      return await this.sdk.changePDAStatusMutation({
+        input: {
+          data: input,
+          signature,
+          signingKey,
+          signingCipher: this.config.walletType,
+        },
+      });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
-
-  validateSignature = ({
-    signature,
-    signingKey,
-    signingCipher,
-    data,
-  }: {
-    signature: string;
-    signingKey: string;
-    signingCipher: SignCipherEnum;
-    data: any;
-  }) => {
-    try {
-      const bodyHash = createHash('sha256')
-        .update(canonicalize(data) as string)
-        .digest('hex');
-      let isValid: boolean = false;
-      if (signingCipher === SignCipherEnum.ED25519) {
-        const publicKey = createPublicKey({
-          key: Buffer.from(signingKey, 'hex'),
-          format: 'der',
-          type: 'spki',
-        });
-
-        isValid = verify(
-          null,
-          Buffer.from(bodyHash),
-          publicKey,
-          Buffer.from(signingKey, 'hex'),
-        );
-        console.log(
-          Buffer.from(bodyHash),
-          publicKey,
-          Buffer.from(signingKey, 'hex'),
-        );
-      } else if (signingCipher === SignCipherEnum.SECP256K1) {
-        isValid =
-          ethers.utils.getAddress(signingKey) ===
-          ethers.utils.verifyMessage(bodyHash, signature);
-        console.log(isValid);
-      } else {
-        throw new Error(`Cipher ${signingCipher} not found!`);
-      }
-      if (!isValid) {
-        throw new Error('Invalid signature');
-      }
-    } catch (error) {
-      console.log(error);
-      throw new Error('Invalid signature');
-    }
-  };
 
   /**
    * The function creates a PDA  using the provided input and returns the result.
@@ -205,15 +161,7 @@ export class PDA {
     try {
       this.validationService.validateObjectProperties(pdaBody);
       const { signature, signingKey } = await this.wallet.signMessage(pdaBody);
-      console.log(signature, signingKey);
-      this.validateSignature({
-        data: pdaBody,
-        signature,
-        signingKey,
-        signingCipher: this.config.walletType
-          ? this.config.walletType
-          : SignCipherEnum.SECP256K1,
-      });
+
       return await this.sdk.createPDAMutation({
         input: {
           data: pdaBody,
@@ -230,16 +178,24 @@ export class PDA {
   /**
    * The function `updatePDA` updates a PDA  using the provided input and returns
    * the result of the mutation.
-   * @param {UpdatePDAInput} updatedPDA - The parameter `updatedPDA` is of type `UpdatePDAInput`. It is
+   * @param {UpdatePDABody} updatedPDABody - The parameter `updatedPDA` is of type `UpdatePDAInput`. It is
    * an input object that contains the data to update a PDA.
    * @returns a Promise that resolves to an object of type `updatePDA_mutationMutation`.
    */
-  async updatePDA(updatedPDA: UpdatePDAInput) {
+  async updatePDA(updatedPDABody: UpdatePDABody) {
     try {
-      this.validationService.validateString(updatedPDA.signature);
+      this.validationService.validateObjectProperties(updatedPDABody);
+      const { signature, signingKey } =
+        await this.wallet.signMessage(updatedPDABody);
 
-      this.validationService.validateObjectProperties(updatedPDA.data);
-      return await this.sdk.updatePDAMutation({ input: updatedPDA });
+      return await this.sdk.updatePDAMutation({
+        input: {
+          data: updatedPDABody,
+          signature,
+          signingKey,
+          signingCipher: this.config.walletType,
+        },
+      });
     } catch (error) {
       throw new Error(errorHandler(error));
     }

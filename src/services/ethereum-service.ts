@@ -20,7 +20,6 @@ export class EtherumService {
   signMessage = async (
     message: string,
   ): Promise<{ signature: string; signingKey: string }> => {
-    console.log('in eth');
     const signature = await this.wallet.signMessage(message);
     const signingKey = await this.wallet.getAddress();
     return { signature, signingKey };
