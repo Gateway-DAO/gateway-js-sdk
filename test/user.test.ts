@@ -1,14 +1,17 @@
 import { GraphQLClient } from 'graphql-request';
-import { getSdk } from '../../gatewaySdk/sources/GatewayV3';
-import { User } from '../../src/v3/user/user';
-import { invalidUUID, userStub } from '../stubs/v3/user.stub';
-import { UserMockService } from '../__mocks__/v3/user.mock';
-import { UserIdentifierType, UserIdentifierTypeV3 } from '../../src/types';
+import { Sdk, getSdk } from '../gatewaySdk/sources/Gateway';
+import { invalidUUID, userStub } from './stubs/user.stub';
+import { UserMockService } from '../__mocks__/user.mock';
+import { UserIdentifierType } from '../src/common/enums';
+import { User } from '../src/modules/user/user';
+import { ValidationService } from '../src/services/validator-service';
 
+let sdk: Sdk;
 let user: User;
 
 beforeAll(() => {
-  user = new User(getSdk(new GraphQLClient('')));
+  sdk = getSdk(new GraphQLClient(''));
+  user = new User(sdk, new ValidationService());
 });
 
 afterAll(() => {
@@ -17,7 +20,7 @@ afterAll(() => {
 
 describe('USER SERVICE TESTING', () => {
   it('me', async () => {
-    const { meMock } = UserMockService(user);
+    const { meMock } = UserMockService(sdk);
 
     const { me } = await user.me();
 
@@ -27,10 +30,10 @@ describe('USER SERVICE TESTING', () => {
   });
 
   it('single user', async () => {
-    const { getSingleUserMock } = UserMockService(user);
+    const { getSingleUserMock } = UserMockService(sdk);
 
     const res = await user.getSingleUser({
-      type: UserIdentifierTypeV3.USER_ID,
+      type: UserIdentifierType.USER_ID,
       value: userStub().id,
     });
 
@@ -40,12 +43,12 @@ describe('USER SERVICE TESTING', () => {
   });
 
   it('single user to throw error', async () => {
-    const { getSingleUserMock } = UserMockService(user);
+    const { getSingleUserMock } = UserMockService(sdk);
 
     expect(
       async () =>
         await user.getSingleUser({
-          type: UserIdentifierTypeV3.USER_DID,
+          type: UserIdentifierType.USER_ID,
           value: userStub({ did: '' }).did,
         }),
     ).rejects.toThrow('');
@@ -54,7 +57,7 @@ describe('USER SERVICE TESTING', () => {
   });
 
   it('my pdas count', async () => {
-    const { myPDACountMock } = UserMockService(user);
+    const { myPDACountMock } = UserMockService(sdk);
 
     const count = await user.myPDACount();
 
@@ -63,7 +66,7 @@ describe('USER SERVICE TESTING', () => {
   });
 
   it('my pdas count to throw error', async () => {
-    const { myPDACountMock } = UserMockService(user);
+    const { myPDACountMock } = UserMockService(sdk);
 
     expect(
       async () =>
@@ -74,7 +77,7 @@ describe('USER SERVICE TESTING', () => {
   });
 
   it('my pdas', async () => {
-    const { myPDAsMock } = UserMockService(user);
+    const { myPDAsMock } = UserMockService(sdk);
 
     const { myPDAs } = await user.myPDAs({
       skip: 0,
@@ -86,7 +89,7 @@ describe('USER SERVICE TESTING', () => {
   });
 
   it('my pdas to throw error', async () => {
-    const { myPDAsMock } = UserMockService(user);
+    const { myPDAsMock } = UserMockService(sdk);
 
     expect(
       async () =>
@@ -97,7 +100,7 @@ describe('USER SERVICE TESTING', () => {
   });
 
   it('my data models count', async () => {
-    const { myDataModelsCountMock } = UserMockService(user);
+    const { myDataModelsCountMock } = UserMockService(sdk);
 
     const count = await user.myDataModelsCount();
 
@@ -106,7 +109,7 @@ describe('USER SERVICE TESTING', () => {
   });
 
   it('my activities count', async () => {
-    const { myActivitiesCountMock } = UserMockService(user);
+    const { myActivitiesCountMock } = UserMockService(sdk);
 
     const count = await user.myActivitiesCount();
 
@@ -115,7 +118,7 @@ describe('USER SERVICE TESTING', () => {
   });
 
   it('my activities', async () => {
-    const { myActivitiesMock } = UserMockService(user);
+    const { myActivitiesMock } = UserMockService(sdk);
 
     const { myActivities } = await user.myActivities();
 

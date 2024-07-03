@@ -2,7 +2,7 @@ import {
   DataModel,
   CreateDataModelInput,
   DataModelsMetadata,
-} from '../../../gatewaySdk/sources/GatewayV3';
+} from '../../gatewaySdk/sources/Gateway';
 
 export const dataModelStub = (
   overrideDataModel?: Partial<DataModel>,
@@ -14,12 +14,6 @@ export const dataModelStub = (
   description:
     'Net promoter score (NPS) is a market research metric that is based on a single survey question asking respondents to rate the likelihood that they would recommend a company, product, or a service to a friend or colleague. The NPS is a proprietary instrument developed by Fred Reichheld, who owns the registered NPS trademark in conjunction with Bain & Company and Satmetrix. Its popularity and broad use have been attributed to its simplicity and transparent methodology.',
   featured: false,
-  group: {
-    id: 'd4339c71-f414-4dfd-9213-003317e06862',
-    createdAt: '2023-11-29T18:00:55.650Z',
-    dataModels: [],
-    official: false,
-  },
   verified: false,
   uniqueIssuersCount: 1,
   title: 'Net promoter score ',

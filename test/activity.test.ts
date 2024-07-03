@@ -1,14 +1,19 @@
 import { GraphQLClient } from 'graphql-request';
 
-import { getSdk } from '../../gatewaySdk/sources/GatewayV3';
-import { ActivityMockService } from '../__mocks__/v3/activity.mock';
-import { activityStub } from '../stubs/v3/activity.stub';
-import { Activity } from '../../src/v3/activity/activity';
+import { getSdk } from '../gatewaySdk/sources/Gateway';
+import { ActivityMockService } from '../__mocks__/activity.mock';
+import { activityStub } from './stubs/activity.stub';
+import { Activity } from '../src/modules/activity/activity';
+import { ValidationService } from '../src/services/validator-service';
+import { Sdk } from '../gatewaySdk/sources/Gateway';
+
+let sdk: Sdk;
 
 let activity: Activity;
 
 beforeAll(() => {
-  activity = new Activity(getSdk(new GraphQLClient('')));
+  sdk = getSdk(new GraphQLClient(''));
+  activity = new Activity(sdk, new ValidationService());
 });
 
 afterAll(() => {
@@ -17,7 +22,7 @@ afterAll(() => {
 
 describe('ACTIVITY SERVICE TESTING', () => {
   it('get Activity count', async () => {
-    const { getActivityCountMock } = ActivityMockService(activity);
+    const { getActivityCountMock } = ActivityMockService(sdk);
     const { activitiesCount } = await activity.getActivityCount();
 
     expect(activitiesCount).toBeGreaterThanOrEqual(10);
@@ -25,7 +30,7 @@ describe('ACTIVITY SERVICE TESTING', () => {
   });
 
   it('get Activity by id', async () => {
-    const { getActivityMock } = ActivityMockService(activity);
+    const { getActivityMock } = ActivityMockService(sdk);
     const { activity: activityResult } = await activity.getActivity(
       activityStub().id,
     );
@@ -34,7 +39,7 @@ describe('ACTIVITY SERVICE TESTING', () => {
   });
 
   it('get Activity by id => throw error', async () => {
-    const { getActivityMock } = ActivityMockService(activity);
+    const { getActivityMock } = ActivityMockService(sdk);
     expect(async () => await activity.getActivity('34')).rejects.toThrow(
       ' should be atleast 2 length',
     );
@@ -42,7 +47,7 @@ describe('ACTIVITY SERVICE TESTING', () => {
   });
 
   it('get Activitys', async () => {
-    const { getActivitysMock } = ActivityMockService(activity);
+    const { getActivitysMock } = ActivityMockService(sdk);
     const { activities } = await activity.getActivities();
     expect(activities.length).toBeGreaterThanOrEqual(0);
     expect(getActivitysMock).toHaveBeenCalled();

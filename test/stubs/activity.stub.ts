@@ -2,7 +2,7 @@ import {
   Activity,
   ActivityAction,
   Role,
-} from '../../../gatewaySdk/sources/GatewayV3';
+} from '../../gatewaySdk/sources/Gateway';
 
 export const activityStub = (overrideActivity?: Activity) => ({
   action: 'USER_CREATE' as ActivityAction,

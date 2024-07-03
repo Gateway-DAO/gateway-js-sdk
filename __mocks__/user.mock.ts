@@ -1,28 +1,28 @@
-import { User } from '../../src/v3/user/user';
-import { activitiesStub, userStub } from '../../test/stubs/v3/user.stub';
+import { Sdk } from '../gatewaySdk/sources/Gateway';
+import { activitiesStub, userStub } from '../test/stubs/user.stub';
 
-export const UserMockService = (user: User) => ({
-  meMock: jest.spyOn(user.sdk, 'me_query').mockResolvedValue({
+export const UserMockService = (sdk: Sdk) => ({
+  meMock: jest.spyOn(sdk, 'meQuery').mockResolvedValue({
     me: userStub(),
   }),
-  getSingleUserMock: jest.spyOn(user.sdk, 'user_query').mockResolvedValue({
+  getSingleUserMock: jest.spyOn(sdk, 'userQuery').mockResolvedValue({
     user: userStub(),
   }),
-  myPDACountMock: jest.spyOn(user.sdk, 'myPDACount_query').mockResolvedValue({
+  myPDACountMock: jest.spyOn(sdk, 'myPDACountQuery').mockResolvedValue({
     myPDACount: 10,
   }),
-  myPDAsMock: jest.spyOn(user.sdk, 'myPDAs_query').mockResolvedValue({
+  myPDAsMock: jest.spyOn(sdk, 'myPDAsQuery').mockResolvedValue({
     myPDAs: userStub().issuedPDAs,
   }),
   myDataModelsCountMock: jest
-    .spyOn(user.sdk, 'dataModelsCount_query')
+    .spyOn(sdk, 'myDataModelsCountQuery')
     .mockResolvedValue({
-      dataModelsCount: 10,
+      myDataModelsCount: 10,
     }),
   myActivitiesCountMock: jest
-    .spyOn(user.sdk, 'myActivitiesCount_query')
+    .spyOn(sdk, 'myActivitiesCountQuery')
     .mockResolvedValue({ myActivitiesCount: 10 }),
   myActivitiesMock: jest
-    .spyOn(user.sdk, 'myActivities_query')
+    .spyOn(sdk, 'myActivitiesQuery')
     .mockResolvedValue({ myActivities: activitiesStub() }),
 });

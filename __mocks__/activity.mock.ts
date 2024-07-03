@@ -1,23 +1,18 @@
-import { Activity } from '../../src/v3/activity/activity';
+import { activityStub } from '../test/stubs/activity.stub';
+import { Sdk } from '../gatewaySdk/sources/Gateway';
 
-import { activityStub } from '../../test/stubs/v3/activity.stub';
-
-export const ActivityMockService = (actitivity: Activity) => ({
+export const ActivityMockService = (sdk: Sdk) => ({
   getActivityCountMock: jest
-    .spyOn(actitivity.sdk, 'activitiesCount_query')
+    .spyOn(sdk, 'activitiesCountQuery')
     .mockResolvedValue({
       activitiesCount: 10,
     }),
 
-  getActivityMock: jest
-    .spyOn(actitivity.sdk, 'activity_query')
-    .mockResolvedValue({
-      activity: activityStub(),
-    }),
+  getActivityMock: jest.spyOn(sdk, 'activityQuery').mockResolvedValue({
+    activity: activityStub(),
+  }),
 
-  getActivitysMock: jest
-    .spyOn(actitivity.sdk, 'activities_query')
-    .mockResolvedValue({
-      activities: [activityStub()],
-    }),
+  getActivitysMock: jest.spyOn(sdk, 'activitiesQuery').mockResolvedValue({
+    activities: [activityStub()],
+  }),
 });

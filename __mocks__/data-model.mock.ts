@@ -1,54 +1,51 @@
-import { DataModel } from '../../src/v3/data-model/data-model';
 import {
   dataModelStub,
   dataModelMetaDataStub,
   dataModelCreateStub,
-} from '../../test/stubs/v3/data-model.stub';
+} from '../test/stubs/data-model.stub';
 
-export const DataModelMockService = (dataModel: DataModel) => ({
+import { Sdk } from '../gatewaySdk/sources/Gateway';
+
+export const DataModelMockService = (sdk: Sdk) => ({
   createDataModelMock: jest
-    .spyOn(dataModel.sdk, 'createDataModel_mutation')
+    .spyOn(sdk, 'createDataModelMutation')
     .mockResolvedValue({
       createDataModel: dataModelStub(),
     }),
 
-  getDataModelMock: jest
-    .spyOn(dataModel.sdk, 'dataModel_query')
-    .mockResolvedValue({
-      dataModel: dataModelStub(),
-    }),
+  getDataModelMock: jest.spyOn(sdk, 'dataModelQuery').mockResolvedValue({
+    dataModel: dataModelStub(),
+  }),
 
-  getDataModelsMock: jest
-    .spyOn(dataModel.sdk, 'dataModels_query')
-    .mockResolvedValue({
-      dataModels: [dataModelStub()],
-    }),
+  getDataModelsMock: jest.spyOn(sdk, 'dataModelsQuery').mockResolvedValue({
+    dataModels: [dataModelStub()],
+  }),
 
   getDataModelsCountMock: jest
-    .spyOn(dataModel.sdk, 'dataModelsCount_query')
+    .spyOn(sdk, 'dataModelsCountQuery')
     .mockResolvedValue({
       dataModelsCount: 10,
     }),
 
   getDataModelsMetaDataMock: jest
-    .spyOn(dataModel.sdk, 'dataModelsMetadata_query')
+    .spyOn(sdk, 'dataModelsMetadataQuery')
     .mockResolvedValue({
       dataModelsMetadata: dataModelMetaDataStub(),
     }),
 
   getIssuersByDataModelMock: jest
-    .spyOn(dataModel.sdk, 'issuersByDataModel_query')
+    .spyOn(sdk, 'issuersByDataModelQuery')
     .mockResolvedValue({
       issuersByDataModel: [{ count: 10 }],
     }),
 
   getIssuersDataModelCountMock: jest
-    .spyOn(dataModel.sdk, 'issuersByDataModelCount_query')
+    .spyOn(sdk, 'issuersByDataModelCountQuery')
     .mockResolvedValue({
       issuersByDataModelCount: 10,
     }),
   getTotalofIssuersByDataModelMock: jest
-    .spyOn(dataModel.sdk, 'getTotalofIssuersByDataModel_query')
+    .spyOn(sdk, 'getTotalofIssuersByDataModelQuery')
     .mockResolvedValue({
       getTotalofIssuersByDataModel: 10,
     }),
