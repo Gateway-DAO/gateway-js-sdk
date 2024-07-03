@@ -1,7 +1,7 @@
 import {
   Sdk,
-  activitiesCount_queryQueryVariables,
-  activities_queryQueryVariables,
+  activitiesCountQueryQueryVariables,
+  activitiesQueryQueryVariables,
 } from '../../../gatewaySdk/sources/Gateway';
 import { errorHandler } from '../../helpers/helper';
 import { ValidationService } from '../../services/validator-service';
@@ -26,23 +26,23 @@ export class Activity {
   async getActivity(id: string) {
     try {
       this.validationService.validateString(id);
-      return await this.sdk.activity_query({ id: id });
+      return await this.sdk.activityQuery({ id: id });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
 
-  async getActivities(variables?: activities_queryQueryVariables) {
+  async getActivities(variables?: activitiesQueryQueryVariables) {
     try {
-      return await this.sdk.activities_query(variables);
+      return await this.sdk.activitiesQuery(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
 
-  async getActivityCount(variables?: activitiesCount_queryQueryVariables) {
+  async getActivityCount(variables?: activitiesCountQueryQueryVariables) {
     try {
-      return await this.sdk.activitiesCount_query(variables);
+      return await this.sdk.activitiesCountQuery(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }

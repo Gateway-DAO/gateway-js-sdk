@@ -27,20 +27,12 @@ function processFile(inputFile, outputFile) {
 
 const filesToProcess = [
   {
-    input: 'dist/gatewaySdk/sources/GatewayV2/index.d.ts',
-    output: 'dist/gatewaySdk/sources/GatewayV2/index.d.ts',
+    input: 'dist/gatewaySdk/sources/Gateway/index.d.ts',
+    output: 'dist/gatewaySdk/sources/Gateway/index.d.ts',
   },
   {
-    input: 'dist/gatewaySdk/sources/GatewayV2/types.d.ts',
-    output: 'dist/gatewaySdk/sources/GatewayV2/types.d.ts',
-  },
-  {
-    input: 'dist/gatewaySdk/sources/GatewayV3/index.d.ts',
-    output: 'dist/gatewaySdk/sources/GatewayV3/index.d.ts',
-  },
-  {
-    input: 'dist/gatewaySdk/sources/GatewayV3/types.d.ts',
-    output: 'dist/gatewaySdk/sources/GatewayV3/types.d.ts',
+    input: 'dist/gatewaySdk/sources/Gateway/types.d.ts',
+    output: 'dist/gatewaySdk/sources/Gateway/types.d.ts',
   },
 ];
 

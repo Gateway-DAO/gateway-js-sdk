@@ -1,4 +1,4 @@
-import { Chain } from '../../../src/types';
+import { Chain } from '../../src/common/enums';
 
 export const authStub = (overrideAuth?: any) => ({
   email: 'testuser01@mygateway.xyz',

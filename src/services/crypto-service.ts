@@ -1,7 +1,4 @@
 import forge from 'node-forge';
-import canonicalize from 'canonicalize';
-import { ethers } from 'ethers';
-import { createHash } from 'crypto';
 import {
   AESCIPHERSTRATERGY,
   ENCODING,
@@ -12,17 +9,8 @@ import { EncryptedAESCipher } from '../common/enums';
 export const hashMethod = forge.md.sha256;
 
 export class CryptoService {
-  /* The `jsonEncoder` function is a method defined within the `CryptoService` class. It takes an
-  `object` of type `any` as a parameter. */
-  jsonEncoder = (object: any) => {
-    return createHash('sha256')
-      .update(canonicalize(object) as string)
-      .digest('hex');
-  };
-
-  /**
-   * Generates a did based on Gateway V3 Protocol uses users public key
-   */
+  /* The `generateDID` function is generating a Decentralized Identifier (DID) based on the provided
+  `publicKey` and an optional `domain` parameter. */
   generateDID = (publicKey: string, domain?: string) => {
     const sha256 = forge.md.sha256.create();
     sha256.update(publicKey, 'utf8');
@@ -30,17 +18,9 @@ export class CryptoService {
     return `did:gatewayId:${sha256.digest().toHex()}`;
   };
 
-  generateNewEtherumWallet = (privateKey: string) => {
-    return new ethers.Wallet(privateKey);
-  };
-
-  signMessage = async (
-    wallet: ethers.Wallet,
-    message: string,
-  ): Promise<string> => {
-    return await wallet.signMessage(message);
-  };
-
+  /* The `generateRSAKeyPair` function is responsible for generating a new RSA key pair with a key size
+  of 4096 bits. It then converts the public and private keys to PEM format and encodes them in
+  base64 before returning them as an object. */
   generateRSAKeyPair = () => {
     const keypair = forge.pki.rsa.generateKeyPair({ bits: 4096 });
     const publicPem = forge.pki.publicKeyToPem(keypair.publicKey);
@@ -52,6 +32,9 @@ export class CryptoService {
     };
   };
 
+  /* The `sharedEncryptWithPKI` function in the `CryptoService` class is responsible for encrypting
+  data using AES-GCM encryption with a shared key that is encrypted with multiple public keys
+  provided in the `accesses` parameter. Here's a breakdown of what the function does: */
   sharedEncryptWithPKI = (
     data: string,
     ...accesses: { did: string; publicPem: string }[]
@@ -89,6 +72,12 @@ export class CryptoService {
     };
   };
 
+  /* The `encryptWithPKI` function in the `CryptoService` class is a wrapper function that takes in
+  `data` to be encrypted, a `publicPem` key for encryption, and a `did` identifier. It then calls
+  the `sharedEncryptWithPKI` function with the provided parameters structured as an object
+  containing the `did` and `publicPem` key. This function essentially simplifies the encryption
+  process by abstracting the details of how the encryption is handled with multiple public keys and
+  shared key encryption using AES-GCM. */
   encryptWithPKI = (data: string, publicPem: string, did: string) => {
     return this.sharedEncryptWithPKI(data, {
       did,
@@ -96,6 +85,8 @@ export class CryptoService {
     });
   };
 
+  /* The `generateAESCipher` function is responsible for generating a new AES cipher for encryption.
+   */
   generateAESCipher = () => {
     const key = forge.random.getBytesSync(32);
     const iv = forge.random.getBytesSync(12);
@@ -106,6 +97,9 @@ export class CryptoService {
     return { cipher, key, iv };
   };
 
+  /* The `decryptWithPKI` function in the `CryptoService` class is responsible for decrypting data that
+  was encrypted using AES-GCM encryption with a shared key that was encrypted with multiple public
+  keys. Here's a breakdown of what the function does: */
   decryptWithPKI = async (
     cipher: EncryptedAESCipher,
     did: string,

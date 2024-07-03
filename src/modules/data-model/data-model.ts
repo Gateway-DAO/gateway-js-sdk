@@ -1,37 +1,55 @@
 import {
   FilterDataModelInput,
   Sdk,
-  dataModels_queryQueryVariables,
-  CreateDataModelInput,
+  DataModelBody,
+  dataModelsQueryQueryVariables,
 } from '../../../gatewaySdk/sources/Gateway';
+import { Config } from '../../common/types';
 import { errorHandler } from '../../helpers/helper';
 import { ValidationService } from '../../services/validator-service';
+import { WalletService } from '../../services/wallet-service';
 
 export class DataModel {
   private sdk: Sdk;
   private validationService: ValidationService;
+  private wallet: WalletService;
+  private config: Config;
 
-  constructor(sdk: Sdk, validationService: ValidationService) {
+  constructor(
+    sdk: Sdk,
+    validationService: ValidationService,
+    config: Config,
+    wallet: WalletService,
+  ) {
     this.sdk = sdk;
     this.validationService = validationService;
+    this.wallet = wallet;
+    this.config = config;
   }
 
   /**
-   * The function `createModelInput` is an asynchronous function that takes a `CreateDataModelInput`
-   * object as input and returns a promise that resolves to a `createDataModel_mutationMutation` object.
-   * @param {CreateDataModelInput} createModelInput - The `createModelInput` parameter is of type
-   * `CreateDataModelInput`. It is an input object that contains the data needed to create a new data
+   * The function `createDataModelBody` is an asynchronous function that takes a `CreateDataModelInput`
+   * object as input and returns a promise that resolves to a `createDataModelMutation` object.
+   * @param {CreateDataModelInput} createDataModelBody - The `createDataModelBody` parameter is of type
+   * `DataModelBody`. It is an input object that contains the data needed to create a new data
    * model.
-   * @returns a Promise that resolves to a value of type `createDataModel_mutationMutation`.
+   * @returns a Promise that resolves to a value of type `createDataModelMutation`.
    */
-  public async createDataModel(createModelInput: CreateDataModelInput) {
+  public async createDataModel(createDataModelBody: DataModelBody) {
     try {
-      this.validationService.validateObjectProperties(createModelInput.data);
+      this.validationService.validateObjectProperties(createDataModelBody);
+      const { signature, signingKey } =
+        await this.wallet.signMessage(createDataModelBody);
 
-      return await this.sdk.createDataModel_mutation({
-        input: createModelInput,
+      return await this.sdk.createDataModelMutation({
+        input: {
+          data: createDataModelBody,
+          signature,
+          signingKey,
+          signingCipher: this.config.walletType,
+        },
       });
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -46,7 +64,7 @@ export class DataModel {
   public async getDataModel(id: string) {
     try {
       this.validationService.validateUUID(id);
-      return await this.sdk.dataModel_query({ id });
+      return await this.sdk.dataModelQuery({ id });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -55,14 +73,14 @@ export class DataModel {
   /**
    * The function `getDataModels` is an asynchronous function that queries data models and returns the
    * result.
-   * @param {dataModels_queryQueryVariables} dataModel - The `dataModel` parameter is an object that
-   * contains variables for the `dataModels_query` query. It is of type `dataModels_queryQueryVariables`.
-   * @returns The `getDataModels` function is returning the result of the `dataModels_query` function
+   * @param {dataModelsQueryQueryVariables} variables - The `dataModel` parameter is an object that
+   * contains variables for the `dataModelsQuery` query. It is of type `dataModelsQueryQueryVariables`.
+   * @returns The `getDataModels` function is returning the result of the `dataModelsQuery` function
    * call.
    */
-  public async getDataModels(variables?: dataModels_queryQueryVariables) {
+  public async getDataModels(variables?: dataModelsQueryQueryVariables) {
     try {
-      return await this.sdk.dataModels_query(variables);
+      return await this.sdk.dataModelsQuery(variables);
     } catch (error) {
       console.log(error);
       throw new Error(errorHandler(error));
@@ -81,7 +99,7 @@ export class DataModel {
    */
   public async getDataModelsCount(filterVariables?: FilterDataModelInput) {
     try {
-      return await this.sdk.dataModelsCount_query({
+      return await this.sdk.dataModelsCountQuery({
         filter: filterVariables,
       });
     } catch (error: any) {
@@ -97,7 +115,7 @@ export class DataModel {
    */
   public async getDataModelsMetaData() {
     try {
-      return await this.sdk.dataModelsMetadata_query();
+      return await this.sdk.dataModelsMetadataQuery();
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -106,12 +124,12 @@ export class DataModel {
   /**
    * The function `getIssuersByDataModel` retrieves issuers based on a given data model ID using an SDK.
    * @param {string} id - A string representing the ID of the data model.
-   * @returns the result of the `issuersByDataModel_query` method call.
+   * @returns the result of the `issuersByDataModelQuery` method call.
    */
   public async getIssuersByDataModel(id: string) {
     try {
       this.validationService.validateUUID(id);
-      return await this.sdk.issuersByDataModel_query({ id: id });
+      return await this.sdk.issuersByDataModelQuery({ id: id });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -127,7 +145,7 @@ export class DataModel {
   public async getIssuersByDataModelCount(dataModelId: string) {
     try {
       this.validationService.validateUUID(dataModelId);
-      return await this.sdk.issuersByDataModelCount_query({ id: dataModelId });
+      return await this.sdk.issuersByDataModelCountQuery({ id: dataModelId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }
@@ -138,12 +156,12 @@ export class DataModel {
    * data model ID.
    * @param {string} dataModelId - The dataModelId parameter is a string that represents the identifier
    * of a data model. It is used to query the total number of issuers associated with that data model.
-   * @returns the result of the `getTotalofIssuersByDataModel_query` method call.
+   * @returns the result of the `getTotalofIssuersByDataModelQuery` method call.
    */
   public async getTotalofIssuersByDataModel(dataModelId: string) {
     try {
       this.validationService.validateUUID(dataModelId);
-      return await this.sdk.getTotalofIssuersByDataModel_query({ dataModelId });
+      return await this.sdk.getTotalofIssuersByDataModelQuery({ dataModelId });
     } catch (error: any) {
       throw new Error(errorHandler(error));
     }

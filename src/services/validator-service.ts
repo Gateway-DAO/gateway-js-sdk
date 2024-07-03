@@ -103,9 +103,6 @@ export class ValidationService {
       if (filter.dataModelIds) {
         filter.dataModelIds.map((id) => this.validateUUID(id));
       }
-      if (filter.ids) {
-        filter.ids.map((id) => this.validateUUID(id));
-      }
     } catch (error) {
       throw error;
     }

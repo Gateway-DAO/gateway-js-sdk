@@ -1,48 +1,58 @@
 import {
-  CreateOrganizationInput,
-  MemberOrganizationInput,
+  MemberInput,
+  OrganizationBody,
   OrganizationIdentifierType,
-  organizations_queryQueryVariables,
+  organizationsQueryQueryVariables,
   Sdk,
-  TransferMemberOrganizationInput,
-  UpdateOrganizationInput,
+  TransferMemberInput,
+  UpdateOrganizationBody,
 } from '../../../gatewaySdk/sources/Gateway';
-import { Chain, SignCipherEnum } from '../../common/enums';
-import { errorHandler, getChain } from '../../helpers/helper';
+import { Config } from '../../common/types';
+import { errorHandler } from '../../helpers/helper';
 import { ValidationService } from '../../services/validator-service';
+import { WalletService } from '../../services/wallet-service';
 
 export class Organization {
   private sdk: Sdk;
   private validationService: ValidationService;
+  private wallet: WalletService;
+  private config: Config;
 
-  constructor(sdk: Sdk, validationService: ValidationService) {
+  constructor(
+    sdk: Sdk,
+    validationService: ValidationService,
+    config: Config,
+    wallet: WalletService,
+  ) {
     this.sdk = sdk;
     this.validationService = validationService;
+    this.wallet = wallet;
+    this.config = config;
   }
 
   /**
    * The function creates an organization using the provided input and returns the result, or throws an
    * error if there is one.
-   * @param {CreateOrganizationInput} organizationInput - The `organizationInput` parameter is an
+   * @param {OrganizationBody} organizationBody - The `organizationBody` parameter is an
    * object that contains the input data for creating an organization. It likely includes properties
    * such as the organization's name, description, and any other relevant information needed to create
    * the organization.
    * @returns the result of the `createOrganization_mutation` method call, which is awaited using the
    * `await` keyword.
    */
-  async createOrganization(organizationInput: CreateOrganizationInput) {
+  async createOrganization(organizationBody: OrganizationBody) {
     try {
-      const chain: Chain = getChain(
-        organizationInput.signingCipher as SignCipherEnum,
-      );
-      this.validationService.validateWalletAddress(
-        organizationInput.signingKey,
-        chain,
-      );
-      this.validationService.validateString(organizationInput.signature);
-      this.validationService.validateObjectProperties(organizationInput.data);
-      return await this.sdk.createOrganization_mutation({
-        input: organizationInput,
+      this.validationService.validateObjectProperties(organizationBody);
+      const { signature, signingKey } =
+        await this.wallet.signMessage(organizationBody);
+
+      return await this.sdk.createOrganizationMutation({
+        input: {
+          data: organizationBody,
+          signature,
+          signingKey,
+          signingCipher: this.config.walletType,
+        },
       });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -51,15 +61,23 @@ export class Organization {
 
   /**
    * The function adds a member to an organization using the provided input.
-   * @param {MemberOrganizationInput} memberInput - The `memberInput` parameter is an object that contains the
+   * @param {MemberInput} memberInputBody - The `memberInputBody` parameter is an object that contains the
    * information needed to add a member to an organization. It likely includes properties such as the
    * member's name, email, role, and any other relevant details.
    * @returns the result of the `addMemberToOrganization_mutation` mutation call.
    */
-  async addMemberToOrganization(memberInput: MemberOrganizationInput) {
+  async addMemberToOrganization(memberInputBody: MemberInput) {
     try {
-      return await this.sdk.addMemberToOrganization_mutation({
-        input: memberInput,
+      const { signature, signingKey } =
+        await this.wallet.signMessage(memberInputBody);
+
+      return await this.sdk.addMemberToOrganizationMutation({
+        input: {
+          data: memberInputBody,
+          signature,
+          signingKey,
+          signingCipher: this.config.walletType,
+        },
       });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -67,16 +85,26 @@ export class Organization {
   }
 
   /**
-   * The function "changeMemberRole" is an asynchronous function that takes a "memberInput" parameter
+   * The function "changeMemberRole" is an asynchronous function that takes a "memberInputBody" parameter
    * and calls a mutation function to change the role of a member, handling any errors that occur.
-   * @param {MemberOrganizationInput} memberInput - The `memberInput` parameter is an object that contains the
+   * @param {MemberInput} memberInputBody - The `memberInputBody` parameter is an object that contains the
    * necessary information to change the role of a member. It likely includes properties such as the
    * member's ID and the new role they should be assigned to.
    * @returns the result of the `changeMemberRole_mutation` mutation, which is being awaited.
    */
-  async changeMemberRole(memberInput: MemberOrganizationInput) {
+  async changeMemberRole(memberInputBody: MemberInput) {
     try {
-      return await this.sdk.changeMemberRole_mutation({ input: memberInput });
+      const { signature, signingKey } =
+        await this.wallet.signMessage(memberInputBody);
+
+      return await this.sdk.changeMemberRoleMutation({
+        input: {
+          data: memberInputBody,
+          signature,
+          signingKey,
+          signingCipher: this.config.walletType,
+        },
+      });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -84,18 +112,24 @@ export class Organization {
 
   /**
    * The function removes a member from an organization using the provided input.
-   * @param {TransferMemberOrganizationInput} memberInput - The `memberInput` parameter is an object that contains
+   * @param {TransferMemberInput} memberInputBody - The `memberInputBody` parameter is an object that contains
    * the necessary information to remove a member from an organization. It likely includes properties
    * such as the member's ID or username, and any additional data required to complete the removal
    * process.
    * @returns the result of the `removeMemberFromOrganization_mutation` mutation call.
    */
-  async removeMemberFromOrganization(
-    memberInput: TransferMemberOrganizationInput,
-  ) {
+  async removeMemberFromOrganization(memberInputBody: TransferMemberInput) {
     try {
-      return await this.sdk.removeMemberFromOrganization_mutation({
-        input: memberInput,
+      const { signature, signingKey } =
+        await this.wallet.signMessage(memberInputBody);
+
+      return await this.sdk.removeMemberFromOrganizationMutation({
+        input: {
+          data: memberInputBody,
+          signature,
+          signingKey,
+          signingCipher: this.config.walletType,
+        },
       });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -104,16 +138,24 @@ export class Organization {
 
   /**
    * The function allows the current owner to transfer its ownership to another member of organization using the provided input.
-   * @param {TransferMemberOrganizationInput} ownershipInput - The `ownershipInput` parameter is an object that contains
+   * @param {TransferMemberInput} ownershipInputBody - The `ownershipInputBody` parameter is an object that contains
    * the necessary information to remove a member from an organization. It likely includes properties
    * such as the member's ID or username, and any additional data required to complete the removal
    * process.
    * @returns the result of the `transferOwnership_mutationMutation` mutation call.
    */
-  async transferOwnership(ownershipInput: TransferMemberOrganizationInput) {
+  async transferOwnership(ownershipInputBody: TransferMemberInput) {
     try {
-      return await this.sdk.transferOwnership_mutation({
-        input: ownershipInput,
+      const { signature, signingKey } =
+        await this.wallet.signMessage(ownershipInputBody);
+
+      return await this.sdk.transferOwnershipMutation({
+        input: {
+          data: ownershipInputBody,
+          signature,
+          signingKey,
+          signingCipher: this.config.walletType,
+        },
       });
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -123,25 +165,25 @@ export class Organization {
   /**
    * The function `updateOrganization` updates an organization using the provided input and returns the
    * result of the update.
-   * @param {UpdateOrganizationInput} updatedOrganization - The `updatedOrganization` parameter is an
-   * object of type `UpdateOrganizationInput`. It contains the updated information for an organization.
+   * @param {UpdateOrganizationBody} updatedOrganizationBody - The `updatedOrganizationBody` parameter is an
+   * object of type `UpdateOrganizationBody`. It contains the updated information for an organization.
    * @returns the result of the `updateOrganization_mutation` method call, which is likely a Promise
    * that resolves to the updated organization data.
    */
-  async updateOrganization(updatedOrganization: UpdateOrganizationInput) {
+  async updateOrganization(updatedOrganizationBody: UpdateOrganizationBody) {
     try {
-      const chain: Chain = getChain(
-        updatedOrganization.signingCipher as SignCipherEnum,
+      this.validationService.validateObjectProperties(updatedOrganizationBody);
+      const { signature, signingKey } = await this.wallet.signMessage(
+        updatedOrganizationBody,
       );
-      this.validationService.validateWalletAddress(
-        updatedOrganization.signingKey,
-        chain,
-      );
-      this.validationService.validateString(updatedOrganization.signature);
-      this.validationService.validateObjectProperties(updatedOrganization.data);
 
-      return await this.sdk.updateOrganization_mutation({
-        input: updatedOrganization,
+      return await this.sdk.updateOrganizationMutation({
+        input: {
+          data: updatedOrganizationBody,
+          signature,
+          signingKey,
+          signingCipher: this.config.walletType,
+        },
       });
     } catch (error: any) {
       console.log(error.request.variables.input);
@@ -163,7 +205,7 @@ export class Organization {
   async getOrganization(type: OrganizationIdentifierType, value: string) {
     try {
       this.validationService.validateString(value);
-      return await this.sdk.organization_query({ input: { type, value } });
+      return await this.sdk.organizationQuery({ input: { type, value } });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -176,9 +218,9 @@ export class Organization {
    * to filter the organizations based on certain criteria.
    * @returns the result of the `organizations_query` method call from the `sdk` object.
    */
-  async getOrganizations(variables?: organizations_queryQueryVariables) {
+  async getOrganizations(variables?: organizationsQueryQueryVariables) {
     try {
-      return await this.sdk.organizations_query(variables);
+      return await this.sdk.organizationsQuery(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }

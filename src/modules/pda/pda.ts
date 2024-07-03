@@ -1,18 +1,19 @@
 import axios from 'axios';
 import {
-  CreatePDAInput,
   FilterPDAInput,
-  issuedPDAs_queryQueryVariables,
-  PDACount_queryQueryVariables,
-  PDAs_queryQueryVariables,
-  UpdatePDAStatusInput,
+  PDACountQueryQueryVariables,
+  PDAsQueryQueryVariables,
+  issuedPDAsQueryQueryVariables,
   Sdk,
-  UpdatePDAInput,
+  PDABody,
+  UpdatePDAStatusData,
+  UpdatePDABody,
 } from '../../../gatewaySdk/sources/Gateway';
-import { Chain, PDAStatus, SignCipherEnum } from '../../common/enums';
-import { errorHandler, getChain } from '../../helpers/helper';
+import { PDAStatus } from '../../common/enums';
+import { errorHandler } from '../../helpers/helper';
 import { ValidationService } from '../../services/validator-service';
 import { Config } from '../../common/types';
+import { WalletService } from '../../services/wallet-service';
 
 // secp256k1=evm by default
 // Ed25519=solana
@@ -20,16 +21,19 @@ import { Config } from '../../common/types';
 export class PDA {
   private sdk: Sdk;
   private validationService: ValidationService;
-  private url: string;
-  private apiKey: string;
-  private authToken: string;
+  private config: Config;
+  private wallet: WalletService;
 
-  constructor(sdk: Sdk, validationService: ValidationService, config: Config) {
+  constructor(
+    sdk: Sdk,
+    validationService: ValidationService,
+    config: Config,
+    wallet: WalletService,
+  ) {
     this.sdk = sdk;
     this.validationService = validationService;
-    this.url = config.url;
-    this.apiKey = config.apiKey;
-    this.authToken = config.token;
+    this.config = config;
+    this.wallet = wallet;
   }
 
   /**
@@ -41,8 +45,7 @@ export class PDA {
    */
   async getPDA(id: number) {
     try {
-      this.validationService.validateUUID(id);
-      return await this.sdk.PDA_query({ id });
+      return await this.sdk.PDAQuery({ id });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -56,12 +59,12 @@ export class PDA {
    * of type `FilterPDAInput`.
    * @returns a Promise that resolves to a number.
    */
-  async getPDACount(filter?: PDACount_queryQueryVariables) {
+  async getPDACount(filter?: PDACountQueryQueryVariables) {
     try {
       if (filter?.filter) {
         this.validationService.validatePDAFilter(filter.filter);
       }
-      return (await this.sdk.PDACount_query(filter)).PDACount;
+      return (await this.sdk.PDACountQuery(filter)).PDACount;
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -70,15 +73,15 @@ export class PDA {
   /**
    * The function `getPDAs` retrieves PDAs based on the provided filter, order, skip, and take
    * parameters.
-   * @param {PDAs_queryQueryVariables}  - - `filter`: An object that contains filter criteria for the query.
+   * @param {PDAsQueryQueryVariables}  - - `filter`: An object that contains filter criteria for the query.
    * @returns a Promise that resolves to a value of type PDAs_queryQuery.
    */
-  async getPDAs(variables?: PDAs_queryQueryVariables) {
+  async getPDAs(variables?: PDAsQueryQueryVariables) {
     try {
       if (variables?.filter) {
         this.validationService.validatePDAFilter(variables.filter);
       }
-      return await this.sdk.PDAs_query(variables);
+      return await this.sdk.PDAsQuery(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -87,16 +90,16 @@ export class PDA {
   /**
    * The function `getIssuedPDAs` retrieves issued PDAs based on the provided filter, order, skip, and
    * take parameters.
-   * @param {issuedPDAs_queryQueryVariables}  - - `filter`: An object that contains filter criteria for the query. It is
+   * @param {issuedPDAsQueryQueryVariables}  - - `filter`: An object that contains filter criteria for the query. It is
    * used to specify conditions that the returned PDAs must meet.
    * @returns a Promise that resolves to an object of type `issuedPDAs_queryQuery`.
    */
-  async getIssuedPDAs(variables?: issuedPDAs_queryQueryVariables) {
+  async getIssuedPDAs(variables?: issuedPDAsQueryQueryVariables) {
     try {
       if (variables?.filter) {
         this.validationService.validatePDAFilter(variables.filter);
       }
-      return await this.sdk.issuedPDAs_query(variables);
+      return await this.sdk.issuedPDAsQuery(variables);
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -114,24 +117,35 @@ export class PDA {
       if (filter) {
         this.validationService.validatePDAFilter(filter);
       }
-      return (await this.sdk.issuedPDAsCount_query({ filter })).issuedPDAsCount;
+      return (await this.sdk.issuedPDAsCountQuery({ filter })).issuedPDAsCount;
     } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
 
   /**
-   * The function `changePDAStatus` is an asynchronous function that takes an `id` and a `status` as
-   * parameters and returns a Promise that resolves to a `changePDAStatus_mutationMutation` object.
-   * @param  - - `id`: The ID of the PDA  whose status needs to be changed.
-   * @returns a Promise that resolves to a `changePDAStatus_mutationMutation` object.
+   * The function `changePDAStatus` updates the status of a PDA (Personal Data Account) by signing a
+   * message and sending a mutation request.
+   * @param {UpdatePDAStatusData} input - The `input` parameter in the `changePDAStatus` function is of
+   * type `UpdatePDAStatusData`. This parameter is used to update the status of a PDA (Personal Digital
+   * Assistant) and contains the necessary data for the update operation.
+   * @returns The `changePDAStatus` function is returning the result of the
+   * `sdk.changePDAStatusMutation` function after passing in an object with the `data`, `signature`,
+   * `signingKey`, and `signingCipher` properties.
    */
-  async changePDAStatus(input: UpdatePDAStatusInput) {
+  async changePDAStatus(input: UpdatePDAStatusData) {
     try {
-      const chain: Chain = getChain(input.signingCipher as SignCipherEnum);
-      this.validationService.validateWalletAddress(input.signingKey, chain);
-      this.validationService.validateObjectProperties(input.data);
-      return await this.sdk.changePDAStatus_mutation({ input });
+      this.validationService.validateObjectProperties(input);
+      const { signature, signingKey } = await this.wallet.signMessage(input);
+
+      return await this.sdk.changePDAStatusMutation({
+        input: {
+          data: input,
+          signature,
+          signingKey,
+          signingCipher: this.config.walletType,
+        },
+      });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -139,18 +153,24 @@ export class PDA {
 
   /**
    * The function creates a PDA  using the provided input and returns the result.
-   * @param {CreatePDAInput} pdaInput - The `pdaInput` parameter is an object that contains the input
+   * @param {PDABody} pdaBody - The `pdaInput` parameter is an object that contains the input
    * data for creating a PDA . It is of type `CreatePDAInput`.
    * @returns the result of the `createPDA_mutation` method call, which is a Promise.
    */
-  async createPDA(pdaInput: CreatePDAInput) {
+  async createPDA(pdaBody: PDABody) {
     try {
-      const chain: Chain = getChain(pdaInput.signingCipher as SignCipherEnum);
-      this.validationService.validateWalletAddress(pdaInput.signingKey, chain);
+      this.validationService.validateObjectProperties(pdaBody);
+      const { signature, signingKey } = await this.wallet.signMessage(pdaBody);
 
-      this.validationService.validateObjectProperties(pdaInput.data);
-      return await this.sdk.createPDA_mutation({ input: pdaInput });
-    } catch (error: any) {
+      return await this.sdk.createPDAMutation({
+        input: {
+          data: pdaBody,
+          signature,
+          signingKey,
+          signingCipher: this.config.walletType,
+        },
+      });
+    } catch (error) {
       throw new Error(errorHandler(error));
     }
   }
@@ -158,17 +178,24 @@ export class PDA {
   /**
    * The function `updatePDA` updates a PDA  using the provided input and returns
    * the result of the mutation.
-   * @param {UpdatePDAInput} updatedPDA - The parameter `updatedPDA` is of type `UpdatePDAInput`. It is
+   * @param {UpdatePDABody} updatedPDABody - The parameter `updatedPDA` is of type `UpdatePDAInput`. It is
    * an input object that contains the data to update a PDA.
    * @returns a Promise that resolves to an object of type `updatePDA_mutationMutation`.
    */
-  async updatePDA(updatedPDA: UpdatePDAInput) {
+  async updatePDA(updatedPDABody: UpdatePDABody) {
     try {
-      this.validationService.validateDID(updatedPDA.did);
-      this.validationService.validateString(updatedPDA.signature);
+      this.validationService.validateObjectProperties(updatedPDABody);
+      const { signature, signingKey } =
+        await this.wallet.signMessage(updatedPDABody);
 
-      this.validationService.validateObjectProperties(updatedPDA.data);
-      return await this.sdk.updatePDA_mutation({ input: updatedPDA });
+      return await this.sdk.updatePDAMutation({
+        input: {
+          data: updatedPDABody,
+          signature,
+          signingKey,
+          signingCipher: this.config.walletType,
+        },
+      });
     } catch (error) {
       throw new Error(errorHandler(error));
     }
@@ -203,12 +230,12 @@ export class PDA {
       formData.append('file', new Blob([file], { type: fileType }), fileName);
 
       return await axios.post(
-        `${this.url.replace('/graphql', '')}/file/upload`,
+        `${this.config.url.replace('/graphql', '')}/file/upload`,
         formData,
         {
           headers: {
-            'x-api-key': this.apiKey,
-            Authorization: `Bearer ${this.authToken}`,
+            'x-api-key': this.config.apiKey,
+            Authorization: `Bearer ${this.config.token}`,
             'Content-Type': 'multipart/form-data',
           },
         },

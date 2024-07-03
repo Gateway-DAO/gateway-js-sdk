@@ -25,7 +25,7 @@ export class Auth {
   public async checkUsernameAvailability(username: string) {
     try {
       this.validationService.validateString(username);
-      return (await this.sdk.checkUsernameAvailability_query({ username }))
+      return (await this.sdk.checkUsernameAvailabilityQuery({ username }))
         .checkUsernameAvailability;
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -41,7 +41,7 @@ export class Auth {
   public async checkDIDAvailability(did: string) {
     try {
       this.validationService.validateDID(did);
-      return (await this.sdk.checkDIDAvailability_query({ did }))
+      return (await this.sdk.checkDIDAvailabilityQuery({ did }))
         .checkDIDAvailability;
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -56,7 +56,7 @@ export class Auth {
   public async createUserNonce(input: CreateUserInput) {
     try {
       this.validationService.validateObjectProperties(input);
-      return (await this.sdk.createUserNonce_mutation({ input }))
+      return (await this.sdk.createUserNonceMutation({ input }))
         .createUserNonce;
     } catch (error) {
       throw new Error(errorHandler(error));
@@ -84,7 +84,7 @@ export class Auth {
       this.validationService.validateWalletAddress(signingKey, chain);
       this.validationService.validateString(signature);
       return (
-        await this.sdk.createUser_mutation({
+        await this.sdk.createUserMutation({
           signature,
           signingKey,
           signingCipher,
@@ -105,7 +105,7 @@ export class Auth {
     try {
       const chain: Chain = getChain(cipher);
       this.validationService.validateWalletAddress(wallet, chain);
-      return await this.sdk.generateNonce_mutation({
+      return await this.sdk.generateNonceMutation({
         input: { wallet, cipher },
       });
     } catch (error) {
@@ -123,7 +123,7 @@ export class Auth {
       const chain: Chain = getChain(input.cipher as SignCipherEnum);
       this.validationService.validateWalletAddress(input.signingKey, chain);
       this.validationService.validateString(input.signature);
-      return (await this.sdk.refreshToken_mutation({ input })).refreshToken;
+      return (await this.sdk.refreshTokenMutation({ input })).refreshToken;
     } catch (error) {
       throw new Error(errorHandler(error));
     }
