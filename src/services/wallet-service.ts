@@ -14,7 +14,7 @@ export class WalletService {
     walletType,
   }: {
     walletPrivateKey: string;
-    walletType: SignCipherEnum | undefined;
+    walletType?: SignCipherEnum | undefined;
   }) {
     this.walletPrivateKey = walletPrivateKey;
     this.walletType = walletType ? walletType : SignCipherEnum.SECP256K1;
@@ -26,7 +26,6 @@ export class WalletService {
 
   signMessage = (data: any) => {
     const encodedObject = this.jsonEncoder(data);
-    console.log(this.walletType)
     return this.wallet.signMessage(encodedObject);
   };
 

@@ -1,17 +1,31 @@
-import { getSdk } from '../../gatewaySdk/sources/GatewayV3';
-import { DataModel } from '../../src/v3/data-model/data-model';
+import { Sdk, getSdk } from '../gatewaySdk/sources/Gateway';
+import { DataModel } from '../src/modules/data-model/data-model';
+
 import {
   dataModelCreateStub,
   dataModelStub,
   dataModelMetaDataStub,
-} from '../stubs/v3/data-model.stub';
-import { DataModelMockService } from '../__mocks__/v3/data-model.mock';
+} from './stubs/data-model.stub';
+import { DataModelMockService } from '../__mocks__/data-model.mock';
 import { GraphQLClient } from 'graphql-request';
+import { ValidationService } from '../src/services/validator-service';
 
+import { Config } from '../src/common/types';
+import { WalletService } from '../src/services/wallet-service';
+import { SignCipherEnum } from '../src/common/enums';
+
+let sdk: Sdk;
 let dataModel: DataModel;
+let config: Config;
 
 beforeAll(() => {
-  dataModel = new DataModel(getSdk(new GraphQLClient('')));
+  sdk = getSdk(new GraphQLClient(''));
+  dataModel = new DataModel(
+    sdk,
+    new ValidationService(),
+    config,
+    new WalletService({ walletPrivateKey: '' }),
+  );
 });
 
 afterAll(() => {
@@ -20,7 +34,7 @@ afterAll(() => {
 
 describe('DATA MODEL CLASS METHODS TESTING', () => {
   it('create data model ', async () => {
-    const { createDataModelMock } = DataModelMockService(dataModel);
+    const { createDataModelMock } = DataModelMockService(sdk);
 
     const { createDataModel } = await dataModel.createDataModel(
       dataModelCreateStub(),
@@ -31,19 +45,14 @@ describe('DATA MODEL CLASS METHODS TESTING', () => {
   });
 
   it('create data model -> throw error ', async () => {
-    const { createDataModelMock } = DataModelMockService(dataModel);
+    const { createDataModelMock } = DataModelMockService(sdk);
 
     expect(
       async () =>
         await dataModel.createDataModel({
-          data: {
-            title: '',
-            description: '',
-            schema: undefined,
-          },
-          signature: '',
-          signingKey: '',
-          signingCipher: 'ED25519',
+          title: '',
+          description: '',
+          schema: undefined,
         }),
     ).rejects.toThrow(' should be atleast 2 length');
     expect(createDataModelMock).toHaveBeenCalled();
