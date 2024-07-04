@@ -1,10 +1,11 @@
 import {
   CreateOrganizationInput,
   Organization,
-} from '../../../gatewaySdk/sources/GatewayV3';
-import { OrganizationRole } from '../../../src/types';
-import { userStub } from '../v2/user.stub';
+  OrganizationBody,
+} from '../../gatewaySdk/sources/Gateway';
+import { OrganizationRole } from '../../src/common/enums';
 import { authStub } from './auth.stub';
+import { userStub } from './user.stub';
 
 export const organizationStub = (
   overrideOrganization?: Partial<Organization>,
@@ -29,16 +30,15 @@ export const organizationBodyStub = (overrideData?: any): any => ({
 
 export const organizationCreateStub = (
   overrideOrganization?: any,
-): CreateOrganizationInput => ({
-  data: organizationBodyStub(),
-  signature: authStub().signature,
-  signingKey: authStub().wallet,
+): OrganizationBody => ({
+  ...organizationBodyStub(),
+
   ...overrideOrganization,
 });
 
 export const memberOrganizationStub = (overrideMember?: any) => ({
   user: userStub(),
-  role: OrganizationRole.Member,
+  role: OrganizationRole.MEMBER,
   did: organizationStub().did,
   organization: organizationStub(),
   ...overrideMember,

@@ -30,6 +30,8 @@ jobs:
         run: pnpm generate:sdk
       - name: Format code
         run: pnpm format
+      - name: Test project
+        run: pnpm test
       - name: Build
         run: pnpm build
       - name: Release

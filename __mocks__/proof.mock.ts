@@ -1,47 +1,41 @@
-import { Proof } from '../../src/v3/proof/proof';
-import { proofStub } from '../../test/stubs/v3/proof.stub';
+import { Sdk } from '../gatewaySdk/sources/Gateway';
+import { proofStub } from '../test/stubs/proof.stub';
 
-export const ProofMockService = (proof: Proof) => ({
-  getProofMock: jest.spyOn(proof.sdk, 'proof_query').mockResolvedValue({
+export const ProofMockService = (sdk: Sdk) => ({
+  getProofMock: jest.spyOn(sdk, 'proofQuery').mockResolvedValue({
     proof: proofStub(),
   }),
 
-  createProofMock: jest
-    .spyOn(proof.sdk, 'createProof_mutation')
-    .mockResolvedValue({
-      createProof: proofStub(),
-    }),
+  createProofMock: jest.spyOn(sdk, 'createProofMutation').mockResolvedValue({
+    createProof: proofStub(),
+  }),
 
-  getProofsMock: jest.spyOn(proof.sdk, 'proofs_query').mockResolvedValue({
+  getProofsMock: jest.spyOn(sdk, 'proofsQuery').mockResolvedValue({
     proofs: [proofStub()],
   }),
 
-  getProofsByPDAIdsMock: jest
-    .spyOn(proof.sdk, 'proofsByPDA_query')
-    .mockResolvedValue({
-      proofsByPDA: [proofStub()],
-    }),
+  getProofsByPDAIdsMock: jest.spyOn(sdk, 'proofsByPDAQuery').mockResolvedValue({
+    proofsByPDA: [proofStub()],
+  }),
 
   getReceivedProofsMock: jest
-    .spyOn(proof.sdk, 'receivedProofs_query')
+    .spyOn(sdk, 'receivedProofsQuery')
     .mockResolvedValue({
       receivedProofs: [proofStub()],
     }),
 
   getReceivedProofsCountMock: jest
-    .spyOn(proof.sdk, 'receivedProofsCount_query')
+    .spyOn(sdk, 'receivedProofsCountQuery')
     .mockResolvedValue({
       receivedProofsCount: 10,
     }),
 
-  getSentProofsMock: jest
-    .spyOn(proof.sdk, 'sentProofs_query')
-    .mockResolvedValue({
-      sentProofs: [proofStub()],
-    }),
+  getSentProofsMock: jest.spyOn(sdk, 'sentProofsQuery').mockResolvedValue({
+    sentProofs: [proofStub()],
+  }),
 
   getSentProofsCountMock: jest
-    .spyOn(proof.sdk, 'sentProofsCount_query')
+    .spyOn(sdk, 'sentProofsCountQuery')
     .mockResolvedValue({
       sentProofsCount: 10,
     }),

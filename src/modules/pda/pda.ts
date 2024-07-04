@@ -15,9 +15,6 @@ import { ValidationService } from '../../services/validator-service';
 import { Config } from '../../common/types';
 import { WalletService } from '../../services/wallet-service';
 
-// secp256k1=evm by default
-// Ed25519=solana
-
 export class PDA {
   private sdk: Sdk;
   private validationService: ValidationService;

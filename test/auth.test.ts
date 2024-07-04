@@ -1,15 +1,20 @@
 import { GraphQLClient } from 'graphql-request';
+import { getSdk, Sdk } from '../gatewaySdk/sources/Gateway';
+import { Auth } from '../src/modules/auth/auth';
+import { authStub } from './stubs/auth.stub';
 
-import { getSdk } from '../../gatewaySdk/sources/GatewayV3';
-import { AuthMockService } from '../__mocks__/v3/auth.mock';
-import { authStub } from '../stubs/v3/auth.stub';
-import { Auth } from '../../src/v3/auth/auth';
-import { SignCipherEnum } from '../../src/types';
+import { AuthMockService } from '../__mocks__/auth.mock';
+import { ValidationService } from '../src/services/validator-service';
+import { SignCipherEnum } from '../src/common/enums';
+import { ethers } from 'ethers';
 
+let sdk: Sdk;
 let auth: Auth;
+let wallet: ethers.Wallet;
 
 beforeAll(() => {
-  auth = new Auth(getSdk(new GraphQLClient('')));
+  sdk = getSdk(new GraphQLClient(''));
+  auth = new Auth(sdk, new ValidationService());
 });
 
 afterAll(() => {
@@ -18,7 +23,7 @@ afterAll(() => {
 
 describe('AUTH SERVICE TESTING', () => {
   it('check username availability', async () => {
-    const { checkUsernameAvailabilityMock } = AuthMockService(auth);
+    const { checkUsernameAvailabilityMock } = AuthMockService(sdk);
 
     const result = await auth.checkUsernameAvailability(authStub().username);
 
@@ -27,7 +32,7 @@ describe('AUTH SERVICE TESTING', () => {
   });
 
   it('check username availability to throw error', async () => {
-    const { checkUsernameAvailabilityMock } = AuthMockService(auth);
+    const { checkUsernameAvailabilityMock } = AuthMockService(sdk);
 
     expect(async () => {
       await auth.checkUsernameAvailability(authStub({ username: '' }).username);
@@ -36,7 +41,7 @@ describe('AUTH SERVICE TESTING', () => {
   });
 
   it('check did availability', async () => {
-    const { checkDIDAvailabilityMock } = AuthMockService(auth);
+    const { checkDIDAvailabilityMock } = AuthMockService(sdk);
 
     const result = await auth.checkDIDAvailability(authStub().did);
 
@@ -45,7 +50,7 @@ describe('AUTH SERVICE TESTING', () => {
   });
 
   it('check did availability to throw error', async () => {
-    const { checkDIDAvailabilityMock } = AuthMockService(auth);
+    const { checkDIDAvailabilityMock } = AuthMockService(sdk);
 
     expect(async () => {
       await auth.checkDIDAvailability(authStub({ did: '' }).did);
@@ -54,7 +59,7 @@ describe('AUTH SERVICE TESTING', () => {
   });
 
   it('create user nonce', async () => {
-    const { createUserNonceMock } = AuthMockService(auth);
+    const { createUserNonceMock } = AuthMockService(sdk);
 
     const nonce = await auth.createUserNonce({
       did: authStub().did,
@@ -66,7 +71,7 @@ describe('AUTH SERVICE TESTING', () => {
   });
 
   it('create user nonce to throw error', async () => {
-    const { createUserNonceMock } = AuthMockService(auth);
+    const { createUserNonceMock } = AuthMockService(sdk);
 
     expect(async () => {
       await auth.createUserNonce({
@@ -78,7 +83,7 @@ describe('AUTH SERVICE TESTING', () => {
   });
 
   it('create user', async () => {
-    const { createUserMock } = AuthMockService(auth);
+    const { createUserMock } = AuthMockService(sdk);
 
     const result = await auth.createUser({
       signature: authStub().signature,
@@ -90,7 +95,7 @@ describe('AUTH SERVICE TESTING', () => {
   });
 
   it('create user to throw error', async () => {
-    const { createUserMock } = AuthMockService(auth);
+    const { createUserMock } = AuthMockService(sdk);
 
     expect(async () => {
       await auth.createUser({
@@ -102,7 +107,7 @@ describe('AUTH SERVICE TESTING', () => {
   });
 
   it('create user to throw wrong wallet error', async () => {
-    const { createUserMock } = AuthMockService(auth);
+    const { createUserMock } = AuthMockService(sdk);
 
     expect(async () => {
       await auth.createUser({
@@ -114,67 +119,42 @@ describe('AUTH SERVICE TESTING', () => {
     expect(createUserMock).toHaveBeenCalled();
   });
 
-  it('generate nonce', async () => {
-    const { generateNonceMock } = AuthMockService(auth);
+  it('login user', async () => {
+    const { loginUserMock } = AuthMockService(sdk);
 
-    const { generateNonce } = await auth.generateNonce(authStub().wallet);
-
-    expect(generateNonce.message).toEqual(authStub().message);
-    expect(generateNonceMock).toHaveBeenCalled();
-  });
-
-  it('generate nonce to throw error', async () => {
-    const { generateNonceMock } = AuthMockService(auth);
-
-    expect(async () => {
-      await auth.generateNonce(authStub({ wallet: '' }).wallet);
-    }).rejects.toThrow(` is invalid`);
-    expect(generateNonceMock).toHaveBeenCalled();
-  });
-
-  it('generate nonce to throw wrong wallet error', async () => {
-    const { generateNonceMock } = AuthMockService(auth);
-
-    expect(async () => {
-      await auth.generateNonce(authStub().wallet, SignCipherEnum.ED25519);
-    }).rejects.toThrow('');
-    expect(generateNonceMock).toHaveBeenCalled();
-  });
-
-  it('refresh token', async () => {
-    const { refreshTokenMock } = AuthMockService(auth);
-
-    const jwt = await auth.refreshToken({
+    const jwt = await auth.loginUser({
       signature: authStub().signature,
       signingKey: authStub().wallet,
+      did: authStub().did,
     });
 
     expect(jwt).toEqual(authStub().jwt);
-    expect(refreshTokenMock).toHaveBeenCalled();
+    expect(loginUserMock).toHaveBeenCalled();
   });
 
-  it('refresh token to throw error', async () => {
-    const { refreshTokenMock } = AuthMockService(auth);
+  it('login user to throw error', async () => {
+    const { loginUserMock } = AuthMockService(sdk);
 
     expect(async () => {
-      await auth.refreshToken({
+      await auth.loginUser({
         signature: authStub({ signature: '' }).signature,
         signingKey: authStub().wallet,
+        did: authStub().did,
       });
     }).rejects.toThrow(` should be atleast 2 length`);
-    expect(refreshTokenMock).toHaveBeenCalled();
+    expect(loginUserMock).toHaveBeenCalled();
   });
 
-  it('refresh token to throw wrong wallet error', async () => {
-    const { refreshTokenMock } = AuthMockService(auth);
+  it('login user to throw wrong wallet error', async () => {
+    const { loginUserMock } = AuthMockService(sdk);
 
     expect(async () => {
-      await auth.refreshToken({
-        signature: authStub().signature,
+      await auth.loginUser({
+        signature: authStub({ signature: '' }).signature,
         signingKey: authStub().wallet,
-        cipher: 'ED25519',
+        did: authStub().did,
       });
     }).rejects.toThrow('');
-    expect(refreshTokenMock).toHaveBeenCalled();
+    expect(loginUserMock).toHaveBeenCalled();
   });
 });

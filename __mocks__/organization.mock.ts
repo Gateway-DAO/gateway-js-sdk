@@ -1,53 +1,51 @@
-import { OrganizationRole } from '../../src/types';
-import { Organization } from '../../src/v3/organization/organization';
-import { userStub } from '../../test/stubs/user.stub';
+import { Sdk } from '../gatewaySdk/sources/Gateway';
+import { OrganizationRole } from '../src/common/enums';
 import {
   memberOrganizationStub,
   organizationStub,
-} from '../../test/stubs/organization.stub';
+} from '../test/stubs/organization.stub';
+import { userStub } from '../test/stubs/user.stub';
 
-export const OrganizationMockService = (organization: Organization) => ({
+export const OrganizationMockService = (sdk: Sdk) => ({
   createOrganizationMock: jest
-    .spyOn(organization.sdk, 'createOrganization_mutation')
+    .spyOn(sdk, 'createOrganizationMutation')
     .mockResolvedValue({
       createOrganization: organizationStub(),
     }),
-  getOrganizationMock: jest
-    .spyOn(organization.sdk, 'organization_query')
-    .mockResolvedValue({
-      organization: organizationStub(),
-    }),
+  getOrganizationMock: jest.spyOn(sdk, 'organizationQuery').mockResolvedValue({
+    organization: organizationStub(),
+  }),
   updateOrganizationMock: jest
-    .spyOn(organization.sdk, 'updateOrganization_mutation')
+    .spyOn(sdk, 'updateOrganizationMutation')
     .mockResolvedValue({
       updateOrganization: organizationStub({
         description: 'updated description',
       }),
     }),
   getOrganizationsMock: jest
-    .spyOn(organization.sdk, 'organizations_query')
+    .spyOn(sdk, 'organizationsQuery')
     .mockResolvedValue({
       organizations: [organizationStub()],
     }),
   addMemberToOrganizationMock: jest
-    .spyOn(organization.sdk, 'addMemberToOrganization_mutation')
+    .spyOn(sdk, 'addMemberToOrganizationMutation')
     .mockResolvedValue({
       addMemberToOrganization: memberOrganizationStub(),
     }),
   changeMemberRoleMock: jest
-    .spyOn(organization.sdk, 'changeMemberRole_mutation')
+    .spyOn(sdk, 'changeMemberRoleMutation')
     .mockResolvedValue({
       changeMemberRole: memberOrganizationStub({
-        role: OrganizationRole.Admin,
+        role: OrganizationRole.ADMIN,
       }),
     }),
   removeMemberFromOrganizationMock: jest
-    .spyOn(organization.sdk, 'removeMemberFromOrganization_mutation')
+    .spyOn(sdk, 'removeMemberFromOrganizationMutation')
     .mockResolvedValue({
       removeMemberFromOrganization: true,
     }),
   transferOwnershipOrganizationMock: jest
-    .spyOn(organization.sdk, 'transferOwnership_mutation')
+    .spyOn(sdk, 'transferOwnershipMutation')
     .mockResolvedValue({
       transferOwnership: {
         organization: organizationStub(),
