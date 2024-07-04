@@ -96,7 +96,7 @@ export class Auth {
   }
 
   /**
-   * Use this method to generate a new auth token 
+   * Use this method to generate a new auth token
    * This function logs in a user by validating input data and calling a login mutation.
    * @param {loginUserMutationMutationVariables} input - The `loginUser` function takes an input object
    * of type `loginUserMutationMutationVariables`. This input object likely contains the necessary data
@@ -108,7 +108,6 @@ export class Auth {
       const chain: Chain = getChain(input.signingCipher as SignCipherEnum);
       this.validationService.validateWalletAddress(input.signingKey, chain);
       this.validationService.validateString(input.signature);
-      
       return (await this.sdk.loginUserMutation(input)).loginUser;
     } catch (error) {
       throw new Error(errorHandler(error));
