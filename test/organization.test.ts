@@ -13,16 +13,18 @@ import { WalletService } from '../src/services/wallet-service';
 import {
   OrganizationIdentifierType,
   OrganizationRole,
+  SignCipherEnum,
   UserIdentifierType,
 } from '../src/common/enums';
+import { Keypair } from '@solana/web3.js';
 
 let sdk: Sdk;
 let organization: Organization;
-let wallet: ethers.Wallet;
+let secretKey: string;
 
 beforeAll(() => {
   sdk = getSdk(new GraphQLClient(''));
-  wallet = ethers.Wallet.createRandom();
+  secretKey = ethers.utils.base58.encode(Keypair.generate().secretKey);
   organization = new Organization(
     sdk,
     new ValidationService(),
@@ -30,9 +32,13 @@ beforeAll(() => {
       apiKey: '',
       token: '',
       url: '',
-      walletPrivateKey: wallet.privateKey,
+      walletPrivateKey: secretKey,
+      walletType: SignCipherEnum.ED25519,
     },
-    new WalletService({ walletPrivateKey: wallet.privateKey }),
+    new WalletService({
+      walletPrivateKey: secretKey,
+      walletType: SignCipherEnum.ED25519,
+    }),
   );
 });
 
