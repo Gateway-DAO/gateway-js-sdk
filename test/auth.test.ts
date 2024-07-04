@@ -6,9 +6,11 @@ import { authStub } from './stubs/auth.stub';
 import { AuthMockService } from '../__mocks__/auth.mock';
 import { ValidationService } from '../src/services/validator-service';
 import { SignCipherEnum } from '../src/common/enums';
+import { ethers } from 'ethers';
 
 let sdk: Sdk;
 let auth: Auth;
+let wallet: ethers.Wallet;
 
 beforeAll(() => {
   sdk = getSdk(new GraphQLClient(''));
@@ -148,7 +150,7 @@ describe('AUTH SERVICE TESTING', () => {
 
     expect(async () => {
       await auth.loginUser({
-        signature: authStub().signature,
+        signature: authStub({ signature: '' }).signature,
         signingKey: authStub().wallet,
         did: authStub().did,
       });

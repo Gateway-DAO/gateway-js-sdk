@@ -26,12 +26,6 @@ export enum OrganizationIdentifierType {
 }
 
 export enum OrganizationRole {
-  Admin = 'Admin',
-  Member = 'Member',
-  Owner = 'Owner',
-}
-
-export enum OrganizationRoleV3 {
   ADMIN = 'ADMIN',
   MEMBER = 'MEMBER',
   OWNER = 'OWNER',

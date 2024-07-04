@@ -100,10 +100,6 @@ export class Proof {
    */
   async getProofsByPDA({ pdaIds, skip, take }: proofsByPDAQueryQueryVariables) {
     try {
-      if (typeof pdaIds === 'string') {
-        this.validationService.validateUUID(pdaIds);
-      }
-
       return await this.sdk.proofsByPDAQuery({ pdaIds, skip, take });
     } catch (error: any) {
       throw new Error(errorHandler(error));

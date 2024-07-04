@@ -9,10 +9,10 @@ export const ActivityMockService = (sdk: Sdk) => ({
     }),
 
   getActivityMock: jest.spyOn(sdk, 'activityQuery').mockResolvedValue({
-    activity: activityStub(),
+    activity: activityStub() as any,
   }),
 
   getActivitysMock: jest.spyOn(sdk, 'activitiesQuery').mockResolvedValue({
-    activities: [activityStub()],
+    activities: [activityStub() as any],
   }),
 });

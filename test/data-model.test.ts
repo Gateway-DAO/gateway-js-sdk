@@ -11,13 +11,15 @@ import {
 import { DataModelMockService } from '../__mocks__/data-model.mock';
 import { ValidationService } from '../src/services/validator-service';
 import { WalletService } from '../src/services/wallet-service';
-
+import { ethers } from 'ethers';
 
 let sdk: Sdk;
 let dataModel: DataModel;
+let wallet: ethers.Wallet;
 
 beforeAll(() => {
   sdk = getSdk(new GraphQLClient(''));
+  wallet = ethers.Wallet.createRandom();
   dataModel = new DataModel(
     sdk,
     new ValidationService(),
@@ -25,12 +27,10 @@ beforeAll(() => {
       apiKey: '',
       token: '',
       url: '',
-      walletPrivateKey:
-        '',
+      walletPrivateKey: wallet.privateKey,
     },
     new WalletService({
-      walletPrivateKey:
-        '',
+      walletPrivateKey: wallet.privateKey,
     }),
   );
 });

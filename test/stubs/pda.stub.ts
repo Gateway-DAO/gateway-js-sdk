@@ -1,10 +1,5 @@
-import {
-  CreatePDAInput,
-  PDABody,
-  PrivateDataAsset,
-} from '../../gatewaySdk/sources/Gateway';
+import { PDABody, PrivateDataAsset } from '../../gatewaySdk/sources/Gateway';
 import { UserIdentifierType } from '../../src/common/enums';
-import { authStub } from './auth.stub';
 
 export const pdaStub = (overridePDA?: any): PrivateDataAsset => ({
   arweaveUrl: 'https://arweave.net/test',

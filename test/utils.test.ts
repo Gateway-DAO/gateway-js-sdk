@@ -1,28 +1,21 @@
 import forge from 'node-forge';
-import { Chain, UserIdentifierType } from '../src/types';
-import { errorHandler } from '../src/utils/errorHandler';
-import {
-  isDateValid,
-  isEmailValid,
-  isStringValid,
-  isUUIDValid,
-  isValidUrl,
-  isWalletAddressValid,
-  validateEtherumWallet,
-  validateObjectProperties,
-  validatePDAFilter,
-  validateSolanaWallet,
-} from '../src/utils/validators';
-import {
-  decryptWithPKI,
-  encryptWithPKI,
-  generateDID,
-  generateNewEtherumWallet,
-  generateRSAKeyPair,
-  jsonEncoder,
-  sharedEncryptWithPKI,
-} from '../src/utils/v3-crypto-helper';
-import { authStub } from './stubs/v2/auth.stub';
+import { errorHandler } from '../src/helpers/helper';
+import { UserIdentifierType } from '../src/common/enums';
+import { ValidationService } from '../src/services/validator-service';
+import { authStub } from './stubs/auth.stub';
+import { CryptoService } from '../src/services/crypto-service';
+
+let validationService: ValidationService;
+let cryptoService: CryptoService;
+
+beforeAll(() => {
+  validationService = new ValidationService();
+  cryptoService = new CryptoService();
+});
+
+afterAll(() => {
+  jest.resetAllMocks();
+});
 
 describe('UTILS VALIDATORS TESTING', () => {
   it('error handler testing normal', () => {
@@ -41,70 +34,67 @@ describe('UTILS VALIDATORS TESTING', () => {
   });
 
   it('email validator', () => {
-    const result = isEmailValid('test@gmail.com');
+    const result = validationService.validateEmail('test@gmail.com');
     expect(result).toBeDefined();
-    expect(() => isEmailValid('wrong-email.com')).toThrow(
+    expect(() => validationService.validateEmail('wrong-email.com')).toThrow(
       'wrong-email.com is not valid',
     );
   });
 
   it('uuid validator', () => {
-    const result = isUUIDValid('f17ac10b-58cc-4372-a567-0e02b2c3d479');
-    expect(result).toBeDefined();
-    expect(() => isUUIDValid('f17ac10b-58cc-4372-a567')).toThrow(
-      'f17ac10b-58cc-4372-a567 is not valid',
+    const result = validationService.validateUUID(
+      'f17ac10b-58cc-4372-a567-0e02b2c3d479',
     );
+    expect(result).toBeDefined();
+    expect(() =>
+      validationService.validateUUID('f17ac10b-58cc-4372-a567'),
+    ).toThrow('f17ac10b-58cc-4372-a567 is not valid');
   });
 
   it('url validator', () => {
-    const result = isValidUrl('https://fake-url.com');
+    const result = validationService.validateURL('https://fake-url.com');
     expect(result).toBeDefined();
-    expect(() => isValidUrl('f17ac10b-58cc-4372-a567')).toThrow(
-      'f17ac10b-58cc-4372-a567 is not valid',
-    );
+    expect(() =>
+      validationService.validateURL('f17ac10b-58cc-4372-a567'),
+    ).toThrow('f17ac10b-58cc-4372-a567 is not valid');
   });
 
   it('string validator', () => {
-    const result = isStringValid('test pda');
+    const result = validationService.validateString('test pda');
     expect(result).toBeDefined();
-    expect(() => isStringValid('')).toThrow(' should be atleast 2 length');
+    expect(() => validationService.validateString('')).toThrow(
+      ' should be atleast 2 length',
+    );
   });
 
   it('etherum validator', () => {
-    const result = validateEtherumWallet(authStub().wallet);
+    const result = validationService.validateEtherumWallet(authStub().wallet);
     expect(result).toBeDefined();
     expect(() =>
-      validateEtherumWallet('f17ac10b-58cc-4372-a567-0e02b2c3d479'),
+      validationService.validateEtherumWallet(
+        'f17ac10b-58cc-4372-a567-0e02b2c3d479',
+      ),
     ).toThrow('f17ac10b-58cc-4372-a567-0e02b2c3d479 is invalid');
   });
 
-  it('etherum & solana validator', () => {
-    const result = isWalletAddressValid(
-      '9aohAjd3okUogzGJT6N2cQUDwBbi2ay7oSzPPaQjQ22s',
-      Chain.SOL,
-    );
-    expect(result).toBeDefined();
-    expect(() =>
-      isWalletAddressValid('f17ac10b-58cc-4372-a567-0e02b2c3d479', Chain.SOL),
-    ).toThrow('Non-base58 character');
-  });
-
   it('solana validator', () => {
-    const result = validateSolanaWallet(
+    const result = validationService.validateSolanaWallet(
       '9aohAjd3okUogzGJT6N2cQUDwBbi2ay7oSzPPaQjQ22s',
     );
     expect(result).toBeDefined();
     expect(() =>
-      validateSolanaWallet('f17ac10b-58cc-4372-a567-0e02b2c3d479'),
+      validationService.validateSolanaWallet(
+        'f17ac10b-58cc-4372-a567-0e02b2c3d479',
+      ),
     ).toThrow('Non-base58 character');
   });
 
   it('date validator', () => {
-    const result = isDateValid(new Date().toDateString());
+    const result = validationService.validateDate(new Date().toDateString());
     expect(result).toBeDefined();
-    expect(() => isDateValid('f17ac10b-58cc-4372-a567-0e02b2c3d479')).toThrow(
-      'f17ac10b-58cc-4372-a567-0e02b2c3d479 is not valid',
-    );
+    expect(() =>
+      validationService.validateDate('f17ac10b-58cc-4372-a567-0e02b2c3d479'),
+    ).toThrow('f17ac10b-58cc-4372-a567-0e02b2c3d479 is not valid');
   });
 
   it('validate object', () => {
@@ -114,11 +104,11 @@ describe('UTILS VALIDATORS TESTING', () => {
       title: 'test',
       dateTest: new Date(),
       owner: {
-        type: UserIdentifierType.GATEWAY_ID,
+        type: UserIdentifierType.USER_DID,
         value: 'test',
       },
     };
-    const result = validateObjectProperties(sampleObject);
+    const result = validationService.validateObjectProperties(sampleObject);
     expect(result).toBeUndefined();
   });
 
@@ -127,46 +117,32 @@ describe('UTILS VALIDATORS TESTING', () => {
       dataModelIds: ['111'],
     };
     expect(
-      async () => await validatePDAFilter(samplePDAFilter),
-    ).rejects.toThrow('111 is not valid uuid');
-  });
-
-  it('validate v3 pda filter ids filter', async () => {
-    let samplePDAFilter = {
-      ids: ['111'],
-    };
-    expect(
-      async () => await validatePDAFilter(samplePDAFilter),
+      async () => await validationService.validatePDAFilter(samplePDAFilter),
     ).rejects.toThrow('111 is not valid uuid');
   });
 });
 
 describe('UTILS CRYPTO V3 TESTING', () => {
   it('generate did', () => {
-    const result = generateDID('test');
-    expect(result).toBeDefined();
-  });
-
-  it('generate new etherum wallet', () => {
-    const result = generateNewEtherumWallet();
+    const result = cryptoService.generateDID('test');
     expect(result).toBeDefined();
   });
 
   it('generate RSA primary key', () => {
-    const result = generateRSAKeyPair();
+    const result = cryptoService.generateRSAKeyPair();
     expect(result).toBeDefined();
   });
 
   it('whole encryption/decryption flow', async () => {
-    const { privateKey, publicPem } = generateRSAKeyPair();
-    const did = generateDID('test');
-    const result = sharedEncryptWithPKI('hello', {
+    const { privateKey, publicPem } = cryptoService.generateRSAKeyPair();
+    const did = cryptoService.generateDID('test');
+    const result = cryptoService.sharedEncryptWithPKI('hello', {
       did,
       publicPem: publicPem,
     });
 
-    const result2 = encryptWithPKI('hello ser', publicPem, did);
-    const decryptedData = await decryptWithPKI(
+    const result2 = cryptoService.encryptWithPKI('hello ser', publicPem, did);
+    const decryptedData = await cryptoService.decryptWithPKI(
       result,
       did,
       forge.util.decode64(privateKey),
@@ -175,13 +151,5 @@ describe('UTILS CRYPTO V3 TESTING', () => {
     expect(result2).toBeDefined();
     expect(decryptedData).toBeDefined();
     expect(decryptedData).toBe('hello');
-  });
-
-  it('json encoder', () => {
-    let sampleObject = {
-      key: 'value',
-    };
-    const encodedObject = jsonEncoder(sampleObject);
-    expect(encodedObject).toBeDefined();
   });
 });

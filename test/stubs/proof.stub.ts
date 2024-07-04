@@ -1,4 +1,4 @@
-import { Proof, CreateProofInput } from '../../../gatewaySdk/sources/GatewayV3';
+import { CreateProofArgs, Proof } from '../../gatewaySdk/sources/Gateway';
 
 export const proofStub = (overrideProof?: any): Proof => ({
   id: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
@@ -18,13 +18,9 @@ export const proofStub = (overrideProof?: any): Proof => ({
   ...overrideProof,
 });
 
-export const createProofStub = (overrideProof?: any): CreateProofInput => ({
-  data: {
-    claims: [{ keyBlob: 'dfds', pdaId: 1 }],
-  },
-  signature: '0x8887d10B02C9b785Ca54A2e60c3Ce68DC6dDcdb1',
-  signingKey: '0x8887d10B02C9b785Ca54A2e60c3Ce68DC6dDcdb1',
-  signingCipher: 'ED25519',
+export const createProofStub = (overrideProof?: any): CreateProofArgs => ({
+  claims: [{ keyBlob: 'dfds', pdaId: 1 }],
+
   ...overrideProof,
 });
 

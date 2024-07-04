@@ -2,12 +2,9 @@ import { ethers } from 'ethers';
 import { PublicKey } from '@solana/web3.js';
 import { Chain } from '../common/enums';
 import { STRING_VALIDATION_LENGTH } from '../common/constants';
-import { CryptoService } from './crypto-service';
 import { FilterPDAInput } from '../../gatewaySdk/sources/Gateway';
 
 export class ValidationService {
-  private cryptoService = new CryptoService();
-
   validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) throw new Error(`${email} is not valid`);
