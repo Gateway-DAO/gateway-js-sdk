@@ -82,7 +82,6 @@ export class DataModel {
     try {
       return await this.sdk.dataModelsQuery(variables);
     } catch (error) {
-      console.log(error);
       throw new Error(errorHandler(error));
     }
   }

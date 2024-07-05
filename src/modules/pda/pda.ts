@@ -14,6 +14,8 @@ import { errorHandler } from '../../helpers/helper';
 import { ValidationService } from '../../services/validator-service';
 import { Config } from '../../common/types';
 import { WalletService } from '../../services/wallet-service';
+import FormData from 'form-data';
+import { MAX_UPLOAD_FILE_SIZE } from '../../common/constants';
 
 export class PDA {
   private sdk: Sdk;
@@ -199,19 +201,22 @@ export class PDA {
   }
 
   /**
-   * The function `uploadFileAsPDA` takes a file path as input and a PDA Id
-   * and updates the PDA and makes it Valid
-   * @param {File} file - The parameter `file` is of type `File`. Maximum file size allowed is 30 MB
-   * @param {number} pdaId - The parameter `pdaId` is of type `number`. It should be valid pdaId
-   * @returns a promise of type fetch response.
+   * The function `uploadFileAsPDA` uploads a file to a server associated with a specific PDA after
+   * performing validation checks.
+   * @param {Buffer} file - The `file` parameter in the `uploadFileAsPDA` function is expected to be a
+   * `Buffer` type. It represents the file content that you want to upload.
+   * @param {number} pdaId - The `pdaId` parameter is the identification number of the PDA (Personal
+   * Digital Assistant) to which the file will be uploaded.
+   * @param {string} fileName - The `fileName` parameter in the `uploadFileAsPDA` function represents
+   * the name of the file being uploaded. It is a string value that should include the name of the file
+   * with its extension. For example, if you are uploading a file named "document.pdf", the `fileName`
+   * should be same "document.pdf"
+   * @returns The `uploadFileAsPDA` function returns the result of the axios POST request made to
+   * upload the file to the server.
    */
-  async uploadFileAsPDA(
-    file: Buffer,
-    pdaId: number,
-    fileName: string,
-    fileType: string,
-  ) {
+  async uploadFileAsPDA(file: Buffer, pdaId: number, fileName: string) {
     try {
+      const { extension } = this.validationService.validateFileName(fileName);
       const { PDA: filePda } = await this.getPDA(pdaId);
 
       if (filePda === undefined || filePda === null)
@@ -222,9 +227,15 @@ export class PDA {
           `${pdaId} should be in Pending status only. To upload a file`,
         );
 
+      if (file.length > MAX_UPLOAD_FILE_SIZE)
+        throw new Error(`File size max allowed is ${MAX_UPLOAD_FILE_SIZE}(mb)`);
+
       const formData = new FormData();
       formData.append('pdaId', BigInt(pdaId).toString());
-      formData.append('file', new Blob([file], { type: fileType }), fileName);
+      formData.append('file', file, {
+        filename: fileName,
+        contentType: extension,
+      });
 
       return await axios.post(
         `${this.config.url.replace('/graphql', '')}/file/upload`,
@@ -234,6 +245,7 @@ export class PDA {
             'x-api-key': this.config.apiKey,
             Authorization: `Bearer ${this.config.token}`,
             'Content-Type': 'multipart/form-data',
+            ...formData.getHeaders(),
           },
         },
       );

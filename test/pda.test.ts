@@ -11,12 +11,21 @@ import { ethers } from 'ethers';
 import { PDAStatus } from '../src/common/enums';
 import { invalidUUID } from './stubs/user.stub';
 
+import MockAdapter from 'axios-mock-adapter';
+import { mock, MockProxy } from 'jest-mock-extended';
+import axios from 'axios';
+
 let sdk: Sdk;
 let pda: PDA;
 let wallet: ethers.Wallet;
+let mockGetPDA: jest.SpyInstance;
+let mockAxios: MockAdapter;
+let mockValidationService: MockProxy<any>;
 
 beforeAll(() => {
   sdk = getSdk(new GraphQLClient(''));
+  mockValidationService = mock<any>();
+  mockAxios = new MockAdapter(axios);
   wallet = ethers.Wallet.createRandom();
   pda = new PDA(
     sdk,
@@ -24,17 +33,17 @@ beforeAll(() => {
     {
       apiKey: '',
       token: '',
-      url: '',
+      url: 'http:localhost:3000/graphql',
       walletPrivateKey: wallet.privateKey,
     },
     new WalletService({ walletPrivateKey: wallet.privateKey }),
   );
-
-  global.fetch = jest.fn();
+  mockGetPDA = jest.spyOn(pda, 'getPDA');
 });
 
 afterAll(() => {
-  jest.resetAllMocks();
+  mockAxios.reset();
+  jest.clearAllMocks();
 });
 
 describe('PDA SERVICE TESTING', () => {
@@ -202,29 +211,99 @@ describe('PDA SERVICE TESTING', () => {
     expect(updatePDAMock).toHaveBeenCalled();
   });
 
-  // it('non structured pda', async () => {
-  //   const mockData = { data: 'Mocked data' };
+  it('non structured pda upload file successfully', async () => {
+    const file = Buffer.from('test file');
+    const pdaId = 123;
+    const fileName = 'test.txt';
 
-  //   (fetch as jest.Mock).mockResolvedValueOnce({
-  //     mockData,
-  //   });
+    mockValidationService.validateFileName.mockReturnValue({
+      extension: 'text/plain',
+      name: 'test.txt',
+    });
 
-  //   const data: any = await pda.uploadFileAsPDA('test/v3/hello.txt', 1);
-  //   expect(data.mockData).toEqual(mockData);
-  //   expect(fetch).toHaveBeenCalledTimes(1);
-  // });
+    mockGetPDA.mockResolvedValue({
+      PDA: {
+        status: PDAStatus.PENDING,
+      },
+    });
 
-  // it('non structured pda to throw error', async () => {
-  //   const mockData = { data: 'Mocked data' };
+    mockAxios
+      .onPost(
+        `${'http:localhost:3000/graphql'.replace('/graphql', '')}/file/upload`,
+      )
+      .reply(200, { success: true });
 
-  //   (fetch as jest.Mock).mockResolvedValueOnce({
-  //     mockData,
-  //   });
+    const result = await pda.uploadFileAsPDA(file, pdaId, fileName);
 
-  //   expect(
-  //     async () => await pda.uploadFileAsPDA('test/v3/hello.txt1', 1),
-  //   ).rejects.toThrow('');
+    expect(result.data.success).toBe(true);
 
-  //   expect(fetch).toHaveBeenCalledTimes(1);
-  // });
+    expect(mockGetPDA).toHaveBeenCalledWith(pdaId);
+  });
+
+  it('non structured pda should throw an error if file name is invalid', async () => {
+    const file = Buffer.from('test file');
+    const pdaId = 123;
+    const fileName = 'invalid file name';
+
+    mockValidationService.validateFileName.mockImplementation(() => {
+      throw new Error('Invalid file name');
+    });
+
+    await expect(pda.uploadFileAsPDA(file, pdaId, fileName)).rejects.toThrow(
+      'File Upload failed!',
+    );
+  });
+
+  it('should throw an error if file size exceeds the limit', async () => {
+    const file = Buffer.alloc(31 * 1024 * 1024); // 31 MB
+    const pdaId = 123;
+    const fileName = 'test.txt';
+
+    mockValidationService.validateFileName.mockReturnValue({
+      extension: 'text/plain',
+      name: 'test',
+    });
+
+    await expect(pda.uploadFileAsPDA(file, pdaId, fileName)).rejects.toThrow(
+      'File Upload failed!',
+    );
+  });
+
+  it('should throw an error if PDA status is not PENDING', async () => {
+    const file = Buffer.from('test file');
+    const pdaId = 123;
+    const fileName = 'test.txt';
+
+    mockValidationService.validateFileName.mockReturnValue({
+      extension: 'text/plain',
+      name: 'test',
+    });
+
+    mockGetPDA.mockResolvedValue({
+      PDA: {
+        status: PDAStatus.VALID,
+      },
+    });
+
+    await expect(pda.uploadFileAsPDA(file, pdaId, fileName)).rejects.toThrow(
+      'File Upload failed!',
+    );
+  });
+
+  it('should throw an error if PDA is not found', async () => {
+    const file = Buffer.from('test file');
+    const pdaId = 123;
+    const fileName = 'test.txt';
+
+    mockValidationService.validateFileName.mockReturnValue({
+      extension: 'text/plain',
+      name: 'test',
+    });
+
+    mockGetPDA.mockResolvedValue({ PDA: undefined });
+
+    await expect(pda.uploadFileAsPDA(file, pdaId, fileName)).rejects.toThrow(
+      'File Upload failed!',
+    );
+  });
 });
