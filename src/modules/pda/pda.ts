@@ -216,8 +216,7 @@ export class PDA {
    */
   async uploadFileAsPDA(file: Buffer, pdaId: number, fileName: string) {
     try {
-      const { extension, name } =
-        this.validationService.validateFileName(fileName);
+      const { extension } = this.validationService.validateFileName(fileName);
       const { PDA: filePda } = await this.getPDA(pdaId);
 
       if (filePda === undefined || filePda === null)
