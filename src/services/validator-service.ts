@@ -3,6 +3,7 @@ import { PublicKey } from '@solana/web3.js';
 import { Chain } from '../common/enums';
 import { STRING_VALIDATION_LENGTH } from '../common/constants';
 import { FilterPDAInput } from '../../gatewaySdk/sources/Gateway';
+import mime from 'mime-types';
 
 export class ValidationService {
   validateEmail = (email: string): boolean => {
@@ -103,5 +104,27 @@ export class ValidationService {
     } catch (error) {
       throw error;
     }
+  };
+
+  validateFileName = (fileName: string) => {
+    if (!fileName) {
+      throw new Error('Invalid file path. File name is missing.');
+    }
+
+    const parts = fileName.split('.');
+
+    if (parts.length < 2) {
+      throw new Error('Invalid file name. File name or extension is missing.');
+    }
+
+    const extension = parts.pop() as string;
+    const name = parts.join('.');
+    if (!name || !extension) {
+      throw new Error('Invalid file name. Name or extension is missing.');
+    }
+    return {
+      name,
+      extension: mime.contentType(extension) || 'application/octet-stream',
+    };
   };
 }

@@ -186,7 +186,6 @@ export class Organization {
         },
       });
     } catch (error: any) {
-      console.log(error.request.variables.input);
       throw new Error(errorHandler(error));
     }
   }

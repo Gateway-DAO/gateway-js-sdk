@@ -28,7 +28,6 @@ export class User {
     try {
       return await this.sdk.meQuery();
     } catch (error) {
-      console.log(error);
       throw new Error(errorHandler(error));
     }
   }

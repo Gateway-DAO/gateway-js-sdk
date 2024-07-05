@@ -15,7 +15,7 @@ import { WalletService } from './services/wallet-service';
 
 class SDKFactory {
   static createSDK({ apiKey, token, url, logging = false }: Config): Sdk {
-    parameterChecker(apiKey, token, url);
+    // parameterChecker(apiKey, token, url);
 
     const client = new GraphQLClient(url, {
       headers: { Authorization: `Bearer ${token}`, 'x-api-key': apiKey },
