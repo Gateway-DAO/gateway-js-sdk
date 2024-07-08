@@ -1,9 +1,15 @@
-# [2.1.0-develop.6](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.5...v2.1.0-develop.6) (2024-07-08)
+# [2.1.0-develop.7](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.6...v2.1.0-develop.7) (2024-07-08)
 
+
+### Bug Fixes
+
+* fixed build path settings ([adb7e65](https://github.com/Gateway-DAO/gateway-js-sdk/commit/adb7e654788b911c8ed6f28330280d5869e6ce79))
+
+# [2.1.0-develop.6](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.5...v2.1.0-develop.6) (2024-07-08)
 
 ### Features
 
-* added requests test ([679811c](https://github.com/Gateway-DAO/gateway-js-sdk/commit/679811c47812701ba1da1f4551f645150071164e))
+- added requests test ([679811c](https://github.com/Gateway-DAO/gateway-js-sdk/commit/679811c47812701ba1da1f4551f645150071164e))
 
 # [2.1.0-develop.5](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.4...v2.1.0-develop.5) (2024-07-05)
 
