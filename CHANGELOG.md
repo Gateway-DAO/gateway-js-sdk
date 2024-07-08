@@ -1,9 +1,23 @@
-# [2.1.0-develop.7](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.6...v2.1.0-develop.7) (2024-07-08)
+# [2.1.0-develop.9](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.8...v2.1.0-develop.9) (2024-07-08)
 
+
+### Features
+
+* added js docs and strict did validation ([2cddc29](https://github.com/Gateway-DAO/gateway-js-sdk/commit/2cddc294b74a3bc73da1755e4d32d9f24676c61e))
+
+# [2.1.0-develop.8](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.7...v2.1.0-develop.8) (2024-07-08)
 
 ### Bug Fixes
 
-* fixed build path settings ([adb7e65](https://github.com/Gateway-DAO/gateway-js-sdk/commit/adb7e654788b911c8ed6f28330280d5869e6ce79))
+- added only v3 urls ([7a61704](https://github.com/Gateway-DAO/gateway-js-sdk/commit/7a61704ab2cc057d590e7c0bee63208168b0d07f))
+- build time errors ([4efe340](https://github.com/Gateway-DAO/gateway-js-sdk/commit/4efe3408283e8c11cd792953f082b1f726544b65))
+- linting error ([f63f731](https://github.com/Gateway-DAO/gateway-js-sdk/commit/f63f731f3402017c45c3b89e2bc0e2419060442e))
+
+# [2.1.0-develop.7](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.6...v2.1.0-develop.7) (2024-07-08)
+
+### Bug Fixes
+
+- fixed build path settings ([adb7e65](https://github.com/Gateway-DAO/gateway-js-sdk/commit/adb7e654788b911c8ed6f28330280d5869e6ce79))
 
 # [2.1.0-develop.6](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.5...v2.1.0-develop.6) (2024-07-08)
 
