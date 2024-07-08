@@ -12,6 +12,18 @@ import { Config } from './common/types';
 import { ValidationService } from './services/validator-service';
 import { Activity } from './modules/activity/activity';
 import { WalletService } from './services/wallet-service';
+export * from '../gatewaySdk/sources/Gateway';
+export {
+  AuthType,
+  Chain,
+  EncryptedAESCipher,
+  OrganizationIdentifierType,
+  OrganizationRole,
+  PDAStatus,
+  SignCipherEnum,
+  UserIdentifierType,
+} from './common/enums';
+export * from './common/types';
 
 class SDKFactory {
   static createSDK({ apiKey, token, url, logging = false }: Config): Sdk {
