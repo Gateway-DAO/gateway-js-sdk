@@ -25,4 +25,7 @@ export const UserMockService = (sdk: Sdk) => ({
   myActivitiesMock: jest
     .spyOn(sdk, 'myActivitiesQuery')
     .mockResolvedValue({ myActivities: activitiesStub() }),
+  updateMeMock: jest
+    .spyOn(sdk, 'updateMyUserMutation')
+    .mockResolvedValue({ updateMyUser: userStub() }),
 });

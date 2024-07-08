@@ -1,31 +1,35 @@
-# [2.1.0-develop.4](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.3...v2.1.0-develop.4) (2024-07-04)
-
-
-### Bug Fixes
-
-* fixed generate script ([ea76738](https://github.com/Gateway-DAO/gateway-js-sdk/commit/ea76738b19275ff3010b3b265ba9d1faf4498ed7))
-* solana signature generation ([a94db30](https://github.com/Gateway-DAO/gateway-js-sdk/commit/a94db3006b405ff9f5bcba4afca3b445fec5cbdc))
+# [2.1.0-develop.5](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.4...v2.1.0-develop.5) (2024-07-05)
 
 
 ### Features
 
-* Add constants for string validation length, test default timeout, and default take limit ([34a2b3b](https://github.com/Gateway-DAO/gateway-js-sdk/commit/34a2b3b66f82090ab89c85a72547177faba3d803))
-* Add enums for sign cipher, user identifier type, PDA status, organization identifier type, organization role, auth type, and chain ([732f232](https://github.com/Gateway-DAO/gateway-js-sdk/commit/732f232c80e959c2838d7bceeb0222983c24d3e6))
-* Add error handling and try-catch blocks for method validation and protocol errors ([1688738](https://github.com/Gateway-DAO/gateway-js-sdk/commit/16887384756bc55ca61e796b8ced2eded86a4d63))
-* Add types for configuration and wallet confirmation input ([01505cd](https://github.com/Gateway-DAO/gateway-js-sdk/commit/01505cd415c3f64b0edf5094465e98470e5a2082))
-* added login user method ([ac4ce47](https://github.com/Gateway-DAO/gateway-js-sdk/commit/ac4ce4794af88ca9f12c01d6043bc615b9c12bc8))
-* added signature generation using wallet service ([88a91d2](https://github.com/Gateway-DAO/gateway-js-sdk/commit/88a91d2d98734d768ced515fc7f7c6d3bd27afec))
-* added solana and etherum services ([520fa57](https://github.com/Gateway-DAO/gateway-js-sdk/commit/520fa57585f99c2668ee0ad954dca54527d26ed1))
-* added solana wallet test cases ([8083974](https://github.com/Gateway-DAO/gateway-js-sdk/commit/80839744da4196216fb7c3f346a6fe413324ce3b))
-* added tests ([ee0e5ca](https://github.com/Gateway-DAO/gateway-js-sdk/commit/ee0e5cacb2f941db7d74d564835d4312891d41d6))
-* changed naming to camel case for all modules ([0867755](https://github.com/Gateway-DAO/gateway-js-sdk/commit/08677551ace91b42489adbf07e9b1b2d2c414001))
-* completed data model and auth tests ([a89906c](https://github.com/Gateway-DAO/gateway-js-sdk/commit/a89906c1f82e705210b1ed33dae4a5a874929ea4))
-* Refactor GatewayV3 class and initialize modules ([b41efbf](https://github.com/Gateway-DAO/gateway-js-sdk/commit/b41efbfd80b1a2fe47771f3f6321a1706c7c9366))
+* added file upload as pda and tests related to it ([c88de17](https://github.com/Gateway-DAO/gateway-js-sdk/commit/c88de179e8c7935745e049be029892b5842e03a7))
 
+# [2.1.0-develop.4](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.3...v2.1.0-develop.4) (2024-07-04)
+
+### Bug Fixes
+
+- fixed generate script ([ea76738](https://github.com/Gateway-DAO/gateway-js-sdk/commit/ea76738b19275ff3010b3b265ba9d1faf4498ed7))
+- solana signature generation ([a94db30](https://github.com/Gateway-DAO/gateway-js-sdk/commit/a94db3006b405ff9f5bcba4afca3b445fec5cbdc))
+
+### Features
+
+- Add constants for string validation length, test default timeout, and default take limit ([34a2b3b](https://github.com/Gateway-DAO/gateway-js-sdk/commit/34a2b3b66f82090ab89c85a72547177faba3d803))
+- Add enums for sign cipher, user identifier type, PDA status, organization identifier type, organization role, auth type, and chain ([732f232](https://github.com/Gateway-DAO/gateway-js-sdk/commit/732f232c80e959c2838d7bceeb0222983c24d3e6))
+- Add error handling and try-catch blocks for method validation and protocol errors ([1688738](https://github.com/Gateway-DAO/gateway-js-sdk/commit/16887384756bc55ca61e796b8ced2eded86a4d63))
+- Add types for configuration and wallet confirmation input ([01505cd](https://github.com/Gateway-DAO/gateway-js-sdk/commit/01505cd415c3f64b0edf5094465e98470e5a2082))
+- added login user method ([ac4ce47](https://github.com/Gateway-DAO/gateway-js-sdk/commit/ac4ce4794af88ca9f12c01d6043bc615b9c12bc8))
+- added signature generation using wallet service ([88a91d2](https://github.com/Gateway-DAO/gateway-js-sdk/commit/88a91d2d98734d768ced515fc7f7c6d3bd27afec))
+- added solana and etherum services ([520fa57](https://github.com/Gateway-DAO/gateway-js-sdk/commit/520fa57585f99c2668ee0ad954dca54527d26ed1))
+- added solana wallet test cases ([8083974](https://github.com/Gateway-DAO/gateway-js-sdk/commit/80839744da4196216fb7c3f346a6fe413324ce3b))
+- added tests ([ee0e5ca](https://github.com/Gateway-DAO/gateway-js-sdk/commit/ee0e5cacb2f941db7d74d564835d4312891d41d6))
+- changed naming to camel case for all modules ([0867755](https://github.com/Gateway-DAO/gateway-js-sdk/commit/08677551ace91b42489adbf07e9b1b2d2c414001))
+- completed data model and auth tests ([a89906c](https://github.com/Gateway-DAO/gateway-js-sdk/commit/a89906c1f82e705210b1ed33dae4a5a874929ea4))
+- Refactor GatewayV3 class and initialize modules ([b41efbf](https://github.com/Gateway-DAO/gateway-js-sdk/commit/b41efbfd80b1a2fe47771f3f6321a1706c7c9366))
 
 ### Reverts
 
-* tests files ([a690a27](https://github.com/Gateway-DAO/gateway-js-sdk/commit/a690a274293591377e2b03b7dc10d0fce9e2512d))
+- tests files ([a690a27](https://github.com/Gateway-DAO/gateway-js-sdk/commit/a690a274293591377e2b03b7dc10d0fce9e2512d))
 
 # [2.1.0-develop.3](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.2...v2.1.0-develop.3) (2024-06-28)
 

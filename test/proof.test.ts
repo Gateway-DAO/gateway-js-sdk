@@ -37,6 +37,16 @@ describe('PROOF SERVICE TESTING', () => {
     expect(createProofMock).toHaveBeenCalled();
   });
 
+  it('proof create -> throw error', async () => {
+    const { createProofMock } = ProofMockService(sdk);
+
+    expect(
+      async () => await proof.createProof(createProofStub({ requestId: '' })),
+    ).rejects.toThrow('');
+
+    expect(createProofMock).toHaveBeenCalled();
+  });
+
   it('get proof', async () => {
     const { getProofMock } = ProofMockService(sdk);
     const { proof: resultProof } = await proof.getProof(proofStub().id);

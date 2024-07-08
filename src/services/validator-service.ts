@@ -225,10 +225,6 @@ export class ValidationService {
     name: string;
     extension: string;
   } {
-    if (!fileName) {
-      throw new Error('Invalid file path. File name is missing.');
-    }
-
     const parts = fileName.split('.');
 
     if (parts.length < 2) {
