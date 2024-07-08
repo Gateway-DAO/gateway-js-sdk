@@ -1,9 +1,15 @@
-# [2.1.0-develop.5](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.4...v2.1.0-develop.5) (2024-07-05)
+# [2.1.0-develop.6](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.5...v2.1.0-develop.6) (2024-07-08)
 
 
 ### Features
 
-* added file upload as pda and tests related to it ([c88de17](https://github.com/Gateway-DAO/gateway-js-sdk/commit/c88de179e8c7935745e049be029892b5842e03a7))
+* added requests test ([679811c](https://github.com/Gateway-DAO/gateway-js-sdk/commit/679811c47812701ba1da1f4551f645150071164e))
+
+# [2.1.0-develop.5](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.4...v2.1.0-develop.5) (2024-07-05)
+
+### Features
+
+- added file upload as pda and tests related to it ([c88de17](https://github.com/Gateway-DAO/gateway-js-sdk/commit/c88de179e8c7935745e049be029892b5842e03a7))
 
 # [2.1.0-develop.4](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.3...v2.1.0-develop.4) (2024-07-04)
 
