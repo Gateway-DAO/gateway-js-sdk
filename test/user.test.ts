@@ -25,8 +25,18 @@ describe('USER SERVICE TESTING', () => {
     const { me } = await user.me();
 
     expect(me.did).toEqual(userStub().did);
-
     expect(meMock).toHaveBeenCalled();
+  });
+
+  it('update me', async () => {
+    const { updateMeMock } = UserMockService(sdk);
+
+    const { updateMyUser } = await user.updateMe({
+      username: userStub().username,
+    });
+
+    expect(updateMyUser.did).toEqual(userStub().did);
+    expect(updateMeMock).toHaveBeenCalled();
   });
 
   it('single user', async () => {
@@ -38,7 +48,6 @@ describe('USER SERVICE TESTING', () => {
     });
 
     expect(res.user?.did).toEqual(userStub().did);
-
     expect(getSingleUserMock).toHaveBeenCalled();
   });
 
