@@ -72,7 +72,7 @@ export class ValidationService {
   };
 
   validateDID = (did: string): boolean => {
-    const didRegex = /^did:gatewayid:\w+$/;
+    const didRegex = /^did:gatewayid:/;
     if (!didRegex.test(did)) throw new Error(`${did} is not valid did`);
 
     return true;
