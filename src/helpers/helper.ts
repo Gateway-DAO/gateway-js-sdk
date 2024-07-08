@@ -24,9 +24,7 @@ export const parameterChecker = (
   if (!url)
     throw new Error('No url found!.Use either sandbox or production url');
 
-  const urls = [
-    'https://v3-dev.protocol.mygateway.xyz/graphql',
-  ];
+  const urls = ['https://v3-dev.protocol.mygateway.xyz/graphql'];
 
   if (urls.includes(url)) return true;
   else throw new Error('No valid url found!. Use sandbox or production url');
