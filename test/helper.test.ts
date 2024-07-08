@@ -19,7 +19,7 @@ describe('HELPERS VALIDATORS TESTING', () => {
       parameterChecker(
         '',
         'someToken',
-        'https://protocol.mygateway.xyz/graphql',
+        'https://v3-dev.protocol.mygateway.xyz/graphql',
       );
     }).toThrow('No api Key found!');
   });
@@ -29,7 +29,7 @@ describe('HELPERS VALIDATORS TESTING', () => {
       parameterChecker(
         'someApiKey',
         '',
-        'https://protocol.mygateway.xyz/graphql',
+        'https://v3-dev.protocol.mygateway.xyz/graphql',
       );
     }).toThrow('No token found!');
   });
@@ -42,9 +42,6 @@ describe('HELPERS VALIDATORS TESTING', () => {
 
   it('should return true for a valid url', () => {
     const validUrls = [
-      'https://protocol.mygateway.xyz/graphql',
-      'https://sandbox.protocol.mygateway.xyz/graphql',
-      'https://develop.protocol.mygateway.xyz/graphql',
       'https://v3-dev.protocol.mygateway.xyz/graphql',
     ];
 
