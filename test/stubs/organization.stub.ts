@@ -17,7 +17,7 @@ export const organizationStub = (
   usernameUpdatedAt: new Date('2021-01-01T12:00:00Z'),
   verified: true,
   verifierDataRequests: [],
-  did: 'did:gatewayid:org123',
+  did: 'did:gatewayid:mygateway:513368cb5b989f801197782fec032d8fe19e93029845fd65d5c55c3b23a825f0',
   ...overrideOrganization,
 });
 

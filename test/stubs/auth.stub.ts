@@ -16,7 +16,7 @@ export const authStub = (overrideAuth?: any) => ({
   message: 'message is valid',
   token: 'a86d21a712aebd1e6d5a4cb02a6a4a30f41e319a670b401c0bf0fc04c617e0f1',
   jwt: 'eyJhsGciOiJIUzI1NiIsInR5cCI6IkpXVC19.eyAkaW',
-  did: 'did:gatewayid:abc123',
+  did:  'did:gatewayid:mygateway:513368cb5b989f801197782fec032d8fe19e93029845fd65d5c55c3b23a825f0',
   cipher: 'a86d21a712aebd1e6d5a4cb02a6a4a30f41e319a670b401c0bf0fc04c617e0f1',
   solanaWallet: '8dsy95biKJu8kJNLfRibdEy4BWmChf7q42vsjceatLGL',
   ...overrideAuth,
