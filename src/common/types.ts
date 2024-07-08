@@ -14,3 +14,8 @@ export interface AddWalletConfirmationInput {
   chain: Chain;
   signature: string;
 }
+
+export interface WalletSignMessageType {
+  signature: string;
+  signingKey: string;
+}

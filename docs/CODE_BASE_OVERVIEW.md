@@ -15,15 +15,14 @@ This section will give you an overview of the SDK codebase. We will also discuss
 
 1. Auth Class:- Handles all Authentication related methods.
 2. Data Model:- Handles all Data Models related methods.
-3. Data Request Templates:- Handles all Data Request Template related methods.
-4. Organization:- Handles all Organization related methods.
-5. PDA:- Handles all PDA related methods.
-6. Proof:- Handles all Proof related methods.
-7. Request:- Handles all Requests related methods.
-8. User:- Handles all User related methods.
-9. Transactions:- Handles all User related methods.
+3. Organization:- Handles all Organization related methods.
+4. PDA:- Handles all PDA related methods.
+5. Proof:- Handles all Proof related methods.
+6. Request:- Handles all Requests related methods.
+7. User:- Handles all User related methods.
+8. Transactions:- Handles all User related methods.
 
-- The utils folder has basic utilities functions like validations to validate all user input.
+- The services folder has all functions related to crypto,wallets, and validation related functions.
 
 - The tests folder has all the unit test for the above classes. We are using mocking to mock the SDK.
 
