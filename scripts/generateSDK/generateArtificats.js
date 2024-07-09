@@ -39,12 +39,8 @@ async function generateTypesForApi(options) {
   });
   const namespace = `${options.name}Types`;
 
-  const codeAst = `
-
-
-export namespace ${namespace} {
+  const codeAst = `\n
   ${baseTypes}
-  }
 `;
 
   return {
@@ -158,7 +154,6 @@ async function generateTsArtifacts({
                       content,
                     );
                   }
-
                   return {
                     identifier,
                     codeAst,
