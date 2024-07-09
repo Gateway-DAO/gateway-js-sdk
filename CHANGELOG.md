@@ -1,39 +1,42 @@
-# [2.0.0](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.1.1...v2.0.0) (2024-03-14)
-
-
-### Bug Fixes
-
-* commitlint config for github message ([83a703b](https://github.com/Gateway-DAO/gateway-js-sdk/commit/83a703b2eb23da09da7ddbd8c66f07846a71262c))
-* error probelm in  user ([b76fdb9](https://github.com/Gateway-DAO/gateway-js-sdk/commit/b76fdb9ad350a37d954d7a70f1c1387b0750e746))
-* user stub for test ([bb7e443](https://github.com/Gateway-DAO/gateway-js-sdk/commit/bb7e4438d1b8694030a2c0105c7eda3729e9b952))
-
-
-* Merge pull request #47 from Gateway-DAO/develop ([2f48413](https://github.com/Gateway-DAO/gateway-js-sdk/commit/2f4841378b75cab0009d33d4e50748589e9ec653)), closes [#47](https://github.com/Gateway-DAO/gateway-js-sdk/issues/47)
-* Merge pull request #43 from Gateway-DAO/feat/remove-mesh ([0380c59](https://github.com/Gateway-DAO/gateway-js-sdk/commit/0380c59a820f2283be6c650b4aa15f734e3d16d5)), closes [#43](https://github.com/Gateway-DAO/gateway-js-sdk/issues/43)
+# [2.1.0-v2-legacy.1](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.0.0...v2.1.0-v2-legacy.1) (2024-07-09)
 
 
 ### Features
 
-* added encoding package ([871be32](https://github.com/Gateway-DAO/gateway-js-sdk/commit/871be321c06458d2cb2a82a62a9dce5db93251f8))
-* added graphql->sdk script ([574488a](https://github.com/Gateway-DAO/gateway-js-sdk/commit/574488ae6b4837086bbe34eaae1cbb8b2fc7c649))
-* changed commit lint config ([955e22d](https://github.com/Gateway-DAO/gateway-js-sdk/commit/955e22d54a612ecceb99c073e0c9141e5d18675d))
-* custom script to generate sdk init ([5bc97c2](https://github.com/Gateway-DAO/gateway-js-sdk/commit/5bc97c2ad4c583f2f74e124b22934e17f39addde))
-* improved generation script ([437ce6a](https://github.com/Gateway-DAO/gateway-js-sdk/commit/437ce6a15dd1f61cc543dc8bdc2517bef18493b9))
-* migrated build files from ts->js ([1113285](https://github.com/Gateway-DAO/gateway-js-sdk/commit/1113285c2551b0328bf5eb74eebfd01ac34bd4e1))
-* proofs,data models, requests testing done ([0aba14f](https://github.com/Gateway-DAO/gateway-js-sdk/commit/0aba14f5986a43d4011ad86ea76415412218639c))
-* removed changelog generation ([c4fb14b](https://github.com/Gateway-DAO/gateway-js-sdk/commit/c4fb14b94407407c8e8e917163a05276b05077be))
-* removed husky temporary ([963d6b6](https://github.com/Gateway-DAO/gateway-js-sdk/commit/963d6b603d2f0d7c759bdb708ab8a9f3c7d929e0))
-* revered husky ([c52940f](https://github.com/Gateway-DAO/gateway-js-sdk/commit/c52940f3ef9a3429c5724ed009c3ebfe3297ea3f))
-* **test:**  fix test ([773cf36](https://github.com/Gateway-DAO/gateway-js-sdk/commit/773cf3637b8291ff8e472a1519f5ff724e9c455b))
-* tests passed for pda,organization ([6378fd7](https://github.com/Gateway-DAO/gateway-js-sdk/commit/6378fd74bd4fff798b3572c947e6dcef7207b990))
-* updated docs according to v2 ([25c9413](https://github.com/Gateway-DAO/gateway-js-sdk/commit/25c94137f019607590339c66f3b1669e178231a9))
-* user test also done ([26214ab](https://github.com/Gateway-DAO/gateway-js-sdk/commit/26214aba7a0ecde83608956254a4ab5bb64f9cd4))
+* pipeline for v2-legacy ([e82d330](https://github.com/Gateway-DAO/gateway-js-sdk/commit/e82d330824387cdfce2a1d241097a4a34e0fa469))
 
+# [2.0.0](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.1.1...v2.0.0) (2024-03-14)
+
+### Bug Fixes
+
+- commitlint config for github message ([83a703b](https://github.com/Gateway-DAO/gateway-js-sdk/commit/83a703b2eb23da09da7ddbd8c66f07846a71262c))
+- error probelm in user ([b76fdb9](https://github.com/Gateway-DAO/gateway-js-sdk/commit/b76fdb9ad350a37d954d7a70f1c1387b0750e746))
+- user stub for test ([bb7e443](https://github.com/Gateway-DAO/gateway-js-sdk/commit/bb7e4438d1b8694030a2c0105c7eda3729e9b952))
+
+- Merge pull request #47 from Gateway-DAO/develop ([2f48413](https://github.com/Gateway-DAO/gateway-js-sdk/commit/2f4841378b75cab0009d33d4e50748589e9ec653)), closes [#47](https://github.com/Gateway-DAO/gateway-js-sdk/issues/47)
+- Merge pull request #43 from Gateway-DAO/feat/remove-mesh ([0380c59](https://github.com/Gateway-DAO/gateway-js-sdk/commit/0380c59a820f2283be6c650b4aa15f734e3d16d5)), closes [#43](https://github.com/Gateway-DAO/gateway-js-sdk/issues/43)
+
+### Features
+
+- added encoding package ([871be32](https://github.com/Gateway-DAO/gateway-js-sdk/commit/871be321c06458d2cb2a82a62a9dce5db93251f8))
+- added graphql->sdk script ([574488a](https://github.com/Gateway-DAO/gateway-js-sdk/commit/574488ae6b4837086bbe34eaae1cbb8b2fc7c649))
+- changed commit lint config ([955e22d](https://github.com/Gateway-DAO/gateway-js-sdk/commit/955e22d54a612ecceb99c073e0c9141e5d18675d))
+- custom script to generate sdk init ([5bc97c2](https://github.com/Gateway-DAO/gateway-js-sdk/commit/5bc97c2ad4c583f2f74e124b22934e17f39addde))
+- improved generation script ([437ce6a](https://github.com/Gateway-DAO/gateway-js-sdk/commit/437ce6a15dd1f61cc543dc8bdc2517bef18493b9))
+- migrated build files from ts->js ([1113285](https://github.com/Gateway-DAO/gateway-js-sdk/commit/1113285c2551b0328bf5eb74eebfd01ac34bd4e1))
+- proofs,data models, requests testing done ([0aba14f](https://github.com/Gateway-DAO/gateway-js-sdk/commit/0aba14f5986a43d4011ad86ea76415412218639c))
+- removed changelog generation ([c4fb14b](https://github.com/Gateway-DAO/gateway-js-sdk/commit/c4fb14b94407407c8e8e917163a05276b05077be))
+- removed husky temporary ([963d6b6](https://github.com/Gateway-DAO/gateway-js-sdk/commit/963d6b603d2f0d7c759bdb708ab8a9f3c7d929e0))
+- revered husky ([c52940f](https://github.com/Gateway-DAO/gateway-js-sdk/commit/c52940f3ef9a3429c5724ed009c3ebfe3297ea3f))
+- **test:** fix test ([773cf36](https://github.com/Gateway-DAO/gateway-js-sdk/commit/773cf3637b8291ff8e472a1519f5ff724e9c455b))
+- tests passed for pda,organization ([6378fd7](https://github.com/Gateway-DAO/gateway-js-sdk/commit/6378fd74bd4fff798b3572c947e6dcef7207b990))
+- updated docs according to v2 ([25c9413](https://github.com/Gateway-DAO/gateway-js-sdk/commit/25c94137f019607590339c66f3b1669e178231a9))
+- user test also done ([26214ab](https://github.com/Gateway-DAO/gateway-js-sdk/commit/26214aba7a0ecde83608956254a4ab5bb64f9cd4))
 
 ### BREAKING CHANGES
 
-* Removed mesh added custom script to generate sdk
-* remove mesh
+- Removed mesh added custom script to generate sdk
+- remove mesh
 
 ## [1.1.1](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v1.1.0...v1.1.1) (2024-02-23)
 
