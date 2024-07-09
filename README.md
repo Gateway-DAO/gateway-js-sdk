@@ -1,5 +1,23 @@
 ![](https://github.com/Gateway-DAO/network-ui/blob/develop/public/social.png)
 
+## ⚠️ Warning: Deprecation Notice
+
+**Attention:** This SDK version exclusively supports v2 APIs of the Gateway Protocol. **Immediate action is required** as this SDK package is set to be deprecated on **September 15, 2024**.
+
+### What You Need to Know:
+- **Compatibility:** Future updates will not be supported with this SDK version.
+- **Action Required:** Migrate to the latest SDK version that supports v3 APIs to maintain compatibility and take advantage of new features and improvements.
+- **Deprecation Date:** After **September 15, 2024**, this SDK will no longer receive updates, security patches, or support.
+
+### Resources:
+- For detailed migration steps and information on new SDK features, please refer to the [documentation](https://docs.mygateway.xyz/).
+- If you encounter any issues or need further assistance, please open an issue in the [Issues](https://github.com/Gateway-DAO/gateway-js-sdk/issues) section.
+
+Ensure you update your integration promptly to avoid disruptions in service. Thank you for your attention to this important matter.
+
+
+
+
 # Gateway Javascript SDK
 
 [![NPM version][npm-image]][npm-url]

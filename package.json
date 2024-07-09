@@ -1,5 +1,5 @@
 {
-  "name": "@gateway-dao/sdk",
+  "name": "@gateway-dao/gateway-sdk-legacy",
   "version": "0.0.0-semantic-release",
   "description": "A Typescript SDK for the Gateway API",
   "main": "dist/src/Gateway.js",

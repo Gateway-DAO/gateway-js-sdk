@@ -2,7 +2,7 @@ name: Run Eslint & Test cases
 
 on:
   pull_request:
-    branches: ['main', 'develop']
+    branches: ['main', 'develop' , 'v2-legacy']
 
 jobs:
   build:

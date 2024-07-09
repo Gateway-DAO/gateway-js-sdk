@@ -1,6 +1,7 @@
 module.exports = {
   branches: [
     'main',
+    'v2-legacy',
     {
       name: 'develop',
       prerelease: true,
@@ -9,7 +10,7 @@ module.exports = {
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',
-     [
+    [
       '@semantic-release/changelog',
       {
         changelogFile: 'CHANGELOG.md',
