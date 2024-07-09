@@ -1,9 +1,15 @@
-# [2.1.0-develop.9](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.8...v2.1.0-develop.9) (2024-07-08)
+# [2.1.0-develop.10](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.9...v2.1.0-develop.10) (2024-07-09)
 
+
+### Bug Fixes
+
+* removed namespace from build script ([a5d452b](https://github.com/Gateway-DAO/gateway-js-sdk/commit/a5d452b42f9dad43d6826288823f6f52af707f0d))
+
+# [2.1.0-develop.9](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.8...v2.1.0-develop.9) (2024-07-08)
 
 ### Features
 
-* added js docs and strict did validation ([2cddc29](https://github.com/Gateway-DAO/gateway-js-sdk/commit/2cddc294b74a3bc73da1755e4d32d9f24676c61e))
+- added js docs and strict did validation ([2cddc29](https://github.com/Gateway-DAO/gateway-js-sdk/commit/2cddc294b74a3bc73da1755e4d32d9f24676c61e))
 
 # [2.1.0-develop.8](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.7...v2.1.0-develop.8) (2024-07-08)
 
