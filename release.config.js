@@ -1,7 +1,10 @@
 module.exports = {
   branches: [
     'main',
-    'v2-legacy',
+    {
+      name: 'v2-legacy',
+      prerelease: true,
+    },
     {
       name: 'develop',
       prerelease: true,
