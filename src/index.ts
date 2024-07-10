@@ -12,6 +12,7 @@ import { Config } from './common/types';
 import { ValidationService } from './services/validator-service';
 import { Activity } from './modules/activity/activity';
 import { WalletService } from './services/wallet-service';
+import { CryptoService } from './services/crypto-service';
 export * from '../gatewaySdk/sources/Gateway/types';
 export {
   AuthType,
@@ -49,6 +50,7 @@ export class Gateway {
   public proof!: Proof;
   public request!: Request;
   public user!: User;
+  public cryptoService: CryptoService;
 
   constructor(config: Config) {
     const validationService = new ValidationService();
@@ -58,6 +60,7 @@ export class Gateway {
       walletPrivateKey: this.config.walletPrivateKey,
       walletType: this.config.walletType,
     });
+    this.cryptoService = new CryptoService();
     this.initializeModules(validationService);
   }
 

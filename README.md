@@ -43,7 +43,7 @@ yarn add @gateway-dao/sdk
 
 ## Gateway Client
 
-To setup the gateway client we will authenticate with a bearer-token and a Api key as follows
+To setup the gateway client we will authenticate with a bearer-token,api key and wallet private key as follows
 
 ```typescript
 import { Gateway } from '@gateway-dao/sdk';
@@ -52,8 +52,11 @@ const gateway = new Gateway({
   apiKey: 'your-api-key',
   token: 'your-token',
   url: 'https://sandbox.protocol.mygateway.xyz/graphql',
+  walletPrivateKey: 'your-private-key', // store this in env file!
 });
 ```
+
+**The wallet private key is not send anywhere and is just used to sign messages on behalf of developer/organization using it. This way we minimize signature errors on protocol and provide smoother developer experience**
 
 **Make sure you add token without Bearer as we add Bearer automatically when you make request. Else it will give you Unauthorized error even if your token is correct**
 For example
@@ -66,15 +69,11 @@ const gateway = new Gateway({
   token: 'Bearer your-token',
   // wrong will not work just use token: 'your-token'
   url: 'https://sandbox.protocol.mygateway.xyz/graphql',
+  walletPrivateKey: 'your-private-key', // store this in env file!
 });
 ```
 
 This library supports Bearer Token along with Api Key. Do not share your authentication token with people you don’t trust. This gives the user control over your account and they will be able to manage PDAs (and more) with it. Use environment variables to keep it safe.
-
-## Error Handling
-
-All the methods throw a validation error if the validation does not match for example:- invalid wallet, invalid uuid for all ids,
-Incase of any protocol errors we will throw a custom message which is a string which has all neccessary info regarding error. Make sure to use try catch blocks to handle those.
 
 ## Examples
 
@@ -89,6 +88,7 @@ const gateway = new Gateway({
   apiKey: 'your-api-key',
   token: 'your-token',
   url: 'https://sandbox.protocol.mygateway.xyz/graphql',
+  walletPrivateKey: 'your-private-key', // store this in env file!
 });
 
 async function main() {
@@ -114,15 +114,16 @@ async function main() {
 main();
 ```
 
-### Getting a Organization
+### Creating a Organization
 
-````typescript
+```typescript
 import { Gateway } from '@gateway-dao/sdk';
 
 const gateway = new Gateway({
   apiKey: 'your-api-key',
   token: 'your-token',
   url: 'https://sandbox.protocol.mygateway.xyz/graphql',
+  walletPrivateKey: 'your-private-key', // store this in env file!
 });
 
 async function main() {
@@ -133,51 +134,22 @@ async function main() {
       description: 'test organization',
     };
     const { createOrganization } =
- ## Error Handling
-
-All the methods throw a validation error if the validation does not match for example:- invalid wallet, invalid uuid for all ids,
-Incase of any protocol errors we will throw a custom message which is a string which has all neccessary info regarding error. Make sure to use try catch blocks to handle those.``
-
-### Create a Data request template
-
-```typescript
-import { Gateway } from '@gateway-dao/sdk';
-
-const gateway = new Gateway({
-  apiKey: 'your-api-key',
-  token: 'your-token',
-  url: 'https://sandbox.protocol.mygateway.xyz/graphql',
-});
-
-async function main() {
-  try {
-    const { createDataRequestTemplate } =
-      await gateway.dataRequestTemplate.createDataRequestTemplate({
-        title: 'Create Data Request Template Example',
-        description: 'Lorem ipsum dolor sit amet.',
-        dataModels: [
-          {
-            id: 'uuid-here',
-            required: true,
-            claimValidations: {
-              type: 'object',
-              properties: {
-                gatewayUse: {
-                  type: 'string',
-                },
-              },
-              required: ['gatewayUse'],
-            },
-          },
-        ],
-      });
+      await gateway.organization.createOrganization(obj);
   } catch (error) {
     console.log(error); // Can log it for degugging
   }
 }
-
 main();
-````
+```
+
+## More examples
+
+We have created a separate repository which have more [examples you can access it here](https://github.com/Gateway-DAO/sdk-scripts-example/)
+
+## Error Handling
+
+All the methods throw a validation error if the validation does not match for example:- invalid wallet, invalid uuid for all ids,
+Incase of any protocol errors we will throw a custom message which is a string which has all neccessary info regarding error. Make sure to use try catch blocks to handle those.
 
 ## License
 

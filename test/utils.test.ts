@@ -152,4 +152,19 @@ describe('UTILS CRYPTO V3 TESTING', () => {
     expect(decryptedData).toBeDefined();
     expect(decryptedData).toBe('hello');
   });
+
+  it('generate new ethers wallet', () => {
+    const wallet = cryptoService.generateNewEtherumWallet();
+
+    expect(wallet).toBeDefined();
+    expect(wallet.privateKey).toBeDefined();
+  });
+
+  it('generate new solana key pair', () => {
+    const keyPair = cryptoService.generateNewSolanaKeyPair();
+
+    expect(keyPair).toBeDefined();
+    expect(keyPair.publicKey).toBeDefined();
+    expect(keyPair.secretKey).toBeDefined();
+  });
 });
