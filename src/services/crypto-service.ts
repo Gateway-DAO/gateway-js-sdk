@@ -5,6 +5,8 @@ import {
   ENCRYPTIONSCHEME,
 } from '../common/constants';
 import { EncryptedAESCipher } from '../common/enums';
+import { ethers } from 'ethers';
+import { Keypair } from '@solana/web3.js';
 
 export const hashMethod = forge.md.sha256;
 
@@ -46,6 +48,22 @@ export class CryptoService {
       privateKey: forge.util.encode64(privatePem),
       publicPem: forge.util.encode64(publicPem),
     };
+  }
+
+  /**
+   * The function generates a new Ethereum wallet using ethers.js.
+   * @returns An Ethereum wallet created randomly using the ethers.js library.
+   */
+  public generateNewEtherumWallet(): ethers.Wallet {
+    return ethers.Wallet.createRandom();
+  }
+
+  /**
+   * The function generates a new Solana key pair using TypeScript.
+   * @returns A new Solana key pair is being returned.
+   */
+  public generateNewSolanaKeyPair(): Keypair {
+    return Keypair.generate();
   }
 
   /**
