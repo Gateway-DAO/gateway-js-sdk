@@ -28,8 +28,8 @@ export class CryptoService {
     const sha256 = forge.md.sha256.create();
     sha256.update(publicKey, 'utf8');
 
-    if (domain) return `did:gatewayId:${domain}:${sha256.digest().toHex()}`;
-    return `did:gatewayId:mygateway:${sha256.digest().toHex()}`;
+    if (domain) return `did:gatewayid:${domain}:${sha256.digest().toHex()}`;
+    return `did:gatewayid:mygateway:${sha256.digest().toHex()}`;
   }
 
   /**
