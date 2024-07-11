@@ -1,9 +1,15 @@
-# [2.1.0-develop.11](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.10...v2.1.0-develop.11) (2024-07-10)
+# [2.1.0-develop.12](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.11...v2.1.0-develop.12) (2024-07-11)
 
+
+### Bug Fixes
+
+* gatewayId => gatewayid ([e1709d4](https://github.com/Gateway-DAO/gateway-js-sdk/commit/e1709d46991bf72c6d5e5404e0e70ae0dd49bf76))
+
+# [2.1.0-develop.11](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.10...v2.1.0-develop.11) (2024-07-10)
 
 ### Features
 
-* made crypto service as public ([fccb672](https://github.com/Gateway-DAO/gateway-js-sdk/commit/fccb672166564bc921c5f20688a8134723318afe))
+- made crypto service as public ([fccb672](https://github.com/Gateway-DAO/gateway-js-sdk/commit/fccb672166564bc921c5f20688a8134723318afe))
 
 # [2.1.0-develop.10](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.9...v2.1.0-develop.10) (2024-07-09)
 
