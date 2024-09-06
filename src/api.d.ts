@@ -4,783 +4,783 @@
  */
 
 export interface paths {
-  '/accounts': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Create account
-     * @description Create a new account
-     */
-    post: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      /** @description Account data */
-      requestBody: {
-        content: {
-          'application/json': components['schemas']['model.AccountCreateRequest'];
+    "/accounts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      responses: {
-        /** @description Created */
-        201: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['model.TokenResponse'];
-          };
-        };
-      };
-    };
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/accounts/me': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get my account
-     * @description Get my account
-     */
-    get: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['model.MyAccountResponse'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/auth': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Authenticate account
-     * @description Authenticate account
-     */
-    post: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      /** @description model.AuthRequest */
-      requestBody: {
-        content: {
-          'application/json': components['schemas']['model.AuthRequest'];
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['model.TokenResponse'];
-          };
-        };
-      };
-    };
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/auth/message': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Generate sign message
-     * @description Generate sign message
-     */
-    get: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['model.MessageResponse'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/auth/refresh-token': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Refresh token
-     * @description Refresh token
-     */
-    get: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['model.TokenResponse'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/data-assets': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Create a new data asset
-     * @description Create a new data asset. For structured data submission, use application/json. For file uploads, use multipart/form-data. Note: All date fields must be in RFC 3339 format (e.g., 2025-09-02T14:31:00Z).
-     */
-    post: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      /** @description Create Data Asset Request. Use application/json for structured data and multipart/form-data for file uploads. Dates should be in RFC 3339 format (e.g., 2025-09-02T14:31:00Z). */
-      requestBody: {
-        content: {
-          'application/json': components['schemas']['model.CreateDataAssetRequest'];
-          ' multipart/form-data': components['schemas']['model.CreateDataAssetRequest'];
-        };
-      };
-      responses: {
-        /** @description Created */
-        201: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['model.DataAssetIDRequestAndResponse'];
-          };
-        };
-      };
-    };
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/data-assets/me': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get my data assets
-     * @description Get all data assets that belong to the authenticated user
-     */
-    get: {
-      parameters: {
-        query?: {
-          /** @description Page number */
-          page?: number;
-          /** @description Page size */
-          page_size?: number;
-        };
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['helper.PaginatedResponse'] & {
-              data?: components['schemas']['model.PublicDataAsset'][];
+        get?: never;
+        put?: never;
+        /**
+         * Create account
+         * @description Create a new account
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
             };
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/data-assets/{id}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get data asset by ID
-     * @description Get data asset by ID
-     */
-    get: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          /** @description Data Asset ID */
-          id: number;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['model.PublicDataAsset'];
-          };
-        };
-      };
-    };
-    /**
-     * Update data asset by ID
-     * @description Update data asset by ID
-     */
-    put: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          /** @description Data Asset ID */
-          id: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['model.PublicDataAsset'];
-          };
-        };
-      };
-    };
-    post?: never;
-    /**
-     * Delete data asset by ID
-     * @description Delete data asset by ID
-     */
-    delete: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          /** @description Data Asset ID */
-          id: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['responses.EntityRemovedResponse'];
-          };
-        };
-      };
-    };
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/data-assets/{id}/assigned-role': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    post?: never;
-    /**
-     * Delete assigned role by ACL
-     * @description Delete assigned role by ACL
-     */
-    delete: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          /** @description Data Asset ID */
-          id: string;
-        };
-        cookie?: never;
-      };
-      /** @description Delete Assigned Role Request */
-      requestBody: {
-        content: {
-          'application/json': components['schemas']['model.DataAssetIDRequestAndResponse'];
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['responses.EntityRemovedResponse'];
-          };
-        };
-      };
-    };
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/data-assets/{id}/download': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Download data asset by ID
-     * @description Download data asset by ID
-     */
-    get: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          /** @description Data Asset ID */
-          id: number;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': number[];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/data-models': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get data models
-     * @description Get all data models
-     */
-    get: {
-      parameters: {
-        query?: {
-          /** @description Page number */
-          page?: number;
-          /** @description Page size */
-          page_size?: number;
-        };
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['helper.PaginatedResponse'] & {
-              data?: components['schemas']['model.DataModel'][];
+            /** @description Account data */
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["model.AccountCreateRequest"];
+                };
             };
-          };
-        };
-      };
-    };
-    put?: never;
-    /**
-     * Create data model
-     * @description Create a new data model
-     */
-    post: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      /** @description Data Model */
-      requestBody: {
-        content: {
-          'application/json': components['schemas']['model.DataModel'];
-        };
-      };
-      responses: {
-        /** @description Created */
-        201: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['model.DataModel'];
-          };
-        };
-      };
-    };
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/data-models/me': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get data models by user
-     * @description Get all data models created by a user
-     */
-    get: {
-      parameters: {
-        query?: {
-          /** @description Page number */
-          page?: number;
-          /** @description Page size */
-          page_size?: number;
-        };
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['helper.PaginatedResponse'] & {
-              data?: components['schemas']['model.DataModel'][];
+            responses: {
+                /** @description Created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["model.TokenResponse"];
+                    };
+                };
             };
-          };
         };
-      };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/data-models/{id}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/accounts/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get my account
+         * @description Get my account
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["model.MyAccountResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Get data model by ID
-     * @description Get a data model by its ID
-     */
-    get: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          /** @description Data Model ID */
-          id: number;
+    "/auth": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['model.DataModel'];
-          };
+        get?: never;
+        put?: never;
+        /**
+         * Authenticate account
+         * @description Authenticate account
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description model.AuthRequest */
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["model.AuthRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["model.TokenResponse"];
+                    };
+                };
+            };
         };
-      };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Update data model
-     * @description Update a data model
-     */
-    put: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          /** @description Data Model ID */
-          id: string;
+    "/auth/message": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        cookie?: never;
-      };
-      /** @description Data Model */
-      requestBody: {
-        content: {
-          'application/json': components['schemas']['model.DataModel'];
+        /**
+         * Generate sign message
+         * @description Generate sign message
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["model.MessageResponse"];
+                    };
+                };
+            };
         };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['model.DataModel'];
-          };
-        };
-      };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+    "/auth/refresh-token": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Refresh token
+         * @description Refresh token
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["model.TokenResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/data-assets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create a new data asset
+         * @description Create a new data asset. For structured data submission, use application/json. For file uploads, use multipart/form-data. Note: All date fields must be in RFC 3339 format (e.g., 2025-09-02T14:31:00Z).
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description Create Data Asset Request. Use application/json for structured data and multipart/form-data for file uploads. Dates should be in RFC 3339 format (e.g., 2025-09-02T14:31:00Z). */
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["model.CreateDataAssetRequest"];
+                    " multipart/form-data": components["schemas"]["model.CreateDataAssetRequest"];
+                };
+            };
+            responses: {
+                /** @description Created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["model.DataAssetIDRequestAndResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/data-assets/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get my data assets
+         * @description Get all data assets that belong to the authenticated user
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Page number */
+                    page?: number;
+                    /** @description Page size */
+                    page_size?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["helper.PaginatedResponse"] & {
+                            data?: components["schemas"]["model.PublicDataAsset"][];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/data-assets/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get data asset by ID
+         * @description Get data asset by ID
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Data Asset ID */
+                    id: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["model.PublicDataAsset"];
+                    };
+                };
+            };
+        };
+        /**
+         * Update data asset by ID
+         * @description Update data asset by ID
+         */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Data Asset ID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["model.PublicDataAsset"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        /**
+         * Delete data asset by ID
+         * @description Delete data asset by ID
+         */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Data Asset ID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["responses.EntityRemovedResponse"];
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/data-assets/{id}/assigned-role": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete assigned role by ACL
+         * @description Delete assigned role by ACL
+         */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Data Asset ID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            /** @description Delete Assigned Role Request */
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["model.DataAssetIDRequestAndResponse"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["responses.EntityRemovedResponse"];
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/data-assets/{id}/download": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Download data asset by ID
+         * @description Download data asset by ID
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Data Asset ID */
+                    id: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": number[];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/data-models": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get data models
+         * @description Get all data models
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Page number */
+                    page?: number;
+                    /** @description Page size */
+                    page_size?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["helper.PaginatedResponse"] & {
+                            data?: components["schemas"]["model.DataModel"][];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /**
+         * Create data model
+         * @description Create a new data model
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description Data Model */
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["model.DataModel"];
+                };
+            };
+            responses: {
+                /** @description Created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["model.DataModel"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/data-models/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get data models by user
+         * @description Get all data models created by a user
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Page number */
+                    page?: number;
+                    /** @description Page size */
+                    page_size?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["helper.PaginatedResponse"] & {
+                            data?: components["schemas"]["model.DataModel"][];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/data-models/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get data model by ID
+         * @description Get a data model by its ID
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Data Model ID */
+                    id: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["model.DataModel"];
+                    };
+                };
+            };
+        };
+        /**
+         * Update data model
+         * @description Update a data model
+         */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Data Model ID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            /** @description Data Model */
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["model.DataModel"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["model.DataModel"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-  schemas: {
-    'helper.Links': {
-      first?: string;
-      last?: string;
-      next?: string;
-      previous?: string;
+    schemas: {
+        "helper.Links": {
+            first?: string;
+            last?: string;
+            next?: string;
+            previous?: string;
+        };
+        "helper.Meta": {
+            current_page?: number;
+            items_per_page?: number;
+            total_items?: number;
+            total_pages?: number;
+        };
+        "helper.PaginatedResponse": {
+            data?: Record<string, never>;
+            links?: components["schemas"]["helper.Links"];
+            meta?: components["schemas"]["helper.Meta"];
+        };
+        /** @enum {string} */
+        "model.AccessLevel": "Read" | "Write";
+        "model.AccountCreateRequest": {
+            message: string;
+            signature: string;
+            username: string;
+            wallet_address: string;
+        };
+        "model.AuthRequest": {
+            message: string;
+            signature: string;
+            wallet_address: string;
+        };
+        "model.CreateDataAssetRequest": {
+            acl?: components["schemas"]["model.RoleRequest"][];
+            claim?: Record<string, never>;
+            data_model_id?: number;
+            expiration_date?: string;
+            name?: string;
+            tags?: string[];
+        };
+        "model.DataAssetIDRequestAndResponse": {
+            id?: number;
+        };
+        "model.DataModel": {
+            created_at?: string;
+            created_by?: string;
+            deleted_at?: string;
+            description?: string;
+            id?: number;
+            schema?: Record<string, never>;
+            tags?: string[];
+            title?: string;
+            updated_at?: string;
+        };
+        "model.MessageResponse": {
+            message?: string;
+        };
+        "model.MyAccountResponse": {
+            created_at?: string;
+            did?: string;
+            profile_picture?: string;
+            updated_at?: string;
+            username?: string;
+            wallet_address?: string;
+        };
+        "model.PublicDataAsset": {
+            created_at?: string;
+            created_by?: string;
+            data_model_id?: number;
+            expiration_date?: string;
+            fid?: string;
+            id?: number;
+            name?: string;
+            roles?: components["schemas"]["model.PublicRole"][];
+            size?: number;
+            tags?: string[];
+            transaction_id?: string;
+            type?: string;
+            updated_at?: string;
+        };
+        "model.PublicRole": {
+            created_at?: string;
+            data_asset_id?: number;
+            role?: string;
+            updated_at?: string;
+            wallet_address?: string;
+        };
+        "model.RoleRequest": {
+            address?: string;
+            role?: components["schemas"]["model.AccessLevel"];
+        };
+        "model.TokenResponse": {
+            token?: string;
+        };
+        "responses.EntityRemovedResponse": {
+            message?: string;
+        };
     };
-    'helper.Meta': {
-      current_page?: number;
-      items_per_page?: number;
-      total_items?: number;
-      total_pages?: number;
-    };
-    'helper.PaginatedResponse': {
-      data?: Record<string, never>;
-      links?: components['schemas']['helper.Links'];
-      meta?: components['schemas']['helper.Meta'];
-    };
-    /** @enum {string} */
-    'model.AccessLevel': 'Read' | 'Write';
-    'model.AccountCreateRequest': {
-      message: string;
-      signature: string;
-      username: string;
-      wallet_address: string;
-    };
-    'model.AuthRequest': {
-      message: string;
-      signature: string;
-      wallet_address: string;
-    };
-    'model.CreateDataAssetRequest': {
-      acl?: components['schemas']['model.RoleRequest'][];
-      claim?: Record<string, never>;
-      data_model_id?: number;
-      expiration_date?: string;
-      name?: string;
-      tags?: string[];
-    };
-    'model.DataAssetIDRequestAndResponse': {
-      id?: number;
-    };
-    'model.DataModel': {
-      created_at?: string;
-      created_by?: string;
-      deleted_at?: string;
-      description?: string;
-      id?: number;
-      schema?: Record<string, never>;
-      tags?: string[];
-      title?: string;
-      updated_at?: string;
-    };
-    'model.MessageResponse': {
-      message?: string;
-    };
-    'model.MyAccountResponse': {
-      created_at?: string;
-      did?: string;
-      profile_picture?: string;
-      updated_at?: string;
-      username?: string;
-      wallet_address?: string;
-    };
-    'model.PublicDataAsset': {
-      created_at?: string;
-      created_by?: string;
-      data_model_id?: number;
-      expiration_date?: string;
-      fid?: string;
-      id?: number;
-      name?: string;
-      roles?: components['schemas']['model.PublicRole'][];
-      size?: number;
-      tags?: string[];
-      transaction_id?: string;
-      type?: string;
-      updated_at?: string;
-    };
-    'model.PublicRole': {
-      created_at?: string;
-      data_asset_id?: number;
-      role?: string;
-      updated_at?: string;
-      wallet_address?: string;
-    };
-    'model.RoleRequest': {
-      address?: string;
-      role?: components['schemas']['model.AccessLevel'];
-    };
-    'model.TokenResponse': {
-      token?: string;
-    };
-    'responses.EntityRemovedResponse': {
-      message?: string;
-    };
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
 export type $defs = Record<string, never>;
 export type operations = Record<string, never>;

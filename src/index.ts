@@ -9,6 +9,8 @@ import { DataAsset } from './modules/data-asset/data-asset';
 import { MediaType } from 'openapi-typescript-helpers';
 import { paths } from './api';
 import { Auth } from './modules/auth/auth';
+import { DataModel } from './modules/data-model/data-model';
+import { CurrentUser } from './modules/me/me';
 
 class SDKFactory {
   static createSDK({ token, url, logging = false }: Config) {
@@ -35,6 +37,8 @@ export class Gateway {
   private config: Config;
   public dataAsset!: DataAsset;
   public auth!: Auth;
+  public dataModel!: DataModel;
+  public currentUser!: CurrentUser;
 
   constructor(config: Config) {
     const validationService = new ValidationService();
@@ -46,5 +50,11 @@ export class Gateway {
   private initializeModules(validationService: ValidationService) {
     this.dataAsset = new DataAsset(this.client, validationService, this.config);
     this.auth = new Auth(this.client, this.config);
+    this.dataModel = new DataModel(this.client, validationService, this.config);
+    this.currentUser = new CurrentUser(
+      this.client,
+      validationService,
+      this.config,
+    );
   }
 }
