@@ -1,8 +1,6 @@
 import { ethers } from 'ethers';
 import { PublicKey } from '@solana/web3.js';
-import { Chain } from '../common/enums';
 import { STRING_VALIDATION_LENGTH } from '../common/constants';
-import { FilterPDAInput } from '../../gatewaySdk/sources/Gateway';
 import mime from 'mime-types';
 
 export class ValidationService {
@@ -107,30 +105,6 @@ export class ValidationService {
   }
 
   /**
-   * The function `validateWalletAddress` validates a wallet address based on the specified blockchain
-   * chain (EVM or SOL).
-   * @param {string} wallet - The `wallet` parameter is a string representing a cryptocurrency wallet
-   * address that needs to be validated.
-   * @param {Chain} chain - The `chain` parameter is an enum representing different blockchain
-   * networks. In this code snippet, it is used to determine which specific validation method to call
-   * based on the blockchain network specified.
-   * @returns The `validateWalletAddress` function returns a boolean value based on the validation of
-   * the wallet address for the specified blockchain chain. If the chain is Ethereum (Chain.EVM), it
-   * calls the `validateEtherumWallet` function to validate the Ethereum wallet address. If the chain
-   * is Solana (Chain.SOL), it calls the `validateSolanaWallet` function to validate the Solana wallet
-   * address
-   */
-  public validateWalletAddress(wallet: string, chain: Chain): boolean {
-    if (chain === Chain.EVM) {
-      return this.validateEtherumWallet(wallet);
-    } else if (chain === Chain.SOL) {
-      return this.validateSolanaWallet(wallet);
-    } else {
-      throw new Error(`${chain} not supported yet`);
-    }
-  }
-
-  /**
    * The function `validateDate` in TypeScript checks if a given string can be parsed into a valid
    * date.
    * @param {string} date - The `validateDate` function takes a `date` parameter as a string input.
@@ -188,24 +162,6 @@ export class ValidationService {
           throw error;
         }
       }
-    }
-  }
-
-  /**
-   * The function `validatePDAFilter` in TypeScript validates the dataModelIds in a FilterPDAInput
-   * object by checking if they are valid UUIDs.
-   * @param {FilterPDAInput} filter - The `validatePDAFilter` function takes in a `filter` object of
-   * type `FilterPDAInput`. This object likely contains various properties related to filtering data,
-   * such as `dataModelIds`. The function attempts to validate the `dataModelIds` by mapping over them
-   * and calling the `
-   */
-  public validatePDAFilter(filter: FilterPDAInput): void {
-    try {
-      if (filter.dataModelIds) {
-        filter.dataModelIds.map((id) => this.validateUUID(id));
-      }
-    } catch (error) {
-      throw error;
     }
   }
 

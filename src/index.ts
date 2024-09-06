@@ -1,97 +1,50 @@
-import { GraphQLClient } from 'graphql-request';
-import { Sdk, getSdk } from '../gatewaySdk/sources/Gateway';
-import { clientTimingWrapper, parameterChecker } from './helpers/helper';
-import { PDA } from './modules/pda/pda';
-import { Auth } from './modules/auth/auth';
-import { DataModel } from './modules/data-model/data-model';
-import { Organization } from './modules/organization/organization';
-import { Proof } from './modules/proof/proof';
-import { Request } from './modules/request/request';
-import { User } from './modules/user/user';
-import { Config } from './common/types';
+import createClient from 'openapi-fetch';
+import { Config, OpenAPIClient } from './common/types';
+import {
+  networkInterceptorMiddleware,
+  parameterChecker,
+} from './helpers/helper';
 import { ValidationService } from './services/validator-service';
-import { Activity } from './modules/activity/activity';
-import { WalletService } from './services/wallet-service';
-import { CryptoService } from './services/crypto-service';
-export * from '../gatewaySdk/sources/Gateway/types';
-export {
-  AuthType,
-  Chain,
-  EncryptedAESCipher,
-  OrganizationIdentifierType,
-  OrganizationRole,
-  PDAStatus,
-  SignCipherEnum,
-  UserIdentifierType,
-} from './common/enums';
-export * from './common/types';
+import { DataAsset } from './modules/data-asset/data-asset';
+import { MediaType } from 'openapi-typescript-helpers';
+import { paths } from './api';
+import { Auth } from './modules/auth/auth';
 
 class SDKFactory {
-  static createSDK({ apiKey, token, url, logging = false }: Config): Sdk {
-    parameterChecker(apiKey, token, url);
+  static createSDK({ token, url, logging = false }: Config) {
+    parameterChecker(token, url);
 
-    const client = new GraphQLClient(url, {
-      headers: { Authorization: `Bearer ${token}`, 'x-api-key': apiKey },
+    const client = createClient<paths>({
+      baseUrl: url,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
-    return getSdk(client, logging ? clientTimingWrapper : undefined);
+    if (logging) {
+      client.use(networkInterceptorMiddleware);
+    }
+    // client.use(authMiddleware);
+
+    return client;
   }
 }
 
 export class Gateway {
-  private sdk: Sdk;
+  private client: OpenAPIClient<paths, MediaType>;
   private config: Config;
-  public wallet: WalletService;
-  public activity!: Activity;
-  public pda!: PDA;
+  public dataAsset!: DataAsset;
   public auth!: Auth;
-  public dataModel!: DataModel;
-  public organization!: Organization;
-  public proof!: Proof;
-  public request!: Request;
-  public user!: User;
-  public cryptoService: CryptoService;
 
   constructor(config: Config) {
     const validationService = new ValidationService();
-    this.sdk = SDKFactory.createSDK(config);
+    this.client = SDKFactory.createSDK(config);
     this.config = config;
-    this.wallet = new WalletService({
-      walletPrivateKey: this.config.walletPrivateKey,
-      walletType: this.config.walletType,
-    });
-    this.cryptoService = new CryptoService();
     this.initializeModules(validationService);
   }
 
   private initializeModules(validationService: ValidationService) {
-    this.activity = new Activity(this.sdk, validationService);
-    this.auth = new Auth(this.sdk, validationService);
-    this.dataModel = new DataModel(
-      this.sdk,
-      validationService,
-      this.config,
-      this.wallet,
-    );
-    this.organization = new Organization(
-      this.sdk,
-      validationService,
-      this.config,
-      this.wallet,
-    );
-    this.pda = new PDA(this.sdk, validationService, this.config, this.wallet);
-    this.proof = new Proof(
-      this.sdk,
-      validationService,
-      this.config,
-      this.wallet,
-    );
-    this.request = new Request(
-      this.sdk,
-      validationService,
-      this.config,
-      this.wallet,
-    );
-    this.user = new User(this.sdk, validationService);
+    this.dataAsset = new DataAsset(this.client, validationService, this.config);
+    this.auth = new Auth(this.client, this.config);
   }
 }
