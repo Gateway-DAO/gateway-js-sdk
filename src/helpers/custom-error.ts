@@ -10,16 +10,10 @@ export class GTWError extends Error {
   }
 }
 
-export type AppError = {
-  Code: string;
-  Message: string;
-  Err: any;
-};
-
 function captureError(message: any) {
   if (message.hasOwnProperty('error')) {
     return message.error;
   }
 
-  return message.error as AppError;
+  return message.error.message;
 }
