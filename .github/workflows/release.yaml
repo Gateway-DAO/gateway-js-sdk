@@ -26,8 +26,8 @@ jobs:
         run: pnpm install -D @semantic-release/changelog @semantic-release/git
       - name: Lint
         run: pnpm lint
-      - name: Build Graphql queries
-        run: pnpm generate:sdk
+      - name: Build REST API
+        run: pnpm generate
       - name: Format code
         run: pnpm format
       - name: Test project
