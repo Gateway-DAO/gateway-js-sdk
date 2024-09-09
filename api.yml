@@ -1,0 +1,628 @@
+openapi: 3.0.1
+info:
+  title: Gateway API
+  description:
+    This is Gateway API to upload files and create a easy way to integrate
+    with Gateway Protocol.
+  contact: {}
+  version: '1.0'
+servers:
+  - url: https://dev.api.gateway.tech/
+  - url: http://dev.api.gateway.tech/
+paths:
+  /accounts:
+    post:
+      tags:
+        - Accounts
+      summary: Create account
+      description: Create a new account
+      requestBody:
+        description: Account data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/model.AccountCreateRequest'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/model.TokenResponse'
+      x-codegen-request-body-name: account
+  /accounts/me:
+    get:
+      tags:
+        - Accounts
+      summary: Get my account
+      description: Get my account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/model.MyAccountResponse'
+      security:
+        - BearerAuth: []
+  /auth:
+    post:
+      tags:
+        - Auth
+      summary: Authenticate account
+      description: Authenticate account
+      requestBody:
+        description: model.AuthRequest
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/model.AuthRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/model.TokenResponse'
+      x-codegen-request-body-name: authRequest
+  /auth/message:
+    get:
+      tags:
+        - Auth
+      summary: Generate sign message
+      description: Generate sign message
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/model.MessageResponse'
+  /auth/refresh-token:
+    get:
+      tags:
+        - Auth
+      summary: Refresh token
+      description: Refresh token
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/model.TokenResponse'
+      security:
+        - BearerAuth: []
+  /data-assets:
+    post:
+      tags:
+        - Data assets
+      summary: Create a new data asset
+      description:
+        "Create a new data asset. For structured data submission, use application/json.\
+        \ For file uploads, use multipart/form-data. Note: All date fields must be\
+        \ in RFC 3339 format (e.g., 2025-09-02T14:31:00Z)."
+      requestBody:
+        description:
+          "Create Data Asset Request. Use application/json for structured\
+          \ data and multipart/form-data for file uploads. Dates should be in RFC\
+          \ 3339 format (e.g., 2025-09-02T14:31:00Z)."
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/model.CreateDataAssetRequest'
+          ' multipart/form-data':
+            schema:
+              $ref: '#/components/schemas/model.CreateDataAssetRequest'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/model.DataAssetIDRequestAndResponse'
+      security:
+        - BearerAuth: []
+      x-codegen-request-body-name: data
+  /data-assets/me:
+    get:
+      tags:
+        - Data assets
+      summary: Get my data assets
+      description: Get all data assets that belong to the authenticated user
+      parameters:
+        - name: page
+          in: query
+          description: Page number
+          schema:
+            type: integer
+        - name: page_size
+          in: query
+          description: Page size
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/helper.PaginatedResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/model.PublicDataAsset'
+      security:
+        - BearerAuth: []
+  /data-assets/{id}:
+    get:
+      tags:
+        - Data assets
+      summary: Get data asset by ID
+      description: Get data asset by ID
+      parameters:
+        - name: id
+          in: path
+          description: Data Asset ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/model.PublicDataAsset'
+      security:
+        - BearerAuth: []
+    put:
+      tags:
+        - Data assets
+      summary: Update data asset by ID
+      description: Update data asset by ID
+      parameters:
+        - name: id
+          in: path
+          description: Data Asset ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/model.PublicDataAsset'
+      security:
+        - BearerAuth: []
+    delete:
+      tags:
+        - Data assets
+      summary: Delete data asset by ID
+      description: Delete data asset by ID
+      parameters:
+        - name: id
+          in: path
+          description: Data Asset ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responses.EntityRemovedResponse'
+      security:
+        - BearerAuth: []
+  /data-assets/{id}/assigned-role:
+    delete:
+      tags:
+        - Data assets
+      summary: Delete assigned role by ACL
+      description: Delete assigned role by ACL
+      parameters:
+        - name: id
+          in: path
+          description: Data Asset ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Delete Assigned Role Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/model.DataAssetIDRequestAndResponse'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responses.EntityRemovedResponse'
+      security:
+        - BearerAuth: []
+      x-codegen-request-body-name: body
+  /data-assets/{id}/download:
+    get:
+      tags:
+        - Data assets
+      summary: Download data asset by ID
+      description: Download data asset by ID
+      parameters:
+        - name: id
+          in: path
+          description: Data Asset ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+      security:
+        - BearerAuth: []
+  /data-models:
+    get:
+      tags:
+        - Data models
+      summary: Get data models
+      description: Get all data models
+      parameters:
+        - name: page
+          in: query
+          description: Page number
+          schema:
+            type: integer
+            default: 1
+        - name: page_size
+          in: query
+          description: Page size
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/helper.PaginatedResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/model.DataModel'
+    post:
+      tags:
+        - Data models
+      summary: Create data model
+      description: Create a new data model
+      requestBody:
+        description: Data Model
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/model.DataModel'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/model.DataModel'
+      security:
+        - BearerAuth: []
+      x-codegen-request-body-name: data_model
+  /data-models/me:
+    get:
+      tags:
+        - Data models
+      summary: Get data models by user
+      description: Get all data models created by a user
+      parameters:
+        - name: page
+          in: query
+          description: Page number
+          schema:
+            type: integer
+            default: 1
+        - name: page_size
+          in: query
+          description: Page size
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/helper.PaginatedResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/model.DataModel'
+      security:
+        - BearerAuth: []
+  /data-models/{id}:
+    get:
+      tags:
+        - Data models
+      summary: Get data model by ID
+      description: Get a data model by its ID
+      parameters:
+        - name: id
+          in: path
+          description: Data Model ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/model.DataModel'
+    put:
+      tags:
+        - Data models
+      summary: Update data model
+      description: Update a data model
+      parameters:
+        - name: id
+          in: path
+          description: Data Model ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Data Model
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/model.DataModel'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/model.DataModel'
+      security:
+        - BearerAuth: []
+      x-codegen-request-body-name: data_model
+components:
+  schemas:
+    helper.Links:
+      type: object
+      properties:
+        first:
+          type: string
+        last:
+          type: string
+        next:
+          type: string
+        previous:
+          type: string
+    helper.Meta:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        items_per_page:
+          type: integer
+        total_items:
+          type: integer
+        total_pages:
+          type: integer
+    helper.PaginatedResponse:
+      type: object
+      properties:
+        data:
+          type: object
+        links:
+          $ref: '#/components/schemas/helper.Links'
+        meta:
+          $ref: '#/components/schemas/helper.Meta'
+    model.AccessLevel:
+      type: string
+      enum:
+        - Read
+        - Write
+      x-enum-varnames:
+        - Read
+        - Write
+    model.AccountCreateRequest:
+      required:
+        - message
+        - signature
+        - username
+        - wallet_address
+      type: object
+      properties:
+        message:
+          type: string
+        signature:
+          type: string
+        username:
+          type: string
+        wallet_address:
+          type: string
+    model.AuthRequest:
+      required:
+        - message
+        - signature
+        - wallet_address
+      type: object
+      properties:
+        message:
+          type: string
+        signature:
+          type: string
+        wallet_address:
+          type: string
+    model.CreateDataAssetRequest:
+      type: object
+      properties:
+        acl:
+          type: array
+          items:
+            $ref: '#/components/schemas/model.RoleRequest'
+        claim:
+          type: object
+          properties: {}
+        data_model_id:
+          type: integer
+        expiration_date:
+          type: string
+        name:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+    model.DataAssetIDRequestAndResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+    model.DataModel:
+      type: object
+      properties:
+        created_at:
+          type: string
+        created_by:
+          type: string
+        deleted_at:
+          type: string
+        description:
+          type: string
+        id:
+          type: integer
+        schema:
+          type: object
+          properties: {}
+        tags:
+          type: array
+          items:
+            type: string
+        title:
+          type: string
+        updated_at:
+          type: string
+    model.MessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    model.MyAccountResponse:
+      type: object
+      properties:
+        created_at:
+          type: string
+        did:
+          type: string
+        profile_picture:
+          type: string
+        updated_at:
+          type: string
+        username:
+          type: string
+        wallet_address:
+          type: string
+    model.PublicDataAsset:
+      type: object
+      properties:
+        created_at:
+          type: string
+        created_by:
+          type: string
+        data_model_id:
+          type: integer
+        expiration_date:
+          type: string
+        fid:
+          type: string
+        id:
+          type: integer
+        name:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/model.PublicRole'
+        size:
+          type: integer
+        tags:
+          type: array
+          items:
+            type: string
+        transaction_id:
+          type: string
+        type:
+          type: string
+        updated_at:
+          type: string
+    model.PublicRole:
+      type: object
+      properties:
+        created_at:
+          type: string
+        data_asset_id:
+          type: integer
+        role:
+          type: string
+        updated_at:
+          type: string
+        wallet_address:
+          type: string
+    model.RoleRequest:
+      type: object
+      properties:
+        address:
+          type: string
+        role:
+          $ref: '#/components/schemas/model.AccessLevel'
+    model.TokenResponse:
+      type: object
+      properties:
+        token:
+          type: string
+    responses.EntityRemovedResponse:
+      type: object
+      properties:
+        message:
+          type: string
+  securitySchemes:
+    BearerAuth:
+      type: apiKey
+      description: Type "Bearer" followed by a space and the JWT token.
+      name: Authorization
+      in: header
+x-original-swagger-version: '2.0'

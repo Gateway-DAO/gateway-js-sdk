@@ -1,9 +1,8 @@
 # [2.1.0-develop.12](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.11...v2.1.0-develop.12) (2024-07-11)
 
-
 ### Bug Fixes
 
-* gatewayId => gatewayid ([e1709d4](https://github.com/Gateway-DAO/gateway-js-sdk/commit/e1709d46991bf72c6d5e5404e0e70ae0dd49bf76))
+- gatewayId => gatewayid ([e1709d4](https://github.com/Gateway-DAO/gateway-js-sdk/commit/e1709d46991bf72c6d5e5404e0e70ae0dd49bf76))
 
 # [2.1.0-develop.11](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.10...v2.1.0-develop.11) (2024-07-10)
 
