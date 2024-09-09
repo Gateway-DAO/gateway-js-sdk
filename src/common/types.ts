@@ -58,6 +58,7 @@ export type ModelAuthRequest = {
 
 export type ModelCreateDataAssetRequest = {
   acl?: ModelRoleRequest[];
+  // eslint-disable-next-line @typescript-eslint/ban-types
   claim?: {};
   data_model_id?: number;
   expiration_date?: string;
@@ -73,6 +74,7 @@ export type ModelDataModel = {
   deleted_at?: string;
   description?: string;
   id?: number;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   schema?: {};
   tags?: string[];
   title?: string;
