@@ -41,7 +41,9 @@ export type HelperPaginatedResponse = {
   meta?: HelperMeta;
 };
 
-export type ModelAccessLevel = 'Read' | 'Write';
+export type ModelACLRequest = { address?: string; roles?: ModelAccessLevel[] };
+
+export type ModelAccessLevel = 'view' | 'update' | 'delete' | 'share';
 
 export type ModelAccountCreateRequest = {
   message: string;
@@ -57,8 +59,7 @@ export type ModelAuthRequest = {
 };
 
 export type ModelCreateDataAssetRequest = {
-  acl?: ModelRoleRequest[];
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  acl?: ModelACLRequest[];
   claim?: {};
   data_model_id?: number;
   expiration_date?: string;
@@ -74,7 +75,6 @@ export type ModelDataModel = {
   deleted_at?: string;
   description?: string;
   id?: number;
-  // eslint-disable-next-line @typescript-eslint/ban-types
   schema?: {};
   tags?: string[];
   title?: string;
@@ -92,7 +92,17 @@ export type ModelMyAccountResponse = {
   wallet_address?: string;
 };
 
+export type ModelPublicACL = {
+  address?: string;
+  created_at?: string;
+  data_asset_id?: number;
+  roles?: string[];
+  solana_address?: string;
+  updated_at?: string;
+};
+
 export type ModelPublicDataAsset = {
+  acl?: ModelPublicACL[];
   created_at?: string;
   created_by?: string;
   data_model_id?: number;
@@ -100,7 +110,6 @@ export type ModelPublicDataAsset = {
   fid?: string;
   id?: number;
   name?: string;
-  roles?: ModelPublicRole[];
   size?: number;
   tags?: string[];
   transaction_id?: string;
@@ -108,16 +117,8 @@ export type ModelPublicDataAsset = {
   updated_at?: string;
 };
 
-export type ModelPublicRole = {
-  created_at?: string;
-  data_asset_id?: number;
-  role?: string;
-  updated_at?: string;
-  wallet_address?: string;
-};
-
-export type ModelRoleRequest = { address?: string; role?: ModelAccessLevel };
-
 export type ModelTokenResponse = { token?: string };
+
+export type ModelUpdateDataAssetRequest = {};
 
 export type ResponsesEntityRemovedResponse = { message?: string };
