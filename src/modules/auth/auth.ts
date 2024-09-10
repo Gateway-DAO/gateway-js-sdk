@@ -1,17 +1,15 @@
 import { MediaType } from 'openapi-typescript-helpers';
 import { paths } from '../../api';
-import { Config, ModelAuthRequest, OpenAPIClient } from '../../common/types';
+import { ModelAuthRequest, OpenAPIClient } from '../../common/types';
 import { CryptoService } from '../../services/crypto-service';
 import { GTWError } from '../../helpers/custom-error';
 
 export class Auth {
   private client: OpenAPIClient<paths, MediaType>;
   private cryptoService: CryptoService;
-  private config: Config;
 
-  constructor(client: OpenAPIClient<paths, MediaType>, config: Config) {
+  constructor(client: OpenAPIClient<paths, MediaType>) {
     this.client = client;
-    this.config = config;
     this.cryptoService = new CryptoService();
   }
 
