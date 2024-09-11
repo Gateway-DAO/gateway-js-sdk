@@ -15,7 +15,9 @@ const getJSONSchema = async () => {
 };
 
 function toPascalCase(str: string): string {
-  return str
+  const cleanedStr = str.replace(/^model\./, '');
+  console.log(str);
+  return cleanedStr
     .replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
       return index === 0 ? match.toUpperCase() : match.toUpperCase();
     })

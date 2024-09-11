@@ -41,35 +41,35 @@ export type HelperPaginatedResponse = {
   meta?: HelperMeta;
 };
 
-export type ModelACLRequest = { address?: string; roles?: ModelAccessLevel[] };
+export type ACLRequest = { address: string; roles: AccessLevel[] };
 
-export type ModelAccessLevel = 'view' | 'update' | 'delete' | 'share';
+export type AccessLevel = 'view' | 'update' | 'delete' | 'share';
 
-export type ModelAccountCreateRequest = {
+export type AccountCreateRequest = {
   message: string;
   signature: string;
   username: string;
   wallet_address: string;
 };
 
-export type ModelAuthRequest = {
+export type AuthRequest = {
   message: string;
   signature: string;
   wallet_address: string;
 };
 
-export type ModelCreateDataAssetRequest = {
-  acl?: ModelACLRequest[];
+export type CreateDataAssetRequest = {
+  acl?: ACLRequest[];
   claim?: {};
   data_model_id?: number;
   expiration_date?: string;
-  name?: string;
+  name: string;
   tags?: string[];
 };
 
-export type ModelDataAssetIDRequestAndResponse = { id?: number };
+export type DataAssetIDRequestAndResponse = { id?: number };
 
-export type ModelDataModel = {
+export type DataModel = {
   created_at?: string;
   created_by?: string;
   deleted_at?: string;
@@ -81,9 +81,18 @@ export type ModelDataModel = {
   updated_at?: string;
 };
 
-export type ModelMessageResponse = { message?: string };
+export type DataModelRequest = {
+  description: string;
+  schema: {};
+  tags?: string[];
+  title: string;
+};
 
-export type ModelMyAccountResponse = {
+export type MessageResponse = { message?: string };
+
+export type Metadata = { key?: string; value?: string };
+
+export type MyAccountResponse = {
   created_at?: string;
   did?: string;
   profile_picture?: string;
@@ -92,7 +101,7 @@ export type ModelMyAccountResponse = {
   wallet_address?: string;
 };
 
-export type ModelPublicACL = {
+export type PublicACL = {
   address?: string;
   created_at?: string;
   data_asset_id?: number;
@@ -101,8 +110,8 @@ export type ModelPublicACL = {
   updated_at?: string;
 };
 
-export type ModelPublicDataAsset = {
-  acl?: ModelPublicACL[];
+export type PublicDataAsset = {
+  acl?: PublicACL[];
   created_at?: string;
   created_by?: string;
   data_model_id?: number;
@@ -117,8 +126,14 @@ export type ModelPublicDataAsset = {
   updated_at?: string;
 };
 
-export type ModelTokenResponse = { token?: string };
+export type TokenResponse = { token?: string };
 
-export type ModelUpdateDataAssetRequest = {};
+export type UpdateDataAssetRequest = {
+  claim?: {};
+  expiration_date?: string;
+  name?: string;
+};
+
+export type ResponsesActionResponse = { message?: string };
 
 export type ResponsesEntityRemovedResponse = { message?: string };
