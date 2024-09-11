@@ -4,7 +4,7 @@ import { ValidationService } from '../../services/validator-service';
 import { paths } from '../../api';
 import { GTWError } from '../../helpers/custom-error';
 
-export class CurrentUser {
+export class Account {
   private client: OpenAPIClient<paths, MediaType>;
   private validationService: ValidationService;
   private config: Config;
