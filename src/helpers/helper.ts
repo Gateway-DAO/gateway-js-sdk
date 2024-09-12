@@ -1,5 +1,4 @@
 import { Middleware } from 'openapi-fetch';
-import jwt from 'jsonwebtoken';
 
 /**
  * The function `parameterChecker` validates a token and URL, ensuring the URL is from a specific list
@@ -31,44 +30,6 @@ export const networkInterceptorMiddleware: Middleware = {
   async onResponse({ request, response, options }) {
     // todo error handler
     return response;
-  },
-};
-
-type JWTData = {
-  did: string;
-  exp: number;
-  wallet_address: string;
-};
-
-let tempToken = '';
-
-export const authMiddleware: Middleware = {
-  async onRequest({ request }) {
-    const existingJWTToken = request.headers.get('Authorization');
-
-    if (!existingJWTToken) {
-      throw new Error('Enter valid jwt token');
-    }
-    tempToken = existingJWTToken;
-
-    const decodedToken: JWTData = jwt.decode(
-      existingJWTToken.split('Bearer ')[1]!,
-    ) as JWTData;
-
-    const currentTime = Math.floor(Date.now() / 1000);
-    const expirationTime = decodedToken.exp;
-
-    const timeRemaining = expirationTime - currentTime;
-
-    if (timeRemaining <= 3600) {
-      console.log(`Token is about to expire, ${new Date(decodedToken.exp)}`);
-    } else {
-      console.log('Token is still valid.');
-      tempToken = 'changed';
-    }
-    request.headers.set('Authorization', `Bearer ${tempToken}`);
-
-    return request;
   },
 };
 

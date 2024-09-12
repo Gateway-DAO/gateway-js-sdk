@@ -24,6 +24,6 @@ function captureError(message: any) {
   if (message.hasOwnProperty('error')) {
     return message.error;
   }
-
+  
   return message.error.message;
 }
