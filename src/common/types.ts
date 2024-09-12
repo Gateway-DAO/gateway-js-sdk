@@ -40,9 +40,8 @@ export type HelperMeta = {
   total_pages: number;
 };
 
-export type HelperPaginatedResponse = {
-  // eslint-disable-next-line
-  data: any;
+export type HelperPaginatedResponse<T = any> = {
+  data: T;
   links: HelperLinks;
   meta: HelperMeta;
 };
@@ -71,7 +70,6 @@ export type AuthRequest = {
 
 export type CreateDataAssetRequest = {
   acl?: ACLRequest[];
-  // eslint-disable-next-line
   claim?: {};
   data_model_id?: number;
   expiration_date?: string;
@@ -87,7 +85,6 @@ export type DataModel = {
   deleted_at?: string;
   description?: string;
   id?: number;
-  // eslint-disable-next-line
   schema?: {};
   tags?: string[];
   title?: string;
@@ -96,7 +93,6 @@ export type DataModel = {
 
 export type DataModelRequest = {
   description: string;
-  // eslint-disable-next-line
   schema: {};
   tags?: string[];
   title: string;
@@ -143,7 +139,6 @@ export type ShareDataAssetRequest = { addresses?: string[] };
 export type TokenResponse = { token: string };
 
 export type UpdateDataAssetRequest = {
-  // eslint-disable-next-line
   claim?: {};
   expiration_date?: string;
   name?: string;

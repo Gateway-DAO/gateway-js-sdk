@@ -26,7 +26,6 @@ class SDKFactory {
     if (logging) {
       client.use(networkInterceptorMiddleware);
     }
-    // client.use(authMiddleware);
 
     return client;
   }

@@ -94,7 +94,12 @@ export interface OpenAPIClient<Paths extends {}, Media extends MediaType> {
   };
 
   Object.entries(definitions).forEach(([typeName, schema]) => {
-    if ((schema as any).enum) {
+    if (typeName === 'helper.PaginatedResponse') {
+      const processedSchema = processSchema(schema);
+      types.push(
+        `export type ${toPascalCase(typeName)}<T=any> = ${processedSchema.replace(/\bany\b/g, 'T')};\n`,
+      );
+    } else if ((schema as any).enum) {
       types.push(
         `export enum ${toPascalCase(typeName)} {${processSchema(schema)}};\n`,
       );

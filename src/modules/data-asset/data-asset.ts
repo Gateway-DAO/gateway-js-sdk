@@ -1,6 +1,7 @@
 import { MediaType } from 'openapi-typescript-helpers';
 import {
   ACLRequest,
+  HelperPaginatedResponse,
   OpenAPIClient,
   PublicACL,
   PublicDataAsset,
@@ -38,10 +39,39 @@ export class DataAsset {
       throw new GTWError(error, response);
     }
 
-    return data;
+    return data.id;
   }
 
   public async createFileBasedDataAsset() {}
+
+  /**
+   * This TypeScript function asynchronously retrieves data assets belonging to the current user with
+   * optional pagination parameters.
+   * @param {number} [page=1] - The `page` parameter is used to specify the page number of the data
+   * assets you want to retrieve. By default, it is set to 1, meaning that the function will retrieve
+   * data assets from the first page.
+   * @param {number} [page_size=10] - The `page_size` parameter in the `getMyDataAssets` function
+   * specifies the number of data assets to be retrieved per page. In this case, the default value for
+   * `page_size` is set to 10, meaning that by default, the function will retrieve 10 data assets per
+   * page
+   * @returns The `getMyDataAssets` function returns the data fetched from the API endpoint
+   * `/data-assets/me` for the authenticated user. If there is an error during the API request, a
+   * `GTWError` is thrown with the error and response details. If the request is successful, the
+   * function returns the fetched data.
+   */
+  public async getMyDataAssets(
+    page: number = 1,
+    page_size: number = 10,
+  ): Promise<HelperPaginatedResponse<PublicDataAsset[]>> {
+    const { data, response, error } = await this.client.GET('/data-assets/me', {
+      params: { query: { page, page_size } },
+    });
+
+    if (error) {
+      throw new GTWError(error, response);
+    }
+    return data;
+  }
 
   /**
    * This TypeScript function retrieves a public data asset by its ID asynchronously.
@@ -66,32 +96,6 @@ export class DataAsset {
       throw new GTWError(error, response);
     }
 
-    return data;
-  }
-
-  /**
-   * This TypeScript function asynchronously retrieves data assets belonging to the current user with
-   * optional pagination parameters.
-   * @param {number} [page=1] - The `page` parameter is used to specify the page number of the data
-   * assets you want to retrieve. By default, it is set to 1, meaning that the function will retrieve
-   * data assets from the first page.
-   * @param {number} [page_size=10] - The `page_size` parameter in the `getMyDataAssets` function
-   * specifies the number of data assets to be retrieved per page. In this case, the default value for
-   * `page_size` is set to 10, meaning that by default, the function will retrieve 10 data assets per
-   * page
-   * @returns The `getMyDataAssets` function returns the data fetched from the API endpoint
-   * `/data-assets/me` for the authenticated user. If there is an error during the API request, a
-   * `GTWError` is thrown with the error and response details. If the request is successful, the
-   * function returns the fetched data.
-   */
-  async getMyDataAssets(page: number = 1, page_size: number = 10) {
-    const { data, response, error } = await this.client.GET('/data-assets/me', {
-      params: { query: { page, page_size } },
-    });
-
-    if (error) {
-      throw new GTWError(error, response);
-    }
     return data;
   }
 
@@ -163,7 +167,67 @@ export class DataAsset {
     return data;
   }
 
-  // todo: check for structured
+  /**
+   * Note:- this method overwrites ACL list for data asset so be sure before using it!
+   * This TypeScript function asynchronously updates the access control list (ACL) for a specific data
+   * asset identified by its ID.
+   * @param {number} id - The `id` parameter is a number that represents the identifier of a data asset
+   * for which the Access Control List (ACL) is being updated.
+   * @param {ACLRequest[]} aclList - The `aclList` parameter in the `overrideACL` function is an array
+   * of `ACLRequest` objects. Each `ACLRequest` object likely contains information about access control
+   * settings for a specific resource or data asset. The function sends this list of ACL requests to
+   * the server to update the access control
+   * @returns The `public async overrideACL` function returns a Promise that resolves to an array of
+   * `PublicACL` objects.
+   */
+  public async overrideACL(
+    id: number,
+    aclList: ACLRequest[],
+  ): Promise<PublicACL[]> {
+    const { data, error, response } = await this.client.POST(
+      '/data-assets/{id}/acl',
+      {
+        params: { path: { id } },
+        body: aclList,
+      },
+    );
+
+    if (error) {
+      throw new GTWError(error, response);
+    }
+
+    return data;
+  }
+
+  /**
+   * The function `deleteACL` asynchronously deletes ACL entries associated with a specific ID using a
+   * DELETE request.
+   * @param {number} id - The `id` parameter in the `deleteACL` function is a number that represents
+   * the identifier of the data asset for which the Access Control List (ACL) is being deleted.
+   * @param {ACLRequest[]} aclList - The `aclList` parameter in the `deleteACL` function is an array of
+   * `ACLRequest` objects. These objects likely contain information about access control permissions
+   * for the specified data asset identified by the `id` parameter. The function uses this list to
+   * update or delete the access control list associated with
+   * @returns The `deleteACL` function is returning the `data` object after making a DELETE request to
+   * the specified endpoint with the provided ACL list.
+   */
+  public async deleteACL(id: number, aclList: ACLRequest[]) {
+    const { data, error, response } = await this.client.DELETE(
+      '/data-assets/{id}/acl',
+      {
+        params: { path: { id } },
+        body: aclList,
+      },
+    );
+
+    if (error) {
+      throw new GTWError(error, response);
+    }
+
+    return data.message!;
+  }
+
+  // todo: check for structured and check if data asset not found
   /**
    * This function downloads a data asset file by its ID and returns the file as a Blob along with its
    * filename.
@@ -191,6 +255,35 @@ export class DataAsset {
       throw new GTWError(error, response);
     }
 
-    return { file, fileName: name! };
+    return { file, fileName: name };
+  }
+
+  /**
+   * The function `shareDataAsset` asynchronously shares a data asset with specified wallet addresses
+   * and returns a Promise of PublicACL array.
+   * @param {number} id - The `id` parameter is a number that represents the identifier of the data
+   * asset that you want to share.
+   * @param {string[]} walletAddressList - The `walletAddressList` parameter is an array of strings
+   * that contains the wallet addresses to which the data asset with the specified `id` will be shared.
+   * @returns The `shareDataAsset` function returns a Promise that resolves to an array of `PublicACL`
+   * objects.
+   */
+  public async shareDataAsset(
+    id: number,
+    walletAddressList: string[],
+  ): Promise<PublicACL[]> {
+    const { data, error, response } = await this.client.POST(
+      '/data-assets/{id}/share',
+      {
+        params: { path: { id } },
+        body: { addresses: walletAddressList },
+      },
+    );
+
+    if (error) {
+      throw new GTWError(error, response);
+    }
+
+    return data;
   }
 }
