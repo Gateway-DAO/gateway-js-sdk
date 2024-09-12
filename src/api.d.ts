@@ -229,11 +229,30 @@ export interface paths {
         path?: never;
         cookie?: never;
       };
-      /** @description Create Data Asset Request. Use application/json for structured data and multipart/form-data for file uploads. Dates should be in RFC 3339 format (e.g., 2025-09-02T14:31:00Z). */
-      requestBody: {
+      requestBody?: {
         content: {
-          'application/json': components['schemas']['model.CreateDataAssetRequest'];
-          ' multipart/form-data': components['schemas']['model.CreateDataAssetRequest'];
+          'application/json': {
+            /**
+             * Format: binary
+             * @description File to be uploaded when using multipart/form-data
+             */
+            data?: string;
+            /** @description Access control list (ACL) for the data asset (e.g., 'public-read') */
+            acl?: string;
+            /** @description Expiration date for the data asset (in RFC 3339 format) */
+            expiration_date?: string;
+          };
+          ' multipart/form-data': {
+            /**
+             * Format: binary
+             * @description File to be uploaded when using multipart/form-data
+             */
+            data?: string;
+            /** @description Access control list (ACL) for the data asset (e.g., 'public-read') */
+            acl?: string;
+            /** @description Expiration date for the data asset (in RFC 3339 format) */
+            expiration_date?: string;
+          };
         };
       };
       responses: {
@@ -336,7 +355,7 @@ export interface paths {
     };
     /**
      * Update data asset by ID
-     * @description Update data asset by ID
+     * @description Update data asset by ID. For structured data submission, use application/json. For file uploads, use multipart/form-data. Note: All date fields must be in RFC 3339 format (e.g., 2025-09-02T14:31:00Z).
      */
     put: {
       parameters: {
@@ -344,11 +363,36 @@ export interface paths {
         header?: never;
         path: {
           /** @description Data Asset ID */
-          id: string;
+          id: number;
         };
         cookie?: never;
       };
-      requestBody?: never;
+      requestBody?: {
+        content: {
+          'application/json': {
+            /**
+             * Format: binary
+             * @description File to be uploaded when using multipart/form-data
+             */
+            data?: string;
+            /** @description Access control list (ACL) for the data asset (e.g., 'public-read') */
+            acl?: string;
+            /** @description Expiration date for the data asset (in RFC 3339 format) */
+            expiration_date?: string;
+          };
+          ' multipart/form-data': {
+            /**
+             * Format: binary
+             * @description File to be uploaded when using multipart/form-data
+             */
+            data?: string;
+            /** @description Access control list (ACL) for the data asset (e.g., 'public-read') */
+            acl?: string;
+            /** @description Expiration date for the data asset (in RFC 3339 format) */
+            expiration_date?: string;
+          };
+        };
+      };
       responses: {
         /** @description OK */
         200: {
@@ -372,7 +416,7 @@ export interface paths {
         header?: never;
         path: {
           /** @description Data Asset ID */
-          id: string;
+          id: number;
         };
         cookie?: never;
       };
@@ -384,7 +428,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['responses.EntityRemovedResponse'];
+            'application/json': components['schemas']['responses.MessageResponse'];
           };
         };
       };
@@ -394,7 +438,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/data-assets/{id}/assigned-role': {
+  '/data-assets/{id}/acl': {
     parameters: {
       query?: never;
       header?: never;
@@ -402,8 +446,70 @@ export interface paths {
       cookie?: never;
     };
     get?: never;
-    put?: never;
-    post?: never;
+    /**
+     * Update ACL items to data asset
+     * @description Update ACL items to data asset
+     */
+    put: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description Data Asset ID */
+          id: number;
+        };
+        cookie?: never;
+      };
+      /** @description Update ACL Items Request */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['model.ACLRequest'][];
+        };
+      };
+      responses: {
+        /** @description Created */
+        201: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['model.PublicACL'][];
+          };
+        };
+      };
+    };
+    /**
+     * Assign ACL items to data asset
+     * @description Assign ACL items to data asset
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description Data Asset ID */
+          id: number;
+        };
+        cookie?: never;
+      };
+      /** @description Assign ACL Items Request */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['model.ACLRequest'][];
+        };
+      };
+      responses: {
+        /** @description Created */
+        201: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['model.PublicACL'][];
+          };
+        };
+      };
+    };
     /**
      * Delete assigned role by ACL
      * @description Delete assigned role by ACL
@@ -414,14 +520,14 @@ export interface paths {
         header?: never;
         path: {
           /** @description Data Asset ID */
-          id: string;
+          id: number;
         };
         cookie?: never;
       };
-      /** @description Delete Assigned Role Request */
+      /** @description Delete Assigned ACL Items Request */
       requestBody: {
         content: {
-          'application/json': components['schemas']['model.DataAssetIDRequestAndResponse'];
+          'application/json': components['schemas']['model.ACLRequest'][];
         };
       };
       responses: {
@@ -431,7 +537,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['responses.EntityRemovedResponse'];
+            'application/json': components['schemas']['responses.MessageResponse'];
           };
         };
       };
@@ -477,6 +583,53 @@ export interface paths {
     };
     put?: never;
     post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/data-assets/{id}/share': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Share data asset by ID
+     * @description Share data asset by ID. To share you need to have a sharing role.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description Data Asset ID */
+          id: number;
+        };
+        cookie?: never;
+      };
+      /** @description Share Data Asset Request */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['model.ShareDataAssetRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['model.PublicACL'][];
+          };
+        };
+      };
+    };
     delete?: never;
     options?: never;
     head?: never;
@@ -536,7 +689,7 @@ export interface paths {
       /** @description Data Model */
       requestBody: {
         content: {
-          'application/json': components['schemas']['model.DataModel'];
+          'application/json': components['schemas']['model.DataModelRequest'];
         };
       };
       responses: {
@@ -647,7 +800,7 @@ export interface paths {
         header?: never;
         path: {
           /** @description Data Model ID */
-          id: string;
+          id: number;
         };
         cookie?: never;
       };
@@ -681,24 +834,28 @@ export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
     'helper.Links': {
-      first?: string;
-      last?: string;
-      next?: string;
-      previous?: string;
+      first: string;
+      last: string;
+      next: string;
+      previous: string;
     };
     'helper.Meta': {
-      current_page?: number;
-      items_per_page?: number;
-      total_items?: number;
-      total_pages?: number;
+      current_page: number;
+      items_per_page: number;
+      total_items: number;
+      total_pages: number;
     };
     'helper.PaginatedResponse': {
-      data?: Record<string, never>;
-      links?: components['schemas']['helper.Links'];
-      meta?: components['schemas']['helper.Meta'];
+      data: Record<string, never>;
+      links: components['schemas']['helper.Links'];
+      meta: components['schemas']['helper.Meta'];
+    };
+    'model.ACLRequest': {
+      address: string;
+      roles: components['schemas']['model.AccessLevel'][];
     };
     /** @enum {string} */
-    'model.AccessLevel': 'Read' | 'Write';
+    'model.AccessLevel': 'view' | 'update' | 'delete' | 'share';
     'model.AccountCreateRequest': {
       message: string;
       signature: string;
@@ -711,15 +868,15 @@ export interface components {
       wallet_address: string;
     };
     'model.CreateDataAssetRequest': {
-      acl?: components['schemas']['model.RoleRequest'][];
+      acl?: components['schemas']['model.ACLRequest'][];
       claim?: Record<string, never>;
       data_model_id?: number;
       expiration_date?: string;
-      name?: string;
+      name: string;
       tags?: string[];
     };
     'model.DataAssetIDRequestAndResponse': {
-      id?: number;
+      id: number;
     };
     'model.DataModel': {
       created_at?: string;
@@ -732,8 +889,14 @@ export interface components {
       title?: string;
       updated_at?: string;
     };
+    'model.DataModelRequest': {
+      description: string;
+      schema: Record<string, never>;
+      tags?: string[];
+      title: string;
+    };
     'model.MessageResponse': {
-      message?: string;
+      message: string;
     };
     'model.MyAccountResponse': {
       created_at?: string;
@@ -743,36 +906,41 @@ export interface components {
       username?: string;
       wallet_address?: string;
     };
-    'model.PublicDataAsset': {
-      created_at?: string;
-      created_by?: string;
-      data_model_id?: number;
-      expiration_date?: string;
-      fid?: string;
-      id?: number;
-      name?: string;
-      roles?: components['schemas']['model.PublicRole'][];
-      size?: number;
-      tags?: string[];
-      transaction_id?: string;
-      type?: string;
-      updated_at?: string;
-    };
-    'model.PublicRole': {
+    'model.PublicACL': {
+      address?: string;
       created_at?: string;
       data_asset_id?: number;
-      role?: string;
+      roles?: string[];
+      solana_address?: string;
       updated_at?: string;
-      wallet_address?: string;
     };
-    'model.RoleRequest': {
-      address?: string;
-      role?: components['schemas']['model.AccessLevel'];
+    'model.PublicDataAsset': {
+      acl?: components['schemas']['model.PublicACL'][];
+      created_at?: string;
+      created_by: string;
+      data_model_id?: number;
+      expiration_date?: string;
+      fid: string;
+      id: number;
+      name: string;
+      size: number;
+      tags: string[];
+      transaction_id: string;
+      type: string;
+      updated_at?: string;
+    };
+    'model.ShareDataAssetRequest': {
+      addresses?: string[];
     };
     'model.TokenResponse': {
-      token?: string;
+      token: string;
     };
-    'responses.EntityRemovedResponse': {
+    'model.UpdateDataAssetRequest': {
+      claim?: Record<string, never>;
+      expiration_date?: string;
+      name?: string;
+    };
+    'responses.MessageResponse': {
       message?: string;
     };
   };

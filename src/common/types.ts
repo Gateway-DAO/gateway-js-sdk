@@ -21,29 +21,40 @@ export interface OpenAPIClient<Paths extends {}, Media extends MediaType> {
   eject(...middleware: Middleware[]): void;
 }
 
+export enum DataAssetType {
+  StructuredData = 'Structured Data',
+  UnstructedData = 'Other',
+}
+
 export type HelperLinks = {
-  first?: string;
-  last?: string;
-  next?: string;
-  previous?: string;
+  first: string;
+  last: string;
+  next: string;
+  previous: string;
 };
 
 export type HelperMeta = {
-  current_page?: number;
-  items_per_page?: number;
-  total_items?: number;
-  total_pages?: number;
+  current_page: number;
+  items_per_page: number;
+  total_items: number;
+  total_pages: number;
 };
 
 export type HelperPaginatedResponse = {
-  data?: any;
-  links?: HelperLinks;
-  meta?: HelperMeta;
+  // eslint-disable-next-line
+  data: any;
+  links: HelperLinks;
+  meta: HelperMeta;
 };
 
 export type ACLRequest = { address: string; roles: AccessLevel[] };
 
-export type AccessLevel = 'view' | 'update' | 'delete' | 'share';
+export enum AccessLevel {
+  VIEW = 'view',
+  UPDATE = 'update',
+  DELETE = 'delete',
+  SHARE = 'share',
+}
 
 export type AccountCreateRequest = {
   message: string;
@@ -60,6 +71,7 @@ export type AuthRequest = {
 
 export type CreateDataAssetRequest = {
   acl?: ACLRequest[];
+  // eslint-disable-next-line
   claim?: {};
   data_model_id?: number;
   expiration_date?: string;
@@ -67,7 +79,7 @@ export type CreateDataAssetRequest = {
   tags?: string[];
 };
 
-export type DataAssetIDRequestAndResponse = { id?: number };
+export type DataAssetIDRequestAndResponse = { id: number };
 
 export type DataModel = {
   created_at?: string;
@@ -75,6 +87,7 @@ export type DataModel = {
   deleted_at?: string;
   description?: string;
   id?: number;
+  // eslint-disable-next-line
   schema?: {};
   tags?: string[];
   title?: string;
@@ -83,14 +96,13 @@ export type DataModel = {
 
 export type DataModelRequest = {
   description: string;
+  // eslint-disable-next-line
   schema: {};
   tags?: string[];
   title: string;
 };
 
-export type MessageResponse = { message?: string };
-
-export type Metadata = { key?: string; value?: string };
+export type MessageResponse = { message: string };
 
 export type MyAccountResponse = {
   created_at?: string;
@@ -113,27 +125,28 @@ export type PublicACL = {
 export type PublicDataAsset = {
   acl?: PublicACL[];
   created_at?: string;
-  created_by?: string;
+  created_by: string;
   data_model_id?: number;
   expiration_date?: string;
-  fid?: string;
-  id?: number;
-  name?: string;
-  size?: number;
-  tags?: string[];
-  transaction_id?: string;
-  type?: string;
+  fid: string;
+  id: number;
+  name: string;
+  size: number;
+  tags: string[];
+  transaction_id: string;
+  type: string;
   updated_at?: string;
 };
 
-export type TokenResponse = { token?: string };
+export type ShareDataAssetRequest = { addresses?: string[] };
+
+export type TokenResponse = { token: string };
 
 export type UpdateDataAssetRequest = {
+  // eslint-disable-next-line
   claim?: {};
   expiration_date?: string;
   name?: string;
 };
 
-export type ResponsesActionResponse = { message?: string };
-
-export type ResponsesEntityRemovedResponse = { message?: string };
+export type ResponsesMessageResponse = { message?: string };
