@@ -51,6 +51,6 @@ export class Gateway {
     this.dataAsset = new DataAsset(this.client, validationService);
     this.auth = new Auth(this.client);
     this.dataModel = new DataModel(this.client, validationService, this.config);
-    this.account = new Account(this.client, validationService, this.config);
+    this.account = new Account(this.client);
   }
 }
