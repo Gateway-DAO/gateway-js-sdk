@@ -3,7 +3,7 @@ import { OpenAPIClient } from '../../common/types';
 import { paths } from '../../api';
 import { GTWError } from '../../helpers/custom-error';
 
-export class CurrentUser {
+export class Account {
   private client: OpenAPIClient<paths, MediaType>;
 
   constructor(client: OpenAPIClient<paths, MediaType>) {
