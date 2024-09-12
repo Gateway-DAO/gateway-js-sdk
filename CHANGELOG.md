@@ -1,16 +1,14 @@
 # [2.1.0-develop.13](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.12...v2.1.0-develop.13) (2024-09-09)
 
-
 ### Bug Fixes
 
-* build errors ([7a7cad7](https://github.com/Gateway-DAO/gateway-js-sdk/commit/7a7cad70d4e6619354c3b4cc5fef7d10da94df92))
-* eslint errors ([17f47ab](https://github.com/Gateway-DAO/gateway-js-sdk/commit/17f47ab7fc1230a2450cfe583ae6062892e5f484))
-* eslint errors ([d9a8771](https://github.com/Gateway-DAO/gateway-js-sdk/commit/d9a87718b68a6da6f182e3aec5175563ec290859))
-
+- build errors ([7a7cad7](https://github.com/Gateway-DAO/gateway-js-sdk/commit/7a7cad70d4e6619354c3b4cc5fef7d10da94df92))
+- eslint errors ([17f47ab](https://github.com/Gateway-DAO/gateway-js-sdk/commit/17f47ab7fc1230a2450cfe583ae6062892e5f484))
+- eslint errors ([d9a8771](https://github.com/Gateway-DAO/gateway-js-sdk/commit/d9a87718b68a6da6f182e3aec5175563ec290859))
 
 ### Features
 
-* migrated to rest api ([8ac1db2](https://github.com/Gateway-DAO/gateway-js-sdk/commit/8ac1db26ea715a3acef039d77a10de45400d3cdf))
+- migrated to rest api ([8ac1db2](https://github.com/Gateway-DAO/gateway-js-sdk/commit/8ac1db26ea715a3acef039d77a10de45400d3cdf))
 
 # [2.1.0-develop.12](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.11...v2.1.0-develop.12) (2024-07-11)
 

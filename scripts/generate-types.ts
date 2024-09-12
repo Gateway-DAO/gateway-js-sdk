@@ -16,7 +16,6 @@ const getJSONSchema = async () => {
 
 function toPascalCase(str: string): string {
   const cleanedStr = str.replace(/^model\./, '');
-  console.log(str);
   return cleanedStr
     .replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
       return index === 0 ? match.toUpperCase() : match.toUpperCase();
@@ -46,6 +45,10 @@ export interface OpenAPIClient<Paths extends {}, Media extends MediaType> {
   use(...middleware: Middleware[]): void;
   eject(...middleware: Middleware[]): void;
 }\n`,
+    `\nexport enum DataAssetType {
+  StructuredData = 'Structured Data',
+  UnstructedData = 'Other',
+}\n`,
   ];
 
   const processSchema = (schema: any): string => {
@@ -73,7 +76,7 @@ export interface OpenAPIClient<Paths extends {}, Media extends MediaType> {
     }
 
     if (schema.enum) {
-      return schema.enum.map((e: any) => `'${e}'`).join(' | ');
+      return schema.enum.map((e: any) => `${e.toUpperCase()} = '${e}'`);
     }
 
     switch (schema.type) {
@@ -91,9 +94,14 @@ export interface OpenAPIClient<Paths extends {}, Media extends MediaType> {
   };
 
   Object.entries(definitions).forEach(([typeName, schema]) => {
-    types.push(
-      `export type ${toPascalCase(typeName)} = ${processSchema(schema)};\n`,
-    );
+    if ((schema as any).enum) {
+      types.push(
+        `export enum ${toPascalCase(typeName)} {${processSchema(schema)}};\n`,
+      );
+    } else
+      types.push(
+        `export type ${toPascalCase(typeName)} = ${processSchema(schema)};\n`,
+      );
   });
 
   return types.join('\n');

@@ -1,6 +1,6 @@
 import { MediaType } from 'openapi-typescript-helpers';
 import { paths } from '../../api';
-import { ModelAuthRequest, OpenAPIClient } from '../../common/types';
+import { AuthRequest, OpenAPIClient } from '../../common/types';
 import { CryptoService } from '../../services/crypto-service';
 import { GTWError } from '../../helpers/custom-error';
 
@@ -20,7 +20,7 @@ export class Auth {
       throw new GTWError(error, response);
     }
 
-    return data!.message!;
+    return data.message;
   }
 
   public async generateRefreshToken() {
@@ -32,10 +32,10 @@ export class Auth {
       throw new GTWError(error, response);
     }
 
-    return data!.token!;
+    return data.token;
   }
 
-  public async login({ message, signature, wallet_address }: ModelAuthRequest) {
+  public async login({ message, signature, wallet_address }: AuthRequest) {
     await this.cryptoService.verifyMessage(signature, message, wallet_address);
 
     const { data, error, response } = await this.client.POST('/auth', {
@@ -46,6 +46,6 @@ export class Auth {
       throw new GTWError(error, response);
     }
 
-    return data!.token!;
+    return data.token;
   }
 }

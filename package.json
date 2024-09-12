@@ -6,7 +6,7 @@
   "types": "dist/src/index.d.ts",
   "scripts": {
     "dev": "ts-node-dev src/testing.ts",
-    "generate": "npx openapi-typescript ./api.yml --output ./src/api.d.ts && pnpm generate-types",
+    "generate": "npx openapi-typescript ./api.yml --output ./src/api.d.ts && pnpm generate-types && pnpm format",
     "generate-types": "ts-node-dev ./scripts/generate-types.ts",
     "test": "jest --coverage",
     "build": "rm -rf dist && tsc",

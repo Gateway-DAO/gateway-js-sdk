@@ -48,13 +48,9 @@ export class Gateway {
   }
 
   private initializeModules(validationService: ValidationService) {
-    this.dataAsset = new DataAsset(this.client, validationService, this.config);
+    this.dataAsset = new DataAsset(this.client, validationService);
     this.auth = new Auth(this.client);
     this.dataModel = new DataModel(this.client, validationService, this.config);
-    this.currentUser = new CurrentUser(
-      this.client,
-      validationService,
-      this.config,
-    );
+    this.currentUser = new CurrentUser(this.client);
   }
 }
