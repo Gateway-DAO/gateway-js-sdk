@@ -23,6 +23,15 @@ export const authDetails = (overrideAuth?: any) => ({
   signature:
     '0xce4cde85910fb1d667b19f154907160b4b5a03c3e5ad17f338715737283f41a73bb91991900d3f0d98c23f1ce3cbf70071024e8f473599bc7938bd9311744dab1c',
   wallet_address: '0x22e19B1aB46B484d56FbAF069f1bD74477A5cDDC',
+  ...overrideAuth,
+});
+
+export const authSolanaDetails = (overrideAuth?: any) => ({
+  message: 'test',
+  signature:
+    '2UVETkfpJd5jB6f6rEMUWchMTxamfAS2ufQfZSkkPnQ2zdDXcmsiaHvW7fwauLKXzXKW3bjbh8rboLaHLDz8Ajvb',
+  wallet_address: 'GX8ANrJUkaxjHduzz3UStVLxLZBL8RdYR3V6978aRoHT',
+  ...overrideAuth,
 });
 
 export const metaStub = (overrideMetaStub?: HelperMeta) => ({

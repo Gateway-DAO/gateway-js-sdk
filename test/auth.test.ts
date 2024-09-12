@@ -4,6 +4,7 @@ import createClient from 'openapi-fetch';
 import { GTWError } from '../src/helpers/custom-error';
 import {
   authDetails,
+  authSolanaDetails,
   errorMessage,
   mockClient,
   mockGet,
@@ -57,10 +58,19 @@ describe('Auth Unit Test', () => {
     expect(mockGet).toHaveBeenCalled();
   });
 
-  test('should login', async () => {
+  test('should login using etherum wallet', async () => {
     mockPost.mockResolvedValue(successMessage({ data: { token: 'test' } }));
 
     const message = await auth.login(authDetails());
+
+    expect(message).toBeDefined();
+    expect(mockPost).toHaveBeenCalled();
+  });
+
+  test('should login using solana wallet', async () => {
+    mockPost.mockResolvedValue(successMessage({ data: { token: 'test' } }));
+
+    const message = await auth.login(authSolanaDetails());
 
     expect(message).toBeDefined();
     expect(mockPost).toHaveBeenCalled();
