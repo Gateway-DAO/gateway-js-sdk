@@ -1,13 +1,11 @@
 import { ClientMethod, Middleware } from 'openapi-fetch';
 import type { MediaType } from 'openapi-typescript-helpers';
 
-
 export interface Config {
   token: string;
   url: string;
   logging?: boolean;
 }
-
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export interface OpenAPIClient<Paths extends {}, Media extends MediaType> {
@@ -23,46 +21,127 @@ export interface OpenAPIClient<Paths extends {}, Media extends MediaType> {
   eject(...middleware: Middleware[]): void;
 }
 
-
 export enum DataAssetType {
   StructuredData = 'Structured Data',
   UnstructedData = 'Other',
 }
 
-export type HelperLinks = { first: string; last: string; next: string; previous: string; };
+export type HelperLinks = {
+  first: string;
+  last: string;
+  next: string;
+  previous: string;
+};
 
-export type HelperMeta = { current_page: number; items_per_page: number; total_items: number; total_pages: number; };
+export type HelperMeta = {
+  current_page: number;
+  items_per_page: number;
+  total_items: number;
+  total_pages: number;
+};
 
-export type HelperPaginatedResponse<T=any> = { data: T; links: HelperLinks; meta: HelperMeta; };
+export type HelperPaginatedResponse<T = any> = {
+  data: T;
+  links: HelperLinks;
+  meta: HelperMeta;
+};
 
-export type ACLRequest = { address: string; roles: AccessLevel[]; };
+export type ACLRequest = { address: string; roles: AccessLevel[] };
 
-export enum AccessLevel {VIEW = 'view',UPDATE = 'update',DELETE = 'delete',SHARE = 'share'};
+export enum AccessLevel {
+  VIEW = 'view',
+  UPDATE = 'update',
+  DELETE = 'delete',
+  SHARE = 'share',
+}
 
-export type AccountCreateRequest = { message: string; signature: string; username: string; wallet_address: string; };
+export type AccountCreateRequest = {
+  message: string;
+  signature: string;
+  username: string;
+  wallet_address: string;
+};
 
-export type AuthRequest = { message: string; signature: string; wallet_address: string; };
+export type AuthRequest = {
+  message: string;
+  signature: string;
+  wallet_address: string;
+};
 
-export type CreateDataAssetRequest = { acl?: ACLRequest[]; claim?: {  }; data_model_id?: number; expiration_date?: string; name: string; tags?: string[]; };
+export type CreateDataAssetRequest = {
+  acl?: ACLRequest[];
+  claim?: {};
+  data_model_id?: number;
+  expiration_date?: string;
+  name: string;
+  tags?: string[];
+};
 
-export type DataAssetIDRequestAndResponse = { id: number; };
+export type DataAssetIDRequestAndResponse = { id: number };
 
-export type DataModel = { created_at?: string; created_by?: string; deleted_at?: string; description?: string; id?: number; schema?: {  }; tags?: string[]; title?: string; updated_at?: string; };
+export type DataModel = {
+  created_at?: string;
+  created_by?: string;
+  deleted_at?: string;
+  description?: string;
+  id?: number;
+  schema?: {};
+  tags?: string[];
+  title?: string;
+  updated_at?: string;
+};
 
-export type DataModelRequest = { description: string; schema: {  }; tags?: string[]; title: string; };
+export type DataModelRequest = {
+  description: string;
+  schema: {};
+  tags?: string[];
+  title: string;
+};
 
-export type MessageResponse = { message: string; };
+export type MessageResponse = { message: string };
 
-export type MyAccountResponse = { created_at?: string; did?: string; profile_picture?: string; updated_at?: string; username?: string; wallet_address?: string; };
+export type MyAccountResponse = {
+  created_at?: string;
+  did?: string;
+  profile_picture?: string;
+  updated_at?: string;
+  username?: string;
+  wallet_address?: string;
+};
 
-export type PublicACL = { address?: string; created_at?: string; data_asset_id?: number; roles?: string[]; solana_address?: string; updated_at?: string; };
+export type PublicACL = {
+  address?: string;
+  created_at?: string;
+  data_asset_id?: number;
+  roles?: string[];
+  solana_address?: string;
+  updated_at?: string;
+};
 
-export type PublicDataAsset = { acl?: PublicACL[]; created_at?: string; created_by: string; data_model_id?: number; expiration_date?: string; fid: string; id: number; name: string; size: number; tags: string[]; transaction_id: string; type: string; updated_at?: string; };
+export type PublicDataAsset = {
+  acl?: PublicACL[];
+  created_at?: string;
+  created_by: string;
+  data_model_id?: number;
+  expiration_date?: string;
+  fid: string;
+  id: number;
+  name: string;
+  size: number;
+  tags: string[];
+  transaction_id: string;
+  type: string;
+  updated_at?: string;
+};
 
-export type ShareDataAssetRequest = { addresses?: string[]; };
+export type ShareDataAssetRequest = { addresses?: string[] };
 
-export type TokenResponse = { token: string; };
+export type TokenResponse = { token: string };
 
-export type UpdateDataAssetRequest = { claim?: {  }; expiration_date?: string; name?: string; };
+export type UpdateDataAssetRequest = {
+  claim?: {};
+  expiration_date?: string;
+  name?: string;
+};
 
-export type ResponsesMessageResponse = { message?: string; };
+export type ResponsesMessageResponse = { message?: string };
