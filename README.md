@@ -43,7 +43,7 @@ yarn add @gateway-dao/sdk
 
 ## Gateway Client
 
-To setup the gateway client we will authenticate with a bearer-token and a Api key as follows
+To setup the gateway client we will authenticate with a bearer-token,api key and wallet private key as follows
 
 ```typescript
 import { Gateway } from '@gateway-dao/sdk';
@@ -52,8 +52,11 @@ const gateway = new Gateway({
   apiKey: 'your-api-key',
   token: 'your-token',
   url: 'https://sandbox.protocol.mygateway.xyz/graphql',
+  walletPrivateKey: 'your-private-key', // store this in env file!
 });
 ```
+
+**The wallet private key is not send anywhere and is just used to sign messages on behalf of developer/organization using it. This way we minimize signature errors on protocol and provide smoother developer experience**
 
 **Make sure you add token without Bearer as we add Bearer automatically when you make request. Else it will give you Unauthorized error even if your token is correct**
 For example
@@ -66,6 +69,7 @@ const gateway = new Gateway({
   token: 'Bearer your-token',
   // wrong will not work just use token: 'your-token'
   url: 'https://sandbox.protocol.mygateway.xyz/graphql',
+  walletPrivateKey: 'your-private-key', // store this in env file!
 });
 ```
 
@@ -84,6 +88,7 @@ const gateway = new Gateway({
   apiKey: 'your-api-key',
   token: 'your-token',
   url: 'https://sandbox.protocol.mygateway.xyz/graphql',
+  walletPrivateKey: 'your-private-key', // store this in env file!
 });
 
 async function main() {
@@ -109,7 +114,7 @@ async function main() {
 main();
 ```
 
-### Getting a Organization
+### Creating a Organization
 
 ```typescript
 import { Gateway } from '@gateway-dao/sdk';
@@ -118,6 +123,7 @@ const gateway = new Gateway({
   apiKey: 'your-api-key',
   token: 'your-token',
   url: 'https://sandbox.protocol.mygateway.xyz/graphql',
+  walletPrivateKey: 'your-private-key', // store this in env file!
 });
 
 async function main() {
@@ -133,50 +139,12 @@ async function main() {
     console.log(error); // Can log it for degugging
   }
 }
-
 main();
 ```
 
-### Create a Data request template
+## More examples
 
-```typescript
-import { Gateway } from '@gateway-dao/sdk';
-
-const gateway = new Gateway({
-  apiKey: 'your-api-key',
-  token: 'your-token',
-  url: 'https://sandbox.protocol.mygateway.xyz/graphql',
-});
-
-async function main() {
-  try {
-    const { createDataRequestTemplate } =
-      await gateway.dataRequestTemplate.createDataRequestTemplate({
-        title: 'Create Data Request Template Example',
-        description: 'Lorem ipsum dolor sit amet.',
-        dataModels: [
-          {
-            id: 'uuid-here',
-            required: true,
-            claimValidations: {
-              type: 'object',
-              properties: {
-                gatewayUse: {
-                  type: 'string',
-                },
-              },
-              required: ['gatewayUse'],
-            },
-          },
-        ],
-      });
-  } catch (error) {
-    console.log(error); // Can log it for degugging
-  }
-}
-
-main();
-```
+We have created a separate repository which have more [examples you can access it here](https://github.com/Gateway-DAO/sdk-scripts-example/)
 
 ## Error Handling
 
@@ -185,11 +153,23 @@ Incase of any protocol errors we will throw a custom message which is a string w
 
 ## License
 
-The Gateway Javascript SDK is licensed under the [MIT License](https://github.com/Gateway-DAO/javascript-sdk/blob/main/LICENSE.md).
+The Gateway Javascript SDK is licensed under the [MIT License](LICENSE).
 
 ## Contributing
 
-If you want to support the active development of the SDK. [Please go through our Contribution guide](https://github.com/Gateway-DAO/gateway-js-sdk/blob/main/CONTRIBUTING.md)
+If you want to support the active development of the SDK. [Please go through our Contribution guide](docs/CONTRIBUTING.md)
+
+## Code of Conduct
+
+Please read our [Code of Conduct](docs/CODE_OF_CONDUCT.md) before contributing or engaging in discussions.
+
+## Security
+
+If you discover a security vulnerability within this package, please open a ticket on Discord. All security vulnerabilities will be promptly addressed.
+
+## Support
+
+We are always here to help you. Please talk to us on [Discord](https://discord.gg/tgt3KjcHGs) for any queries.
 
 [npm-image]: https://img.shields.io/npm/v/%40gateway-dao%2Fsdk.svg?style=flat
 [npm-url]: https://www.npmjs.com/package/@gateway-dao/sdk

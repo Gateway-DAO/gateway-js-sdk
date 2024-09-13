@@ -1,141 +1,246 @@
-import { getSdk } from '../gatewaySdk';
-import { DataModel } from '../src/data-model/data-model';
-import {
-  dataModelCreateStub,
-  dataModelStub,
-  dataModelMetaDataStub,
-} from './stubs/dataModel.stub';
-import { DataModelMockService } from '../__mocks__/dataModel.mock';
-import { GraphQLClient } from 'graphql-request';
+import { ValidationService } from '../src/services/validator-service';
+import { GTWError } from '../src/helpers/custom-error';
+import { DataModel } from '../src/modules/data-model/data-model';
+import { Config, DataModelRequest } from '../src/common/types';
+import { mockClient, mockGet, mockPost, mockPut } from './stubs/common.stub';
+import { routes } from '../src/common/routes';
 
-let dataModel: DataModel;
+const mockValidationService = {} as ValidationService;
+const mockConfig = {} as Config;
 
-beforeAll(() => {
-  dataModel = new DataModel(getSdk(new GraphQLClient('')));
-});
+describe('DataModel', () => {
+  let dataModel: DataModel;
 
-afterAll(() => {
-  jest.resetAllMocks();
-});
-
-describe('DATA MODEL CLASS METHODS TESTING', () => {
-  it('create data model ', async () => {
-    const { createDataModelMock } = DataModelMockService(dataModel);
-
-    const { createDataModel } = await dataModel.createDataModel(
-      dataModelCreateStub(),
-    );
-
-    expect(createDataModel.title).toEqual(dataModelCreateStub().title);
-    expect(createDataModelMock).toHaveBeenCalled();
+  beforeEach(() => {
+    jest.clearAllMocks();
+    dataModel = new DataModel(mockClient, mockValidationService, mockConfig);
   });
 
-  it('create data model -> throw error ', async () => {
-    const { createDataModelMock } = DataModelMockService(dataModel);
+  describe('getDataModels', () => {
+    it('should fetch data models successfully', async () => {
+      const mockResponse = {
+        data: [{ id: 1, name: 'Model1' }],
+        total: 1,
+        page: 1,
+        pageSize: 10,
+      };
+      mockGet.mockResolvedValue({
+        data: mockResponse,
+        error: null,
+        response: {} as Response,
+      });
 
-    expect(
-      async () =>
-        await dataModel.createDataModel({
-          ...dataModelCreateStub(),
-          title: '',
-        }),
-    ).rejects.toThrow(' should be atleast 2 length');
-    expect(createDataModelMock).toHaveBeenCalled();
+      const result = await dataModel.getDataModels();
+
+      expect(result).toEqual(mockResponse);
+      expect(mockClient.GET).toHaveBeenCalledWith(routes.GetDataModels, {
+        params: { query: { page: 1, page_size: 10 } },
+      });
+    });
+
+    it('should throw GTWError on API error', async () => {
+      const mockError = { error: 'API Error' };
+      const mockResponse = { status: 400 } as Response;
+      mockGet.mockResolvedValue({
+        data: null,
+        error: mockError,
+        response: mockResponse,
+      });
+
+      await expect(dataModel.getDataModels()).rejects.toThrow(GTWError);
+      await expect(dataModel.getDataModels()).rejects.toHaveProperty(
+        'statusCode',
+        400,
+      );
+      await expect(dataModel.getDataModels()).rejects.toHaveProperty(
+        'message',
+        'API Error',
+      );
+    });
   });
 
-  it('get data model', async () => {
-    const { getDataModelMock } = DataModelMockService(dataModel);
+  describe('getDataModelById', () => {
+    it('should fetch a data model by id successfully', async () => {
+      const mockResponse = { id: 1, name: 'Model1' };
+      mockGet.mockResolvedValue({
+        data: mockResponse,
+        error: null,
+        response: {} as Response,
+      });
 
-    const { dataModel: rdataModel } = await dataModel.getDataModel(
-      dataModelStub().id,
-    );
-    expect(rdataModel).toEqual(dataModelStub());
-    expect(getDataModelMock).toHaveBeenCalled();
+      const result = await dataModel.getDataModelById(1);
+
+      expect(result).toEqual(mockResponse);
+      expect(mockClient.GET).toHaveBeenCalledWith(routes.GetDataModelByID, {
+        params: { path: { id: 1 } },
+      });
+    });
+
+    it('should throw GTWError on API error', async () => {
+      const mockError = { error: 'Not Found' };
+      const mockResponse = { status: 404 } as Response;
+      mockGet.mockResolvedValue({
+        data: null,
+        error: mockError,
+        response: mockResponse,
+      });
+
+      await expect(dataModel.getDataModelById(1)).rejects.toThrow(GTWError);
+      await expect(dataModel.getDataModelById(1)).rejects.toHaveProperty(
+        'statusCode',
+        404,
+      );
+      await expect(dataModel.getDataModelById(1)).rejects.toHaveProperty(
+        'message',
+        'Not Found',
+      );
+    });
   });
 
-  it('get data model -> throw error', async () => {
-    const { getDataModelMock } = DataModelMockService(dataModel);
+  describe('getMyDataModels', () => {
+    it('should fetch user-specific data models successfully', async () => {
+      const mockResponse = {
+        data: [{ id: 1, name: 'MyModel1' }],
+        total: 1,
+        page: 1,
+        pageSize: 10,
+      };
+      mockGet.mockResolvedValue({
+        data: mockResponse,
+        error: null,
+        response: {} as Response,
+      });
 
-    expect(async () => await dataModel.getDataModel('wrong')).rejects.toThrow(
-      'wrong is not valid',
-    );
-    expect(getDataModelMock).toHaveBeenCalled();
+      const result = await dataModel.getMyDataModels();
+
+      expect(result).toEqual(mockResponse);
+      expect(mockClient.GET).toHaveBeenCalledWith(routes.GetDataModelsByUser, {
+        params: { query: { page: 1, page_size: 10 } },
+      });
+    });
+
+    it('should throw GTWError on API error', async () => {
+      const mockError = { error: 'Unauthorized' };
+      const mockResponse = { status: 401 } as Response;
+      mockGet.mockResolvedValue({
+        data: null,
+        error: mockError,
+        response: mockResponse,
+      });
+
+      await expect(dataModel.getMyDataModels()).rejects.toThrow(GTWError);
+      await expect(dataModel.getMyDataModels()).rejects.toHaveProperty(
+        'statusCode',
+        401,
+      );
+      await expect(dataModel.getMyDataModels()).rejects.toHaveProperty(
+        'message',
+        'Unauthorized',
+      );
+    });
   });
 
-  it('get data models', async () => {
-    const { getDataModelsMock } = DataModelMockService(dataModel);
+  describe('createDataModel', () => {
+    it('should create a data model successfully', async () => {
+      const input: DataModelRequest = {
+        title: 'Test Model',
+        description: 'A test data model',
+        schema: {},
+        tags: ['test'],
+      };
 
-    const { dataModels } = await dataModel.getDataModels();
+      const expectedOutput = {
+        id: 1,
+        ...input,
+        created_at: '2023-09-13T12:00:00Z',
+        updated_at: '2023-09-13T12:00:00Z',
+        created_by: 'user123',
+      };
 
-    expect(dataModels.length).toBeGreaterThanOrEqual(0);
-    expect(getDataModelsMock).toHaveBeenCalled();
+      mockPost.mockResolvedValue({ data: expectedOutput, error: null });
+
+      const result = await dataModel.createDataModel(input);
+
+      expect(result).toEqual(expectedOutput);
+      expect(mockClient.POST).toHaveBeenCalledWith(routes.CreateDataModel, {
+        body: input,
+      });
+    });
+
+    it('should throw GTWError when API call fails', async () => {
+      const input: DataModelRequest = {
+        title: 'Test Model',
+        description: 'A test data model',
+        schema: {},
+        tags: ['test'],
+      };
+
+      const mockError = { error: 'API Error' };
+      mockPost.mockResolvedValue({
+        data: null,
+        error: mockError,
+        response: {},
+      });
+
+      await expect(dataModel.createDataModel(input)).rejects.toThrow(GTWError);
+      expect(mockClient.POST).toHaveBeenCalledWith(routes.CreateDataModel, {
+        body: input,
+      });
+    });
   });
 
-  it('get data models count', async () => {
-    const { getDataModelsCountMock } = DataModelMockService(dataModel);
-    const { dataModelsCount } = await dataModel.getDataModelsCount();
-    expect(dataModelsCount).toBeGreaterThanOrEqual(0);
-    expect(getDataModelsCountMock).toHaveBeenCalled();
-  });
+  describe('updateDataModel', () => {
+    it('should update a data model successfully', async () => {
+      const dataModelId = 1;
+      const input: DataModelRequest = {
+        title: 'Updated Test Model',
+        description: 'An updated test data model',
+        schema: {},
+        tags: ['test', 'updated'],
+      };
 
-  it('get meta data of data models', async () => {
-    const { getDataModelsMetaDataMock } = DataModelMockService(dataModel);
-    const { dataModelsMetadata } = await dataModel.getDataModelsMetaData();
-    expect(dataModelsMetadata).toEqual(dataModelMetaDataStub());
-    expect(getDataModelsMetaDataMock).toHaveBeenCalled();
-  });
+      const expectedOutput = {
+        id: dataModelId,
+        ...input,
+        created_at: '2023-09-13T12:00:00Z',
+        updated_at: '2023-09-13T13:00:00Z',
+        created_by: 'user123',
+      };
 
-  it('get issuers by data model', async () => {
-    const { getIssuersByDataModelMock } = DataModelMockService(dataModel);
-    const { issuersByDataModel } = await dataModel.getIssuersByDataModel(
-      dataModelStub().id,
-    );
+      mockPut.mockResolvedValue({ data: expectedOutput, error: null });
 
-    expect(issuersByDataModel.length).toBeGreaterThanOrEqual(0);
-    expect(getIssuersByDataModelMock).toHaveBeenCalled();
-  });
+      const result = await dataModel.updateDataModel(dataModelId, input);
 
-  it('get issuers by data model -> throw error', async () => {
-    const { getIssuersByDataModelMock } = DataModelMockService(dataModel);
-    expect(
-      async () => await dataModel.getIssuersByDataModel('wrong'),
-    ).rejects.toThrow('wrong is not valid');
-    expect(getIssuersByDataModelMock).toHaveBeenCalled();
-  });
+      expect(result).toEqual(expectedOutput);
+      expect(mockClient.PUT).toHaveBeenCalledWith(routes.UpdateDataModel, {
+        body: input,
+        params: { path: { id: dataModelId } },
+      });
+    });
 
-  it('get isssuers by data model count', async () => {
-    const { getIssuersDataModelCountMock } = DataModelMockService(dataModel);
-    const { issuersByDataModelCount } =
-      await dataModel.getIssuersByDataModelCount(dataModelStub().id);
-    expect(issuersByDataModelCount).toBeGreaterThanOrEqual(0);
-    expect(getIssuersDataModelCountMock).toHaveBeenCalled();
-  });
+    it('should throw GTWError when API call fails', async () => {
+      const dataModelId = 1;
+      const input: DataModelRequest = {
+        title: 'Updated Test Model',
+        description: 'An updated test data model',
+        schema: {},
+        tags: ['test', 'updated'],
+      };
 
-  it('get isssuers by data model count -> throw error', async () => {
-    const { getIssuersDataModelCountMock } = DataModelMockService(dataModel);
-    expect(
-      async () => await dataModel.getIssuersByDataModelCount('wrong'),
-    ).rejects.toThrow('wrong is not valid');
-    expect(getIssuersDataModelCountMock).toHaveBeenCalled();
-  });
+      const mockError = { error: 'API Error' };
+      mockPut.mockResolvedValue({
+        data: null,
+        error: mockError,
+        response: {},
+      });
 
-  it('get total issuers by data model ', async () => {
-    const { getTotalofIssuersByDataModelMock } =
-      DataModelMockService(dataModel);
-    const { getTotalofIssuersByDataModel } =
-      await dataModel.getTotalofIssuersByDataModel(dataModelStub().id);
-
-    expect(getTotalofIssuersByDataModel).toBeGreaterThanOrEqual(0);
-    expect(getTotalofIssuersByDataModelMock).toHaveBeenCalled();
-  });
-
-  it('get total issuers by data model -> throw error ', async () => {
-    const { getTotalofIssuersByDataModelMock } =
-      DataModelMockService(dataModel);
-
-    expect(
-      async () => await dataModel.getTotalofIssuersByDataModel('wrong'),
-    ).rejects.toThrow('wrong is not valid');
-    expect(getTotalofIssuersByDataModelMock).toHaveBeenCalled();
+      await expect(
+        dataModel.updateDataModel(dataModelId, input),
+      ).rejects.toThrow(GTWError);
+      expect(mockClient.PUT).toHaveBeenCalledWith(routes.UpdateDataModel, {
+        body: input,
+        params: { path: { id: dataModelId } },
+      });
+    });
   });
 });

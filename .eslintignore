@@ -8,4 +8,5 @@ release.config.js
 .husky/*
 scripts/*
 gatewaySdk/
-src/testMutationsAndQuery.ts
+src/testing.ts
+src/common/types.ts
