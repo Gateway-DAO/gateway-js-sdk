@@ -16,7 +16,7 @@ export const errorMessage = (overrideError?: any) => ({
   ...overrideError,
 });
 
-export const ID = 8708467049103462;
+export const ID = 1;
 
 export const authDetails = (overrideAuth?: any) => ({
   message: 'test',
@@ -32,6 +32,16 @@ export const authSolanaDetails = (overrideAuth?: any) => ({
     '2UVETkfpJd5jB6f6rEMUWchMTxamfAS2ufQfZSkkPnQ2zdDXcmsiaHvW7fwauLKXzXKW3bjbh8rboLaHLDz8Ajvb',
   wallet_address: 'GX8ANrJUkaxjHduzz3UStVLxLZBL8RdYR3V6978aRoHT',
   ...overrideAuth,
+});
+
+export const paramsStub = (overrideParams?: any) => ({
+  params: { query: { page: 1, page_size: 10 } },
+  ...overrideParams,
+});
+
+export const bodyStub = (overrideBody?: any) => ({
+  body: { data: '' },
+  ...overrideBody,
 });
 
 export const metaStub = (overrideMetaStub?: HelperMeta) => ({
