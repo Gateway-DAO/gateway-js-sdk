@@ -2,17 +2,60 @@ import fs from 'fs';
 
 const getJSONSchema = async () => {
   try {
-    const data = await fetch('https://dev.api.gateway.tech/swagger/doc.json');
+    const data = await fetch('https://dev.api.gateway.tech/docs/swagger.json');
 
     const body = await data.json();
 
     const types = generateTypes(body.definitions);
 
+    const routes = generateRouteConstants(body.paths);
+
     fs.writeFileSync('./src/common/types.ts', types);
+    fs.writeFileSync('./src/common/routes.ts', routes);
   } catch (error) {
     console.log(error);
   }
 };
+
+type PathItem = Record<string, Operation>;
+
+interface Operation {
+  summary: string;
+}
+
+function generateRouteConstants(paths: Record<string, PathItem>): string {
+  const constants: string[] = ['export const routes = {'];
+
+  for (const path in paths) {
+    const pathItem = paths[path];
+
+    for (const method in pathItem) {
+      const operation = pathItem[method];
+      const constantName = generateRouteConstantName(
+        method,
+        path,
+        operation.summary,
+      );
+      const parameterizedPath = path;
+      constants.push(`  ${constantName}: "${parameterizedPath}",`);
+    }
+  }
+
+  constants.push('};');
+  return constants.join('\n');
+}
+
+function generateRouteConstantName(
+  method: string,
+  path: string,
+  summary: string,
+): string {
+  let name = summary.trim();
+  if (name === '') {
+    name = path;
+  }
+  return toPascalCase(name);
+}
 
 function toPascalCase(str: string): string {
   const cleanedStr = str.replace(/^model\./, '');
@@ -108,7 +151,6 @@ export interface OpenAPIClient<Paths extends {}, Media extends MediaType> {
         `export type ${toPascalCase(typeName)} = ${processSchema(schema)};\n`,
       );
   });
-
   return types.join('\n');
 };
 
