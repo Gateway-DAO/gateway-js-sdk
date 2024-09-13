@@ -1,5 +1,11 @@
 import { MediaType } from 'openapi-typescript-helpers';
-import { Config, DataModelRequest, OpenAPIClient } from '../../common/types';
+import {
+  Config,
+  DataModelRequest,
+  HelperPaginatedResponse,
+  OpenAPIClient,
+  DataModel as DMTypes,
+} from '../../common/types';
 import { ValidationService } from '../../services/validator-service';
 import { paths } from '../../api';
 import { GTWError } from '../../helpers/custom-error';
@@ -34,7 +40,10 @@ export class DataModel {
    * error during the API request, a `GTWError` is thrown with the error and response details. If there
    * is no error, the function returns the fetched data.
    */
-  async getDataModels(page: number = 1, page_size: number = 10) {
+  async getDataModels(
+    page: number = 1,
+    page_size: number = 10,
+  ): Promise<HelperPaginatedResponse<DMTypes>> {
     const { data, error, response } = await this.client.GET('/data-models', {
       params: { query: { page, page_size } },
     });
@@ -54,7 +63,7 @@ export class DataModel {
    * @returns The `createDataModel` function is returning the `data` object after making a POST request
    * to create a data model.
    */
-  async createDataModel(dataModelInput: DataModelRequest) {
+  async createDataModel(dataModelInput: DataModelRequest): Promise<DMTypes> {
     const { data, error, response } = await this.client.POST('/data-models', {
       body: dataModelInput,
     });
@@ -76,7 +85,10 @@ export class DataModel {
    * @returns The `updateDataModel` function is returning the updated data model after making a PUT
    * request to the server with the provided `dataModelInput` for the specified `dataModelId`.
    */
-  async updateDataModel(dataModelId: number, dataModelInput: DataModelRequest) {
+  async updateDataModel(
+    dataModelId: number,
+    dataModelInput: DataModelRequest,
+  ): Promise<DMTypes> {
     const { data, error, response } = await this.client.PUT(
       '/data-models/{id}',
       {
@@ -103,7 +115,7 @@ export class DataModel {
    * `GTWError` with the error and response details. If there is no error, it will return the retrieved
    * data.
    */
-  async getDataModelById(dataModelId: number) {
+  async getDataModelById(dataModelId: number): Promise<DMTypes> {
     const { data, error, response } = await this.client.GET(
       '/data-models/{id}',
       {
@@ -131,7 +143,10 @@ export class DataModel {
    * during the API request, a `GTWError` is thrown with the error and response details. If the request
    * is successful, the function returns the retrieved data.
    */
-  async getMyDataModels(page: number = 1, page_size: number = 10) {
+  async getMyDataModels(
+    page: number = 1,
+    page_size: number = 10,
+  ): Promise<HelperPaginatedResponse<DMTypes>> {
     const { data, response, error } = await this.client.GET('/data-models/me', {
       params: { query: { page, page_size } },
     });
