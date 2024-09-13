@@ -2,12 +2,8 @@ import { ValidationService } from '../src/services/validator-service';
 import { GTWError } from '../src/helpers/custom-error';
 import { DataModel } from '../src/modules/data-model/data-model';
 import { Config } from '../src/common/types';
-
-const mockClient = {
-  GET: jest.fn(),
-  POST: jest.fn(),
-  PUT: jest.fn(),
-};
+import { mockClient, mockGet } from './stubs/common.stub';
+import { routes } from '../src/common/routes';
 
 const mockValidationService = {} as ValidationService;
 const mockConfig = {} as Config;
@@ -17,11 +13,7 @@ describe('DataModel', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    dataModel = new DataModel(
-      mockClient as any,
-      mockValidationService,
-      mockConfig,
-    );
+    dataModel = new DataModel(mockClient, mockValidationService, mockConfig);
   });
 
   describe('getDataModels', () => {
@@ -32,7 +24,7 @@ describe('DataModel', () => {
         page: 1,
         pageSize: 10,
       };
-      mockClient.GET.mockResolvedValue({
+      mockGet.mockResolvedValue({
         data: mockResponse,
         error: null,
         response: {} as Response,
@@ -41,7 +33,7 @@ describe('DataModel', () => {
       const result = await dataModel.getDataModels();
 
       expect(result).toEqual(mockResponse);
-      expect(mockClient.GET).toHaveBeenCalledWith('/data-models', {
+      expect(mockClient.GET).toHaveBeenCalledWith(routes.GetDataModels, {
         params: { query: { page: 1, page_size: 10 } },
       });
     });
@@ -49,7 +41,7 @@ describe('DataModel', () => {
     it('should throw GTWError on API error', async () => {
       const mockError = { error: 'API Error' };
       const mockResponse = { status: 400 } as Response;
-      mockClient.GET.mockResolvedValue({
+      mockGet.mockResolvedValue({
         data: null,
         error: mockError,
         response: mockResponse,
@@ -70,7 +62,7 @@ describe('DataModel', () => {
   describe('getDataModelById', () => {
     it('should fetch a data model by id successfully', async () => {
       const mockResponse = { id: 1, name: 'Model1' };
-      mockClient.GET.mockResolvedValue({
+      mockGet.mockResolvedValue({
         data: mockResponse,
         error: null,
         response: {} as Response,
@@ -79,7 +71,7 @@ describe('DataModel', () => {
       const result = await dataModel.getDataModelById(1);
 
       expect(result).toEqual(mockResponse);
-      expect(mockClient.GET).toHaveBeenCalledWith('/data-models/{id}', {
+      expect(mockClient.GET).toHaveBeenCalledWith(routes.GetDataModelByID, {
         params: { path: { id: 1 } },
       });
     });
@@ -87,7 +79,7 @@ describe('DataModel', () => {
     it('should throw GTWError on API error', async () => {
       const mockError = { error: 'Not Found' };
       const mockResponse = { status: 404 } as Response;
-      mockClient.GET.mockResolvedValue({
+      mockGet.mockResolvedValue({
         data: null,
         error: mockError,
         response: mockResponse,
@@ -113,7 +105,7 @@ describe('DataModel', () => {
         page: 1,
         pageSize: 10,
       };
-      mockClient.GET.mockResolvedValue({
+      mockGet.mockResolvedValue({
         data: mockResponse,
         error: null,
         response: {} as Response,
@@ -122,7 +114,7 @@ describe('DataModel', () => {
       const result = await dataModel.getMyDataModels();
 
       expect(result).toEqual(mockResponse);
-      expect(mockClient.GET).toHaveBeenCalledWith('/data-models/me', {
+      expect(mockClient.GET).toHaveBeenCalledWith(routes.GetDataModelsByUser, {
         params: { query: { page: 1, page_size: 10 } },
       });
     });
@@ -130,7 +122,7 @@ describe('DataModel', () => {
     it('should throw GTWError on API error', async () => {
       const mockError = { error: 'Unauthorized' };
       const mockResponse = { status: 401 } as Response;
-      mockClient.GET.mockResolvedValue({
+      mockGet.mockResolvedValue({
         data: null,
         error: mockError,
         response: mockResponse,

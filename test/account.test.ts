@@ -4,10 +4,8 @@ import { paths } from '../src/api';
 import { GTWError } from '../src/helpers/custom-error';
 import { Account } from '../src/modules/account/account';
 import { MediaType } from 'openapi-typescript-helpers';
-
-const mockClient = {
-  GET: jest.fn(),
-};
+import { mockClient, mockGet } from './stubs/common.stub';
+import { routes } from '../src/common/routes';
 
 describe('Account', () => {
   let account: Account;
@@ -21,7 +19,7 @@ describe('Account', () => {
   describe('getAccountInfo', () => {
     it('should return account info when API call is successful', async () => {
       const mockData: MyAccountResponse = { did: '123', username: 'Test User' };
-      mockClient.GET.mockResolvedValue({
+      mockGet.mockResolvedValue({
         data: mockData,
         response: {},
         error: null,
@@ -30,20 +28,20 @@ describe('Account', () => {
       const result = await account.getAccountInfo();
 
       expect(result).toEqual(mockData);
-      expect(mockClient.GET).toHaveBeenCalledWith('/accounts/me');
+      expect(mockClient.GET).toHaveBeenCalledWith(routes.GetMyAccount);
     });
 
     it('should throw GTWError when API call fails', async () => {
       const mockResponse = { status: 401 } as Response;
 
-      mockClient.GET.mockResolvedValue({
+      mockGet.mockResolvedValue({
         data: null,
         response: mockResponse,
         error: { error: 'Unauthorized' },
       });
 
       await expect(account.getAccountInfo()).rejects.toThrow(GTWError);
-      expect(mockClient.GET).toHaveBeenCalledWith('/accounts/me');
+      expect(mockClient.GET).toHaveBeenCalledWith(routes.GetMyAccount);
     });
   });
 });
