@@ -1,18 +1,86 @@
-# [2.1.0-develop.14](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.13...v2.1.0-develop.14) (2024-09-12)
+# [2.1.0](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.0.0...v2.1.0) (2024-09-13)
 
 
 ### Bug Fixes
 
 * added enum support to script ([9fd1483](https://github.com/Gateway-DAO/gateway-js-sdk/commit/9fd148362224fdc0b31996dbf0cbea0bb9756890))
+* added only v3 urls ([7a61704](https://github.com/Gateway-DAO/gateway-js-sdk/commit/7a61704ab2cc057d590e7c0bee63208168b0d07f))
 * added types.ts to eslintignore ([acdc241](https://github.com/Gateway-DAO/gateway-js-sdk/commit/acdc241bc09193c9a49af758525f5060010d304d))
+* build errors ([7a7cad7](https://github.com/Gateway-DAO/gateway-js-sdk/commit/7a7cad70d4e6619354c3b4cc5fef7d10da94df92))
+* build time errors ([4efe340](https://github.com/Gateway-DAO/gateway-js-sdk/commit/4efe3408283e8c11cd792953f082b1f726544b65))
+* eslint errors ([17f47ab](https://github.com/Gateway-DAO/gateway-js-sdk/commit/17f47ab7fc1230a2450cfe583ae6062892e5f484))
+* eslint errors ([d9a8771](https://github.com/Gateway-DAO/gateway-js-sdk/commit/d9a87718b68a6da6f182e3aec5175563ec290859))
+* fixed all possible bugs ([6496637](https://github.com/Gateway-DAO/gateway-js-sdk/commit/64966377cd45e31e315cd671dc690db12b8aa9e3))
+* fixed build path settings ([adb7e65](https://github.com/Gateway-DAO/gateway-js-sdk/commit/adb7e654788b911c8ed6f28330280d5869e6ce79))
+* fixed generate script ([ea76738](https://github.com/Gateway-DAO/gateway-js-sdk/commit/ea76738b19275ff3010b3b265ba9d1faf4498ed7))
+* gatewayId => gatewayid ([e1709d4](https://github.com/Gateway-DAO/gateway-js-sdk/commit/e1709d46991bf72c6d5e5404e0e70ae0dd49bf76))
+* linting error ([f63f731](https://github.com/Gateway-DAO/gateway-js-sdk/commit/f63f731f3402017c45c3b89e2bc0e2419060442e))
+* pnpm lock ([093e2ad](https://github.com/Gateway-DAO/gateway-js-sdk/commit/093e2ad0d1fbb751d5bbe9947065ea0296394760))
+* remove test cases for now ([35019d6](https://github.com/Gateway-DAO/gateway-js-sdk/commit/35019d68cb62a4d95b647d4a9dbcdad7f898e333))
 * removed config from account class ([8c53d2f](https://github.com/Gateway-DAO/gateway-js-sdk/commit/8c53d2f0514ad47daec072f56598b567331a6916))
 * removed model prefix from types ([f18c913](https://github.com/Gateway-DAO/gateway-js-sdk/commit/f18c913145bc95edad70048cb1af7b58a54e24b5))
+* removed namespace from build script ([a5d452b](https://github.com/Gateway-DAO/gateway-js-sdk/commit/a5d452b42f9dad43d6826288823f6f52af707f0d))
+* removed test cases for now ([1550550](https://github.com/Gateway-DAO/gateway-js-sdk/commit/155055094b50b91f17a5df3d9f6f8f9bf0ac6fcb))
+* solana signature generation ([a94db30](https://github.com/Gateway-DAO/gateway-js-sdk/commit/a94db3006b405ff9f5bcba4afca3b445fec5cbdc))
+* solana version fix ([ef75028](https://github.com/Gateway-DAO/gateway-js-sdk/commit/ef75028d290edb5160d7239415d7c6a3f1ae9a56))
+* **types.ts:** ran prettier ([e2792b5](https://github.com/Gateway-DAO/gateway-js-sdk/commit/e2792b5f647516631e3ec7fa02f3e792cacf3991))
 * updated types as per swagger ([3f9a8bd](https://github.com/Gateway-DAO/gateway-js-sdk/commit/3f9a8bd525e1c9e417906656ff3831bf16f34cf1))
 
 
 ### Features
 
+* Add constants for string validation length, test default timeout, and default take limit ([34a2b3b](https://github.com/Gateway-DAO/gateway-js-sdk/commit/34a2b3b66f82090ab89c85a72547177faba3d803))
+* Add enums for sign cipher, user identifier type, PDA status, organization identifier type, organization role, auth type, and chain ([732f232](https://github.com/Gateway-DAO/gateway-js-sdk/commit/732f232c80e959c2838d7bceeb0222983c24d3e6))
+* Add error handling and try-catch blocks for method validation and protocol errors ([1688738](https://github.com/Gateway-DAO/gateway-js-sdk/commit/16887384756bc55ca61e796b8ced2eded86a4d63))
+* Add types for configuration and wallet confirmation input ([01505cd](https://github.com/Gateway-DAO/gateway-js-sdk/commit/01505cd415c3f64b0edf5094465e98470e5a2082))
+* added crypto test and upload file as pda ([1e20416](https://github.com/Gateway-DAO/gateway-js-sdk/commit/1e2041617cdea4b6eafe7701a0013198d598d2e2))
+* added file upload as pda and tests related to it ([c88de17](https://github.com/Gateway-DAO/gateway-js-sdk/commit/c88de179e8c7935745e049be029892b5842e03a7))
+* added js docs and strict did validation ([2cddc29](https://github.com/Gateway-DAO/gateway-js-sdk/commit/2cddc294b74a3bc73da1755e4d32d9f24676c61e))
+* added login user method ([ac4ce47](https://github.com/Gateway-DAO/gateway-js-sdk/commit/ac4ce4794af88ca9f12c01d6043bc615b9c12bc8))
+* added pda v3 class,tests,mocks,stubs ([a0e4ced](https://github.com/Gateway-DAO/gateway-js-sdk/commit/a0e4ced1026cc3c88caf3975ab81cca4cd9d2fd3))
+* added requests test ([679811c](https://github.com/Gateway-DAO/gateway-js-sdk/commit/679811c47812701ba1da1f4551f645150071164e))
 * added setup for unit test ([52f62c2](https://github.com/Gateway-DAO/gateway-js-sdk/commit/52f62c200a2c5a55dc0f56e5510567ebc7015901))
+* added signature based validations for PDA ([8ab5101](https://github.com/Gateway-DAO/gateway-js-sdk/commit/8ab510179cbc9bf2812bd9b1894ba2a86ed1604c))
+* added signature generation using wallet service ([88a91d2](https://github.com/Gateway-DAO/gateway-js-sdk/commit/88a91d2d98734d768ced515fc7f7c6d3bd27afec))
+* added signature validation to orgs ([45a47da](https://github.com/Gateway-DAO/gateway-js-sdk/commit/45a47da34e5ca313ab8788d229941533d37b2bae))
+* added signatures to data model and org ([200fddd](https://github.com/Gateway-DAO/gateway-js-sdk/commit/200fddd1c4d255ce3b5a368d5906c3661618f448))
+* added solana and etherum services ([520fa57](https://github.com/Gateway-DAO/gateway-js-sdk/commit/520fa57585f99c2668ee0ad954dca54527d26ed1))
+* added solana wallet test cases ([8083974](https://github.com/Gateway-DAO/gateway-js-sdk/commit/80839744da4196216fb7c3f346a6fe413324ce3b))
+* added tests ([ee0e5ca](https://github.com/Gateway-DAO/gateway-js-sdk/commit/ee0e5cacb2f941db7d74d564835d4312891d41d6))
+* **auth:** finished auth class methods and tests ([36113fe](https://github.com/Gateway-DAO/gateway-js-sdk/commit/36113fef8de23642320216fd53b2d07583cada94))
+* changed folder structure for v2 and v3 queries and mutations ([60959be](https://github.com/Gateway-DAO/gateway-js-sdk/commit/60959be0b09d5689ae2049e966badf7a97f886ab))
+* changed naming to camel case for all modules ([0867755](https://github.com/Gateway-DAO/gateway-js-sdk/commit/08677551ace91b42489adbf07e9b1b2d2c414001))
+* completed data model and auth tests ([a89906c](https://github.com/Gateway-DAO/gateway-js-sdk/commit/a89906c1f82e705210b1ed33dae4a5a874929ea4))
+* **GatewayV3:** added gateway v3 class ([1bb6ddc](https://github.com/Gateway-DAO/gateway-js-sdk/commit/1bb6ddc620080d95ed9fe49d67bb2486b80de412))
+* made crypto service as public ([fccb672](https://github.com/Gateway-DAO/gateway-js-sdk/commit/fccb672166564bc921c5f20688a8134723318afe))
+* migrated to rest api ([8ac1db2](https://github.com/Gateway-DAO/gateway-js-sdk/commit/8ac1db26ea715a3acef039d77a10de45400d3cdf))
+* **organization:** finished organization class methods and tests ([d6445ca](https://github.com/Gateway-DAO/gateway-js-sdk/commit/d6445ca4c3783e2f29d1ed042d7fa241f367463a))
+* **pda:** finished pda methods and tests ([a99497b](https://github.com/Gateway-DAO/gateway-js-sdk/commit/a99497bc64a0f858eedb2afc03197b1099c25b0e))
+* Refactor GatewayV3 class and initialize modules ([b41efbf](https://github.com/Gateway-DAO/gateway-js-sdk/commit/b41efbfd80b1a2fe47771f3f6321a1706c7c9366))
+* refactored pda class and added crypto methods ([0c471a0](https://github.com/Gateway-DAO/gateway-js-sdk/commit/0c471a06e166246e97f90f932e481185ff6cf8c8))
+* started process of adding v3 queries and mutations ([d3338d0](https://github.com/Gateway-DAO/gateway-js-sdk/commit/d3338d03001ccebf43f331b33eeaa15bf6fca164))
+* tests for data-model class ([878b0ba](https://github.com/Gateway-DAO/gateway-js-sdk/commit/878b0ba8534a6d5258e1dfa5e3001aaa72431866))
+* **user:** finished user class methods and tests ([549e539](https://github.com/Gateway-DAO/gateway-js-sdk/commit/549e53901e33503d787cbfb4e36b1bd28aa505e6))
+* v3 datamodel class ([ce60e7b](https://github.com/Gateway-DAO/gateway-js-sdk/commit/ce60e7ba80b6df74dc97275b9f16ffb87e60579d))
+
+
+### Reverts
+
+* tests files ([a690a27](https://github.com/Gateway-DAO/gateway-js-sdk/commit/a690a274293591377e2b03b7dc10d0fce9e2512d))
+
+# [2.1.0-develop.14](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.13...v2.1.0-develop.14) (2024-09-12)
+
+### Bug Fixes
+
+- added enum support to script ([9fd1483](https://github.com/Gateway-DAO/gateway-js-sdk/commit/9fd148362224fdc0b31996dbf0cbea0bb9756890))
+- added types.ts to eslintignore ([acdc241](https://github.com/Gateway-DAO/gateway-js-sdk/commit/acdc241bc09193c9a49af758525f5060010d304d))
+- removed config from account class ([8c53d2f](https://github.com/Gateway-DAO/gateway-js-sdk/commit/8c53d2f0514ad47daec072f56598b567331a6916))
+- removed model prefix from types ([f18c913](https://github.com/Gateway-DAO/gateway-js-sdk/commit/f18c913145bc95edad70048cb1af7b58a54e24b5))
+- updated types as per swagger ([3f9a8bd](https://github.com/Gateway-DAO/gateway-js-sdk/commit/3f9a8bd525e1c9e417906656ff3831bf16f34cf1))
+
+### Features
+
+- added setup for unit test ([52f62c2](https://github.com/Gateway-DAO/gateway-js-sdk/commit/52f62c200a2c5a55dc0f56e5510567ebc7015901))
 
 # [2.1.0-develop.13](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.12...v2.1.0-develop.13) (2024-09-09)
 
