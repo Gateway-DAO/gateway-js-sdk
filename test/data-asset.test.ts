@@ -1,5 +1,6 @@
 import createClient from 'openapi-fetch';
 import {
+  bodyStub,
   errorMessage,
   ID,
   linksStub,
@@ -9,6 +10,7 @@ import {
   mockGet,
   mockPost,
   mockPut,
+  paramsStub,
   successMessage,
 } from './stubs/common.stub';
 import { DataAsset } from '../src/modules/data-asset/data-asset';
@@ -20,6 +22,7 @@ import {
   blobStub,
   dataAssetStub,
 } from './stubs/data-asset.stub';
+import { routes } from '../src/common/routes';
 
 jest.mock('openapi-fetch');
 
@@ -43,7 +46,10 @@ describe('Data Assets Test', () => {
     const pdaId = await dataAsset.createClaimBasedDataAsset();
 
     expect(pdaId).toBeDefined();
-    expect(mockPost).toHaveBeenCalled();
+    expect(mockPost).toHaveBeenCalledWith(
+      routes.CreateANewDataAsset,
+      bodyStub(),
+    );
   });
 
   it('should throw GTWError for create claim based data asset', async () => {
@@ -52,7 +58,10 @@ describe('Data Assets Test', () => {
     await expect(dataAsset.createClaimBasedDataAsset()).rejects.toThrow(
       GTWError,
     );
-    expect(mockPost).toHaveBeenCalled();
+    expect(mockPost).toHaveBeenCalledWith(
+      routes.CreateANewDataAsset,
+      bodyStub(),
+    );
   });
 
   it('should get my data assets', async () => {
@@ -66,7 +75,7 @@ describe('Data Assets Test', () => {
 
     expect(data).toBeDefined();
     expect(data.data.length).toBeGreaterThan(0);
-    expect(mockGet).toHaveBeenCalled();
+    expect(mockGet).toHaveBeenCalledWith(routes.GetMyDataAssets, paramsStub());
   });
 
   it('should throw GTWError for get my data assets', async () => {
@@ -74,7 +83,7 @@ describe('Data Assets Test', () => {
 
     await expect(dataAsset.getMyDataAssets()).rejects.toThrow(GTWError);
 
-    expect(mockGet).toHaveBeenCalled();
+    expect(mockGet).toHaveBeenCalledWith(routes.GetMyDataAssets, paramsStub());
   });
 
   it('should get data asset by id', async () => {
@@ -87,7 +96,10 @@ describe('Data Assets Test', () => {
     const data = await dataAsset.getDataAssetById(ID);
 
     expect(data).toBeDefined();
-    expect(mockGet).toHaveBeenCalled();
+    expect(mockGet).toHaveBeenCalledWith(
+      routes.GetDataAssetByID,
+      paramsStub({ params: { path: { id: 1 } } }),
+    );
   });
 
   it('should throw GTWError for get data asset by id', async () => {
@@ -95,7 +107,10 @@ describe('Data Assets Test', () => {
 
     await expect(dataAsset.getDataAssetById(ID)).rejects.toThrow(GTWError);
 
-    expect(mockGet).toHaveBeenCalled();
+    expect(mockGet).toHaveBeenCalledWith(
+      routes.GetDataAssetByID,
+      paramsStub({ params: { path: { id: 1 } } }),
+    );
   });
 
   it('should update data asset', async () => {
@@ -104,14 +119,20 @@ describe('Data Assets Test', () => {
     const updatedDataAsset = await dataAsset.updateDataAsset(ID);
 
     expect(updatedDataAsset).toBeDefined();
-    expect(mockPut).toHaveBeenCalled();
+    expect(mockPut).toHaveBeenCalledWith(routes.UpdateDataAssetByID, {
+      body: {},
+      params: paramsStub({ params: { path: { id: 1 } } }).params,
+    });
   });
 
   it('should throw GTWError for update data asset', async () => {
     mockPut.mockResolvedValue(errorMessage());
 
     await expect(dataAsset.updateDataAsset(ID)).rejects.toThrow(GTWError);
-    expect(mockPut).toHaveBeenCalled();
+    expect(mockPut).toHaveBeenCalledWith(routes.UpdateDataAssetByID, {
+      body: {},
+      params: paramsStub({ params: { path: { id: 1 } } }).params,
+    });
   });
 
   it('should delete data asset by id', async () => {
@@ -120,14 +141,20 @@ describe('Data Assets Test', () => {
     const deleteDataAsset = await dataAsset.deleteDataAsset(ID);
 
     expect(deleteDataAsset).toBeDefined();
-    expect(mockDelete).toHaveBeenCalled();
+    expect(mockDelete).toHaveBeenCalledWith(
+      routes.DeleteDataAssetByID,
+      paramsStub({ params: { path: { id: 1 } } }),
+    );
   });
 
   it('should throw GTWError for delete data asset by id', async () => {
     mockDelete.mockResolvedValue(errorMessage());
 
     await expect(dataAsset.deleteDataAsset(ID)).rejects.toThrow(GTWError);
-    expect(mockDelete).toHaveBeenCalled();
+    expect(mockDelete).toHaveBeenCalledWith(
+      routes.DeleteDataAssetByID,
+      paramsStub({ params: { path: { id: 1 } } }),
+    );
   });
 
   it('should update acl', async () => {
@@ -136,7 +163,10 @@ describe('Data Assets Test', () => {
     const aclList = await dataAsset.updateACL(ID, [aclListStub()]);
 
     expect(aclList).toBeDefined();
-    expect(mockPut).toHaveBeenCalled();
+    expect(mockPut).toHaveBeenCalledWith(routes.UpdateACLItemsToDataAsset, {
+      body: bodyStub({ body: [aclListStub()] }).body,
+      params: paramsStub({ params: { path: { id: 1 } } }).params,
+    });
   });
 
   it('should throw GTWError for updating acl', async () => {
@@ -145,7 +175,10 @@ describe('Data Assets Test', () => {
     await expect(dataAsset.updateACL(ID, [aclListStub()])).rejects.toThrow(
       GTWError,
     );
-    expect(mockPut).toHaveBeenCalled();
+    expect(mockPut).toHaveBeenCalledWith(routes.UpdateACLItemsToDataAsset, {
+      body: bodyStub({ body: [aclListStub()] }).body,
+      params: paramsStub({ params: { path: { id: 1 } } }).params,
+    });
   });
 
   it('should override acl', async () => {
@@ -154,7 +187,10 @@ describe('Data Assets Test', () => {
     const aclList = await dataAsset.overrideACL(ID, [aclListStub()]);
 
     expect(aclList).toBeDefined();
-    expect(mockPost).toHaveBeenCalled();
+    expect(mockPost).toHaveBeenCalledWith(routes.AssignACLItemsToDataAsset, {
+      body: bodyStub({ body: [aclListStub()] }).body,
+      params: paramsStub({ params: { path: { id: 1 } } }).params,
+    });
   });
 
   it('should throw GTWError for override acl', async () => {
@@ -163,7 +199,10 @@ describe('Data Assets Test', () => {
     await expect(dataAsset.overrideACL(ID, [aclListStub()])).rejects.toThrow(
       GTWError,
     );
-    expect(mockPost).toHaveBeenCalled();
+    expect(mockPost).toHaveBeenCalledWith(routes.AssignACLItemsToDataAsset, {
+      body: bodyStub({ body: [aclListStub()] }).body,
+      params: paramsStub({ params: { path: { id: 1 } } }).params,
+    });
   });
 
   it('should delete acl', async () => {
@@ -172,7 +211,10 @@ describe('Data Assets Test', () => {
     const message = await dataAsset.deleteACL(ID, [aclListStub()]);
 
     expect(message).toBeDefined();
-    expect(mockDelete).toHaveBeenCalled();
+    expect(mockDelete).toHaveBeenCalledWith(routes.DeleteAssignedRoleByACL, {
+      body: bodyStub({ body: [aclListStub()] }).body,
+      params: paramsStub({ params: { path: { id: 1 } } }).params,
+    });
   });
 
   it('should throw GTWError for updating acl', async () => {
@@ -181,7 +223,10 @@ describe('Data Assets Test', () => {
     await expect(dataAsset.deleteACL(ID, [aclListStub()])).rejects.toThrow(
       GTWError,
     );
-    expect(mockDelete).toHaveBeenCalled();
+    expect(mockDelete).toHaveBeenCalledWith(routes.DeleteAssignedRoleByACL, {
+      body: bodyStub({ body: [aclListStub()] }).body,
+      params: paramsStub({ params: { path: { id: 1 } } }).params,
+    });
   });
 
   it('should share data asset', async () => {
