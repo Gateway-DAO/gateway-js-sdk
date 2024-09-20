@@ -68,7 +68,7 @@ export class DataAsset {
     );
     const { data, error, response } = await this.client.POST('/data-assets', {
       body: {},
-      bodySerializer(body) {
+      bodySerializer() {
         return formData;
       },
     });
@@ -96,7 +96,7 @@ export class DataAsset {
    * function returns the fetched data.
    */
   public async getMyDataAssets(page: number = 1, page_size: number = 10) {
-    let { data, response, error } = await this.client.GET('/data-assets/me', {
+    const { data, response, error } = await this.client.GET('/data-assets/me', {
       params: { query: { page, page_size } },
     });
 
@@ -180,7 +180,7 @@ export class DataAsset {
       {
         params: { path: { id } },
         body: {},
-        bodySerializer(body) {
+        bodySerializer() {
           return formData;
         },
       },
