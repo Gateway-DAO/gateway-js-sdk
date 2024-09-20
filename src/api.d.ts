@@ -84,7 +84,35 @@ export interface paths {
     delete?: never;
     options?: never;
     head?: never;
-    patch?: never;
+    /**
+     * Update account
+     * @description Update account
+     */
+    patch: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Account data */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['model.AccountUpdateRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['model.MyAccountResponse'];
+          };
+        };
+      };
+    };
     trace?: never;
   };
   '/auth': {
@@ -220,7 +248,7 @@ export interface paths {
     put?: never;
     /**
      * Create a new data asset
-     * @description Create a new data asset. For structured data submission, use application/json. For file uploads, use multipart/form-data. Note: All date fields must be in RFC 3339 format (e.g., 2025-09-02T14:31:00Z).
+     * @description Create a new data asset. Supports both structured data submission (application/json) and file uploads (multipart/form-data). Note: All date fields must be in RFC 3339 format (e.g., 2025-09-02T14:31:00Z).
      */
     post: {
       parameters: {
@@ -229,30 +257,24 @@ export interface paths {
         path?: never;
         cookie?: never;
       };
+      /** @description Create Data Asset Request. Use application/json for structured data. */
       requestBody?: {
         content: {
-          'application/json': {
+          'multipart/form-data': {
             /**
              * Format: binary
-             * @description File to be uploaded when using multipart/form-data
+             * @description File to be uploaded
              */
             data?: string;
-            /** @description Access control list (ACL) for the data asset (e.g., 'public-read') */
+            /** @description Access control list (ACL) for the data asset */
             acl?: string;
-            /** @description Expiration date for the data asset (in RFC 3339 format) */
-            expiration_date?: string;
-          };
-          ' multipart/form-data': {
             /**
-             * Format: binary
-             * @description File to be uploaded when using multipart/form-data
+             * Format: date-time
+             * @description Expiration date for the data asset (in RFC 3339 format)
              */
-            data?: string;
-            /** @description Access control list (ACL) for the data asset (e.g., 'public-read') */
-            acl?: string;
-            /** @description Expiration date for the data asset (in RFC 3339 format) */
             expiration_date?: string;
           };
+          'application/json': components['schemas']['model.CreateDataAssetRequest'];
         };
       };
       responses: {
@@ -305,7 +327,7 @@ export interface paths {
           };
           content: {
             'application/json': components['schemas']['helper.PaginatedResponse'] & {
-              data?: components['schemas']['model.PublicDataAsset'][];
+              data: components['schemas']['model.PublicDataAsset'][];
             };
           };
         };
@@ -367,30 +389,24 @@ export interface paths {
         };
         cookie?: never;
       };
+      /** @description Update Data Asset Request. Use application/json for structured data and multipart/form-data for file uploads. Dates should be in RFC 3339 format (e.g., 2025-09-02T14:31:00Z). */
       requestBody?: {
         content: {
-          'application/json': {
+          'multipart/form-data': {
             /**
              * Format: binary
-             * @description File to be uploaded when using multipart/form-data
+             * @description File to be uploaded
              */
             data?: string;
-            /** @description Access control list (ACL) for the data asset (e.g., 'public-read') */
+            /** @description Access control list (ACL) */
             acl?: string;
-            /** @description Expiration date for the data asset (in RFC 3339 format) */
-            expiration_date?: string;
-          };
-          ' multipart/form-data': {
             /**
-             * Format: binary
-             * @description File to be uploaded when using multipart/form-data
+             * Format: date-time
+             * @description Expiration date for the data asset (in RFC 3339 format)
              */
-            data?: string;
-            /** @description Access control list (ACL) for the data asset (e.g., 'public-read') */
-            acl?: string;
-            /** @description Expiration date for the data asset (in RFC 3339 format) */
             expiration_date?: string;
           };
+          'application/json': components['schemas']['model.UpdateDataAssetRequest'];
         };
       };
       responses: {
@@ -516,7 +532,10 @@ export interface paths {
      */
     delete: {
       parameters: {
-        query?: never;
+        query: {
+          /** @description Comma-separated list of ACL IDs to delete */
+          acl_ids: number[];
+        };
         header?: never;
         path: {
           /** @description Data Asset ID */
@@ -524,12 +543,7 @@ export interface paths {
         };
         cookie?: never;
       };
-      /** @description Delete Assigned ACL Items Request */
-      requestBody: {
-        content: {
-          'application/json': components['schemas']['model.ACLRequest'][];
-        };
-      };
+      requestBody?: never;
       responses: {
         /** @description OK */
         200: {
@@ -846,7 +860,7 @@ export interface components {
       total_pages: number;
     };
     'helper.PaginatedResponse': {
-      data: Record<string, never>;
+      data: unknown;
       links: components['schemas']['helper.Links'];
       meta: components['schemas']['helper.Meta'];
     };
@@ -861,6 +875,10 @@ export interface components {
       signature: string;
       username: string;
       wallet_address: string;
+    };
+    'model.AccountUpdateRequest': {
+      profile_picture?: string;
+      username?: string;
     };
     'model.AuthRequest': {
       message: string;
@@ -904,6 +922,7 @@ export interface components {
       profile_picture?: string;
       updated_at?: string;
       username?: string;
+      username_updated_at?: string;
       wallet_address?: string;
     };
     'model.PublicACL': {

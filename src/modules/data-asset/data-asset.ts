@@ -1,6 +1,7 @@
 import { MediaType } from 'openapi-typescript-helpers';
 import {
   ACLRequest,
+  CreateDataAssetRequest,
   HelperPaginatedResponse,
   OpenAPIClient,
   PublicACL,
@@ -24,15 +25,17 @@ export class DataAsset {
 
   /**
    * This function creates a data asset based on a provided request using a POST request.
-   * @param {CreateDataAssetRequest} dataAsset - The `dataAsset` parameter in the
+   * @param {CreateDataAssetRequest} claimDataAssetBody - The `claimDataAssetBody` parameter in the
    * `createClaimBasedDataAsset` function is of type `CreateDataAssetRequest`. This parameter likely
    * contains the necessary information needed to create a new data asset, such as metadata,
    * permissions, and other relevant details.
    * @returns The `data` variable is being returned from the `createClaimBasedDataAsset` function.
    */
-  public async createClaimBasedDataAsset() {
+  public async createClaimBasedDataAsset(
+    claimDataAssetBody: CreateDataAssetRequest,
+  ) {
     const { data, error, response } = await this.client.POST('/data-assets', {
-      body: { data: '' },
+      body: claimDataAssetBody,
     });
 
     if (error) {
@@ -42,7 +45,40 @@ export class DataAsset {
     return data.id;
   }
 
-  public async createFileBasedDataAsset() {}
+  /**
+   * The function `createFileBasedDataAsset` asynchronously creates a data asset using a file buffer
+   * and file name.
+   * @param {string} fileName - The `fileName` parameter is a string that represents the name of the
+   * file being uploaded as a data asset.
+   * @param {Buffer} fileBuffer - The `fileBuffer` parameter in the `createFileBasedDataAsset` function
+   * is a `Buffer` object that contains the data of the file to be uploaded as a data asset. It is used
+   * to create a Blob object that represents the file data in the FormData object before sending it to
+   * the server
+   * @returns The `createFileBasedDataAsset` function is returning the `id` of the data asset that was
+   * created.
+   */
+  public async createFileBasedDataAsset(fileName: string, fileBuffer: Buffer) {
+    const formData = new FormData();
+    const { extension } = this.validationService.validateFileName(fileName);
+
+    formData.append(
+      'data',
+      new Blob([fileBuffer], { type: extension }),
+      fileName,
+    );
+    const { data, error, response } = await this.client.POST('/data-assets', {
+      body: {},
+      bodySerializer() {
+        return formData;
+      },
+    });
+
+    if (error) {
+      throw new GTWError(error, response);
+    }
+
+    return data.id;
+  }
 
   /**
    * This TypeScript function asynchronously retrieves data assets belonging to the current user with
@@ -59,10 +95,7 @@ export class DataAsset {
    * `GTWError` is thrown with the error and response details. If the request is successful, the
    * function returns the fetched data.
    */
-  public async getMyDataAssets(
-    page: number = 1,
-    page_size: number = 10,
-  ): Promise<HelperPaginatedResponse<PublicDataAsset[]>> {
+  public async getMyDataAssets(page: number = 1, page_size: number = 10) {
     const { data, response, error } = await this.client.GET('/data-assets/me', {
       params: { query: { page, page_size } },
     });
@@ -70,7 +103,8 @@ export class DataAsset {
     if (error) {
       throw new GTWError(error, response);
     }
-    return data;
+
+    return data as HelperPaginatedResponse<PublicDataAsset[]>;
   }
 
   /**
@@ -99,12 +133,56 @@ export class DataAsset {
     return data;
   }
 
-  public async updateDataAsset(id: number): Promise<PublicDataAsset> {
+  /**
+   * This TypeScript function updates a claim-based data asset using a PUT request.
+   * @param {number} id - The `id` parameter is a number that represents the identifier of the data
+   * asset that you want to update.
+   * @param {CreateDataAssetRequest} claimDataAssetBody - The `claimDataAssetBody` parameter in the
+   * `updateClaimBasedDataAsset` function is of type `CreateDataAssetRequest`. It contains the data
+   * necessary to update a data asset based on a claim.
+   * @returns The `updateClaimBasedDataAsset` function returns a Promise that resolves to a
+   * `PublicDataAsset` object.
+   */
+  public async updateClaimBasedDataAsset(
+    id: number,
+    claimDataAssetBody: CreateDataAssetRequest,
+  ): Promise<PublicDataAsset> {
+    const { data, error, response } = await this.client.PUT(
+      '/data-assets/{id}',
+      {
+        params: { path: { id } },
+        body: claimDataAssetBody,
+      },
+    );
+
+    if (error) {
+      throw new GTWError(error, response);
+    }
+
+    return data;
+  }
+
+  public async updateFileBasedDataAsset(
+    id: number,
+    fileName: string,
+    fileBuffer: Buffer,
+  ) {
+    const formData = new FormData();
+    const { extension } = this.validationService.validateFileName(fileName);
+
+    formData.append(
+      'data',
+      new Blob([fileBuffer], { type: extension }),
+      fileName,
+    );
     const { data, error, response } = await this.client.PUT(
       '/data-assets/{id}',
       {
         params: { path: { id } },
         body: {},
+        bodySerializer() {
+          return formData;
+        },
       },
     );
 
@@ -211,12 +289,11 @@ export class DataAsset {
    * @returns The `deleteACL` function is returning the `data` object after making a DELETE request to
    * the specified endpoint with the provided ACL list.
    */
-  public async deleteACL(id: number, aclList: ACLRequest[]) {
+  public async deleteACL(id: number, aclList: number[]) {
     const { data, error, response } = await this.client.DELETE(
       '/data-assets/{id}/acl',
       {
-        params: { path: { id } },
-        body: aclList,
+        params: { path: { id }, query: { acl_ids: aclList } },
       },
     );
 

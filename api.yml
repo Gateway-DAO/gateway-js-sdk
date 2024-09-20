@@ -1,27 +1,22 @@
-openapi: 3.0.1
+openapi: 3.0.0
 info:
+  description: This is Gateway API to upload files and create a easy way to integrate with Gateway Protocol.
   title: Gateway API
-  description:
-    This is Gateway API to upload files and create a easy way to integrate
-    with Gateway Protocol.
   contact: {}
   version: 3.0.0-beta
-servers:
-  - url: https://dev.api.gateway.tech/
-  - url: http://dev.api.gateway.tech/
 paths:
   /accounts:
     post:
+      description: Create a new account
       tags:
         - Accounts
       summary: Create account
-      description: Create a new account
       requestBody:
-        description: Account data
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/model.AccountCreateRequest'
+        description: Account data
         required: true
       responses:
         '201':
@@ -30,13 +25,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/model.TokenResponse'
-      x-codegen-request-body-name: account
   /accounts/me:
     get:
+      security:
+        - BearerAuth: []
+      description: Get my account
       tags:
         - Accounts
       summary: Get my account
-      description: Get my account
       responses:
         '200':
           description: OK
@@ -44,20 +40,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/model.MyAccountResponse'
+    patch:
       security:
         - BearerAuth: []
+      description: Update account
+      tags:
+        - Accounts
+      summary: Update account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/model.AccountUpdateRequest'
+        description: Account data
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/model.MyAccountResponse'
   /auth:
     post:
+      description: Authenticate account
       tags:
         - Auth
       summary: Authenticate account
-      description: Authenticate account
       requestBody:
-        description: model.AuthRequest
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/model.AuthRequest'
+        description: model.AuthRequest
         required: true
       responses:
         '200':
@@ -66,13 +81,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/model.TokenResponse'
-      x-codegen-request-body-name: authRequest
   /auth/message:
     get:
+      description: Generate sign message
       tags:
         - Auth
       summary: Generate sign message
-      description: Generate sign message
       responses:
         '200':
           description: OK
@@ -82,10 +96,12 @@ paths:
                 $ref: '#/components/schemas/model.MessageResponse'
   /auth/refresh-token:
     get:
+      security:
+        - BearerAuth: []
+      description: Refresh token
       tags:
         - Auth
       summary: Refresh token
-      description: Refresh token
       responses:
         '200':
           description: OK
@@ -93,51 +109,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/model.TokenResponse'
-      security:
-        - BearerAuth: []
   /data-assets:
     post:
+      security:
+        - BearerAuth: []
+      description: 'Create a new data asset. Supports both structured data submission (application/json) and file uploads (multipart/form-data). Note: All date fields must be in RFC 3339 format (e.g., 2025-09-02T14:31:00Z).'
       tags:
         - Data assets
       summary: Create a new data asset
-      description:
-        "Create a new data asset. For structured data submission, use application/json.\
-        \ For file uploads, use multipart/form-data. Note: All date fields must be\
-        \ in RFC 3339 format (e.g., 2025-09-02T14:31:00Z)."
       requestBody:
         content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: string
+                  format: binary
+                  description: File to be uploaded
+                acl:
+                  type: string
+                  description: Access control list (ACL) for the data asset
+                expiration_date:
+                  type: string
+                  format: date-time
+                  description: Expiration date for the data asset (in RFC 3339 format)
           application/json:
             schema:
-              type: object
-              properties:
-                data:
-                  type: string
-                  description: File to be uploaded when using multipart/form-data
-                  format: binary
-                acl:
-                  type: string
-                  description:
-                    "Access control list (ACL) for the data asset (e.g.,\
-                    \ 'public-read')"
-                expiration_date:
-                  type: string
-                  description: Expiration date for the data asset (in RFC 3339 format)
-          ' multipart/form-data':
-            schema:
-              type: object
-              properties:
-                data:
-                  type: string
-                  description: File to be uploaded when using multipart/form-data
-                  format: binary
-                acl:
-                  type: string
-                  description:
-                    "Access control list (ACL) for the data asset (e.g.,\
-                    \ 'public-read')"
-                expiration_date:
-                  type: string
-                  description: Expiration date for the data asset (in RFC 3339 format)
+              $ref: '#/components/schemas/model.CreateDataAssetRequest'
+        description: Create Data Asset Request. Use application/json for structured data.
       responses:
         '201':
           description: Created
@@ -145,24 +145,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/model.DataAssetIDRequestAndResponse'
-      security:
-        - BearerAuth: []
-      x-codegen-request-body-name: data
   /data-assets/me:
     get:
+      security:
+        - BearerAuth: []
+      description: Get all data assets that belong to the authenticated user
       tags:
         - Data assets
       summary: Get my data assets
-      description: Get all data assets that belong to the authenticated user
       parameters:
-        - name: page
+        - description: Page number
+          name: page
           in: query
-          description: Page number
           schema:
             type: integer
-        - name: page_size
+        - description: Page size
+          name: page_size
           in: query
-          description: Page size
           schema:
             type: integer
       responses:
@@ -174,23 +173,25 @@ paths:
                 allOf:
                   - $ref: '#/components/schemas/helper.PaginatedResponse'
                   - type: object
+                    required:
+                      - data
                     properties:
                       data:
                         type: array
                         items:
                           $ref: '#/components/schemas/model.PublicDataAsset'
-      security:
-        - BearerAuth: []
   /data-assets/{id}:
     get:
+      security:
+        - BearerAuth: []
+      description: Get data asset by ID
       tags:
         - Data assets
       summary: Get data asset by ID
-      description: Get data asset by ID
       parameters:
-        - name: id
+        - description: Data Asset ID
+          name: id
           in: path
-          description: Data Asset ID
           required: true
           schema:
             type: integer
@@ -201,57 +202,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/model.PublicDataAsset'
+    put:
       security:
         - BearerAuth: []
-    put:
+      description: 'Update data asset by ID. For structured data submission, use application/json. For file uploads, use multipart/form-data. Note: All date fields must be in RFC 3339 format (e.g., 2025-09-02T14:31:00Z).'
       tags:
         - Data assets
       summary: Update data asset by ID
-      description:
-        "Update data asset by ID. For structured data submission, use application/json.\
-        \ For file uploads, use multipart/form-data. Note: All date fields must be\
-        \ in RFC 3339 format (e.g., 2025-09-02T14:31:00Z)."
       parameters:
-        - name: id
+        - description: Data Asset ID
+          name: id
           in: path
-          description: Data Asset ID
           required: true
           schema:
             type: integer
       requestBody:
         content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: string
+                  format: binary
+                  description: File to be uploaded
+                acl:
+                  type: string
+                  description: Access control list (ACL)
+                expiration_date:
+                  type: string
+                  format: date-time
+                  description: Expiration date for the data asset (in RFC 3339 format)
           application/json:
             schema:
-              type: object
-              properties:
-                data:
-                  type: string
-                  description: File to be uploaded when using multipart/form-data
-                  format: binary
-                acl:
-                  type: string
-                  description:
-                    "Access control list (ACL) for the data asset (e.g.,\
-                    \ 'public-read')"
-                expiration_date:
-                  type: string
-                  description: Expiration date for the data asset (in RFC 3339 format)
-          ' multipart/form-data':
-            schema:
-              type: object
-              properties:
-                data:
-                  type: string
-                  description: File to be uploaded when using multipart/form-data
-                  format: binary
-                acl:
-                  type: string
-                  description:
-                    "Access control list (ACL) for the data asset (e.g.,\
-                    \ 'public-read')"
-                expiration_date:
-                  type: string
-                  description: Expiration date for the data asset (in RFC 3339 format)
+              $ref: '#/components/schemas/model.UpdateDataAssetRequest'
+        description: Update Data Asset Request. Use application/json for structured data and multipart/form-data for file uploads. Dates should be in RFC 3339 format (e.g., 2025-09-02T14:31:00Z).
       responses:
         '200':
           description: OK
@@ -259,18 +244,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/model.PublicDataAsset'
+    delete:
       security:
         - BearerAuth: []
-      x-codegen-request-body-name: data
-    delete:
+      description: Delete data asset by ID
       tags:
         - Data assets
       summary: Delete data asset by ID
-      description: Delete data asset by ID
       parameters:
-        - name: id
+        - description: Data Asset ID
+          name: id
           in: path
-          description: Data Asset ID
           required: true
           schema:
             type: integer
@@ -281,29 +265,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/responses.MessageResponse'
-      security:
-        - BearerAuth: []
   /data-assets/{id}/acl:
     put:
+      security:
+        - BearerAuth: []
+      description: Update ACL items to data asset
       tags:
         - Data assets
       summary: Update ACL items to data asset
-      description: Update ACL items to data asset
       parameters:
-        - name: id
+        - description: Data Asset ID
+          name: id
           in: path
-          description: Data Asset ID
           required: true
           schema:
             type: integer
       requestBody:
-        description: Update ACL Items Request
         content:
           application/json:
             schema:
               type: array
               items:
                 $ref: '#/components/schemas/model.ACLRequest'
+        description: Update ACL Items Request
         required: true
       responses:
         '201':
@@ -314,29 +298,28 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/model.PublicACL'
+    post:
       security:
         - BearerAuth: []
-      x-codegen-request-body-name: body
-    post:
+      description: Assign ACL items to data asset
       tags:
         - Data assets
       summary: Assign ACL items to data asset
-      description: Assign ACL items to data asset
       parameters:
-        - name: id
+        - description: Data Asset ID
+          name: id
           in: path
-          description: Data Asset ID
           required: true
           schema:
             type: integer
       requestBody:
-        description: Assign ACL Items Request
         content:
           application/json:
             schema:
               type: array
               items:
                 $ref: '#/components/schemas/model.ACLRequest'
+        description: Assign ACL Items Request
         required: true
       responses:
         '201':
@@ -347,30 +330,30 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/model.PublicACL'
+    delete:
       security:
         - BearerAuth: []
-      x-codegen-request-body-name: body
-    delete:
+      description: Delete assigned role by ACL
       tags:
         - Data assets
       summary: Delete assigned role by ACL
-      description: Delete assigned role by ACL
       parameters:
-        - name: id
+        - description: Data Asset ID
+          name: id
           in: path
-          description: Data Asset ID
           required: true
           schema:
             type: integer
-      requestBody:
-        description: Delete Assigned ACL Items Request
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/model.ACLRequest'
-        required: true
+        - description: Comma-separated list of ACL IDs to delete
+          name: acl_ids
+          in: query
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: integer
       responses:
         '200':
           description: OK
@@ -378,19 +361,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/responses.MessageResponse'
-      security:
-        - BearerAuth: []
-      x-codegen-request-body-name: body
   /data-assets/{id}/download:
     get:
+      security:
+        - BearerAuth: []
+      description: Download data asset by ID
       tags:
         - Data assets
       summary: Download data asset by ID
-      description: Download data asset by ID
       parameters:
-        - name: id
+        - description: Data Asset ID
+          name: id
           in: path
-          description: Data Asset ID
           required: true
           schema:
             type: integer
@@ -403,27 +385,27 @@ paths:
                 type: array
                 items:
                   type: integer
-      security:
-        - BearerAuth: []
   /data-assets/{id}/share:
     post:
+      security:
+        - BearerAuth: []
+      description: Share data asset by ID. To share you need to have a sharing role.
       tags:
         - Data assets
       summary: Share data asset by ID
-      description: Share data asset by ID. To share you need to have a sharing role.
       parameters:
-        - name: id
+        - description: Data Asset ID
+          name: id
           in: path
-          description: Data Asset ID
           required: true
           schema:
             type: integer
       requestBody:
-        description: Share Data Asset Request
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/model.ShareDataAssetRequest'
+        description: Share Data Asset Request
         required: true
       responses:
         '200':
@@ -434,25 +416,22 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/model.PublicACL'
-      security:
-        - BearerAuth: []
-      x-codegen-request-body-name: data
   /data-models:
     get:
+      description: Get all data models
       tags:
         - Data models
       summary: Get data models
-      description: Get all data models
       parameters:
-        - name: page
+        - description: Page number
+          name: page
           in: query
-          description: Page number
           schema:
             type: integer
             default: 1
-        - name: page_size
+        - description: Page size
+          name: page_size
           in: query
-          description: Page size
           schema:
             type: integer
             default: 10
@@ -471,16 +450,18 @@ paths:
                         items:
                           $ref: '#/components/schemas/model.DataModel'
     post:
+      security:
+        - BearerAuth: []
+      description: Create a new data model
       tags:
         - Data models
       summary: Create data model
-      description: Create a new data model
       requestBody:
-        description: Data Model
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/model.DataModelRequest'
+        description: Data Model
         required: true
       responses:
         '201':
@@ -489,25 +470,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/model.DataModel'
-      security:
-        - BearerAuth: []
-      x-codegen-request-body-name: data_model
   /data-models/me:
     get:
+      security:
+        - BearerAuth: []
+      description: Get all data models created by a user
       tags:
         - Data models
       summary: Get data models by user
-      description: Get all data models created by a user
       parameters:
-        - name: page
+        - description: Page number
+          name: page
           in: query
-          description: Page number
           schema:
             type: integer
             default: 1
-        - name: page_size
+        - description: Page size
+          name: page_size
           in: query
-          description: Page size
           schema:
             type: integer
             default: 10
@@ -525,18 +505,16 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/model.DataModel'
-      security:
-        - BearerAuth: []
   /data-models/{id}:
     get:
+      description: Get a data model by its ID
       tags:
         - Data models
       summary: Get data model by ID
-      description: Get a data model by its ID
       parameters:
-        - name: id
+        - description: Data Model ID
+          name: id
           in: path
-          description: Data Model ID
           required: true
           schema:
             type: integer
@@ -548,23 +526,25 @@ paths:
               schema:
                 $ref: '#/components/schemas/model.DataModel'
     put:
+      security:
+        - BearerAuth: []
+      description: Update a data model
       tags:
         - Data models
       summary: Update data model
-      description: Update a data model
       parameters:
-        - name: id
+        - description: Data Model ID
+          name: id
           in: path
-          description: Data Model ID
           required: true
           schema:
             type: integer
       requestBody:
-        description: Data Model
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/model.DataModel'
+        description: Data Model
         required: true
       responses:
         '200':
@@ -573,18 +553,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/model.DataModel'
-      security:
-        - BearerAuth: []
-      x-codegen-request-body-name: data_model
+servers:
+  - url: https://localhost:8080
+  - url: http://localhost:8080
 components:
+  securitySchemes:
+    BearerAuth:
+      description: Type "Bearer" followed by a space and the JWT token.
+      type: apiKey
+      name: Authorization
+      in: header
   schemas:
     helper.Links:
+      type: object
       required:
         - first
         - last
         - next
         - previous
-      type: object
       properties:
         first:
           type: string
@@ -595,12 +581,12 @@ components:
         previous:
           type: string
     helper.Meta:
+      type: object
       required:
         - current_page
         - items_per_page
         - total_items
         - total_pages
-      type: object
       properties:
         current_page:
           type: integer
@@ -611,23 +597,22 @@ components:
         total_pages:
           type: integer
     helper.PaginatedResponse:
+      type: object
       required:
         - data
         - links
         - meta
-      type: object
       properties:
-        data:
-          type: object
+        data: {}
         links:
           $ref: '#/components/schemas/helper.Links'
         meta:
           $ref: '#/components/schemas/helper.Meta'
     model.ACLRequest:
+      type: object
       required:
         - address
         - roles
-      type: object
       properties:
         address:
           type: string
@@ -648,12 +633,12 @@ components:
         - RoleDelete
         - RoleShare
     model.AccountCreateRequest:
+      type: object
       required:
         - message
         - signature
         - username
         - wallet_address
-      type: object
       properties:
         message:
           type: string
@@ -663,12 +648,19 @@ components:
           type: string
         wallet_address:
           type: string
+    model.AccountUpdateRequest:
+      type: object
+      properties:
+        profile_picture:
+          type: string
+        username:
+          type: string
     model.AuthRequest:
+      type: object
       required:
         - message
         - signature
         - wallet_address
-      type: object
       properties:
         message:
           type: string
@@ -677,9 +669,9 @@ components:
         wallet_address:
           type: string
     model.CreateDataAssetRequest:
+      type: object
       required:
         - name
-      type: object
       properties:
         acl:
           type: array
@@ -687,7 +679,6 @@ components:
             $ref: '#/components/schemas/model.ACLRequest'
         claim:
           type: object
-          properties: {}
         data_model_id:
           type: integer
         expiration_date:
@@ -699,9 +690,9 @@ components:
           items:
             type: string
     model.DataAssetIDRequestAndResponse:
+      type: object
       required:
         - id
-      type: object
       properties:
         id:
           type: integer
@@ -720,7 +711,6 @@ components:
           type: integer
         schema:
           type: object
-          properties: {}
         tags:
           type: array
           items:
@@ -730,17 +720,16 @@ components:
         updated_at:
           type: string
     model.DataModelRequest:
+      type: object
       required:
         - description
         - schema
         - title
-      type: object
       properties:
         description:
           type: string
         schema:
           type: object
-          properties: {}
         tags:
           type: array
           items:
@@ -748,9 +737,9 @@ components:
         title:
           type: string
     model.MessageResponse:
+      type: object
       required:
         - message
-      type: object
       properties:
         message:
           type: string
@@ -766,6 +755,8 @@ components:
         updated_at:
           type: string
         username:
+          type: string
+        username_updated_at:
           type: string
         wallet_address:
           type: string
@@ -787,6 +778,7 @@ components:
         updated_at:
           type: string
     model.PublicDataAsset:
+      type: object
       required:
         - created_by
         - fid
@@ -796,7 +788,6 @@ components:
         - tags
         - transaction_id
         - type
-      type: object
       properties:
         acl:
           type: array
@@ -836,9 +827,9 @@ components:
           items:
             type: string
     model.TokenResponse:
+      type: object
       required:
         - token
-      type: object
       properties:
         token:
           type: string
@@ -847,7 +838,6 @@ components:
       properties:
         claim:
           type: object
-          properties: {}
         expiration_date:
           type: string
         name:
@@ -857,10 +847,3 @@ components:
       properties:
         message:
           type: string
-  securitySchemes:
-    BearerAuth:
-      type: apiKey
-      description: Type "Bearer" followed by a space and the JWT token.
-      name: Authorization
-      in: header
-x-original-swagger-version: '2.0'
