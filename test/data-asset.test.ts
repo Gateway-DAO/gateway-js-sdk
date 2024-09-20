@@ -28,9 +28,11 @@ jest.mock('openapi-fetch');
 
 let dataAsset: DataAsset;
 let validationService: ValidationService;
+let mockValidateFileName: jest.SpyInstance;
 
 beforeAll(() => {
   (createClient as jest.Mock).mockReturnValue(mockClient);
+
   validationService = new ValidationService();
   dataAsset = new DataAsset(mockClient, validationService);
 });
@@ -43,25 +45,61 @@ describe('Data Assets Test', () => {
   it('should create claim based data asset', async () => {
     mockPost.mockResolvedValue(successMessage({ data: { id: ID } }));
 
-    const pdaId = await dataAsset.createClaimBasedDataAsset();
+    const pdaId = await dataAsset.createClaimBasedDataAsset({ name: 'test' });
 
     expect(pdaId).toBeDefined();
-    expect(mockPost).toHaveBeenCalledWith(
-      routes.CreateANewDataAsset,
-      bodyStub(),
-    );
+    expect(mockPost).toHaveBeenCalledWith(routes.CreateANewDataAsset, {
+      body: { name: 'test' },
+    });
   });
 
   it('should throw GTWError for create claim based data asset', async () => {
     mockPost.mockResolvedValue(errorMessage());
 
-    await expect(dataAsset.createClaimBasedDataAsset()).rejects.toThrow(
-      GTWError,
-    );
-    expect(mockPost).toHaveBeenCalledWith(
-      routes.CreateANewDataAsset,
-      bodyStub(),
-    );
+    await expect(
+      dataAsset.createClaimBasedDataAsset({ name: 'test' }),
+    ).rejects.toThrow(GTWError);
+    expect(mockPost).toHaveBeenCalledWith(routes.CreateANewDataAsset, {
+      body: { name: 'test' },
+    });
+  });
+
+  it('should create a file-based data asset successfully', async () => {
+    mockPost.mockResolvedValue(successMessage({ data: { id: ID } }));
+    const fileName = 'test.txt';
+    const fileBuffer = Buffer.from('test content');
+    mockValidateFileName = jest
+      .spyOn(validationService, 'validateFileName')
+      .mockReturnValue({
+        name: 'test-file',
+        extension: 'text/plain',
+      });
+    const id = await dataAsset.createFileBasedDataAsset(fileName, fileBuffer);
+
+    expect(mockValidateFileName).toHaveBeenCalledWith(fileName);
+    expect(mockPost).toHaveBeenCalledWith('/data-assets', {
+      body: {},
+      bodySerializer: expect.any(Function),
+    });
+
+    expect(id).toEqual(ID);
+  });
+
+  it('should throw GTWError on failure for create file data asset', async () => {
+    mockPost.mockResolvedValue(errorMessage());
+
+    const fileName = 'test.txt';
+    const fileBuffer = Buffer.from('test content');
+
+    await expect(
+      dataAsset.createFileBasedDataAsset(fileName, fileBuffer),
+    ).rejects.toThrow(GTWError);
+
+    expect(mockValidateFileName).toHaveBeenCalledWith(fileName);
+    expect(mockPost).toHaveBeenCalledWith('/data-assets', {
+      body: {},
+      bodySerializer: expect.any(Function),
+    });
   });
 
   it('should get my data assets', async () => {
@@ -113,25 +151,79 @@ describe('Data Assets Test', () => {
     );
   });
 
-  it('should update data asset', async () => {
-    mockPut.mockResolvedValue(successMessage({ data: dataAssetStub() }));
+  it('should update a claim-based data asset successfully', async () => {
+    const claimDataAssetBody = { name: 'Updated Data Asset' };
+    mockPut.mockResolvedValue(
+      successMessage({ data: { id: ID, name: 'Updated Data Asset' } }),
+    );
+    const result = await dataAsset.updateClaimBasedDataAsset(
+      ID,
+      claimDataAssetBody,
+    );
 
-    const updatedDataAsset = await dataAsset.updateDataAsset(ID);
+    expect(mockPut).toHaveBeenCalledWith('/data-assets/{id}', {
+      params: { path: { id: ID } },
+      body: claimDataAssetBody,
+    });
 
-    expect(updatedDataAsset).toBeDefined();
-    expect(mockPut).toHaveBeenCalledWith(routes.UpdateDataAssetByID, {
-      body: {},
-      params: paramsStub({ params: { path: { id: 1 } } }).params,
+    expect(result).toEqual({ id: ID, name: 'Updated Data Asset' });
+  });
+
+  it('should throw GTWError on failure for update claim based data asset', async () => {
+    const id = 1;
+    const claimDataAssetBody = { name: 'Updated Data Asset' };
+
+    mockPut.mockResolvedValueOnce(errorMessage());
+
+    await expect(
+      dataAsset.updateClaimBasedDataAsset(id, claimDataAssetBody),
+    ).rejects.toThrow(GTWError);
+
+    expect(mockPut).toHaveBeenCalledWith('/data-assets/{id}', {
+      params: { path: { id } },
+      body: claimDataAssetBody,
     });
   });
 
-  it('should throw GTWError for update data asset', async () => {
-    mockPut.mockResolvedValue(errorMessage());
+  it('should update a file-based data asset successfully', async () => {
+    const id = 1;
+    const fileName = 'test.txt';
+    const fileBuffer = Buffer.from('test content');
 
-    await expect(dataAsset.updateDataAsset(ID)).rejects.toThrow(GTWError);
-    expect(mockPut).toHaveBeenCalledWith(routes.UpdateDataAssetByID, {
+    const result = await dataAsset.updateFileBasedDataAsset(
+      id,
+      fileName,
+      fileBuffer,
+    );
+
+    expect(mockValidateFileName).toHaveBeenCalledWith(fileName);
+
+    expect(mockPut).toHaveBeenCalledWith('/data-assets/{id}', {
+      params: { path: { id } },
       body: {},
-      params: paramsStub({ params: { path: { id: 1 } } }).params,
+      bodySerializer: expect.any(Function),
+    });
+
+    expect(result).toEqual({ id: ID, name: 'Updated Data Asset' });
+  });
+
+  it('should throw GTWError on failure', async () => {
+    const id = 1;
+    const fileName = 'test.txt';
+    const fileBuffer = Buffer.from('test content');
+
+    mockPut.mockResolvedValueOnce(errorMessage());
+
+    await expect(
+      dataAsset.updateFileBasedDataAsset(id, fileName, fileBuffer),
+    ).rejects.toThrow(GTWError);
+
+    expect(mockValidateFileName).toHaveBeenCalledWith(fileName);
+
+    expect(mockPut).toHaveBeenCalledWith('/data-assets/{id}', {
+      params: { path: { id } },
+      body: {},
+      bodySerializer: expect.any(Function),
     });
   });
 
@@ -208,24 +300,24 @@ describe('Data Assets Test', () => {
   it('should delete acl', async () => {
     mockDelete.mockResolvedValue(successMessage());
 
-    const message = await dataAsset.deleteACL(ID, [aclListStub()]);
+    const message = await dataAsset.deleteACL(ID, [ID]);
 
     expect(message).toBeDefined();
     expect(mockDelete).toHaveBeenCalledWith(routes.DeleteAssignedRoleByACL, {
-      body: bodyStub({ body: [aclListStub()] }).body,
-      params: paramsStub({ params: { path: { id: 1 } } }).params,
+      params: paramsStub({
+        params: { query: { acl_ids: [1] }, path: { id: 1 } },
+      }).params,
     });
   });
 
   it('should throw GTWError for updating acl', async () => {
     mockDelete.mockResolvedValue(errorMessage());
 
-    await expect(dataAsset.deleteACL(ID, [aclListStub()])).rejects.toThrow(
-      GTWError,
-    );
+    await expect(dataAsset.deleteACL(ID, [ID])).rejects.toThrow(GTWError);
     expect(mockDelete).toHaveBeenCalledWith(routes.DeleteAssignedRoleByACL, {
-      body: bodyStub({ body: [aclListStub()] }).body,
-      params: paramsStub({ params: { path: { id: 1 } } }).params,
+      params: paramsStub({
+        params: { query: { acl_ids: [1] }, path: { id: 1 } },
+      }).params,
     });
   });
 

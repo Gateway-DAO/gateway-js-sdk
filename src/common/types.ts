@@ -62,6 +62,11 @@ export type AccountCreateRequest = {
   wallet_address: string;
 };
 
+export type AccountUpdateRequest = {
+  profile_picture?: string;
+  username?: string;
+};
+
 export type AuthRequest = {
   message: string;
   signature: string;
@@ -106,6 +111,7 @@ export type MyAccountResponse = {
   profile_picture?: string;
   updated_at?: string;
   username?: string;
+  username_updated_at?: string;
   wallet_address?: string;
 };
 

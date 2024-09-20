@@ -24,6 +24,7 @@ export const parameterChecker = (token: string, url: string): boolean => {
 export const networkInterceptorMiddleware: Middleware = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async onRequest({ request, options }) {
+    console.log(request);
     return request;
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

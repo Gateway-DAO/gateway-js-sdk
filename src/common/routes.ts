@@ -1,6 +1,7 @@
 export const routes = {
   CreateAccount: '/accounts',
   GetMyAccount: '/accounts/me',
+  UpdateAccount: '/accounts/me',
   AuthenticateAccount: '/auth',
   GenerateSignMessage: '/auth/message',
   RefreshToken: '/auth/refresh-token',

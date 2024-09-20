@@ -1,18 +1,16 @@
 # [2.1.0-develop.14](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.13...v2.1.0-develop.14) (2024-09-12)
 
-
 ### Bug Fixes
 
-* added enum support to script ([9fd1483](https://github.com/Gateway-DAO/gateway-js-sdk/commit/9fd148362224fdc0b31996dbf0cbea0bb9756890))
-* added types.ts to eslintignore ([acdc241](https://github.com/Gateway-DAO/gateway-js-sdk/commit/acdc241bc09193c9a49af758525f5060010d304d))
-* removed config from account class ([8c53d2f](https://github.com/Gateway-DAO/gateway-js-sdk/commit/8c53d2f0514ad47daec072f56598b567331a6916))
-* removed model prefix from types ([f18c913](https://github.com/Gateway-DAO/gateway-js-sdk/commit/f18c913145bc95edad70048cb1af7b58a54e24b5))
-* updated types as per swagger ([3f9a8bd](https://github.com/Gateway-DAO/gateway-js-sdk/commit/3f9a8bd525e1c9e417906656ff3831bf16f34cf1))
-
+- added enum support to script ([9fd1483](https://github.com/Gateway-DAO/gateway-js-sdk/commit/9fd148362224fdc0b31996dbf0cbea0bb9756890))
+- added types.ts to eslintignore ([acdc241](https://github.com/Gateway-DAO/gateway-js-sdk/commit/acdc241bc09193c9a49af758525f5060010d304d))
+- removed config from account class ([8c53d2f](https://github.com/Gateway-DAO/gateway-js-sdk/commit/8c53d2f0514ad47daec072f56598b567331a6916))
+- removed model prefix from types ([f18c913](https://github.com/Gateway-DAO/gateway-js-sdk/commit/f18c913145bc95edad70048cb1af7b58a54e24b5))
+- updated types as per swagger ([3f9a8bd](https://github.com/Gateway-DAO/gateway-js-sdk/commit/3f9a8bd525e1c9e417906656ff3831bf16f34cf1))
 
 ### Features
 
-* added setup for unit test ([52f62c2](https://github.com/Gateway-DAO/gateway-js-sdk/commit/52f62c200a2c5a55dc0f56e5510567ebc7015901))
+- added setup for unit test ([52f62c2](https://github.com/Gateway-DAO/gateway-js-sdk/commit/52f62c200a2c5a55dc0f56e5510567ebc7015901))
 
 # [2.1.0-develop.13](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.12...v2.1.0-develop.13) (2024-09-09)
 

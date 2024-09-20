@@ -2,11 +2,13 @@ import fs from 'fs';
 
 const getJSONSchema = async () => {
   try {
-    const data = await fetch('https://dev.api.gateway.tech/docs/swagger.json');
+    const data = await fetch(
+      'https://dev.api.gateway.tech/docs/openapi3_full.json',
+    );
 
     const body = await data.json();
 
-    const types = generateTypes(body.definitions);
+    const types = generateTypes(body.components.schemas);
 
     const routes = generateRouteConstants(body.paths);
 
