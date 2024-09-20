@@ -1,3 +1,16 @@
+# [2.1.0-develop.15](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.14...v2.1.0-develop.15) (2024-09-20)
+
+
+### Bug Fixes
+
+* linter error codes ([a403af9](https://github.com/Gateway-DAO/gateway-js-sdk/commit/a403af991c7f73a4dd6d34ee3425099ab7805fb8))
+* **types.ts:** ran prettier ([e2792b5](https://github.com/Gateway-DAO/gateway-js-sdk/commit/e2792b5f647516631e3ec7fa02f3e792cacf3991))
+
+
+### Features
+
+* added create,update data assets methods ([d839296](https://github.com/Gateway-DAO/gateway-js-sdk/commit/d839296500f5611d2e94f0054da06abdb2654b14))
+
 # [2.1.0-develop.14](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.13...v2.1.0-develop.14) (2024-09-12)
 
 ### Bug Fixes
