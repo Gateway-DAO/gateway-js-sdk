@@ -62,11 +62,13 @@ export const linksStub = (overrideLinkStub?: HelperLinks) => ({
 
 export let mockGet: jest.Mock;
 export let mockPost: jest.Mock;
+export let mockPatch: jest.Mock;
 export let mockPut: jest.Mock;
 export let mockDelete: jest.Mock;
 
 mockGet = jest.fn();
 mockPost = jest.fn();
+mockPatch = jest.fn();
 mockPut = jest.fn();
 mockDelete = jest.fn();
 
@@ -74,5 +76,6 @@ export let mockClient: OpenAPIClient<paths, MediaType> = {
   GET: mockGet,
   POST: mockPost,
   PUT: mockPut,
+  PATCH: mockPatch,
   DELETE: mockDelete,
 } as any as OpenAPIClient<paths, MediaType>;
