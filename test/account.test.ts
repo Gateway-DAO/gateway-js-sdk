@@ -52,7 +52,10 @@ describe('Account', () => {
 
   describe('getAccountInfo', () => {
     it('should return account info when API call is successful', async () => {
-      const mockData: MyAccountResponse = { did: '123', username: 'Test User' };
+      const mockData = {
+        did: '123',
+        username: 'Test User',
+      } as MyAccountResponse;
       mockGet.mockResolvedValue({
         data: mockData,
         response: {},
