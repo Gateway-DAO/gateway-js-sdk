@@ -13,16 +13,13 @@ import { GTWError } from '../../helpers/custom-error';
 export class DataModel {
   private client: OpenAPIClient<paths, MediaType>;
   private validationService: ValidationService;
-  private config: Config;
 
   constructor(
     client: OpenAPIClient<paths, MediaType>,
     validationService: ValidationService,
-    config: Config,
   ) {
     this.client = client;
     this.validationService = validationService;
-    this.config = config;
   }
 
   /**
@@ -70,7 +67,7 @@ export class DataModel {
     if (error) {
       throw new GTWError(error, response);
     }
-    return data;
+    return data!;
   }
 
   /**
@@ -84,24 +81,24 @@ export class DataModel {
    * @returns The `updateDataModel` function is returning the updated data model after making a PUT
    * request to the server with the provided `dataModelInput` for the specified `dataModelId`.
    */
-  async updateDataModel(
-    dataModelId: number,
-    dataModelInput: DataModelRequest,
-  ): Promise<DataModelType> {
-    const { data, error, response } = await this.client.PUT(
-      '/data-models/{id}',
-      {
-        body: dataModelInput,
-        params: { path: { id: dataModelId } },
-      },
-    );
+  // async updateDataModel(
+  //   dataModelId: number,
+  //   dataModelInput: DataModelRequest,
+  // ): Promise<DataModelType> {
+  //   const { data, error, response } = await this.client.PUT(
+  //     '/data-models/{id}',
+  //     {
+  //       body: {},
+  //       params: { path: { id: dataModelId } },
+  //     },
+  //   );
 
-    if (error) {
-      throw new GTWError(error, response);
-    }
+  //   if (error) {
+  //     throw new GTWError(error, response);
+  //   }
 
-    return data;
-  }
+  //   return data;
+  // }
 
   /**
    * This TypeScript function asynchronously fetches a data model by its ID using a GET request.

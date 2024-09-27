@@ -7,3 +7,4 @@ coverage/
 .DS_STORE
 gatewaySdk/
 src/testing.ts
+src/test.txt

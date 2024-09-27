@@ -115,6 +115,92 @@ export interface paths {
     };
     trace?: never;
   };
+  '/accounts/me/wallets': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Add wallet
+     * @description Add a new wallet
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Wallet data */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['model.WalletCreateRequest'];
+        };
+      };
+      responses: {
+        /** @description Created */
+        201: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['model.MessageResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/accounts/me/wallets/{address}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /**
+     * Remove wallet
+     * @description Remove wallet
+     */
+    delete: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description Wallet Address */
+          address: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['model.MessageResponse'];
+          };
+        };
+      };
+    };
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/auth': {
     parameters: {
       query?: never;
@@ -295,7 +381,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/data-assets/me': {
+  '/data-assets/created': {
     parameters: {
       query?: never;
       header?: never;
@@ -303,8 +389,8 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * Get my data assets
-     * @description Get all data assets that belong to the authenticated user
+     * Get created data assets
+     * @description Get all created data assets that belong to the authenticated user
      */
     get: {
       parameters: {
@@ -327,7 +413,55 @@ export interface paths {
           };
           content: {
             'application/json': components['schemas']['helper.PaginatedResponse'] & {
-              data: components['schemas']['model.PublicDataAsset'][];
+              data?: components['schemas']['model.PublicDataAsset'][];
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/data-assets/received': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get received data assets
+     * @description Get all received data assets that belong to the authenticated user
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description Page number */
+          page?: number;
+          /** @description Page size */
+          page_size?: number;
+          /** @description Role (any AccessLevel) */
+          role?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['helper.PaginatedResponse'] & {
+              data?: components['schemas']['model.PublicDataAsset'][];
             };
           };
         };
@@ -462,38 +596,7 @@ export interface paths {
       cookie?: never;
     };
     get?: never;
-    /**
-     * Update ACL items to data asset
-     * @description Update ACL items to data asset
-     */
-    put: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          /** @description Data Asset ID */
-          id: number;
-        };
-        cookie?: never;
-      };
-      /** @description Update ACL Items Request */
-      requestBody: {
-        content: {
-          'application/json': components['schemas']['model.ACLRequest'][];
-        };
-      };
-      responses: {
-        /** @description Created */
-        201: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['model.PublicACL'][];
-          };
-        };
-      };
-    };
+    put?: never;
     /**
      * Assign ACL items to data asset
      * @description Assign ACL items to data asset
@@ -526,16 +629,16 @@ export interface paths {
         };
       };
     };
+    delete?: never;
+    options?: never;
+    head?: never;
     /**
-     * Delete assigned role by ACL
-     * @description Delete assigned role by ACL
+     * Update ACL items to data asset
+     * @description Update ACL items to data asset
      */
-    delete: {
+    patch: {
       parameters: {
-        query: {
-          /** @description Comma-separated list of ACL IDs to delete */
-          acl_ids: number[];
-        };
+        query?: never;
         header?: never;
         path: {
           /** @description Data Asset ID */
@@ -543,7 +646,59 @@ export interface paths {
         };
         cookie?: never;
       };
-      requestBody?: never;
+      /** @description Update ACL Items Request */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['model.ACLRequest'][];
+        };
+      };
+      responses: {
+        /** @description Created */
+        201: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['model.PublicACL'][];
+          };
+        };
+      };
+    };
+    trace?: never;
+  };
+  '/data-assets/{id}/acl/delete': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /**
+     * Delete assigned role by ACL
+     * @description Delete assigned role by ACL
+     */
+    patch: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description Data Asset ID */
+          id: number;
+        };
+        cookie?: never;
+      };
+      /** @description Delete Assigned ACL Items Request */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['model.ACLRequest'][];
+        };
+      };
       responses: {
         /** @description OK */
         200: {
@@ -556,9 +711,6 @@ export interface paths {
         };
       };
     };
-    options?: never;
-    head?: never;
-    patch?: never;
     trace?: never;
   };
   '/data-assets/{id}/download': {
@@ -897,15 +1049,15 @@ export interface components {
       id: number;
     };
     'model.DataModel': {
-      created_at?: string;
-      created_by?: string;
+      created_at: string;
+      created_by: string;
       deleted_at?: string;
-      description?: string;
-      id?: number;
-      schema?: Record<string, never>;
+      description: string;
+      id: number;
+      schema: Record<string, never>;
       tags?: string[];
-      title?: string;
-      updated_at?: string;
+      title: string;
+      updated_at: string;
     };
     'model.DataModelRequest': {
       description: string;
@@ -917,24 +1069,26 @@ export interface components {
       message: string;
     };
     'model.MyAccountResponse': {
-      created_at?: string;
-      did?: string;
+      created_at: string;
+      did: string;
       profile_picture?: string;
-      updated_at?: string;
-      username?: string;
-      username_updated_at?: string;
-      wallet_address?: string;
+      storage_size: number;
+      updated_at: string;
+      username: string;
+      username_updated_at: string;
+      wallet_addresses: components['schemas']['model.WalletAddress'][];
     };
     'model.PublicACL': {
-      address?: string;
+      address: string;
       created_at?: string;
-      data_asset_id?: number;
-      roles?: string[];
-      solana_address?: string;
+      data_asset_id: number;
+      is_authority?: boolean;
+      roles: string[];
+      solana_address: string;
       updated_at?: string;
     };
     'model.PublicDataAsset': {
-      acl?: components['schemas']['model.PublicACL'][];
+      acl: components['schemas']['model.PublicACL'][];
       created_at?: string;
       created_by: string;
       data_model_id?: number;
@@ -949,7 +1103,7 @@ export interface components {
       updated_at?: string;
     };
     'model.ShareDataAssetRequest': {
-      addresses?: string[];
+      addresses: string[];
     };
     'model.TokenResponse': {
       token: string;
@@ -959,8 +1113,19 @@ export interface components {
       expiration_date?: string;
       name?: string;
     };
+    'model.WalletAddress': {
+      account_id: number;
+      address: string;
+      chain: string;
+      created_at: string;
+      id: number;
+      updated_at?: string;
+    };
+    'model.WalletCreateRequest': {
+      address: string;
+    };
     'responses.MessageResponse': {
-      message?: string;
+      message: string;
     };
   };
   responses: never;

@@ -2,13 +2,7 @@ import { EtherumService } from './ethereum-service';
 import { SolanaService } from './solana-service';
 
 export class CryptoService {
-  private etherumService: EtherumService;
-  private solanaService: SolanaService;
-
-  constructor() {
-    this.etherumService = new EtherumService();
-    this.solanaService = new SolanaService();
-  }
+  constructor() {}
 
   public async verifyMessage(
     signature: string,
@@ -16,14 +10,14 @@ export class CryptoService {
     walletAddress: string,
   ) {
     let result = false;
-    if (this.etherumService.validateWallet(walletAddress)) {
-      result = await this.etherumService.verifyMessage(
+    if (EtherumService.validateWallet(walletAddress)) {
+      result = await EtherumService.verifyMessage(
         signature,
         message,
         walletAddress,
       );
-    } else if (this.solanaService.validateWallet(walletAddress)) {
-      result = await this.solanaService.verifyMessage(
+    } else if (SolanaService.validateWallet(walletAddress)) {
+      result = await SolanaService.verifyMessage(
         message,
         signature,
         walletAddress,

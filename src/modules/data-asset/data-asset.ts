@@ -10,6 +10,7 @@ import {
 import { ValidationService } from '../../services/validator-service';
 import { paths } from '../../api';
 import { GTWError } from '../../helpers/custom-error';
+import { toRFC3339 } from '../../helpers/helper';
 
 export class DataAsset {
   private client: OpenAPIClient<paths, MediaType>;
@@ -57,7 +58,12 @@ export class DataAsset {
    * @returns The `createFileBasedDataAsset` function is returning the `id` of the data asset that was
    * created.
    */
-  public async createFileBasedDataAsset(fileName: string, fileBuffer: Buffer) {
+  public async createFileBasedDataAsset(
+    fileName: string,
+    fileBuffer: Buffer,
+    aclList?: ACLRequest,
+    expiration_date?: Date,
+  ) {
     const formData = new FormData();
     const { extension } = this.validationService.validateFileName(fileName);
 
@@ -66,6 +72,14 @@ export class DataAsset {
       new Blob([fileBuffer], { type: extension }),
       fileName,
     );
+
+    if (aclList) {
+      formData.append('acl', JSON.stringify(aclList));
+    }
+    if (expiration_date) {
+      formData.append('expiration_date', toRFC3339(expiration_date));
+    }
+
     const { data, error, response } = await this.client.POST('/data-assets', {
       body: {},
       bodySerializer() {
@@ -81,24 +95,57 @@ export class DataAsset {
   }
 
   /**
-   * This TypeScript function asynchronously retrieves data assets belonging to the current user with
-   * optional pagination parameters.
-   * @param {number} [page=1] - The `page` parameter is used to specify the page number of the data
-   * assets you want to retrieve. By default, it is set to 1, meaning that the function will retrieve
-   * data assets from the first page.
-   * @param {number} [page_size=10] - The `page_size` parameter in the `getMyDataAssets` function
-   * specifies the number of data assets to be retrieved per page. In this case, the default value for
-   * `page_size` is set to 10, meaning that by default, the function will retrieve 10 data assets per
-   * page
-   * @returns The `getMyDataAssets` function returns the data fetched from the API endpoint
-   * `/data-assets/me` for the authenticated user. If there is an error during the API request, a
-   * `GTWError` is thrown with the error and response details. If the request is successful, the
-   * function returns the fetched data.
+   * This function retrieves data assets created by the user with pagination support.
+   * @param {number} [page=1] - The `page` parameter is used to specify the page number of the results
+   * you want to retrieve. It defaults to 1 if not provided.
+   * @param {number} [page_size=10] - The `page_size` parameter in the `getDataAssetsCreatedByMe`
+   * function specifies the number of data assets to be displayed per page when fetching data assets
+   * created by the user. By default, it is set to 10, meaning that the function will return a
+   * paginated list of 10 data assets
+   * @returns The `getDataAssetsCreatedByMe` function returns a paginated response containing public
+   * data assets created by the user. The response includes data of type `HelperPaginatedResponse` with
+   * an array of `PublicDataAsset` objects.
    */
-  public async getMyDataAssets(page: number = 1, page_size: number = 10) {
-    const { data, response, error } = await this.client.GET('/data-assets/me', {
-      params: { query: { page, page_size } },
-    });
+  public async getDataAssetsCreatedByMe(
+    page: number = 1,
+    page_size: number = 10,
+  ) {
+    const { data, response, error } = await this.client.GET(
+      '/data-assets/created',
+      {
+        params: { query: { page, page_size } },
+      },
+    );
+
+    if (error) {
+      throw new GTWError(error, response);
+    }
+
+    return data as HelperPaginatedResponse<PublicDataAsset[]>;
+  }
+
+  /**
+   * This function retrieves received data assets with pagination parameters from the server.
+   * @param {number} [page=1] - The `page` parameter is used to specify the page number of the data
+   * assets you want to retrieve. By default, it is set to 1, meaning that the function will initially
+   * retrieve data assets from the first page.
+   * @param {number} [page_size=10] - The `page_size` parameter in the `getDataAssetsReceivedToMe`
+   * function specifies the number of data assets to be displayed per page when fetching received data
+   * assets. By default, it is set to 10, meaning that the function will return a list of 10 data
+   * assets per page unless specified
+   * @returns The function `getDataAssetsReceivedToMe` is returning data as a `HelperPaginatedResponse`
+   * containing an array of `PublicDataAsset` objects.
+   */
+  public async getDataAssetsReceivedToMe(
+    page: number = 1,
+    page_size: number = 10,
+  ) {
+    const { data, response, error } = await this.client.GET(
+      '/data-assets/received',
+      {
+        params: { query: { page, page_size } },
+      },
+    );
 
     if (error) {
       throw new GTWError(error, response);
@@ -166,6 +213,8 @@ export class DataAsset {
     id: number,
     fileName: string,
     fileBuffer: Buffer,
+    aclList?: ACLRequest,
+    expiration_date?: Date,
   ) {
     const formData = new FormData();
     const { extension } = this.validationService.validateFileName(fileName);
@@ -175,6 +224,14 @@ export class DataAsset {
       new Blob([fileBuffer], { type: extension }),
       fileName,
     );
+
+    if (aclList) {
+      formData.append('acl', JSON.stringify(aclList));
+    }
+    if (expiration_date) {
+      formData.append('expiration_date', toRFC3339(expiration_date));
+    }
+
     const { data, error, response } = await this.client.PUT(
       '/data-assets/{id}',
       {
@@ -230,7 +287,7 @@ export class DataAsset {
     id: number,
     aclList: ACLRequest[],
   ): Promise<PublicACL[]> {
-    const { data, error, response } = await this.client.PUT(
+    const { data, error, response } = await this.client.PATCH(
       '/data-assets/{id}/acl',
       {
         params: { path: { id } },
@@ -289,11 +346,12 @@ export class DataAsset {
    * @returns The `deleteACL` function is returning the `data` object after making a DELETE request to
    * the specified endpoint with the provided ACL list.
    */
-  public async deleteACL(id: number, aclList: number[]) {
-    const { data, error, response } = await this.client.DELETE(
-      '/data-assets/{id}/acl',
+  public async deleteACL(id: number, aclList: ACLRequest[]) {
+    const { data, error, response } = await this.client.PATCH(
+      '/data-assets/{id}/acl/delete',
       {
-        params: { path: { id }, query: { acl_ids: aclList } },
+        params: { path: { id } },
+        body: aclList,
       },
     );
 
@@ -332,7 +390,7 @@ export class DataAsset {
       throw new GTWError(error, response);
     }
 
-    return { file, fileName: name };
+    return { file, fileName: 'name' };
   }
 
   /**
