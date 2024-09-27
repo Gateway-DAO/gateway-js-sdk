@@ -35,7 +35,7 @@ export const parameterChecker = (environment: Environment): string => {
 
 let accessToken: string | undefined = undefined;
 
-const checkJWTTokenExpiration = (existinToken: string): boolean => {
+export const checkJWTTokenExpiration = (existinToken: string): boolean => {
   try {
     const decodedToken = jwt.decode(existinToken) as JWTData | null;
 
@@ -54,7 +54,7 @@ const checkJWTTokenExpiration = (existinToken: string): boolean => {
   }
 };
 
-const issueJWT = async (
+export const issueJWT = async (
   client: OpenAPIClient<paths, MediaType>,
   wallet: WalletService,
 ) => {
