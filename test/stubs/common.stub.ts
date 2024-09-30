@@ -71,6 +71,7 @@ mockPost = jest.fn();
 mockPatch = jest.fn();
 mockPut = jest.fn();
 mockDelete = jest.fn();
+mockPatch = jest.fn();
 
 export let mockClient: OpenAPIClient<paths, MediaType> = {
   GET: mockGet,

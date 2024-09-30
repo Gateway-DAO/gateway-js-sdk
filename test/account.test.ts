@@ -69,13 +69,7 @@ describe('Account', () => {
     });
 
     it('should throw GTWError when API call fails', async () => {
-      const mockResponse = { status: 401 } as Response;
-
-      mockGet.mockResolvedValue({
-        data: null,
-        response: mockResponse,
-        error: { error: 'Unauthorized' },
-      });
+      mockGet.mockResolvedValue(errorMessage());
 
       await expect(account.getAccountInfo()).rejects.toThrow(GTWError);
       expect(mockClient.GET).toHaveBeenCalledWith(routes.GetMyAccount);

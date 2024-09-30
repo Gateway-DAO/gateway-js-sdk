@@ -61,6 +61,50 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/model.MyAccountResponse'
+  /accounts/me/wallets:
+    post:
+      security:
+        - BearerAuth: []
+      description: Add a new wallet
+      tags:
+        - Accounts
+      summary: Add wallet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/model.WalletCreateRequest'
+        description: Wallet data
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/model.MessageResponse'
+  '/accounts/me/wallets/{address}':
+    delete:
+      security:
+        - BearerAuth: []
+      description: Remove wallet
+      tags:
+        - Accounts
+      summary: Remove wallet
+      parameters:
+        - description: Wallet Address
+          name: address
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/model.MessageResponse'
   /auth:
     post:
       description: Authenticate account
@@ -145,14 +189,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/model.DataAssetIDRequestAndResponse'
-  /data-assets/me:
+  /data-assets/created:
     get:
       security:
         - BearerAuth: []
-      description: Get all data assets that belong to the authenticated user
+      description: Get all created data assets that belong to the authenticated user
       tags:
         - Data assets
-      summary: Get my data assets
+      summary: Get created data assets
       parameters:
         - description: Page number
           name: page
@@ -173,14 +217,50 @@ paths:
                 allOf:
                   - $ref: '#/components/schemas/helper.PaginatedResponse'
                   - type: object
-                    required:
-                      - data
                     properties:
                       data:
                         type: array
                         items:
                           $ref: '#/components/schemas/model.PublicDataAsset'
-  /data-assets/{id}:
+  /data-assets/received:
+    get:
+      security:
+        - BearerAuth: []
+      description: Get all received data assets that belong to the authenticated user
+      tags:
+        - Data assets
+      summary: Get received data assets
+      parameters:
+        - description: Page number
+          name: page
+          in: query
+          schema:
+            type: integer
+        - description: Page size
+          name: page_size
+          in: query
+          schema:
+            type: integer
+        - description: Role (any AccessLevel)
+          name: role
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/helper.PaginatedResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/model.PublicDataAsset'
+  '/data-assets/{id}':
     get:
       security:
         - BearerAuth: []
@@ -236,7 +316,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/model.UpdateDataAssetRequest'
-        description: Update Data Asset Request. Use application/json for structured data and multipart/form-data for file uploads. Dates should be in RFC 3339 format (e.g., 2025-09-02T14:31:00Z).
+        description: 'Update Data Asset Request. Use application/json for structured data and multipart/form-data for file uploads. Dates should be in RFC 3339 format (e.g., 2025-09-02T14:31:00Z).'
       responses:
         '200':
           description: OK
@@ -265,39 +345,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/responses.MessageResponse'
-  /data-assets/{id}/acl:
-    put:
-      security:
-        - BearerAuth: []
-      description: Update ACL items to data asset
-      tags:
-        - Data assets
-      summary: Update ACL items to data asset
-      parameters:
-        - description: Data Asset ID
-          name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/model.ACLRequest'
-        description: Update ACL Items Request
-        required: true
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/model.PublicACL'
+  '/data-assets/{id}/acl':
     post:
       security:
         - BearerAuth: []
@@ -330,7 +378,40 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/model.PublicACL'
-    delete:
+    patch:
+      security:
+        - BearerAuth: []
+      description: Update ACL items to data asset
+      tags:
+        - Data assets
+      summary: Update ACL items to data asset
+      parameters:
+        - description: Data Asset ID
+          name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/model.ACLRequest'
+        description: Update ACL Items Request
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/model.PublicACL'
+  '/data-assets/{id}/acl/delete':
+    patch:
       security:
         - BearerAuth: []
       description: Delete assigned role by ACL
@@ -344,16 +425,15 @@ paths:
           required: true
           schema:
             type: integer
-        - description: Comma-separated list of ACL IDs to delete
-          name: acl_ids
-          in: query
-          required: true
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/model.ACLRequest'
+        description: Delete Assigned ACL Items Request
+        required: true
       responses:
         '200':
           description: OK
@@ -361,7 +441,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/responses.MessageResponse'
-  /data-assets/{id}/download:
+  '/data-assets/{id}/download':
     get:
       security:
         - BearerAuth: []
@@ -385,7 +465,7 @@ paths:
                 type: array
                 items:
                   type: integer
-  /data-assets/{id}/share:
+  '/data-assets/{id}/share':
     post:
       security:
         - BearerAuth: []
@@ -505,7 +585,7 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/model.DataModel'
-  /data-models/{id}:
+  '/data-models/{id}':
     get:
       description: Get a data model by its ID
       tags:
@@ -554,8 +634,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/model.DataModel'
 servers:
-  - url: https://localhost:8080
-  - url: http://localhost:8080
+  - url: 'https://localhost:8080'
+  - url: 'http://localhost:8080'
 components:
   securitySchemes:
     BearerAuth:
@@ -698,6 +778,14 @@ components:
           type: integer
     model.DataModel:
       type: object
+      required:
+        - created_at
+        - created_by
+        - description
+        - id
+        - schema
+        - title
+        - updated_at
       properties:
         created_at:
           type: string
@@ -745,6 +833,14 @@ components:
           type: string
     model.MyAccountResponse:
       type: object
+      required:
+        - created_at
+        - did
+        - storage_size
+        - updated_at
+        - username
+        - username_updated_at
+        - wallet_addresses
       properties:
         created_at:
           type: string
@@ -752,16 +848,25 @@ components:
           type: string
         profile_picture:
           type: string
+        storage_size:
+          type: integer
         updated_at:
           type: string
         username:
           type: string
         username_updated_at:
           type: string
-        wallet_address:
-          type: string
+        wallet_addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/model.WalletAddress'
     model.PublicACL:
       type: object
+      required:
+        - address
+        - data_asset_id
+        - roles
+        - solana_address
       properties:
         address:
           type: string
@@ -769,6 +874,8 @@ components:
           type: string
         data_asset_id:
           type: integer
+        is_authority:
+          type: boolean
         roles:
           type: array
           items:
@@ -780,6 +887,7 @@ components:
     model.PublicDataAsset:
       type: object
       required:
+        - acl
         - created_by
         - fid
         - id
@@ -821,6 +929,8 @@ components:
           type: string
     model.ShareDataAssetRequest:
       type: object
+      required:
+        - addresses
       properties:
         addresses:
           type: array
@@ -842,8 +952,38 @@ components:
           type: string
         name:
           type: string
+    model.WalletAddress:
+      type: object
+      required:
+        - account_id
+        - address
+        - chain
+        - created_at
+        - id
+      properties:
+        account_id:
+          type: integer
+        address:
+          type: string
+        chain:
+          type: string
+        created_at:
+          type: string
+        id:
+          type: integer
+        updated_at:
+          type: string
+    model.WalletCreateRequest:
+      type: object
+      required:
+        - address
+      properties:
+        address:
+          type: string
     responses.MessageResponse:
       type: object
+      required:
+        - message
       properties:
         message:
           type: string

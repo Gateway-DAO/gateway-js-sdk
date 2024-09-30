@@ -1,10 +1,52 @@
-import { ClientMethod, Middleware } from 'openapi-fetch';
+import {
+  ClientMethod,
+  Middleware,
+  MiddlewareCallbackParams,
+} from 'openapi-fetch';
 import type { MediaType } from 'openapi-typescript-helpers';
+import { paths } from '../api';
+import { WalletService } from '../services/wallet-service';
+
+export type Environment = 'dev' | 'prod';
 
 export interface Config {
-  token: string;
-  url: string;
+  privateKey: string;
+  environment: Environment;
   logging?: boolean;
+  walletType: WalletTypeEnum;
+}
+
+export interface WalletSignMessageType {
+  signature: string;
+  signingKey: string;
+}
+
+export enum WalletTypeEnum {
+  ED25519 = 'ED25519',
+  SECP256K1 = 'SECP256K1',
+}
+
+export interface JWTData {
+  did: string;
+  exp: number;
+  wallet_address: string;
+}
+
+export interface CustomConfig {
+  privateKey: string;
+  environment: 'dev' | 'prod' | 'staging';
+  wallet: WalletService;
+  client: OpenAPIClient<paths, MediaType>;
+}
+
+export interface CustomMiddlewareWithVariables<T = any> {
+  (variables: T): Middleware;
+  onRequest?: (
+    options: MiddlewareCallbackParams,
+  ) => void | Request | undefined | Promise<Request | undefined | void>;
+  onResponse?: (
+    options: MiddlewareCallbackParams & { response: Response },
+  ) => void | Response | undefined | Promise<Response | undefined | void>;
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -85,15 +127,15 @@ export type CreateDataAssetRequest = {
 export type DataAssetIDRequestAndResponse = { id: number };
 
 export type DataModel = {
-  created_at?: string;
-  created_by?: string;
+  created_at: string;
+  created_by: string;
   deleted_at?: string;
-  description?: string;
-  id?: number;
-  schema?: {};
+  description: string;
+  id: number;
+  schema: {};
   tags?: string[];
-  title?: string;
-  updated_at?: string;
+  title: string;
+  updated_at: string;
 };
 
 export type DataModelRequest = {
@@ -106,26 +148,28 @@ export type DataModelRequest = {
 export type MessageResponse = { message: string };
 
 export type MyAccountResponse = {
-  created_at?: string;
-  did?: string;
+  created_at: string;
+  did: string;
   profile_picture?: string;
-  updated_at?: string;
-  username?: string;
-  username_updated_at?: string;
-  wallet_address?: string;
+  storage_size: number;
+  updated_at: string;
+  username: string;
+  username_updated_at: string;
+  wallet_addresses: WalletAddress[];
 };
 
 export type PublicACL = {
-  address?: string;
+  address: string;
   created_at?: string;
-  data_asset_id?: number;
-  roles?: string[];
-  solana_address?: string;
+  data_asset_id: number;
+  is_authority?: boolean;
+  roles: string[];
+  solana_address: string;
   updated_at?: string;
 };
 
 export type PublicDataAsset = {
-  acl?: PublicACL[];
+  acl: PublicACL[];
   created_at?: string;
   created_by: string;
   data_model_id?: number;
@@ -140,7 +184,7 @@ export type PublicDataAsset = {
   updated_at?: string;
 };
 
-export type ShareDataAssetRequest = { addresses?: string[] };
+export type ShareDataAssetRequest = { addresses: string[] };
 
 export type TokenResponse = { token: string };
 
@@ -150,4 +194,15 @@ export type UpdateDataAssetRequest = {
   name?: string;
 };
 
-export type ResponsesMessageResponse = { message?: string };
+export type WalletAddress = {
+  account_id: number;
+  address: string;
+  chain: string;
+  created_at: string;
+  id: number;
+  updated_at?: string;
+};
+
+export type WalletCreateRequest = { address: string };
+
+export type ResponsesMessageResponse = { message: string };

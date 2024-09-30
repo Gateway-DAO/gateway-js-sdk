@@ -1,12 +1,10 @@
-import fs from 'fs';
+const fs = require('fs');
 
 const getJSONSchema = async () => {
   try {
-    const data = await fetch(
-      'https://dev.api.gateway.tech/docs/openapi3_full.json',
-    );
+    const rawData = fs.readFileSync('api.json');
 
-    const body = await data.json();
+    const body = JSON.parse(rawData.toString('ascii'));
 
     const types = generateTypes(body.components.schemas);
 
@@ -19,14 +17,8 @@ const getJSONSchema = async () => {
   }
 };
 
-type PathItem = Record<string, Operation>;
-
-interface Operation {
-  summary: string;
-}
-
-function generateRouteConstants(paths: Record<string, PathItem>): string {
-  const constants: string[] = ['export const routes = {'];
+function generateRouteConstants(paths) {
+  const constants = ['export const routes = {'];
 
   for (const path in paths) {
     const pathItem = paths[path];
@@ -47,11 +39,7 @@ function generateRouteConstants(paths: Record<string, PathItem>): string {
   return constants.join('\n');
 }
 
-function generateRouteConstantName(
-  method: string,
-  path: string,
-  summary: string,
-): string {
+function generateRouteConstantName(method, path, summary) {
   let name = summary.trim();
   if (name === '') {
     name = path;
@@ -59,7 +47,7 @@ function generateRouteConstantName(
   return toPascalCase(name);
 }
 
-function toPascalCase(str: string): string {
+function toPascalCase(str) {
   const cleanedStr = str.replace(/^model\./, '');
   return cleanedStr
     .replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
@@ -68,15 +56,48 @@ function toPascalCase(str: string): string {
     .replace(/\W+/g, '');
 }
 
-const generateTypes = (definitions: any): string => {
-  const types: string[] = [
-    `import { ClientMethod, Middleware } from 'openapi-fetch';
-import type { MediaType } from 'openapi-typescript-helpers';\n\n`,
+const generateTypes = (definitions) => {
+  const types = [
+    `import { ClientMethod, Middleware, MiddlewareCallbackParams } from 'openapi-fetch'
+import type { MediaType } from 'openapi-typescript-helpers';import { paths } from '../api';
+import { WalletService } from '../services/wallet-service';
+\n\n`,
+    `export type Environment = 'dev' | 'prod';
+\n`,
     `export interface Config {
-  token: string;
-  url: string;
+  privateKey: string;
+  environment: Environment;
   logging?: boolean;
+  walletType: WalletTypeEnum;
 }\n\n`,
+    `export interface WalletSignMessageType {
+  signature: string;
+  signingKey: string;
+}\n\n`,
+    `export enum WalletTypeEnum {
+  ED25519 = 'ED25519',
+  SECP256K1 = 'SECP256K1',
+}\n\n`,
+    `export interface JWTData {
+  did: string;
+  exp: number;
+  wallet_address: string;
+}\n`,
+    `export interface CustomConfig {
+  privateKey: string;
+  environment: 'dev' | 'prod' | 'staging';
+  wallet: WalletService;
+  client: OpenAPIClient<paths, MediaType>;
+}\n`,
+    `export interface CustomMiddlewareWithVariables<T = any> {
+  (variables: T): Middleware;
+  onRequest?: (
+    options: MiddlewareCallbackParams,
+  ) => void | Request | undefined | Promise<Request | undefined | void>;
+  onResponse?: (
+    options: MiddlewareCallbackParams & { response: Response },
+  ) => void | Response | undefined | Promise<Response | undefined | void>;
+}\n`,
     `// eslint-disable-next-line @typescript-eslint/ban-types
 export interface OpenAPIClient<Paths extends {}, Media extends MediaType> {
   GET: ClientMethod<Paths, 'get', Media>;
@@ -96,7 +117,7 @@ export interface OpenAPIClient<Paths extends {}, Media extends MediaType> {
 }\n`,
   ];
 
-  const processSchema = (schema: any): string => {
+  const processSchema = (schema) => {
     if (schema.$ref) {
       const ref = schema.$ref.split('/').pop();
       if (ref && definitions[ref]) {
@@ -121,7 +142,7 @@ export interface OpenAPIClient<Paths extends {}, Media extends MediaType> {
     }
 
     if (schema.enum) {
-      return schema.enum.map((e: any) => `${e.toUpperCase()} = '${e}'`);
+      return schema.enum.map((e) => `${e.toUpperCase()} = '${e}'`);
     }
 
     switch (schema.type) {
@@ -144,7 +165,7 @@ export interface OpenAPIClient<Paths extends {}, Media extends MediaType> {
       types.push(
         `export type ${toPascalCase(typeName)}<T=any> = ${processedSchema.replace(/\bany\b/g, 'T')};\n`,
       );
-    } else if ((schema as any).enum) {
+    } else if (schema.enum) {
       types.push(
         `export enum ${toPascalCase(typeName)} {${processSchema(schema)}};\n`,
       );

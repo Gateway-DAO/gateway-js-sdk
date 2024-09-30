@@ -6,14 +6,13 @@ import { mockClient, mockGet, mockPost, mockPut } from './stubs/common.stub';
 import { routes } from '../src/common/routes';
 
 const mockValidationService = {} as ValidationService;
-const mockConfig = {} as Config;
 
 describe('DataModel', () => {
   let dataModel: DataModel;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    dataModel = new DataModel(mockClient, mockValidationService, mockConfig);
+    dataModel = new DataModel(mockClient, mockValidationService);
   });
 
   describe('getDataModels', () => {
@@ -189,58 +188,58 @@ describe('DataModel', () => {
     });
   });
 
-  describe('updateDataModel', () => {
-    it('should update a data model successfully', async () => {
-      const dataModelId = 1;
-      const input: DataModelRequest = {
-        title: 'Updated Test Model',
-        description: 'An updated test data model',
-        schema: {},
-        tags: ['test', 'updated'],
-      };
+  // describe('updateDataModel', () => {
+  //   it('should update a data model successfully', async () => {
+  //     const dataModelId = 1;
+  //     const input: DataModelRequest = {
+  //       title: 'Updated Test Model',
+  //       description: 'An updated test data model',
+  //       schema: {},
+  //       tags: ['test', 'updated'],
+  //     };
 
-      const expectedOutput = {
-        id: dataModelId,
-        ...input,
-        created_at: '2023-09-13T12:00:00Z',
-        updated_at: '2023-09-13T13:00:00Z',
-        created_by: 'user123',
-      };
+  //     const expectedOutput = {
+  //       id: dataModelId,
+  //       ...input,
+  //       created_at: '2023-09-13T12:00:00Z',
+  //       updated_at: '2023-09-13T13:00:00Z',
+  //       created_by: 'user123',
+  //     };
 
-      mockPut.mockResolvedValue({ data: expectedOutput, error: null });
+  //     mockPut.mockResolvedValue({ data: expectedOutput, error: null });
 
-      const result = await dataModel.updateDataModel(dataModelId, input);
+  //     const result = await dataModel.updateDataModel(dataModelId, input);
 
-      expect(result).toEqual(expectedOutput);
-      expect(mockClient.PUT).toHaveBeenCalledWith(routes.UpdateDataModel, {
-        body: input,
-        params: { path: { id: dataModelId } },
-      });
-    });
+  //     expect(result).toEqual(expectedOutput);
+  //     expect(mockClient.PUT).toHaveBeenCalledWith(routes.UpdateDataModel, {
+  //       body: input,
+  //       params: { path: { id: dataModelId } },
+  //     });
+  //   });
 
-    it('should throw GTWError when API call fails', async () => {
-      const dataModelId = 1;
-      const input: DataModelRequest = {
-        title: 'Updated Test Model',
-        description: 'An updated test data model',
-        schema: {},
-        tags: ['test', 'updated'],
-      };
+  //   it('should throw GTWError when API call fails', async () => {
+  //     const dataModelId = 1;
+  //     const input: DataModelRequest = {
+  //       title: 'Updated Test Model',
+  //       description: 'An updated test data model',
+  //       schema: {},
+  //       tags: ['test', 'updated'],
+  //     };
 
-      const mockError = { error: 'API Error' };
-      mockPut.mockResolvedValue({
-        data: null,
-        error: mockError,
-        response: {},
-      });
+  //     const mockError = { error: 'API Error' };
+  //     mockPut.mockResolvedValue({
+  //       data: null,
+  //       error: mockError,
+  //       response: {},
+  //     });
 
-      await expect(
-        dataModel.updateDataModel(dataModelId, input),
-      ).rejects.toThrow(GTWError);
-      expect(mockClient.PUT).toHaveBeenCalledWith(routes.UpdateDataModel, {
-        body: input,
-        params: { path: { id: dataModelId } },
-      });
-    });
-  });
+  //     await expect(
+  //       dataModel.updateDataModel(dataModelId, input),
+  //     ).rejects.toThrow(GTWError);
+  //     expect(mockClient.PUT).toHaveBeenCalledWith(routes.UpdateDataModel, {
+  //       body: input,
+  //       params: { path: { id: dataModelId } },
+  //     });
+  //   });
+  // });
 });

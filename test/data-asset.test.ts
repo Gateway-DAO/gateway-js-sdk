@@ -8,6 +8,7 @@ import {
   mockClient,
   mockDelete,
   mockGet,
+  mockPatch,
   mockPost,
   mockPut,
   paramsStub,
@@ -102,26 +103,64 @@ describe('Data Assets Test', () => {
     });
   });
 
-  it('should get my data assets', async () => {
+  it('should data assets created by me', async () => {
     mockGet.mockResolvedValue(
       successMessage({
         data: { data: [dataAssetStub()], meta: metaStub(), links: linksStub() },
       }),
     );
 
-    const data = await dataAsset.getMyDataAssets();
+    const data = await dataAsset.getDataAssetsCreatedByMe();
 
     expect(data).toBeDefined();
     expect(data.data.length).toBeGreaterThan(0);
-    expect(mockGet).toHaveBeenCalledWith(routes.GetMyDataAssets, paramsStub());
+    expect(mockGet).toHaveBeenCalledWith(
+      routes.GetCreatedDataAssets,
+      paramsStub(),
+    );
   });
 
-  it('should throw GTWError for get my data assets', async () => {
+  it('should throw GTWError for data assets created by me', async () => {
     mockGet.mockResolvedValue(errorMessage());
 
-    await expect(dataAsset.getMyDataAssets()).rejects.toThrow(GTWError);
+    await expect(dataAsset.getDataAssetsCreatedByMe()).rejects.toThrow(
+      GTWError,
+    );
 
-    expect(mockGet).toHaveBeenCalledWith(routes.GetMyDataAssets, paramsStub());
+    expect(mockGet).toHaveBeenCalledWith(
+      routes.GetCreatedDataAssets,
+      paramsStub(),
+    );
+  });
+
+  it('should data assets received by me', async () => {
+    mockGet.mockResolvedValue(
+      successMessage({
+        data: { data: [dataAssetStub()], meta: metaStub(), links: linksStub() },
+      }),
+    );
+
+    const data = await dataAsset.getDataAssetsReceivedToMe();
+
+    expect(data).toBeDefined();
+    expect(data.data.length).toBeGreaterThan(0);
+    expect(mockGet).toHaveBeenCalledWith(
+      routes.GetReceivedDataAssets,
+      paramsStub(),
+    );
+  });
+
+  it('should throw GTWError for data assets received by me', async () => {
+    mockGet.mockResolvedValue(errorMessage());
+
+    await expect(dataAsset.getDataAssetsReceivedToMe()).rejects.toThrow(
+      GTWError,
+    );
+
+    expect(mockGet).toHaveBeenCalledWith(
+      routes.GetReceivedDataAssets,
+      paramsStub(),
+    );
   });
 
   it('should get data asset by id', async () => {
@@ -250,24 +289,24 @@ describe('Data Assets Test', () => {
   });
 
   it('should update acl', async () => {
-    mockPut.mockResolvedValue(successMessage({ data: aclStub() }));
+    mockPatch.mockResolvedValue(successMessage({ data: aclStub() }));
 
     const aclList = await dataAsset.updateACL(ID, [aclListStub()]);
 
     expect(aclList).toBeDefined();
-    expect(mockPut).toHaveBeenCalledWith(routes.UpdateACLItemsToDataAsset, {
+    expect(mockPatch).toHaveBeenCalledWith(routes.UpdateACLItemsToDataAsset, {
       body: bodyStub({ body: [aclListStub()] }).body,
       params: paramsStub({ params: { path: { id: 1 } } }).params,
     });
   });
 
   it('should throw GTWError for updating acl', async () => {
-    mockPut.mockResolvedValue(errorMessage());
+    mockPatch.mockResolvedValue(errorMessage());
 
     await expect(dataAsset.updateACL(ID, [aclListStub()])).rejects.toThrow(
       GTWError,
     );
-    expect(mockPut).toHaveBeenCalledWith(routes.UpdateACLItemsToDataAsset, {
+    expect(mockPatch).toHaveBeenCalledWith(routes.UpdateACLItemsToDataAsset, {
       body: bodyStub({ body: [aclListStub()] }).body,
       params: paramsStub({ params: { path: { id: 1 } } }).params,
     });
@@ -298,26 +337,30 @@ describe('Data Assets Test', () => {
   });
 
   it('should delete acl', async () => {
-    mockDelete.mockResolvedValue(successMessage());
+    mockPatch.mockResolvedValue(successMessage());
 
-    const message = await dataAsset.deleteACL(ID, [ID]);
+    const message = await dataAsset.deleteACL(ID, [aclListStub()]);
 
     expect(message).toBeDefined();
-    expect(mockDelete).toHaveBeenCalledWith(routes.DeleteAssignedRoleByACL, {
+    expect(mockPatch).toHaveBeenCalledWith(routes.DeleteAssignedRoleByACL, {
       params: paramsStub({
-        params: { query: { acl_ids: [1] }, path: { id: 1 } },
+        params: { path: { id: 1 } },
       }).params,
+      body: bodyStub({ body: [aclListStub()] }).body,
     });
   });
 
   it('should throw GTWError for updating acl', async () => {
-    mockDelete.mockResolvedValue(errorMessage());
+    mockPatch.mockResolvedValue(errorMessage());
 
-    await expect(dataAsset.deleteACL(ID, [ID])).rejects.toThrow(GTWError);
-    expect(mockDelete).toHaveBeenCalledWith(routes.DeleteAssignedRoleByACL, {
+    await expect(dataAsset.deleteACL(ID, [aclListStub()])).rejects.toThrow(
+      GTWError,
+    );
+    expect(mockPatch).toHaveBeenCalledWith(routes.DeleteAssignedRoleByACL, {
       params: paramsStub({
-        params: { query: { acl_ids: [1] }, path: { id: 1 } },
+        params: { path: { id: 1 } },
       }).params,
+      body: bodyStub({ body: [aclListStub()] }).body,
     });
   });
 
