@@ -64,7 +64,6 @@ export let mockGet: jest.Mock;
 export let mockPost: jest.Mock;
 export let mockPatch: jest.Mock;
 export let mockPut: jest.Mock;
-export let mockPatch: jest.Mock;
 export let mockDelete: jest.Mock;
 
 mockGet = jest.fn();
@@ -80,5 +79,4 @@ export let mockClient: OpenAPIClient<paths, MediaType> = {
   PUT: mockPut,
   PATCH: mockPatch,
   DELETE: mockDelete,
-  PATCH: mockPatch,
 } as any as OpenAPIClient<paths, MediaType>;
