@@ -31,6 +31,9 @@ class SDKFactory {
       baseUrl: url,
     });
 
+    if (logging) {
+    }
+
     client.use(AuthMiddleware({ environment, privateKey, wallet, client }));
 
     return client;

@@ -1,6 +1,5 @@
 import { MediaType } from 'openapi-typescript-helpers';
 import {
-  Config,
   DataModelRequest,
   HelperPaginatedResponse,
   OpenAPIClient,

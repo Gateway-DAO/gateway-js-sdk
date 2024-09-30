@@ -58,7 +58,7 @@ export const issueJWT = async (
   client: OpenAPIClient<paths, MediaType>,
   wallet: WalletService,
 ) => {
-  let auth = new Auth(client);
+  const auth = new Auth(client);
 
   const message = await auth.generateSignMessage();
   const signatureDetails = await wallet.signMessage(message);

@@ -390,7 +390,7 @@ export class DataAsset {
       throw new GTWError(error, response);
     }
 
-    return { file, fileName: 'name' };
+    return { file, fileName: name };
   }
 
   /**
