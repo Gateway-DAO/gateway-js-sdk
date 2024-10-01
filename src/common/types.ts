@@ -11,10 +11,13 @@ export type Environment = 'dev' | 'prod';
 export type TokenManagementMode = 'jwt' | 'privateKey';
 
 export interface Config {
-  privateKey?: string;
   environment: Environment;
+  jwt?: string;
   logging?: boolean;
-  walletType: WalletTypeEnum;
+  wallet?: {
+    privateKey: string;
+    walletType: WalletTypeEnum;
+  };
 }
 
 export interface WalletSignMessageType {

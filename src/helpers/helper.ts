@@ -34,14 +34,14 @@ export const parameterChecker = (
   if (!environment)
     throw new Error('No url found!.Use either sandbox or production env');
 
-  if (jwt) {
+  if (privateKey) {
+    mode = 'privateKey';
+    value = privateKey;
+  } else if (jwt) {
     mode = 'jwt';
     value = jwt;
     if (!checkJWTTokenExpiration(jwt))
       throw new Error('The provided token is expired or invalid.');
-  } else if (privateKey) {
-    mode = 'privateKey';
-    value = privateKey;
   } else {
     throw new Error('Need jwt or private key');
   }
@@ -54,6 +54,13 @@ export const parameterChecker = (
 
 let accessToken: string | undefined = undefined;
 
+/**
+ * The function `checkJWTTokenExpiration` verifies if a JWT token is expired or not.
+ * @param {string} existinToken - The `existinToken` parameter is a string representing a JWT token
+ * that you want to check for expiration.
+ * @returns The function `checkJWTTokenExpiration` returns a boolean value. It returns `true` if the
+ * JWT token is valid and has not expired, and `false` if the token is invalid or has expired.
+ */
 export const checkJWTTokenExpiration = (existinToken: string): boolean => {
   try {
     const decodedToken = jwt.decode(existinToken) as JWTData | null;
@@ -79,7 +86,7 @@ export const issueJWT = async (
 ) => {
   const auth = new Auth(client);
 
-  const message = await auth.generateSignMessage();
+  const message = await auth.getMessage();
   const signatureDetails = await wallet.signMessage(message);
 
   const jwt = await auth.login({

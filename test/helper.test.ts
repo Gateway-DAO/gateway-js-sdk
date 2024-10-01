@@ -52,12 +52,16 @@ describe('JWT Token Handling', () => {
 describe('Utils', () => {
   describe('parameterChecker', () => {
     it('should return dev URL for dev environment', () => {
-      expect(parameterChecker('dev')).toBe('https://dev.api.gateway.tech');
+      expect(parameterChecker('dev', '', 'some-random-hex-key')).toStrictEqual({
+        mode: 'privateKey',
+        url: 'https://dev.api.gateway.tech',
+        value: 'some-random-hex-key',
+      });
     });
 
     it('should throw error for invalid environment', () => {
       expect(() => parameterChecker('production' as any)).toThrow(
-        'No valid url found!. Use sandbox or production url',
+        'Need jwt or private key',
       );
     });
 
@@ -109,7 +113,7 @@ describe('Utils', () => {
 
     it('should add authorization header for protected routes', async () => {
       const mockAuthInstance = {
-        generateSignMessage: jest.fn().mockResolvedValue('message'),
+        getMessage: jest.fn().mockResolvedValue('message'),
         login: jest.fn().mockResolvedValue('jwt_token'),
       };
       (Auth as jest.MockedClass<typeof Auth>).mockImplementation(

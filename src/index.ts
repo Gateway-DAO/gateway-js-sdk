@@ -15,7 +15,6 @@ import { Account } from './modules/account/account';
 
 export * from './common/types';
 export { toRFC3339, checkJWTTokenExpiration } from './helpers/helper';
-export { GTWError } from './helpers/custom-error';
 
 class SDKFactory {
   static createSDK({
@@ -66,16 +65,17 @@ export class Gateway {
 
   constructor(config: Config) {
     const validationService = new ValidationService();
-    if (config.privateKey)
+    if (config.wallet)
       this.wallet = new WalletService({
-        walletPrivateKey: config.privateKey,
-        walletType: config.walletType,
+        walletPrivateKey: config.wallet!.privateKey,
+        walletType: config.wallet!.walletType,
       });
     this.client = SDKFactory.createSDK({
       environment: config.environment,
-      privateKey: config.privateKey,
+      privateKey: config.wallet?.privateKey,
       logging: config.logging,
       wallet: this.wallet,
+      jwt: config.jwt,
     });
     this.config = config;
 
@@ -92,16 +92,18 @@ export class Gateway {
   public updateConfig(newConfig: Partial<Config>) {
     const validationService = new ValidationService();
     this.config = { ...this.config, ...newConfig };
-    if (this.config.privateKey)
+
+    if (this.config.wallet)
       this.wallet = new WalletService({
-        walletPrivateKey: this.config.privateKey,
-        walletType: this.config.walletType,
+        walletPrivateKey: this.config.wallet!.privateKey,
+        walletType: this.config.wallet!.walletType,
       });
     this.client = SDKFactory.createSDK({
       environment: this.config.environment,
-      privateKey: this.config.privateKey,
+      privateKey: this.config.wallet?.privateKey,
       logging: this.config.logging,
       wallet: this.wallet,
+      jwt: this.config.jwt,
     });
     this.initializeModules(validationService);
   }

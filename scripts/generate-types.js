@@ -65,10 +65,13 @@ import { WalletService } from '../services/wallet-service';
     `export type Environment = 'dev' | 'prod';export type TokenManagementMode = 'jwt' | 'privateKey';
 \n`,
     `export interface Config {
-  privateKey?: string;
+    jwt?:string
   environment: Environment;
   logging?: boolean;
-  walletType: WalletTypeEnum;
+  wallet?: {
+    privateKey: string;
+    walletType: WalletTypeEnum;
+  };
 }\n\n`,
     `export interface WalletSignMessageType {
   signature: string;
