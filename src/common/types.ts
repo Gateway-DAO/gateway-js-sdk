@@ -8,9 +8,10 @@ import { paths } from '../api';
 import { WalletService } from '../services/wallet-service';
 
 export type Environment = 'dev' | 'prod';
+export type TokenManagementMode = 'jwt' | 'privateKey';
 
 export interface Config {
-  privateKey: string;
+  privateKey?: string;
   environment: Environment;
   logging?: boolean;
   walletType: WalletTypeEnum;
@@ -127,7 +128,7 @@ export type CreateDataAssetRequest = {
 export type DataAssetIDRequestAndResponse = { id: number };
 
 export type DataModel = {
-  created_at: string;
+  created_at?: string;
   created_by: string;
   deleted_at?: string;
   description: string;
@@ -135,7 +136,7 @@ export type DataModel = {
   schema: {};
   tags?: string[];
   title: string;
-  updated_at: string;
+  updated_at?: string;
 };
 
 export type DataModelRequest = {

@@ -4,6 +4,7 @@ import {
   CustomConfig,
   CustomMiddlewareWithVariables,
   Environment,
+  TokenManagementMode,
 } from '../common/types';
 import { WalletService } from '../services/wallet-service';
 import { MediaType } from 'openapi-typescript-helpers';
@@ -23,13 +24,31 @@ import { routes } from '../common/routes';
  * `environment` is not `'dev'`, it throws an error with the message 'No valid url found!. Use sandbox
  * or production url'.
  */
-export const parameterChecker = (environment: Environment): string => {
+export const parameterChecker = (
+  environment: Environment,
+  jwt?: string,
+  privateKey?: string,
+): { url: string; mode: TokenManagementMode; value: string } => {
+  let mode: TokenManagementMode;
+  let value = '';
   if (!environment)
     throw new Error('No url found!.Use either sandbox or production env');
 
+  if (jwt) {
+    mode = 'jwt';
+    value = jwt;
+    if (!checkJWTTokenExpiration(jwt))
+      throw new Error('The provided token is expired or invalid.');
+  } else if (privateKey) {
+    mode = 'privateKey';
+    value = privateKey;
+  } else {
+    throw new Error('Need jwt or private key');
+  }
+
   const urls = ['https://dev.api.gateway.tech'];
 
-  if (environment === 'dev') return urls[0];
+  if (environment === 'dev') return { url: urls[0], mode, value };
   else throw new Error('No valid url found!. Use sandbox or production url');
 };
 

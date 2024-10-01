@@ -25,18 +25,19 @@ export class DataAsset {
   }
 
   /**
-   * This function creates a data asset based on a provided request using a POST request.
-   * @param {CreateDataAssetRequest} claimDataAssetBody - The `claimDataAssetBody` parameter in the
-   * `createClaimBasedDataAsset` function is of type `CreateDataAssetRequest`. This parameter likely
-   * contains the necessary information needed to create a new data asset, such as metadata,
-   * permissions, and other relevant details.
-   * @returns The `data` variable is being returned from the `createClaimBasedDataAsset` function.
+   * The function creates a structured data asset by sending a POST request with the provided data
+   * asset body.
+   * @param {CreateDataAssetRequest} structuredDataAssetBody - The `claimDataAssetBody` parameter in the
+   * `createStructuredDataAsset` function is of type `CreateDataAssetRequest`. It is used as the body
+   * of the POST request to create a new data asset by sending it to the `/data-assets` endpoint.
+   * @returns The `createStructuredDataAsset` function is returning the `id` of the data asset that was
+   * created.
    */
-  public async createClaimBasedDataAsset(
-    claimDataAssetBody: CreateDataAssetRequest,
+  public async createStructuredDataAsset(
+    structuredDataAssetBody: CreateDataAssetRequest,
   ) {
     const { data, error, response } = await this.client.POST('/data-assets', {
-      body: claimDataAssetBody,
+      body: structuredDataAssetBody,
     });
 
     if (error) {
@@ -47,18 +48,18 @@ export class DataAsset {
   }
 
   /**
-   * The function `createFileBasedDataAsset` asynchronously creates a data asset using a file buffer
+   * The function `createNonStructuredDataAsset` asynchronously creates a data asset using a file buffer
    * and file name.
    * @param {string} fileName - The `fileName` parameter is a string that represents the name of the
    * file being uploaded as a data asset.
-   * @param {Buffer} fileBuffer - The `fileBuffer` parameter in the `createFileBasedDataAsset` function
+   * @param {Buffer} fileBuffer - The `fileBuffer` parameter in the `createNonStructuredDataAsset` function
    * is a `Buffer` object that contains the data of the file to be uploaded as a data asset. It is used
    * to create a Blob object that represents the file data in the FormData object before sending it to
    * the server
-   * @returns The `createFileBasedDataAsset` function is returning the `id` of the data asset that was
+   * @returns The `createNonStructuredDataAsset` function is returning the `id` of the data asset that was
    * created.
    */
-  public async createFileBasedDataAsset(
+  public async createNonStructuredDataAsset(
     fileName: string,
     fileBuffer: Buffer,
     aclList?: ACLRequest,
@@ -184,21 +185,21 @@ export class DataAsset {
    * This TypeScript function updates a claim-based data asset using a PUT request.
    * @param {number} id - The `id` parameter is a number that represents the identifier of the data
    * asset that you want to update.
-   * @param {CreateDataAssetRequest} claimDataAssetBody - The `claimDataAssetBody` parameter in the
-   * `updateClaimBasedDataAsset` function is of type `CreateDataAssetRequest`. It contains the data
+   * @param {CreateDataAssetRequest} structuredDataAssetBody - The `claimDataAssetBody` parameter in the
+   * `updateStructuredDataAsset` function is of type `CreateDataAssetRequest`. It contains the data
    * necessary to update a data asset based on a claim.
-   * @returns The `updateClaimBasedDataAsset` function returns a Promise that resolves to a
+   * @returns The `updateStructuredDataAsset` function returns a Promise that resolves to a
    * `PublicDataAsset` object.
    */
-  public async updateClaimBasedDataAsset(
+  public async updateStructuredDataAsset(
     id: number,
-    claimDataAssetBody: CreateDataAssetRequest,
+    structuredDataAssetBody: CreateDataAssetRequest,
   ): Promise<PublicDataAsset> {
     const { data, error, response } = await this.client.PUT(
       '/data-assets/{id}',
       {
         params: { path: { id } },
-        body: claimDataAssetBody,
+        body: structuredDataAssetBody,
       },
     );
 
@@ -209,7 +210,7 @@ export class DataAsset {
     return data;
   }
 
-  public async updateFileBasedDataAsset(
+  public async updateNonStructuredDataAsset(
     id: number,
     fileName: string,
     fileBuffer: Buffer,

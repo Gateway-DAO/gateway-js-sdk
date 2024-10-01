@@ -77,12 +77,12 @@ paths:
         description: Wallet data
         required: true
       responses:
-        '201':
-          description: Created
+        '200':
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/model.MessageResponse'
+                $ref: '#/components/schemas/model.MyAccountResponse'
   '/accounts/me/wallets/{address}':
     delete:
       security:
@@ -104,7 +104,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/model.MessageResponse'
+                $ref: '#/components/schemas/model.MyAccountResponse'
   /auth:
     post:
       description: Authenticate account
@@ -779,13 +779,11 @@ components:
     model.DataModel:
       type: object
       required:
-        - created_at
         - created_by
         - description
         - id
         - schema
         - title
-        - updated_at
       properties:
         created_at:
           type: string
