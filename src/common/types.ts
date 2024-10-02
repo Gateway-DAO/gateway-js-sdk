@@ -8,12 +8,16 @@ import { paths } from '../api';
 import { WalletService } from '../services/wallet-service';
 
 export type Environment = 'dev' | 'prod';
+export type TokenManagementMode = 'jwt' | 'privateKey';
 
 export interface Config {
-  privateKey: string;
   environment: Environment;
+  jwt?: string;
   logging?: boolean;
-  walletType: WalletTypeEnum;
+  wallet?: {
+    privateKey: string;
+    walletType: WalletTypeEnum;
+  };
 }
 
 export interface WalletSignMessageType {
@@ -22,8 +26,8 @@ export interface WalletSignMessageType {
 }
 
 export enum WalletTypeEnum {
-  ED25519 = 'ED25519',
-  SECP256K1 = 'SECP256K1',
+  Etherum = 'etherum',
+  Solana = 'solana',
 }
 
 export interface JWTData {

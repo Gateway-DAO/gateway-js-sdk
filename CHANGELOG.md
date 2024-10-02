@@ -1,3 +1,19 @@
+# [2.1.0-develop.16](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.15...v2.1.0-develop.16) (2024-10-02)
+
+
+### Bug Fixes
+
+* eslint errors ([14f7f5e](https://github.com/Gateway-DAO/gateway-js-sdk/commit/14f7f5e2cbd6187f49d45a68d73e95510e640540))
+* test error about mock patch ([ac4330b](https://github.com/Gateway-DAO/gateway-js-sdk/commit/ac4330b2966e475d5e007e5c5c00cd043beb0485))
+* typescript issue ([76289e8](https://github.com/Gateway-DAO/gateway-js-sdk/commit/76289e88c34241a5f14a04995d635ddb2300fe6c))
+
+
+### Features
+
+* added generate signature using wallet ([1c09aea](https://github.com/Gateway-DAO/gateway-js-sdk/commit/1c09aead41ad4ad0fec68dfccbf4b913f418727b))
+* added jwt, private key on sdk creation ([b2ae195](https://github.com/Gateway-DAO/gateway-js-sdk/commit/b2ae1952595bbe32567e68f426197b2deeba3bde))
+* refactored data assets, acl, auth methods and test ([6d0df4d](https://github.com/Gateway-DAO/gateway-js-sdk/commit/6d0df4d335510c1f221ddcf71dc94a86ad5e6724))
+
 # [2.1.0-develop.15](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.14...v2.1.0-develop.15) (2024-09-20)
 
 ### Bug Fixes

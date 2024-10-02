@@ -12,7 +12,9 @@ import { Auth } from '../src/modules/auth/auth';
 import { routes } from '../src/common/routes';
 
 jest.mock('../src/modules/auth/auth');
-jest.mock('jsonwebtoken');
+jest.mock('jsonwebtoken', () => ({
+  decode: jest.fn(),
+}));
 
 describe('JWT Token Handling', () => {
   let config: { client: string; wallet: string };
@@ -26,9 +28,9 @@ describe('JWT Token Handling', () => {
 
   it('should return existing accessToken when the token is valid', async () => {
     jest.mock('../src/helpers/helper', () => ({
-      ...jest.requireActual('../src/helpers/helper'), // preserve other exports
+      ...jest.requireActual('../src/helpers/helper'),
       checkJWTTokenExpiration: jest.fn().mockReturnValue(true),
-      issueJWT: jest.fn(), // Mock issueJWT but don't call it
+      issueJWT: jest.fn(),
     }));
 
     accessToken = 'mockAccessToken';
@@ -51,13 +53,34 @@ describe('JWT Token Handling', () => {
 
 describe('Utils', () => {
   describe('parameterChecker', () => {
-    it('should return dev URL for dev environment', () => {
-      expect(parameterChecker('dev')).toBe('https://dev.api.gateway.tech');
+    beforeEach(() => {
+      jest.resetAllMocks();
+    });
+
+    it('should return dev URL and privateKey mode for dev environment', () => {
+      const result = parameterChecker('dev', '', 'some-random-hex-key');
+      expect(result).toStrictEqual({
+        mode: 'privateKey',
+        url: 'https://dev.api.gateway.tech',
+        value: 'some-random-hex-key',
+      });
+    });
+
+    it('should throw error if JWT is expired', () => {
+      const mockExpiredJwt = 'expiredMockJwt';
+      jest.mock('../src/helpers/helper', () => ({
+        ...jest.requireActual('../src/helpers/helper'),
+        checkJWTTokenExpiration: jest.fn().mockReturnValue(false),
+      }));
+
+      expect(() => parameterChecker('dev', mockExpiredJwt)).toThrow(
+        'The provided token is expired or invalid.',
+      );
     });
 
     it('should throw error for invalid environment', () => {
       expect(() => parameterChecker('production' as any)).toThrow(
-        'No valid url found!. Use sandbox or production url',
+        'Need jwt or private key',
       );
     });
 
@@ -65,6 +88,10 @@ describe('Utils', () => {
       expect(() => parameterChecker(undefined as any)).toThrow(
         'No url found!.Use either sandbox or production env',
       );
+    });
+
+    it('should throw error if neither JWT nor privateKey is provided', () => {
+      expect(() => parameterChecker('dev')).toThrow('Need jwt or private key');
     });
   });
 
@@ -109,7 +136,7 @@ describe('Utils', () => {
 
     it('should add authorization header for protected routes', async () => {
       const mockAuthInstance = {
-        generateSignMessage: jest.fn().mockResolvedValue('message'),
+        getMessage: jest.fn().mockResolvedValue('message'),
         login: jest.fn().mockResolvedValue('jwt_token'),
       };
       (Auth as jest.MockedClass<typeof Auth>).mockImplementation(
@@ -147,6 +174,73 @@ describe('Utils', () => {
     it('should convert Date to RFC3339 format', () => {
       const date = new Date('2023-05-15T10:30:00Z');
       expect(toRFC3339(date)).toBe('2023-05-15T10:30:00.000Z');
+    });
+  });
+
+  describe('checkJWTTokenExpiration', () => {
+    const mockCurrentTime = Math.floor(Date.now() / 1000);
+
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should return true if the token is valid and not expired', () => {
+      const mockToken = 'mockToken';
+      const mockDecodedToken = {
+        exp: mockCurrentTime + 3600,
+      };
+
+      (jwt.decode as jest.Mock).mockReturnValue(mockDecodedToken);
+
+      const result = checkJWTTokenExpiration(mockToken);
+      expect(jwt.decode).toHaveBeenCalledWith(mockToken);
+      expect(result).toBe(true);
+    });
+
+    it('should return false if the token is expired', () => {
+      const mockToken = 'mockToken';
+      const mockDecodedToken = {
+        exp: mockCurrentTime - 100,
+      };
+
+      (jwt.decode as jest.Mock).mockReturnValue(mockDecodedToken);
+
+      const result = checkJWTTokenExpiration(mockToken);
+      expect(jwt.decode).toHaveBeenCalledWith(mockToken);
+      expect(result).toBe(false);
+    });
+
+    it('should return false if the token does not have an exp field', () => {
+      const mockToken = 'mockToken';
+      const mockDecodedToken = {};
+
+      (jwt.decode as jest.Mock).mockReturnValue(mockDecodedToken);
+
+      const result = checkJWTTokenExpiration(mockToken);
+      expect(jwt.decode).toHaveBeenCalledWith(mockToken);
+      expect(result).toBe(true);
+    });
+
+    it('should return false if jwt.decode returns null', () => {
+      const mockToken = 'mockToken';
+
+      (jwt.decode as jest.Mock).mockReturnValue(null);
+
+      const result = checkJWTTokenExpiration(mockToken);
+      expect(jwt.decode).toHaveBeenCalledWith(mockToken);
+      expect(result).toBe(false);
+    });
+
+    it('should return false if jwt.decode throws an error', () => {
+      const mockToken = 'mockToken';
+
+      (jwt.decode as jest.Mock).mockImplementation(() => {
+        throw new Error('Error decoding token');
+      });
+
+      const result = checkJWTTokenExpiration(mockToken);
+      expect(jwt.decode).toHaveBeenCalledWith(mockToken);
+      expect(result).toBe(false);
     });
   });
 });
