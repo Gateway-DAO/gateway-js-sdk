@@ -21,15 +21,15 @@ export class Account {
   }
 
   /**
-   * The `createAccount` function in TypeScript asynchronously creates a new account by verifying a
-   * message, sending a POST request to an endpoint, and returning a token upon success.
-   * @param {AccountCreateRequest}  - The `createAccount` function takes in an `AccountCreateRequest`
-   * object with the following parameters:
-   * @returns The `createAccount` function returns a token from the `data` object after successfully
-   * verifying the message signature and creating an account with the provided username and wallet
-   * address.
+   * The `create` function in TypeScript asynchronously verifies a message, then sends a POST request to
+   * create an account and returns the generated token.
+   * @param {AccountCreateRequest}  - The `create` method takes in an `AccountCreateRequest` object with
+   * the following parameters:
+   * @returns The `create` function is returning a token from the `data` object after successfully
+   * verifying the message signature and creating a new account with the provided information (message,
+   * signature, username, wallet address).
    */
-  async createAccount({
+  async create({
     message,
     signature,
     username,
@@ -49,13 +49,13 @@ export class Account {
   }
 
   /**
-   * This async function retrieves account information by making a GET request to '/accounts/me' and
-   * handles errors by throwing a custom GTWError if any occur.
-   * @returns The `getAccountInfo` function is returning the `data` object fetched from the
-   * `/accounts/me` endpoint. If there is an error during the API call, a `GTWError` is thrown with the
-   * error and response details.
+   * This async function retrieves the account information for the currently authenticated user.
+   * @returns The `getMe` function is returning a Promise that resolves to a `MyAccountResponse` object.
+   * This object is obtained by making a GET request to the '/accounts/me' endpoint using
+   * `this.client.GET('/accounts/me')`. If there is an error during the request, a `GTWError` is thrown
+   * with the error and response details. Otherwise, the function returns the data obtained from
    */
-  async getAccountInfo(): Promise<MyAccountResponse> {
+  async getMe(): Promise<MyAccountResponse> {
     const { data, response, error } = await this.client.GET('/accounts/me');
 
     if (error) {
@@ -66,15 +66,19 @@ export class Account {
   }
 
   /**
-   * The function `updateAccount` asynchronously updates the profile picture and username of the current
-   * account using a PATCH request.
-   * @param  - The `updateAccount` function takes in an object with two properties: `profile_picture` and
-   * `username`, both of type string. These values are used to update the user's account information by
-   * making a PATCH request to the `/accounts/me` endpoint with the provided data. If there is an error
-   * @returns The `updateAccount` function is returning the `data` object after making a PATCH request to
-   * update the account information (profile picture and username).
+   * This TypeScript function updates the profile picture and username of the current user's account
+   * using a PATCH request.
+   * @param {string} [profile_picture] - The `profile_picture` parameter in the `updateMe` function is
+   * used to update the profile picture of the current user's account. It is an optional parameter,
+   * meaning you can choose to provide a new profile picture URL or leave it empty to not update the
+   * profile picture.
+   * @param {string} [username] - The `username` parameter in the `updateMe` function is used to update
+   * the username of the account. If a new `username` value is provided when calling this function, it
+   * will be used to update the username associated with the account.
+   * @returns The `updateMe` function is returning the `data` object after making a PATCH request to
+   * update the user's profile picture and username.
    */
-  async updateAccount(profile_picture?: string, username?: string) {
+  async updateMe(profile_picture?: string, username?: string) {
     const { data, error, response } = await this.client.PATCH('/accounts/me', {
       body: { profile_picture, username },
     });

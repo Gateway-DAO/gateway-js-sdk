@@ -14,14 +14,13 @@ export class Wallet {
   }
 
   /**
-   * The `addWallet` function in TypeScript asynchronously adds a new wallet by sending a POST request
-   * to the `/accounts/me/wallets` endpoint, and returns the updated account information upon success.
-   * @param {WalletCreateRequest} wallet - The `wallet` parameter is an object that contains the
-   * `address` of the wallet to be added.
-   * @returns The `addWallet` function returns the updated account information (`MyAccountResponse`)
-   * after successfully adding the wallet.
+   * This async function adds a wallet address to the user's account and returns a response.
+   * @param {string} wallet - The `add` function is an asynchronous function that takes a `wallet`
+   * parameter of type string. This function sends a POST request to create a new wallet for the current
+   * account. The wallet address is provided in the `wallet` parameter and is sent in the request body.
+   * @returns The `add` function is returning a `Promise` that resolves to a `MyAccountResponse` object.
    */
-  async addWallet(wallet: string): Promise<MyAccountResponse> {
+  async add(wallet: string): Promise<MyAccountResponse> {
     const { data, error, response } = await this.client.POST(
       '/accounts/me/wallets',
       {
@@ -37,13 +36,16 @@ export class Wallet {
   }
 
   /**
-   * The `removeWallet` function asynchronously removes a wallet by making a DELETE request to the
-   * `/accounts/me/wallets/{address}` endpoint, and returns the updated account information upon success.
-   * @param {string} address - The `address` parameter is the wallet address that needs to be removed.
-   * @returns The `removeWallet` function returns the updated account information (`MyAccountResponse`)
-   * after successfully removing the wallet.
+   * This TypeScript function asynchronously removes a wallet associated with a specific address from the
+   * user's account.
+   * @param {string} address - The `remove` function is an asynchronous function that takes a `string`
+   * parameter called `address`. This function sends a DELETE request to the endpoint
+   * `/accounts/me/wallets/{address}` with the provided `address` parameter as part of the path. It then
+   * returns a `Promise` that resolves
+   * @returns The `remove` function is returning a `Promise` that resolves to a `MyAccountResponse`
+   * object.
    */
-  async removeWallet(address: string): Promise<MyAccountResponse> {
+  async remove(address: string): Promise<MyAccountResponse> {
     const { data, error, response } = await this.client.DELETE(
       '/accounts/me/wallets/{address}',
       {
