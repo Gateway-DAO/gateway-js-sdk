@@ -29,7 +29,7 @@ describe('Auth Unit Test', () => {
   test('should generate sign message', async () => {
     mockGet.mockResolvedValue(successMessage());
 
-    const message = await auth.generateSignMessage();
+    const message = await auth.getMessage();
     expect(message).toBeDefined();
     expect(mockGet).toHaveBeenCalledWith(routes.GenerateSignMessage);
   });
@@ -37,7 +37,7 @@ describe('Auth Unit Test', () => {
   it('should throw GTWError for generate sign message', async () => {
     mockGet.mockResolvedValue(errorMessage());
 
-    await expect(auth.generateSignMessage()).rejects.toThrow(GTWError);
+    await expect(auth.getMessage()).rejects.toThrow(GTWError);
     expect(mockGet).toHaveBeenCalledWith('/auth/message');
     expect(mockGet).toHaveBeenCalledWith(routes.GenerateSignMessage);
   });
@@ -45,7 +45,7 @@ describe('Auth Unit Test', () => {
   test('should generate refresh token', async () => {
     mockGet.mockResolvedValue(successMessage({ data: { token: 'test' } }));
 
-    const message = await auth.generateRefreshToken();
+    const message = await auth.getRefreshToken();
 
     expect(message).toBeDefined();
     expect(mockGet).toHaveBeenCalledWith(routes.RefreshToken);
@@ -54,7 +54,7 @@ describe('Auth Unit Test', () => {
   it('should throw GTWError for generate refresh token', async () => {
     mockGet.mockResolvedValue(errorMessage());
 
-    await expect(auth.generateRefreshToken()).rejects.toThrow(GTWError);
+    await expect(auth.getRefreshToken()).rejects.toThrow(GTWError);
     expect(mockGet).toHaveBeenCalledWith(routes.RefreshToken);
   });
 

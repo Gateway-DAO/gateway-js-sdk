@@ -142,13 +142,13 @@ export interface paths {
         };
       };
       responses: {
-        /** @description Created */
-        201: {
+        /** @description OK */
+        200: {
           headers: {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['model.MessageResponse'];
+            'application/json': components['schemas']['model.MyAccountResponse'];
           };
         };
       };
@@ -191,7 +191,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['model.MessageResponse'];
+            'application/json': components['schemas']['model.MyAccountResponse'];
           };
         };
       };
@@ -1049,7 +1049,7 @@ export interface components {
       id: number;
     };
     'model.DataModel': {
-      created_at: string;
+      created_at?: string;
       created_by: string;
       deleted_at?: string;
       description: string;
@@ -1057,7 +1057,7 @@ export interface components {
       schema: Record<string, never>;
       tags?: string[];
       title: string;
-      updated_at: string;
+      updated_at?: string;
     };
     'model.DataModelRequest': {
       description: string;

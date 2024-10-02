@@ -62,13 +62,16 @@ const generateTypes = (definitions) => {
 import type { MediaType } from 'openapi-typescript-helpers';import { paths } from '../api';
 import { WalletService } from '../services/wallet-service';
 \n\n`,
-    `export type Environment = 'dev' | 'prod';
+    `export type Environment = 'dev' | 'prod';export type TokenManagementMode = 'jwt' | 'privateKey';
 \n`,
     `export interface Config {
-  privateKey: string;
+    jwt?:string
   environment: Environment;
   logging?: boolean;
-  walletType: WalletTypeEnum;
+  wallet?: {
+    privateKey: string;
+    walletType: WalletTypeEnum;
+  };
 }\n\n`,
     `export interface WalletSignMessageType {
   signature: string;
