@@ -28,7 +28,7 @@ describe('Account', () => {
     it('should return with new account with given credentials', async () => {
       mockPost.mockResolvedValue(successMessage({ data: { token: 'test' } }));
 
-      const result = await account.createAccount(
+      const result = await account.create(
         authDetails({ username: 'testuser' }),
       );
 
@@ -42,7 +42,7 @@ describe('Account', () => {
       mockPost.mockResolvedValue(errorMessage());
 
       await expect(
-        account.createAccount(authDetails({ username: 'testuser' })),
+        account.create(authDetails({ username: 'testuser' })),
       ).rejects.toThrow(GTWError);
       expect(mockPost).toHaveBeenCalledWith(routes.CreateAccount, {
         body: authDetails({ username: 'testuser' }),
@@ -62,7 +62,7 @@ describe('Account', () => {
         error: null,
       });
 
-      const result = await account.getAccountInfo();
+      const result = await account.getMe();
 
       expect(result).toEqual(mockData);
       expect(mockClient.GET).toHaveBeenCalledWith(routes.GetMyAccount);
@@ -71,7 +71,7 @@ describe('Account', () => {
     it('should throw GTWError when API call fails', async () => {
       mockGet.mockResolvedValue(errorMessage());
 
-      await expect(account.getAccountInfo()).rejects.toThrow(GTWError);
+      await expect(account.getMe()).rejects.toThrow(GTWError);
       expect(mockClient.GET).toHaveBeenCalledWith(routes.GetMyAccount);
     });
   });
@@ -95,7 +95,7 @@ describe('Account', () => {
         error: null,
       });
 
-      const result = await account.updateAccount(
+      const result = await account.updateMe(
         'https://example.com/profile-picture.png',
       );
 
@@ -117,7 +117,7 @@ describe('Account', () => {
         error: { error: 'Unauthorized' },
       });
 
-      await expect(account.updateAccount()).rejects.toThrow(GTWError);
+      await expect(account.updateMe()).rejects.toThrow(GTWError);
       expect(mockClient.PATCH).toHaveBeenCalledWith(routes.UpdateAccount, {
         body: {
           profile_picture: 'https://example.com/profile-picture.png',

@@ -1,8 +1,8 @@
 import { ValidationService } from '../src/services/validator-service';
 import { GTWError } from '../src/helpers/custom-error';
 import { DataModel } from '../src/modules/data-model/data-model';
-import { Config, DataModelRequest } from '../src/common/types';
-import { mockClient, mockGet, mockPost, mockPut } from './stubs/common.stub';
+import { DataModelRequest } from '../src/common/types';
+import { mockClient, mockGet, mockPost } from './stubs/common.stub';
 import { routes } from '../src/common/routes';
 
 const mockValidationService = {} as ValidationService;
@@ -29,7 +29,7 @@ describe('DataModel', () => {
         response: {} as Response,
       });
 
-      const result = await dataModel.getDataModels();
+      const result = await dataModel.getAll();
 
       expect(result).toEqual(mockResponse);
       expect(mockClient.GET).toHaveBeenCalledWith(routes.GetDataModels, {
@@ -46,12 +46,12 @@ describe('DataModel', () => {
         response: mockResponse,
       });
 
-      await expect(dataModel.getDataModels()).rejects.toThrow(GTWError);
-      await expect(dataModel.getDataModels()).rejects.toHaveProperty(
+      await expect(dataModel.getAll()).rejects.toThrow(GTWError);
+      await expect(dataModel.getAll()).rejects.toHaveProperty(
         'statusCode',
         400,
       );
-      await expect(dataModel.getDataModels()).rejects.toHaveProperty(
+      await expect(dataModel.getAll()).rejects.toHaveProperty(
         'message',
         'API Error',
       );
@@ -67,7 +67,7 @@ describe('DataModel', () => {
         response: {} as Response,
       });
 
-      const result = await dataModel.getDataModelById(1);
+      const result = await dataModel.getById(1);
 
       expect(result).toEqual(mockResponse);
       expect(mockClient.GET).toHaveBeenCalledWith(routes.GetDataModelByID, {
@@ -84,12 +84,12 @@ describe('DataModel', () => {
         response: mockResponse,
       });
 
-      await expect(dataModel.getDataModelById(1)).rejects.toThrow(GTWError);
-      await expect(dataModel.getDataModelById(1)).rejects.toHaveProperty(
+      await expect(dataModel.getById(1)).rejects.toThrow(GTWError);
+      await expect(dataModel.getById(1)).rejects.toHaveProperty(
         'statusCode',
         404,
       );
-      await expect(dataModel.getDataModelById(1)).rejects.toHaveProperty(
+      await expect(dataModel.getById(1)).rejects.toHaveProperty(
         'message',
         'Not Found',
       );
@@ -110,7 +110,7 @@ describe('DataModel', () => {
         response: {} as Response,
       });
 
-      const result = await dataModel.getMyDataModels();
+      const result = await dataModel.getMy();
 
       expect(result).toEqual(mockResponse);
       expect(mockClient.GET).toHaveBeenCalledWith(routes.GetDataModelsByUser, {
@@ -127,12 +127,9 @@ describe('DataModel', () => {
         response: mockResponse,
       });
 
-      await expect(dataModel.getMyDataModels()).rejects.toThrow(GTWError);
-      await expect(dataModel.getMyDataModels()).rejects.toHaveProperty(
-        'statusCode',
-        401,
-      );
-      await expect(dataModel.getMyDataModels()).rejects.toHaveProperty(
+      await expect(dataModel.getMy()).rejects.toThrow(GTWError);
+      await expect(dataModel.getMy()).rejects.toHaveProperty('statusCode', 401);
+      await expect(dataModel.getMy()).rejects.toHaveProperty(
         'message',
         'Unauthorized',
       );
@@ -158,7 +155,7 @@ describe('DataModel', () => {
 
       mockPost.mockResolvedValue({ data: expectedOutput, error: null });
 
-      const result = await dataModel.createDataModel(input);
+      const result = await dataModel.create(input);
 
       expect(result).toEqual(expectedOutput);
       expect(mockClient.POST).toHaveBeenCalledWith(routes.CreateDataModel, {
@@ -181,7 +178,7 @@ describe('DataModel', () => {
         response: {},
       });
 
-      await expect(dataModel.createDataModel(input)).rejects.toThrow(GTWError);
+      await expect(dataModel.create(input)).rejects.toThrow(GTWError);
       expect(mockClient.POST).toHaveBeenCalledWith(routes.CreateDataModel, {
         body: input,
       });
@@ -208,7 +205,7 @@ describe('DataModel', () => {
 
   //     mockPut.mockResolvedValue({ data: expectedOutput, error: null });
 
-  //     const result = await dataModel.updateDataModel(dataModelId, input);
+  //     const result = await dataModel.update(dataModelId, input);
 
   //     expect(result).toEqual(expectedOutput);
   //     expect(mockClient.PUT).toHaveBeenCalledWith(routes.UpdateDataModel, {
@@ -234,7 +231,7 @@ describe('DataModel', () => {
   //     });
 
   //     await expect(
-  //       dataModel.updateDataModel(dataModelId, input),
+  //       dataModel.update(dataModelId, input),
   //     ).rejects.toThrow(GTWError);
   //     expect(mockClient.PUT).toHaveBeenCalledWith(routes.UpdateDataModel, {
   //       body: input,
