@@ -46,9 +46,10 @@ export const parameterChecker = (
     throw new Error('Need jwt or private key');
   }
 
-  const urls = ['https://dev.api.gateway.tech'];
+  const urls = ['https://dev.api.gateway.tech', 'https://api.gateway.tech'];
 
   if (environment === 'dev') return { url: urls[0], mode, value };
+  else if (environment === 'prod') return { url: urls[1], mode, value };
   else throw new Error('No valid url found!. Use sandbox or production url');
 };
 

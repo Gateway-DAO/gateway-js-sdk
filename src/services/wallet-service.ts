@@ -16,9 +16,9 @@ export class WalletService {
     walletType?: WalletTypeEnum | undefined;
   }) {
     this.walletPrivateKey = walletPrivateKey;
-    this.walletType = walletType ? walletType : WalletTypeEnum.SECP256K1;
+    this.walletType = walletType ? walletType : WalletTypeEnum.Etherum;
     this.wallet =
-      this.walletType === WalletTypeEnum.SECP256K1
+      this.walletType === WalletTypeEnum.Etherum
         ? new EtherumService(this.walletPrivateKey)
         : new SolanaService(this.walletPrivateKey);
   }
