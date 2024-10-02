@@ -7,14 +7,17 @@ import {
 import { paths } from '../../api';
 import { GTWError } from '../../helpers/custom-error';
 import { CryptoService } from '../../services/crypto-service';
+import { Wallet } from './wallet';
 
 export class Account {
   private client: OpenAPIClient<paths, MediaType>;
   private cryptoService: CryptoService;
+  protected wallet: Wallet;
 
   constructor(client: OpenAPIClient<paths, MediaType>) {
     this.client = client;
     this.cryptoService = new CryptoService();
+    this.wallet = new Wallet(client);
   }
 
   /**

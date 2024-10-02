@@ -127,7 +127,7 @@ export type CreateDataAssetRequest = {
 export type DataAssetIDRequestAndResponse = { id: number };
 
 export type DataModel = {
-  created_at: string;
+  created_at?: string;
   created_by: string;
   deleted_at?: string;
   description: string;
@@ -135,7 +135,7 @@ export type DataModel = {
   schema: {};
   tags?: string[];
   title: string;
-  updated_at: string;
+  updated_at?: string;
 };
 
 export type DataModelRequest = {
