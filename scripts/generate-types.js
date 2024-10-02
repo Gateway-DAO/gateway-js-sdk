@@ -78,8 +78,8 @@ import { WalletService } from '../services/wallet-service';
   signingKey: string;
 }\n\n`,
     `export enum WalletTypeEnum {
-  ED25519 = 'ED25519',
-  SECP256K1 = 'SECP256K1',
+  Etherum = 'etherum',
+  Solana = 'solana',
 }\n\n`,
     `export interface JWTData {
   did: string;

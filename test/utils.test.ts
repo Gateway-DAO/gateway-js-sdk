@@ -233,7 +233,6 @@ describe('validateObjectProperties', () => {
   it('should throw an error if validation fails', () => {
     const obj = { did: 'invalidDID' };
 
-    // Spy on the validateDID method and make it throw an error
     jest.spyOn(validationService, 'validateDID').mockImplementation(() => {
       throw new Error('Invalid DID');
     });

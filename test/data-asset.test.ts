@@ -24,6 +24,8 @@ import {
   dataAssetStub,
 } from './stubs/data-asset.stub';
 import { routes } from '../src/common/routes';
+import { toRFC3339 } from '../src/helpers/helper';
+import { AccessLevel } from '../src/common/types';
 
 jest.mock('openapi-fetch');
 
@@ -82,6 +84,46 @@ describe('Data Assets Test', () => {
       body: {},
       bodySerializer: expect.any(Function),
     });
+
+    expect(id).toEqual(ID);
+  });
+
+  it('should create a file-based data asset with ACL and expiration date', async () => {
+    mockPost.mockResolvedValue(successMessage({ data: { id: ID } }));
+
+    const fileName = 'test.txt';
+    const fileBuffer = Buffer.from('test content');
+    const mockACL = { address: '', roles: [AccessLevel.VIEW] };
+    const mockExpirationDate = new Date('2024-10-01');
+
+    mockValidateFileName = jest
+      .spyOn(validationService, 'validateFileName')
+      .mockReturnValue({
+        name: 'test-file',
+        extension: 'text/plain',
+      });
+
+    const id = await dataAsset.createNonStructured(
+      fileName,
+      fileBuffer,
+      mockACL,
+      mockExpirationDate,
+    );
+
+    expect(mockValidateFileName).toHaveBeenCalledWith(fileName);
+    expect(mockPost).toHaveBeenCalledWith('/data-assets', {
+      body: {},
+      bodySerializer: expect.any(Function),
+    });
+
+    const formData = new FormData();
+    formData.append(
+      'data',
+      new Blob([fileBuffer], { type: 'text/plain' }),
+      fileName,
+    );
+    formData.append('acl', JSON.stringify(mockACL));
+    formData.append('expiration_date', toRFC3339(mockExpirationDate));
 
     expect(id).toEqual(ID);
   });
@@ -237,6 +279,49 @@ describe('Data Assets Test', () => {
     });
 
     expect(result).toEqual({ id: ID, name: 'Updated Data Asset' });
+  });
+
+  it('should update a file-based data asset with ACL and expiration date', async () => {
+    const id = 1;
+    const fileName = 'test.txt';
+    const fileBuffer = Buffer.from('test content');
+    const mockACL = { address: '', roles: [AccessLevel.VIEW] };
+    const mockExpirationDate = new Date('2024-10-01');
+
+    mockValidateFileName = jest
+      .spyOn(validationService, 'validateFileName')
+      .mockReturnValue({
+        name: 'test-file',
+        extension: 'text/plain',
+      });
+
+    mockPut.mockResolvedValue(successMessage());
+
+    const result = await dataAsset.updateNonStructured(
+      id,
+      fileName,
+      fileBuffer,
+      mockACL,
+      mockExpirationDate,
+    );
+
+    expect(mockValidateFileName).toHaveBeenCalledWith(fileName);
+    expect(mockPut).toHaveBeenCalledWith('/data-assets/{id}', {
+      params: { path: { id } },
+      body: {},
+      bodySerializer: expect.any(Function),
+    });
+
+    const formData = new FormData();
+    formData.append(
+      'data',
+      new Blob([fileBuffer], { type: 'text/plain' }),
+      fileName,
+    );
+    formData.append('acl', JSON.stringify(mockACL));
+    formData.append('expiration_date', toRFC3339(mockExpirationDate));
+
+    expect(result).toBeDefined();
   });
 
   it('should throw GTWError on failure', async () => {
