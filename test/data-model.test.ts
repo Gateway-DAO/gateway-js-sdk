@@ -1,8 +1,8 @@
 import { ValidationService } from '../src/services/validator-service';
 import { GTWError } from '../src/helpers/custom-error';
 import { DataModel } from '../src/modules/data-model/data-model';
-import { Config, DataModelRequest } from '../src/common/types';
-import { mockClient, mockGet, mockPost, mockPut } from './stubs/common.stub';
+import { DataModelRequest } from '../src/common/types';
+import { mockClient, mockGet, mockPost } from './stubs/common.stub';
 import { routes } from '../src/common/routes';
 
 const mockValidationService = {} as ValidationService;

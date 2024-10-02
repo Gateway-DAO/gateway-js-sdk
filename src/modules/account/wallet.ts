@@ -14,17 +14,20 @@ export class Wallet {
   }
 
   /**
-   * This async function adds a wallet address to the user's account and returns a response.
-   * @param {string} wallet - The `add` function is an asynchronous function that takes a `wallet`
-   * parameter of type string. This function sends a POST request to create a new wallet for the current
-   * account. The wallet address is provided in the `wallet` parameter and is sent in the request body.
+   * The `add` function in TypeScript adds a new wallet address to the user's account asynchronously.
+   * @param {string} address - The `add` function in the code snippet you provided is an asynchronous
+   * function that takes a `string` parameter called `address`. The function first checks if the
+   * `address` string is empty using a validation service method `isEmptyString(address)`. Then, it makes
+   * a POST request to a specific endpoint
    * @returns The `add` function is returning a `Promise` that resolves to a `MyAccountResponse` object.
    */
-  async add(wallet: string): Promise<MyAccountResponse> {
+
+  async add(address: string): Promise<MyAccountResponse> {
+    this.validationService.isEmptyString(address);
     const { data, error, response } = await this.client.POST(
       '/accounts/me/wallets',
       {
-        body: { address: wallet },
+        body: { address: address },
       },
     );
 
@@ -46,6 +49,8 @@ export class Wallet {
    * object.
    */
   async remove(address: string): Promise<MyAccountResponse> {
+    this.validationService.isEmptyString(address);
+
     const { data, error, response } = await this.client.DELETE(
       '/accounts/me/wallets/{address}',
       {
