@@ -187,7 +187,7 @@ describe('Utils', () => {
     it('should return true if the token is valid and not expired', () => {
       const mockToken = 'mockToken';
       const mockDecodedToken = {
-        exp: mockCurrentTime + 3600, // Token expires in 1 hour
+        exp: mockCurrentTime + 3600,
       };
 
       (jwt.decode as jest.Mock).mockReturnValue(mockDecodedToken);
@@ -200,7 +200,7 @@ describe('Utils', () => {
     it('should return false if the token is expired', () => {
       const mockToken = 'mockToken';
       const mockDecodedToken = {
-        exp: mockCurrentTime - 100, // Token expired 100 seconds ago
+        exp: mockCurrentTime - 100,
       };
 
       (jwt.decode as jest.Mock).mockReturnValue(mockDecodedToken);
@@ -212,15 +212,13 @@ describe('Utils', () => {
 
     it('should return false if the token does not have an exp field', () => {
       const mockToken = 'mockToken';
-      const mockDecodedToken = {
-        // no 'exp' field
-      };
+      const mockDecodedToken = {};
 
       (jwt.decode as jest.Mock).mockReturnValue(mockDecodedToken);
 
       const result = checkJWTTokenExpiration(mockToken);
       expect(jwt.decode).toHaveBeenCalledWith(mockToken);
-      expect(result).toBe(true); // The token is considered valid if no `exp` field
+      expect(result).toBe(true);
     });
 
     it('should return false if jwt.decode returns null', () => {
