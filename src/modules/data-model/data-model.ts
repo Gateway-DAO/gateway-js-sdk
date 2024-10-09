@@ -105,7 +105,7 @@ export class DataModel {
    * successful, it returns the data model. If there is an error during the request, it throws a
    * `GTWError` with the error and response details.
    */
-  async getById(dataModelId: number): Promise<DataModelType> {
+  async get(dataModelId: number): Promise<DataModelType> {
     const { data, error, response } = await this.client.GET(
       '/data-models/{id}',
       {

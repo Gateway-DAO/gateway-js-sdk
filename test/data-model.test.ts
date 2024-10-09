@@ -2,7 +2,7 @@ import { ValidationService } from '../src/services/validator-service';
 import { GTWError } from '../src/helpers/custom-error';
 import { DataModel } from '../src/modules/data-model/data-model';
 import { DataModelRequest } from '../src/common/types';
-import { mockClient, mockGet, mockPost } from './stubs/common.stub';
+import { mockClient, mockGet, mockPost, mockPut } from './stubs/common.stub';
 import { routes } from '../src/common/routes';
 
 const mockValidationService = {} as ValidationService;
@@ -67,7 +67,7 @@ describe('DataModel', () => {
         response: {} as Response,
       });
 
-      const result = await dataModel.getById(1);
+      const result = await dataModel.get(1);
 
       expect(result).toEqual(mockResponse);
       expect(mockClient.GET).toHaveBeenCalledWith(routes.GetDataModelByID, {
@@ -84,12 +84,9 @@ describe('DataModel', () => {
         response: mockResponse,
       });
 
-      await expect(dataModel.getById(1)).rejects.toThrow(GTWError);
-      await expect(dataModel.getById(1)).rejects.toHaveProperty(
-        'statusCode',
-        404,
-      );
-      await expect(dataModel.getById(1)).rejects.toHaveProperty(
+      await expect(dataModel.get(1)).rejects.toThrow(GTWError);
+      await expect(dataModel.get(1)).rejects.toHaveProperty('statusCode', 404);
+      await expect(dataModel.get(1)).rejects.toHaveProperty(
         'message',
         'Not Found',
       );
