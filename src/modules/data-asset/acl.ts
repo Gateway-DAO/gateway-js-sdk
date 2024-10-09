@@ -1,6 +1,11 @@
 import { MediaType } from 'openapi-typescript-helpers';
 import { paths } from '../../api';
-import { OpenAPIClient, ACLRequest, PublicACL } from '../../common/types';
+import {
+  OpenAPIClient,
+  ACLRequest,
+  PublicACL,
+  DeleteACLRequest,
+} from '../../common/types';
 import { GTWError } from '../../helpers/custom-error';
 import { ValidationService } from '../../services/validator-service';
 
@@ -81,12 +86,12 @@ export class ACL {
    * access control entries should be deleted for the data
    * @returns the message from the `data` object, which is accessed using `data.message`.
    */
-  public async delete(id: number, aclList: ACLRequest[]) {
+  public async delete(id: number, aclList: DeleteACLRequest) {
     const { data, error, response } = await this.client.PATCH(
       '/data-assets/{id}/acl/delete',
       {
         params: { path: { id } },
-        body: aclList,
+        body: [aclList],
       },
     );
 

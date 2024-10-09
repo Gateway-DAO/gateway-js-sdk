@@ -78,7 +78,7 @@ import { WalletService } from '../services/wallet-service';
   signingKey: string;
 }\n\n`,
     `export enum WalletTypeEnum {
-  Etherum = 'etherum',
+  Ethereum = 'ethereum',
   Solana = 'solana',
 }\n\n`,
     `export interface JWTData {

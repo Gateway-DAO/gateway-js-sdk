@@ -135,14 +135,14 @@ export class DataAsset {
    * This TypeScript function retrieves received data assets with pagination parameters.
    * @param {number} [page=1] - The `page` parameter is used to specify the page number of the
    * paginated data that you want to retrieve. It defaults to 1 if not provided.
-   * @param {number} [page_size=10] - The `page_size` parameter in the `getReceivedToMe` function
+   * @param {number} [page_size=10] - The `page_size` parameter in the `getReceivedByMe` function
    * specifies the number of items to be displayed per page when fetching received data assets. By
    * default, it is set to 10, meaning that the function will return a maximum of 10 data assets per
    * page unless specified otherwise.
-   * @returns The `getReceivedToMe` function is returning a `HelperPaginatedResponse` object containing
+   * @returns The `getReceivedByMe` function is returning a `HelperPaginatedResponse` object containing
    * an array of `PublicDataAsset` objects.
    */
-  public async getReceivedToMe(page: number = 1, page_size: number = 10) {
+  public async getReceivedByMe(page: number = 1, page_size: number = 10) {
     const { data, response, error } = await this.client.GET(
       '/data-assets/received',
       {
@@ -160,14 +160,14 @@ export class DataAsset {
   /**
    * This TypeScript function retrieves detailed information about a public data asset using an API
    * call.
-   * @param {number} id - The `id` parameter in the `getDetail` function is a number that represents
+   * @param {number} id - The `id` parameter in the `get` function is a number that represents
    * the unique identifier of the data asset you want to retrieve details for.
-   * @returns The `getDetail` function is returning a Promise that resolves to a `PublicDataAsset`
+   * @returns The `get` function is returning a Promise that resolves to a `PublicDataAsset`
    * object. The function makes an asynchronous GET request to fetch details of a data asset with the
    * specified `id`. If there is an error during the request, a `GTWError` is thrown with the error and
    * response details. Otherwise, the function returns the fetched data.
    */
-  public async getDetail(id: number): Promise<PublicDataAsset> {
+  public async get(id: number): Promise<PublicDataAsset> {
     const { data, error, response } = await this.client.GET(
       '/data-assets/{id}',
       {
@@ -308,7 +308,7 @@ export class DataAsset {
    * representing the name of the file.
    */
   public async download(id: number): Promise<{ file: Blob; fileName: string }> {
-    const { name } = await this.getDetail(id);
+    const { name } = await this.get(id);
 
     const {
       data: file,

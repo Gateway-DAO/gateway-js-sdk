@@ -11,8 +11,8 @@ export type Environment = 'dev' | 'prod';
 export type TokenManagementMode = 'jwt' | 'privateKey';
 
 export interface Config {
-  environment: Environment;
   jwt?: string;
+  environment: Environment;
   logging?: boolean;
   wallet?: {
     privateKey: string;
@@ -26,7 +26,7 @@ export interface WalletSignMessageType {
 }
 
 export enum WalletTypeEnum {
-  Etherum = 'etherum',
+  Ethereum = 'ethereum',
   Solana = 'solana',
 }
 
@@ -131,7 +131,7 @@ export type CreateDataAssetRequest = {
 export type DataAssetIDRequestAndResponse = { id: number };
 
 export type DataModel = {
-  created_at?: string;
+  created_at: string;
   created_by: string;
   deleted_at?: string;
   description: string;
@@ -139,7 +139,7 @@ export type DataModel = {
   schema: {};
   tags?: string[];
   title: string;
-  updated_at?: string;
+  updated_at: string;
 };
 
 export type DataModelRequest = {
@@ -148,6 +148,8 @@ export type DataModelRequest = {
   tags?: string[];
   title: string;
 };
+
+export type DeleteACLRequest = { addresses: string[] };
 
 export type MessageResponse = { message: string };
 

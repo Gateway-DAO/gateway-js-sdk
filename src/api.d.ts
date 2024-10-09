@@ -696,7 +696,7 @@ export interface paths {
       /** @description Delete Assigned ACL Items Request */
       requestBody: {
         content: {
-          'application/json': components['schemas']['model.ACLRequest'][];
+          'application/json': components['schemas']['model.DeleteACLRequest'][];
         };
       };
       responses: {
@@ -852,12 +852,7 @@ export interface paths {
         path?: never;
         cookie?: never;
       };
-      /** @description Data Model */
-      requestBody: {
-        content: {
-          'application/json': components['schemas']['model.DataModelRequest'];
-        };
-      };
+      requestBody: components['requestBodies']['model.DataModelRequest'];
       responses: {
         /** @description Created */
         201: {
@@ -970,12 +965,7 @@ export interface paths {
         };
         cookie?: never;
       };
-      /** @description Data Model */
-      requestBody: {
-        content: {
-          'application/json': components['schemas']['model.DataModel'];
-        };
-      };
+      requestBody: components['requestBodies']['model.DataModelRequest'];
       responses: {
         /** @description OK */
         200: {
@@ -1049,7 +1039,7 @@ export interface components {
       id: number;
     };
     'model.DataModel': {
-      created_at?: string;
+      created_at: string;
       created_by: string;
       deleted_at?: string;
       description: string;
@@ -1057,13 +1047,16 @@ export interface components {
       schema: Record<string, never>;
       tags?: string[];
       title: string;
-      updated_at?: string;
+      updated_at: string;
     };
     'model.DataModelRequest': {
       description: string;
       schema: Record<string, never>;
       tags?: string[];
       title: string;
+    };
+    'model.DeleteACLRequest': {
+      addresses: string[];
     };
     'model.MessageResponse': {
       message: string;
@@ -1130,7 +1123,14 @@ export interface components {
   };
   responses: never;
   parameters: never;
-  requestBodies: never;
+  requestBodies: {
+    /** @description Data Model */
+    'model.DataModelRequest': {
+      content: {
+        'application/json': components['schemas']['model.DataModelRequest'];
+      };
+    };
+  };
   headers: never;
   pathItems: never;
 }
