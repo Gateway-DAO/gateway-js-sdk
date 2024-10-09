@@ -21,6 +21,25 @@ export class ValidationService {
   }
 
   /**
+   * The function checks if a string is empty or contains only whitespace.
+   * @param {string} value - The `value` parameter in the `isEmptyString` function is a string that you
+   * want to check for emptiness or containing only whitespace characters. The function will return
+   * `true` if the string is not empty or does not contain only whitespace characters, otherwise it will
+   * throw an error indicating that the string
+   * @returns The `isEmptyString` function is returning a boolean value, either `true` if the provided
+   * string is not empty or contains only whitespace, or it will throw an error if the string is empty or
+   * contains only whitespace.
+   */
+  public isEmptyString(value: string): boolean {
+    if (value.trim().length === 0) {
+      throw new Error(
+        'The provided string is empty or contains only whitespace',
+      );
+    }
+    return true;
+  }
+
+  /**
    * The function `validateString` checks if a given string meets a minimum length requirement and
    * returns a boolean value accordingly.
    * @param {string} value - The `value` parameter in the `validateString` function is a string that

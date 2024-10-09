@@ -18,6 +18,29 @@ export const errorMessage = (overrideError?: any) => ({
 
 export const ID = 1;
 
+export const mockWalletResponse = (overrideParams?: any) => ({
+  data: {
+    created_at: '2023-01-01',
+    did: 'did:something',
+    profile_picture: 'profile_picture_url',
+    storage_size: 1000,
+    updated_at: '2023-01-02',
+    username: 'user',
+    username_updated_at: '2023-01-03',
+    wallet_addresses: [
+      {
+        account_id: 1,
+        address: '7z6D7cT8W5BXpHeEwr51wwheFzY7C5L1Jo7f6y9vER4T',
+        chain: 'eth',
+        created_at: '2023-01-01',
+        id: 1,
+        updated_at: '2023-01-02',
+      },
+    ],
+  },
+  ...overrideParams,
+});
+
 export const authDetails = (overrideAuth?: any) => ({
   message: 'test',
   signature:

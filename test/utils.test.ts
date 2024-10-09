@@ -39,6 +39,17 @@ describe('UTILS VALIDATORS TESTING', () => {
     ).toThrow('f17ac10b-58cc-4372-a567 is not valid');
   });
 
+  it('isEmptyString validator', () => {
+    const result = validationService.isEmptyString('test pda');
+    expect(result).toBeDefined();
+    expect(() => validationService.isEmptyString('')).toThrow(
+      'The provided string is empty or contains only whitespace',
+    );
+    expect(() => validationService.isEmptyString('   ')).toThrow(
+      'The provided string is empty or contains only whitespace',
+    );
+  });
+
   it('string validator', () => {
     const result = validationService.validateString('test pda');
     expect(result).toBeDefined();
