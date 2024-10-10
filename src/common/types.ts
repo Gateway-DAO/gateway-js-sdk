@@ -7,12 +7,11 @@ import type { MediaType } from 'openapi-typescript-helpers';
 import { paths } from '../api';
 import { WalletService } from '../services/wallet-service';
 
-export type Environment = 'dev' | 'prod';
 export type TokenManagementMode = 'jwt' | 'privateKey';
 
 export interface Config {
-  environment: Environment;
   jwt?: string;
+  apiUrl?: string;
   logging?: boolean;
   wallet?: {
     privateKey: string;
@@ -26,8 +25,9 @@ export interface WalletSignMessageType {
 }
 
 export enum WalletTypeEnum {
-  Etherum = 'etherum',
+  Ethereum = 'ethereum',
   Solana = 'solana',
+  Sui = 'sui',
 }
 
 export interface JWTData {
@@ -38,7 +38,6 @@ export interface JWTData {
 
 export interface CustomConfig {
   privateKey: string;
-  environment: 'dev' | 'prod' | 'staging';
   wallet: WalletService;
   client: OpenAPIClient<paths, MediaType>;
 }
@@ -131,7 +130,7 @@ export type CreateDataAssetRequest = {
 export type DataAssetIDRequestAndResponse = { id: number };
 
 export type DataModel = {
-  created_at?: string;
+  created_at: string;
   created_by: string;
   deleted_at?: string;
   description: string;
@@ -139,7 +138,7 @@ export type DataModel = {
   schema: {};
   tags?: string[];
   title: string;
-  updated_at?: string;
+  updated_at: string;
 };
 
 export type DataModelRequest = {
@@ -148,6 +147,8 @@ export type DataModelRequest = {
   tags?: string[];
   title: string;
 };
+
+export type DeleteACLRequest = { addresses: string[] };
 
 export type MessageResponse = { message: string };
 

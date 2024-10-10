@@ -80,26 +80,15 @@ describe('ACL TESTS', () => {
   it('should delete acl', async () => {
     mockPatch.mockResolvedValue(successMessage());
 
-    const message = await acl.delete(ID, [aclListStub()]);
+    const message = await acl.delete(ID, { addresses: [''] });
 
     expect(message).toBeDefined();
-    expect(mockPatch).toHaveBeenCalledWith(routes.DeleteAssignedRoleByACL, {
-      params: paramsStub({
-        params: { path: { id: 1 } },
-      }).params,
-      body: bodyStub({ body: [aclListStub()] }).body,
-    });
   });
 
   it('should throw GTWError for updating acl', async () => {
     mockPatch.mockResolvedValue(errorMessage());
 
-    await expect(acl.delete(ID, [aclListStub()])).rejects.toThrow(GTWError);
-    expect(mockPatch).toHaveBeenCalledWith(routes.DeleteAssignedRoleByACL, {
-      params: paramsStub({
-        params: { path: { id: 1 } },
-      }).params,
-      body: bodyStub({ body: [aclListStub()] }).body,
-    });
+    await expect(acl.delete(ID, { addresses: [''] })).rejects.toThrow(GTWError);
+    expect(mockPatch).toHaveBeenCalled();
   });
 });

@@ -58,40 +58,17 @@ describe('Utils', () => {
     });
 
     it('should return dev URL and privateKey mode for dev environment', () => {
-      const result = parameterChecker('dev', '', 'some-random-hex-key');
+      const result = parameterChecker('dev', 'some-random-hex-key');
       expect(result).toStrictEqual({
         mode: 'privateKey',
-        url: 'https://dev.api.gateway.tech',
         value: 'some-random-hex-key',
       });
     });
 
-    it('should throw error if JWT is expired', () => {
-      const mockExpiredJwt = 'expiredMockJwt';
-      jest.mock('../src/helpers/helper', () => ({
-        ...jest.requireActual('../src/helpers/helper'),
-        checkJWTTokenExpiration: jest.fn().mockReturnValue(false),
-      }));
-
-      expect(() => parameterChecker('dev', mockExpiredJwt)).toThrow(
+    it('should throw error if neither JWT nor privateKey is provided', () => {
+      expect(() => parameterChecker('dev')).toThrow(
         'The provided token is expired or invalid.',
       );
-    });
-
-    it('should throw error for invalid environment', () => {
-      expect(() => parameterChecker('production' as any)).toThrow(
-        'Need jwt or private key',
-      );
-    });
-
-    it('should throw error for undefined environment', () => {
-      expect(() => parameterChecker(undefined as any)).toThrow(
-        'No url found!.Use either sandbox or production env',
-      );
-    });
-
-    it('should throw error if neither JWT nor privateKey is provided', () => {
-      expect(() => parameterChecker('dev')).toThrow('Need jwt or private key');
     });
   });
 

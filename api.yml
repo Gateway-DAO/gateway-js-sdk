@@ -431,7 +431,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/model.ACLRequest'
+                $ref: '#/components/schemas/model.DeleteACLRequest'
         description: Delete Assigned ACL Items Request
         required: true
       responses:
@@ -537,12 +537,7 @@ paths:
         - Data models
       summary: Create data model
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/model.DataModelRequest'
-        description: Data Model
-        required: true
+        $ref: '#/components/requestBodies/model.DataModelRequest'
       responses:
         '201':
           description: Created
@@ -620,12 +615,7 @@ paths:
           schema:
             type: integer
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/model.DataModel'
-        description: Data Model
-        required: true
+        $ref: '#/components/requestBodies/model.DataModelRequest'
       responses:
         '200':
           description: OK
@@ -637,6 +627,14 @@ servers:
   - url: 'https://localhost:8080'
   - url: 'http://localhost:8080'
 components:
+  requestBodies:
+    model.DataModelRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/model.DataModelRequest'
+      description: Data Model
+      required: true
   securitySchemes:
     BearerAuth:
       description: Type "Bearer" followed by a space and the JWT token.
@@ -779,11 +777,13 @@ components:
     model.DataModel:
       type: object
       required:
+        - created_at
         - created_by
         - description
         - id
         - schema
         - title
+        - updated_at
       properties:
         created_at:
           type: string
@@ -822,6 +822,15 @@ components:
             type: string
         title:
           type: string
+    model.DeleteACLRequest:
+      type: object
+      required:
+        - addresses
+      properties:
+        addresses:
+          type: array
+          items:
+            type: string
     model.MessageResponse:
       type: object
       required:

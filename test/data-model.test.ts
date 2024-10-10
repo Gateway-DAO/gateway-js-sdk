@@ -2,7 +2,7 @@ import { ValidationService } from '../src/services/validator-service';
 import { GTWError } from '../src/helpers/custom-error';
 import { DataModel } from '../src/modules/data-model/data-model';
 import { DataModelRequest } from '../src/common/types';
-import { mockClient, mockGet, mockPost } from './stubs/common.stub';
+import { mockClient, mockGet, mockPost, mockPut } from './stubs/common.stub';
 import { routes } from '../src/common/routes';
 
 const mockValidationService = {} as ValidationService;
@@ -67,7 +67,7 @@ describe('DataModel', () => {
         response: {} as Response,
       });
 
-      const result = await dataModel.getById(1);
+      const result = await dataModel.get(1);
 
       expect(result).toEqual(mockResponse);
       expect(mockClient.GET).toHaveBeenCalledWith(routes.GetDataModelByID, {
@@ -84,12 +84,9 @@ describe('DataModel', () => {
         response: mockResponse,
       });
 
-      await expect(dataModel.getById(1)).rejects.toThrow(GTWError);
-      await expect(dataModel.getById(1)).rejects.toHaveProperty(
-        'statusCode',
-        404,
-      );
-      await expect(dataModel.getById(1)).rejects.toHaveProperty(
+      await expect(dataModel.get(1)).rejects.toThrow(GTWError);
+      await expect(dataModel.get(1)).rejects.toHaveProperty('statusCode', 404);
+      await expect(dataModel.get(1)).rejects.toHaveProperty(
         'message',
         'Not Found',
       );
@@ -185,58 +182,58 @@ describe('DataModel', () => {
     });
   });
 
-  // describe('updateDataModel', () => {
-  //   it('should update a data model successfully', async () => {
-  //     const dataModelId = 1;
-  //     const input: DataModelRequest = {
-  //       title: 'Updated Test Model',
-  //       description: 'An updated test data model',
-  //       schema: {},
-  //       tags: ['test', 'updated'],
-  //     };
+  describe('updateDataModel', () => {
+    it('should update a data model successfully', async () => {
+      const dataModelId = 1;
+      const input: DataModelRequest = {
+        title: 'Updated Test Model',
+        description: 'An updated test data model',
+        schema: {},
+        tags: ['test', 'updated'],
+      };
 
-  //     const expectedOutput = {
-  //       id: dataModelId,
-  //       ...input,
-  //       created_at: '2023-09-13T12:00:00Z',
-  //       updated_at: '2023-09-13T13:00:00Z',
-  //       created_by: 'user123',
-  //     };
+      const expectedOutput = {
+        id: dataModelId,
+        ...input,
+        created_at: '2023-09-13T12:00:00Z',
+        updated_at: '2023-09-13T13:00:00Z',
+        created_by: 'user123',
+      };
 
-  //     mockPut.mockResolvedValue({ data: expectedOutput, error: null });
+      mockPut.mockResolvedValue({ data: expectedOutput, error: null });
 
-  //     const result = await dataModel.update(dataModelId, input);
+      const result = await dataModel.update(dataModelId, input);
 
-  //     expect(result).toEqual(expectedOutput);
-  //     expect(mockClient.PUT).toHaveBeenCalledWith(routes.UpdateDataModel, {
-  //       body: input,
-  //       params: { path: { id: dataModelId } },
-  //     });
-  //   });
+      expect(result).toEqual(expectedOutput);
+      expect(mockClient.PUT).toHaveBeenCalledWith(routes.UpdateDataModel, {
+        body: input,
+        params: { path: { id: dataModelId } },
+      });
+    });
 
-  //   it('should throw GTWError when API call fails', async () => {
-  //     const dataModelId = 1;
-  //     const input: DataModelRequest = {
-  //       title: 'Updated Test Model',
-  //       description: 'An updated test data model',
-  //       schema: {},
-  //       tags: ['test', 'updated'],
-  //     };
+    it('should throw GTWError when API call fails', async () => {
+      const dataModelId = 1;
+      const input: DataModelRequest = {
+        title: 'Updated Test Model',
+        description: 'An updated test data model',
+        schema: {},
+        tags: ['test', 'updated'],
+      };
 
-  //     const mockError = { error: 'API Error' };
-  //     mockPut.mockResolvedValue({
-  //       data: null,
-  //       error: mockError,
-  //       response: {},
-  //     });
+      const mockError = { error: 'API Error' };
+      mockPut.mockResolvedValue({
+        data: null,
+        error: mockError,
+        response: {},
+      });
 
-  //     await expect(
-  //       dataModel.update(dataModelId, input),
-  //     ).rejects.toThrow(GTWError);
-  //     expect(mockClient.PUT).toHaveBeenCalledWith(routes.UpdateDataModel, {
-  //       body: input,
-  //       params: { path: { id: dataModelId } },
-  //     });
-  //   });
-  // });
+      await expect(dataModel.update(dataModelId, input)).rejects.toThrow(
+        GTWError,
+      );
+      expect(mockClient.PUT).toHaveBeenCalledWith(routes.UpdateDataModel, {
+        body: input,
+        params: { path: { id: dataModelId } },
+      });
+    });
+  });
 });

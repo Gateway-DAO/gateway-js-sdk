@@ -48,7 +48,7 @@ describe('Data Assets Test', () => {
   it('should create claim based data asset', async () => {
     mockPost.mockResolvedValue(successMessage({ data: { id: ID } }));
 
-    const pdaId = await dataAsset.createStructured({ name: 'test' });
+    const pdaId = await dataAsset.upload({ name: 'test' });
 
     expect(pdaId).toBeDefined();
     expect(mockPost).toHaveBeenCalledWith(routes.CreateANewDataAsset, {
@@ -59,7 +59,7 @@ describe('Data Assets Test', () => {
   it('should throw GTWError for create claim based data asset', async () => {
     mockPost.mockResolvedValue(errorMessage());
 
-    await expect(dataAsset.createStructured({ name: 'test' })).rejects.toThrow(
+    await expect(dataAsset.upload({ name: 'test' })).rejects.toThrow(
       GTWError,
     );
     expect(mockPost).toHaveBeenCalledWith(routes.CreateANewDataAsset, {
@@ -77,7 +77,7 @@ describe('Data Assets Test', () => {
         name: 'test-file',
         extension: 'text/plain',
       });
-    const id = await dataAsset.createNonStructured(fileName, fileBuffer);
+    const id = await dataAsset.uploadFile(fileName, fileBuffer);
 
     expect(mockValidateFileName).toHaveBeenCalledWith(fileName);
     expect(mockPost).toHaveBeenCalledWith('/data-assets', {
@@ -93,7 +93,7 @@ describe('Data Assets Test', () => {
 
     const fileName = 'test.txt';
     const fileBuffer = Buffer.from('test content');
-    const mockACL = { address: '', roles: [AccessLevel.VIEW] };
+    const mockACL = [{ address: '', roles: [AccessLevel.VIEW] }];
     const mockExpirationDate = new Date('2024-10-01');
 
     mockValidateFileName = jest
@@ -103,7 +103,7 @@ describe('Data Assets Test', () => {
         extension: 'text/plain',
       });
 
-    const id = await dataAsset.createNonStructured(
+    const id = await dataAsset.uploadFile(
       fileName,
       fileBuffer,
       mockACL,
@@ -134,9 +134,9 @@ describe('Data Assets Test', () => {
     const fileName = 'test.txt';
     const fileBuffer = Buffer.from('test content');
 
-    await expect(
-      dataAsset.createNonStructured(fileName, fileBuffer),
-    ).rejects.toThrow(GTWError);
+    await expect(dataAsset.uploadFile(fileName, fileBuffer)).rejects.toThrow(
+      GTWError,
+    );
 
     expect(mockValidateFileName).toHaveBeenCalledWith(fileName);
     expect(mockPost).toHaveBeenCalledWith('/data-assets', {
@@ -180,7 +180,7 @@ describe('Data Assets Test', () => {
       }),
     );
 
-    const data = await dataAsset.getReceivedToMe();
+    const data = await dataAsset.getReceivedByMe();
 
     expect(data).toBeDefined();
     expect(data.data.length).toBeGreaterThan(0);
@@ -193,7 +193,7 @@ describe('Data Assets Test', () => {
   it('should throw GTWError for data assets received by me', async () => {
     mockGet.mockResolvedValue(errorMessage());
 
-    await expect(dataAsset.getReceivedToMe()).rejects.toThrow(GTWError);
+    await expect(dataAsset.getReceivedByMe()).rejects.toThrow(GTWError);
 
     expect(mockGet).toHaveBeenCalledWith(
       routes.GetReceivedDataAssets,
@@ -208,7 +208,7 @@ describe('Data Assets Test', () => {
       }),
     );
 
-    const data = await dataAsset.getDetail(ID);
+    const data = await dataAsset.get(ID);
 
     expect(data).toBeDefined();
     expect(mockGet).toHaveBeenCalledWith(
@@ -220,7 +220,7 @@ describe('Data Assets Test', () => {
   it('should throw GTWError for get data asset by id', async () => {
     mockGet.mockResolvedValue(errorMessage());
 
-    await expect(dataAsset.getDetail(ID)).rejects.toThrow(GTWError);
+    await expect(dataAsset.get(ID)).rejects.toThrow(GTWError);
 
     expect(mockGet).toHaveBeenCalledWith(
       routes.GetDataAssetByID,
@@ -233,7 +233,7 @@ describe('Data Assets Test', () => {
     mockPut.mockResolvedValue(
       successMessage({ data: { id: ID, name: 'Updated Data Asset' } }),
     );
-    const result = await dataAsset.updateStructured(ID, claimDataAssetBody);
+    const result = await dataAsset.update(ID, claimDataAssetBody);
 
     expect(mockPut).toHaveBeenCalledWith('/data-assets/{id}', {
       params: { path: { id: ID } },
@@ -250,7 +250,7 @@ describe('Data Assets Test', () => {
     mockPut.mockResolvedValueOnce(errorMessage());
 
     await expect(
-      dataAsset.updateStructured(id, claimDataAssetBody),
+      dataAsset.update(id, claimDataAssetBody),
     ).rejects.toThrow(GTWError);
 
     expect(mockPut).toHaveBeenCalledWith('/data-assets/{id}', {
@@ -264,7 +264,7 @@ describe('Data Assets Test', () => {
     const fileName = 'test.txt';
     const fileBuffer = Buffer.from('test content');
 
-    const result = await dataAsset.updateNonStructured(
+    const result = await dataAsset.updateFile(
       id,
       fileName,
       fileBuffer,
@@ -285,7 +285,7 @@ describe('Data Assets Test', () => {
     const id = 1;
     const fileName = 'test.txt';
     const fileBuffer = Buffer.from('test content');
-    const mockACL = { address: '', roles: [AccessLevel.VIEW] };
+    const mockACL = [{ address: '', roles: [AccessLevel.VIEW] }];
     const mockExpirationDate = new Date('2024-10-01');
 
     mockValidateFileName = jest
@@ -297,7 +297,7 @@ describe('Data Assets Test', () => {
 
     mockPut.mockResolvedValue(successMessage());
 
-    const result = await dataAsset.updateNonStructured(
+    const result = await dataAsset.updateFile(
       id,
       fileName,
       fileBuffer,
@@ -332,7 +332,7 @@ describe('Data Assets Test', () => {
     mockPut.mockResolvedValueOnce(errorMessage());
 
     await expect(
-      dataAsset.updateNonStructured(id, fileName, fileBuffer),
+      dataAsset.updateFile(id, fileName, fileBuffer),
     ).rejects.toThrow(GTWError);
 
     expect(mockValidateFileName).toHaveBeenCalledWith(fileName);

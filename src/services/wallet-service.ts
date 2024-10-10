@@ -2,11 +2,12 @@ import { WalletTypeEnum } from '../common/types';
 import { EtherumService } from './ethereum-service';
 import { SolanaService } from './solana-service';
 import { WalletSignMessageType } from '../common/types';
+import { SuiService } from './sui-service';
 
 export class WalletService {
   private walletPrivateKey;
   private walletType;
-  private wallet: EtherumService | SolanaService;
+  private wallet: EtherumService | SolanaService | SuiService;
 
   constructor({
     walletPrivateKey,
@@ -16,11 +17,13 @@ export class WalletService {
     walletType?: WalletTypeEnum | undefined;
   }) {
     this.walletPrivateKey = walletPrivateKey;
-    this.walletType = walletType ? walletType : WalletTypeEnum.Etherum;
+    this.walletType = walletType ? walletType : WalletTypeEnum.Ethereum;
     this.wallet =
-      this.walletType === WalletTypeEnum.Etherum
+      this.walletType === WalletTypeEnum.Ethereum
         ? new EtherumService(this.walletPrivateKey)
-        : new SolanaService(this.walletPrivateKey);
+        : this.walletType === WalletTypeEnum.Solana
+          ? new SolanaService(this.walletPrivateKey)
+          : new SuiService(this.walletPrivateKey);
   }
 
   /**

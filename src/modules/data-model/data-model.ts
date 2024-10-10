@@ -65,24 +65,35 @@ export class DataModel {
     return data!;
   }
 
-  // async update(
-  //   dataModelId: number,
-  //   dataModelInput: DataModelRequest,
-  // ): Promise<DataModelType> {
-  //   const { data, error, response } = await this.client.PUT(
-  //     '/data-models/{id}',
-  //     {
-  //       body: { ...dataModelInput },
-  //       params: { path: { id: dataModelId } },
-  //     },
-  //   );
+  /**
+   * This TypeScript function updates a data model using a PUT request with error handling.
+   * @param {number} dataModelId - The `dataModelId` parameter is the unique identifier of the data
+   * model that you want to update. It is a number that specifies which data model in the system you
+   * are targeting for the update operation.
+   * @param {DataModelRequest} dataModelInput - The `dataModelInput` parameter in the `updateDataModel`
+   * function is of type `DataModelRequest`. It is the data that will be used to update the data model
+   * with the specified `dataModelId`.
+   * @returns The `updateDataModel` function is returning the updated data model after making a PUT
+   * request to the server with the provided `dataModelInput` for the specified `dataModelId`.
+   */
+  async update(
+    dataModelId: number,
+    dataModelInput: DataModelRequest,
+  ): Promise<DataModelType> {
+    const { data, error, response } = await this.client.PUT(
+      '/data-models/{id}',
+      {
+        body: dataModelInput,
+        params: { path: { id: dataModelId } },
+      },
+    );
 
-  //   if (error) {
-  //     throw new GTWError(error, response);
-  //   }
+    if (error) {
+      throw new GTWError(error, response);
+    }
 
-  //   return data;
-  // }
+    return data;
+  }
 
   /**
    * This function asynchronously retrieves a data model by its ID using a GET request.
@@ -94,7 +105,7 @@ export class DataModel {
    * successful, it returns the data model. If there is an error during the request, it throws a
    * `GTWError` with the error and response details.
    */
-  async getById(dataModelId: number): Promise<DataModelType> {
+  async get(dataModelId: number): Promise<DataModelType> {
     const { data, error, response } = await this.client.GET(
       '/data-models/{id}',
       {
