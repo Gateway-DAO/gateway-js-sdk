@@ -1,3 +1,15 @@
+# [2.1.0-develop.18](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.17...v2.1.0-develop.18) (2024-10-10)
+
+
+### Bug Fixes
+
+* data asset naming convention ([c14a613](https://github.com/Gateway-DAO/gateway-js-sdk/commit/c14a6130129786cf8e91cbecad97a7062d1809ac))
+
+
+### Features
+
+* **sui:** added sui wallet and fixed minor changes ([9c7b73e](https://github.com/Gateway-DAO/gateway-js-sdk/commit/9c7b73eb15745bc97b4ea21e2cb2c31303564388))
+
 # [2.1.0-develop.17](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.16...v2.1.0-develop.17) (2024-10-02)
 
 ### Features
