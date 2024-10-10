@@ -3,7 +3,6 @@ import {
   OpenAPIClient,
   CustomConfig,
   CustomMiddlewareWithVariables,
-  Environment,
   TokenManagementMode,
 } from '../common/types';
 import { WalletService } from '../services/wallet-service';
@@ -14,25 +13,22 @@ import jwt from 'jsonwebtoken';
 import { routes } from '../common/routes';
 
 /**
- * The function `parameterChecker` checks the environment parameter and returns a corresponding URL or
- * throws an error if the environment is not valid.
- * @param {Environment} environment - The `environment` parameter is used to specify the environment
- * for which you want to retrieve the corresponding URL. It should be either 'dev' for the development
- * environment or 'sandbox' for the sandbox environment.
- * @returns The function `parameterChecker` returns a string value which is the URL for the development
- * environment `https://dev.api.gateway.tech` if the input `environment` is `'dev'`. If the input
- * `environment` is not `'dev'`, it throws an error with the message 'No valid url found!. Use sandbox
- * or production url'.
+ * The function `parameterChecker` checks for either a JWT token or a private key and returns the token
+ * management mode along with the corresponding value.
+ * @param {string} [jwt] - JWT (JSON Web Token) is a compact, URL-safe means of representing claims to
+ * be transferred between two parties. It is commonly used for authentication and information exchange
+ * in web development.
+ * @param {string} [privateKey] - The `privateKey` parameter is a string that represents a private key
+ * used for token management.
+ * @returns The `parameterChecker` function returns an object with two properties: `mode` of type
+ * `TokenManagementMode` and `value` of type `string`.
  */
 export const parameterChecker = (
-  environment: Environment,
   jwt?: string,
   privateKey?: string,
-): { url: string; mode: TokenManagementMode; value: string } => {
+): { mode: TokenManagementMode; value: string } => {
   let mode: TokenManagementMode;
   let value = '';
-  if (!environment)
-    throw new Error('No url found!.Use either sandbox or production env');
 
   if (privateKey) {
     mode = 'privateKey';
@@ -46,11 +42,7 @@ export const parameterChecker = (
     throw new Error('Need jwt or private key');
   }
 
-  const urls = ['https://dev.api.gateway.tech', 'https://api.gateway.tech'];
-
-  if (environment === 'dev') return { url: urls[0], mode, value };
-  else if (environment === 'prod') return { url: urls[1], mode, value };
-  else throw new Error('No valid url found!. Use sandbox or production url');
+  return { mode, value };
 };
 
 let accessToken: string | undefined = undefined;

@@ -1,9 +1,8 @@
 # [2.1.0-develop.17](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.16...v2.1.0-develop.17) (2024-10-02)
 
-
 ### Features
 
-* simple validation and some minor changes ([febd13c](https://github.com/Gateway-DAO/gateway-js-sdk/commit/febd13c7f04b77b682935ccf68e6d53591be611c))
+- simple validation and some minor changes ([febd13c](https://github.com/Gateway-DAO/gateway-js-sdk/commit/febd13c7f04b77b682935ccf68e6d53591be611c))
 
 # [2.1.0-develop.16](https://github.com/Gateway-DAO/gateway-js-sdk/compare/v2.1.0-develop.15...v2.1.0-develop.16) (2024-10-02)
 

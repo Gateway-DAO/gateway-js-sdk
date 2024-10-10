@@ -62,11 +62,11 @@ const generateTypes = (definitions) => {
 import type { MediaType } from 'openapi-typescript-helpers';import { paths } from '../api';
 import { WalletService } from '../services/wallet-service';
 \n\n`,
-    `export type Environment = 'dev' | 'prod';export type TokenManagementMode = 'jwt' | 'privateKey';
+    `export type TokenManagementMode = 'jwt' | 'privateKey';
 \n`,
     `export interface Config {
     jwt?:string
-  environment: Environment;
+  apiUrl?: string;
   logging?: boolean;
   wallet?: {
     privateKey: string;
@@ -80,6 +80,7 @@ import { WalletService } from '../services/wallet-service';
     `export enum WalletTypeEnum {
   Ethereum = 'ethereum',
   Solana = 'solana',
+  Sui = 'sui',
 }\n\n`,
     `export interface JWTData {
   did: string;
@@ -88,7 +89,6 @@ import { WalletService } from '../services/wallet-service';
 }\n`,
     `export interface CustomConfig {
   privateKey: string;
-  environment: 'dev' | 'prod' | 'staging';
   wallet: WalletService;
   client: OpenAPIClient<paths, MediaType>;
 }\n`,

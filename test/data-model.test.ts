@@ -202,7 +202,7 @@ describe('DataModel', () => {
 
       mockPut.mockResolvedValue({ data: expectedOutput, error: null });
 
-      const result = await dataModel.updateDataModel(dataModelId, input);
+      const result = await dataModel.update(dataModelId, input);
 
       expect(result).toEqual(expectedOutput);
       expect(mockClient.PUT).toHaveBeenCalledWith(routes.UpdateDataModel, {
@@ -227,9 +227,9 @@ describe('DataModel', () => {
         response: {},
       });
 
-      await expect(
-        dataModel.updateDataModel(dataModelId, input),
-      ).rejects.toThrow(GTWError);
+      await expect(dataModel.update(dataModelId, input)).rejects.toThrow(
+        GTWError,
+      );
       expect(mockClient.PUT).toHaveBeenCalledWith(routes.UpdateDataModel, {
         body: input,
         params: { path: { id: dataModelId } },

@@ -2,7 +2,7 @@ import createClient from 'openapi-fetch';
 import { MediaType } from 'openapi-typescript-helpers';
 import { paths } from './api';
 
-import { Config, Environment, OpenAPIClient } from './common/types';
+import { Config, OpenAPIClient } from './common/types';
 import { AuthMiddleware, parameterChecker } from './helpers/helper';
 
 import { ValidationService } from './services/validator-service';
@@ -18,22 +18,22 @@ export { toRFC3339, checkJWTTokenExpiration } from './helpers/helper';
 
 class SDKFactory {
   static createSDK({
-    environment,
+    apiUrl,
     privateKey,
     jwt,
     logging = false,
     wallet,
   }: {
-    environment: Environment;
+    apiUrl?: string;
     privateKey?: string;
     jwt?: string;
     logging?: boolean;
     wallet: WalletService;
   }) {
-    const { url, mode, value } = parameterChecker(environment, jwt, privateKey);
+    const { mode, value } = parameterChecker(jwt, privateKey);
 
     const client = createClient<paths>({
-      baseUrl: url,
+      baseUrl: apiUrl ? apiUrl : 'https://api.gateway.tech',
       headers:
         mode === 'jwt'
           ? {
@@ -46,9 +46,7 @@ class SDKFactory {
     }
 
     if (mode === 'privateKey')
-      client.use(
-        AuthMiddleware({ environment, privateKey: value, wallet, client }),
-      );
+      client.use(AuthMiddleware({ privateKey: value, wallet, client }));
 
     return client;
   }
@@ -71,7 +69,7 @@ export class Gateway {
         walletType: config.wallet!.walletType,
       });
     this.client = SDKFactory.createSDK({
-      environment: config.environment,
+      apiUrl: config.apiUrl,
       privateKey: config.wallet?.privateKey,
       logging: config.logging,
       wallet: this.wallet,
@@ -99,7 +97,7 @@ export class Gateway {
         walletType: this.config.wallet!.walletType,
       });
     this.client = SDKFactory.createSDK({
-      environment: this.config.environment,
+      apiUrl: this.config.apiUrl,
       privateKey: this.config.wallet?.privateKey,
       logging: this.config.logging,
       wallet: this.wallet,

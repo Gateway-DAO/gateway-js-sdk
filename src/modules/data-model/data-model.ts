@@ -76,7 +76,7 @@ export class DataModel {
    * @returns The `updateDataModel` function is returning the updated data model after making a PUT
    * request to the server with the provided `dataModelInput` for the specified `dataModelId`.
    */
-  async updateDataModel(
+  async update(
     dataModelId: number,
     dataModelInput: DataModelRequest,
   ): Promise<DataModelType> {

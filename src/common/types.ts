@@ -7,12 +7,11 @@ import type { MediaType } from 'openapi-typescript-helpers';
 import { paths } from '../api';
 import { WalletService } from '../services/wallet-service';
 
-export type Environment = 'dev' | 'prod';
 export type TokenManagementMode = 'jwt' | 'privateKey';
 
 export interface Config {
   jwt?: string;
-  environment: Environment;
+  apiUrl?: string;
   logging?: boolean;
   wallet?: {
     privateKey: string;
@@ -28,6 +27,7 @@ export interface WalletSignMessageType {
 export enum WalletTypeEnum {
   Ethereum = 'ethereum',
   Solana = 'solana',
+  Sui = 'sui',
 }
 
 export interface JWTData {
@@ -38,7 +38,6 @@ export interface JWTData {
 
 export interface CustomConfig {
   privateKey: string;
-  environment: 'dev' | 'prod' | 'staging';
   wallet: WalletService;
   client: OpenAPIClient<paths, MediaType>;
 }

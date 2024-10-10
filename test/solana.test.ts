@@ -1,9 +1,7 @@
 import { PublicKey, Keypair } from '@solana/web3.js';
 import { ethers } from 'ethers';
 import nacl from 'tweetnacl';
-import { decodeUTF8 } from 'tweetnacl-util';
 import { SolanaService } from '../src/services/solana-service';
-import { WalletSignMessageType } from '../src/common/types';
 
 jest.mock('@solana/web3.js', () => ({
   PublicKey: jest.fn().mockImplementation((key) => ({
